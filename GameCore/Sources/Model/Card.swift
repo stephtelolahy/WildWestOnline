@@ -154,8 +154,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
-            /// Must choose a targeted player
-            case target([PlayerFilter] = [])
+            case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
             case costCard([CardFilter] = [])

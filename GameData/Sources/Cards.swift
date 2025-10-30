@@ -313,7 +313,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target([.hasCards])),
+                        .chooseOne(.targetPlayer([.hasCards])),
                         .chooseOne(.targetCard())
                     ]
                 ),
@@ -345,7 +345,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target([.atDistance(1), .hasCards])),
+                        .chooseOne(.targetPlayer([.atDistance(1), .hasCards])),
                         .chooseOne(.targetCard())
                     ]
                 ),
@@ -404,7 +404,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .requireThrows(.playLimitPerTurn([.bang: 1])),
-                        .chooseOne(.target([.reachable]))
+                        .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
                 .init(
@@ -477,7 +477,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target())
+                        .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(
@@ -664,7 +664,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .handicap,
                     selectors: [
-                        .chooseOne(.target())
+                        .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(

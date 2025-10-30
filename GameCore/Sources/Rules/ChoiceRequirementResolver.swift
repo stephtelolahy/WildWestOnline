@@ -24,7 +24,7 @@ private extension Card.Selector.ChoiceRequirement {
 
     var resolver: Resolver {
         switch self {
-        case .target(let conditions): Target(conditions: conditions)
+        case .targetPlayer(let conditions): TargetPlayer(conditions: conditions)
         case .targetCard(let conditions): TargetCard(conditions: conditions)
         case .costCard(let conditions): CostCard(conditions: conditions)
         case .discoverCard: DiscoverCard()
@@ -33,7 +33,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct Target: Resolver {
+    struct TargetPlayer: Resolver {
         let conditions: [Card.Selector.PlayerFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
