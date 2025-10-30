@@ -8,7 +8,6 @@
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-
 public extension Store {
     func projection<LocalState: Equatable, LocalAction>(
         state toLocalState: @escaping (State) -> LocalState?,
