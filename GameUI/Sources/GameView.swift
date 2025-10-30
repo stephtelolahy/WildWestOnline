@@ -83,7 +83,6 @@ private extension GameView {
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .automatic) {
             Menu {
-                Button("Actions") { }
                 Button("Settings") {
                     Task {
                         await store.dispatch(.navigation(.presentSettingsSheet))
