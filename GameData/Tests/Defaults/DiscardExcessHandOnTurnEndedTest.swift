@@ -20,7 +20,6 @@ struct DiscardExcessHandOnTurnEndedTest {
                         .discardExcessHandOnTurnEnded
                     ])
             }
-            .withTurn("p1")
             .build()
 
         // When
@@ -49,7 +48,6 @@ struct DiscardExcessHandOnTurnEndedTest {
                         .discardExcessHandOnTurnEnded
                     ])
             }
-            .withTurn("p1")
             .build()
 
         // When
@@ -81,7 +79,6 @@ struct DiscardExcessHandOnTurnEndedTest {
                         .discardExcessHandOnTurnEnded
                     ])
             }
-            .withTurn("p1")
             .build()
 
         // When
@@ -106,7 +103,6 @@ struct DiscardExcessHandOnTurnEndedTest {
                         .discardExcessHandOnTurnEnded
                     ])
             }
-            .withTurn("p1")
             .build()
 
         // When
