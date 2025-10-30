@@ -4,7 +4,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
 
-/// Combine reducers — multiple reducers for the same State and Action
+/// Combine reducers —
+/// multiple reducers for the same State and Action
 public func combine<State, Action, Dependencies>(
     _ reducers: Reducer<State, Action, Dependencies>...
 ) -> Reducer<State, Action, Dependencies> {
