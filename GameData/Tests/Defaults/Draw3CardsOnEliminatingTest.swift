@@ -43,7 +43,6 @@ struct Draw3CardsOnEliminatingTest {
                 $0.withHealth(1)
                     .withAbilities([.draw3CardsOnEliminating, .eliminateOnDamageLethal])
             }
-            .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When
