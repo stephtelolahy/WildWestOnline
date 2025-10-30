@@ -26,7 +26,7 @@ struct AgressiveStrategy: AIStrategy {
             "panic": 1,
             "catBalou": 1,
             "endTurn": -1,
-            "pass": -1
+            .choicePass: -1
         ]
 
         return actions.shuffled().min { action1, action2 in
