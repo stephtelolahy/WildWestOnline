@@ -18,7 +18,7 @@ public enum Cards {
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
-        .endTurnOnEliminated,
+        .nextTurnOnEliminated,
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -189,9 +189,9 @@ private extension Card {
         )
     }
 
-    static var endTurnOnEliminated: Self {
+    static var nextTurnOnEliminated: Self {
         .init(
-            name: .endTurnOnEliminated,
+            name: .nextTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
             effects: [

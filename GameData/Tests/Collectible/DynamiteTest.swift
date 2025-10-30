@@ -92,7 +92,7 @@ struct DynamiteTest {
                         .startTurnNextOnTurnEnded,
                         .eliminateOnDamageLethal,
                         .discardAllCardsOnEliminated,
-                        .endTurnOnEliminated
+                        .nextTurnOnEliminated
                     ])
                     .withDrawCards(1)
                     .withHealth(3)
