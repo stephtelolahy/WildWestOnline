@@ -485,7 +485,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .chooseOne(.optionalRedirectCard([.named(.bang)]))
+                        .chooseOne(.redirectCard([.named(.bang)]))
                     ]
                 )
             ]

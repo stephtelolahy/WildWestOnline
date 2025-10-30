@@ -29,7 +29,7 @@ private extension Card.Selector.ChoiceRequirement {
         case .optionalCostCard(let conditions): OptionalCostCard(conditions: conditions)
         case .discoveredCard: DiscoveredCard()
         case .optionalCounterCard(let conditions): OptionalCounterCard(conditions: conditions)
-        case .optionalRedirectCard(let conditions): OptionalRedirectCard(conditions: conditions)
+        case .redirectCard(let conditions): RedirectCard(conditions: conditions)
         }
     }
 
@@ -196,7 +196,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct OptionalRedirectCard: Resolver {
+    struct RedirectCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -228,7 +228,7 @@ private extension Card.Selector.ChoiceRequirement {
                 let reversedAction = pendingAction.copy(
                     withPlayer: pendingAction.targetedPlayer,
                     targetedPlayer: pendingAction.sourcePlayer,
-                    selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
+                    selectors: [.chooseOne(.redirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
                     .discardHand(selection, player: pendingAction.targetedPlayer!),

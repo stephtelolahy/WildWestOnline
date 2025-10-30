@@ -164,8 +164,7 @@ public struct Card: Equatable, Codable, Sendable {
             case optionalCostCard([CardFilter] = [])
             /// Effect can be countered by discarding a hand card
             case optionalCounterCard([CardFilter] = [])
-            /// Effect can be redirected by discarding a hand card
-            case optionalRedirectCard([CardFilter] = [])
+            case redirectCard([CardFilter] = [])
         }
 
         public enum TargetFilter: Equatable, Codable, Sendable {
