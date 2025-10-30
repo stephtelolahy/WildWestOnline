@@ -460,7 +460,7 @@ private extension Card {
                     amount: 1,
                     selectors: [
                         .setTarget(.otherPlayers),
-                        .chooseOne(.optionalCounterCard([.named(.bang)]))
+                        .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
             ]

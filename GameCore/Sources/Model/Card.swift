@@ -162,8 +162,7 @@ public struct Card: Equatable, Codable, Sendable {
             case discoveredCard
             /// Effect can be performed by discarding a hand card
             case optionalCostCard([CardFilter] = [])
-            /// Effect can be countered by discarding a hand card
-            case optionalCounterCard([CardFilter] = [])
+            case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])
         }
 
