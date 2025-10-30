@@ -53,7 +53,7 @@ private extension Card.Selector.CardGroup {
 
 private extension GameFeature.State {
     func isWeapon(_ card: String) -> Bool {
-        let cardName = Card.extractName(from: card)
+        let cardName = Card.name(of: card)
         let cardObj = cards.get(cardName)
         return cardObj.effects.contains { $0.trigger == .cardEquiped && $0.action == .setWeapon }
     }

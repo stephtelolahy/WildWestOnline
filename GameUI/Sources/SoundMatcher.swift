@@ -50,7 +50,7 @@ struct SoundMatcher {
                 .sfxTaDa
 
         case .play:
-            switch Card.extractName(from: action.playedCard) {
+            switch Card.name(of: action.playedCard) {
             case .stagecoach, .wellsFargo:
                     .sfxHorseGalloping
 
