@@ -76,7 +76,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .chooseOne(.optionalCostCard([.canCounterShot]))
+                        .chooseOne(.costCard([.canCounterShot]))
                     ]
                 )
             ]
