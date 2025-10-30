@@ -1,17 +1,17 @@
 //
-//  TargetGroupResolver.swift
+//  PlayerGroupResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension Card.Selector.TargetGroup {
+extension Card.Selector.PlayerGroup {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
         try resolver.resolve(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.TargetGroup {
+private extension Card.Selector.PlayerGroup {
     protocol Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String]
     }

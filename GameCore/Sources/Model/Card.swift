@@ -110,7 +110,7 @@ public struct Card: Equatable, Codable, Sendable {
 
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(TargetGroup)
+        case setTarget(PlayerGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(StateCondition)
@@ -124,7 +124,7 @@ public struct Card: Equatable, Codable, Sendable {
             case receivedDamageAmount
         }
 
-        public enum TargetGroup: String, Codable, Sendable {
+        public enum PlayerGroup: String, Codable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers
@@ -155,8 +155,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
             /// Must choose a targeted player
-            case target([TargetFilter] = [])
-            /// Must choose a targeted card
+            case target([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
             case costCard([CardFilter] = [])
@@ -164,7 +163,7 @@ public struct Card: Equatable, Codable, Sendable {
             case redirectCard([CardFilter] = [])
         }
 
-        public enum TargetFilter: Equatable, Codable, Sendable {
+        public enum PlayerFilter: Equatable, Codable, Sendable {
             case hasCards
             case atDistance(Int)
             case reachable
@@ -202,8 +201,8 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
         case noReq(Selector.StateCondition)
-        case noTarget(Selector.TargetGroup)
-        case noChoosableTarget([Selector.TargetFilter])
+        case noTarget(Selector.PlayerGroup)
+        case noChoosableTarget([Selector.PlayerFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }

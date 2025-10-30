@@ -34,7 +34,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct Target: Resolver {
-        let conditions: [Card.Selector.TargetFilter]
+        let conditions: [Card.Selector.PlayerFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
@@ -239,7 +239,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 }
 
-private extension Array where Element == Card.Selector.TargetFilter {
+private extension Array where Element == Card.Selector.PlayerFilter {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(player, pendingAction: pendingAction, state: state)
