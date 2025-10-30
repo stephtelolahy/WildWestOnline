@@ -27,7 +27,7 @@ private extension Card.Selector.CardFilter {
 
     struct CanCounterShot: Matcher {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.name(of: card)
             let cardObj = state.cards.get(cardName)
             return cardObj.effects.contains { $0.trigger == .permanent && $0.action == .counterShot }
         }
@@ -37,7 +37,7 @@ private extension Card.Selector.CardFilter {
         let name: String
 
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            Card.extractName(from: card) == name
+            Card.name(of: card) == name
         }
     }
 

@@ -36,7 +36,7 @@ private extension Card.Selector {
     }
 
     struct SetTarget: Resolver {
-        let targetGroup: Card.Selector.TargetGroup
+        let targetGroup: Card.Selector.PlayerGroup
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             try targetGroup.resolve(pendingAction, state: state)

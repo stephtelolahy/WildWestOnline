@@ -1,17 +1,17 @@
 //
-//  TargetFilterMatcher.swift
+//  PlayerFilterMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension Card.Selector.TargetFilter {
+extension Card.Selector.PlayerFilter {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(player, pendingAction: pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.TargetFilter {
+private extension Card.Selector.PlayerFilter {
     protocol Matcher {
         func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }

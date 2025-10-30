@@ -76,7 +76,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .chooseOne(.optionalCostCard([.canCounterShot]))
+                        .chooseOne(.costCard([.canCounterShot]))
                     ]
                 )
             ]
@@ -313,7 +313,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target([.hasCards])),
+                        .chooseOne(.targetPlayer([.hasCards])),
                         .chooseOne(.targetCard())
                     ]
                 ),
@@ -345,7 +345,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target([.atDistance(1), .hasCards])),
+                        .chooseOne(.targetPlayer([.atDistance(1), .hasCards])),
                         .chooseOne(.targetCard())
                     ]
                 ),
@@ -386,7 +386,7 @@ private extension Card {
                     action: .drawDiscovered,
                     selectors: [
                         .setTarget(.activePlayers),
-                        .chooseOne(.discoveredCard)
+                        .chooseOne(.discoverCard)
                     ]
                 )
             ]
@@ -404,7 +404,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .requireThrows(.playLimitPerTurn([.bang: 1])),
-                        .chooseOne(.target([.reachable]))
+                        .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
                 .init(
@@ -460,7 +460,7 @@ private extension Card {
                     amount: 1,
                     selectors: [
                         .setTarget(.otherPlayers),
-                        .chooseOne(.optionalCounterCard([.named(.bang)]))
+                        .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
             ]
@@ -477,7 +477,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .chooseOne(.target())
+                        .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(
@@ -485,7 +485,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .chooseOne(.optionalRedirectCard([.named(.bang)]))
+                        .chooseOne(.redirectCard([.named(.bang)]))
                     ]
                 )
             ]
@@ -629,7 +629,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .require(.drawnCardMatches(.regexPassDynamite)),
+                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -639,14 +639,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite))
+                        .require(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
+                        .require(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
@@ -664,7 +664,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .handicap,
                     selectors: [
-                        .chooseOne(.target())
+                        .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(
@@ -799,8 +799,8 @@ private extension Card {
 /// https://regex101.com/
 private extension String {
     static let regexHearts = "♥️"
-    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
     static let regexRed = "(♥️)|(♦️)"
+    static let regex2To9Spades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
 private extension Card.EffectDefinition {

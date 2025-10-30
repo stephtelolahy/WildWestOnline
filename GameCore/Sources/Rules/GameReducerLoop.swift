@@ -110,7 +110,7 @@ private extension GameFeature.State {
         ownedBy player: String,
         for event: GameFeature.Action
     ) -> [GameFeature.Action] {
-        let cardName = Card.extractName(from: card)
+        let cardName = Card.name(of: card)
         let cardObj = cards.get(cardName)
         return cardObj.effects
             .filter { $0.trigger.match(event, card: card, player: player, state: self) }

@@ -41,11 +41,11 @@ private extension GameFeature.Action {
     var selectedItem: String {
         switch name {
         case .preparePlay:
-            return Card.extractName(from: playedCard)
+            return Card.name(of: playedCard)
 
         case .choose:
             let selection = chosenOption!
-            return Card.extractName(from: selection)
+            return Card.name(of: selection)
 
         default:
             fatalError("unexpected action \(name)")

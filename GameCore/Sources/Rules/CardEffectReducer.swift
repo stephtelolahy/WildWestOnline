@@ -121,7 +121,7 @@ private extension Card.EffectName {
     struct PreparePlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let card = action.playedCard
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.name(of: card)
             let cardObj = state.cards.get(cardName)
 
             let onPreparePlay = cardObj.effects.filter { $0.trigger == .cardPrePlayed }
@@ -154,7 +154,7 @@ private extension Card.EffectName {
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.name(of: card)
             let cardObj = state.cards.get(cardName)
             let effects = cardObj.effects
                 .filter { $0.trigger == .cardPlayed }
@@ -185,9 +185,9 @@ private extension Card.EffectName {
             var state = state
 
             // verify not already inPlay
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.name(of: card)
             let playerObj = state.players.get(player)
-            guard playerObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
+            guard playerObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
                 throw .cardAlreadyInPlay(cardName)
             }
 
@@ -208,9 +208,9 @@ private extension Card.EffectName {
             var state = state
 
             // verify not already inPlay
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.name(of: card)
             let targetObj = state.players.get(target)
-            guard targetObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
+            guard targetObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
                 throw .cardAlreadyInPlay(cardName)
             }
 
