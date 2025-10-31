@@ -10,8 +10,9 @@ import Theme
 import AudioPlayer
 
 public struct HomeView: View {
-    @Environment(\.theme) private var theme
     @StateObject private var store: ViewStore
+
+    @Environment(\.theme) private var theme
 
     public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
