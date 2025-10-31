@@ -26,15 +26,18 @@ struct WildWestOnlineApp: App {
                 createStore()
             }
             .accentColor(theme.colorAccent)
-            .task {
-                await AudioPlayer.shared.load(AudioPlayer.Sound.allSfx)
-            }
         }
     }
 }
 
 @MainActor private func createStore() -> Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies> {
     let settingsService = SettingsRepository()
+    let settingsDependency = SettingsFeature.Dependencies(
+        savePlayersCount: settingsService.savePlayersCount,
+        saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
+        saveSimulationEnabled: settingsService.saveSimulationEnabled,
+        savePreferredFigure: settingsService.savePreferredFigure
+    )
 
     let settings = SettingsFeature.State.makeBuilder()
         .withPlayersCount(settingsService.playersCount)
@@ -54,18 +57,17 @@ struct WildWestOnlineApp: App {
         settings: settings
     )
 
-    let dependencies = AppFeature.Dependencies(
-        settings: .init(
-            savePlayersCount: settingsService.savePlayersCount,
-            saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
-            saveSimulationEnabled: settingsService.saveSimulationEnabled,
-            savePreferredFigure: settingsService.savePreferredFigure
-        )
-    )
+    let audioPlayer = AudioPlayer.shared
+    Task {
+        await audioPlayer.load(AudioPlayer.Sound.allSfx)
+    }
 
     return Store(
         initialState: initialState,
         reducer: AppFeature.reducer,
-        dependencies: dependencies
+        dependencies: .init(
+            settings: settingsDependency,
+            audioPlayer: audioPlayer
+        )
     )
 }
