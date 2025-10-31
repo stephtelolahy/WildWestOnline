@@ -6,7 +6,7 @@
 //
 
 enum NonStandardLogic {
-    @available(*, deprecated, message: "Set explicitly in EffectDefinition")
+    @available(*, deprecated, message: "Set explicit targetPlayer")
     static func targetedPlayerForChildEffect(_ name: Card.EffectName, parentAction: GameFeature.Action) -> String? {
         switch name {
         case .drawDeck,
