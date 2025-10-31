@@ -22,6 +22,18 @@ extension AppFeature {
                 }
             }
 
+        case .navigation(.push(.game)):
+            let pauseFunc = dependencies.pause
+            Task {
+                await pauseFunc(.musicLoneRider)
+            }
+
+        case .navigation(.pop):
+            let resumeFunc = dependencies.resume
+            Task {
+                await resumeFunc(.musicLoneRider)
+            }
+
         default:
             break
         }

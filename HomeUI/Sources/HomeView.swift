@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Theme
-import AudioPlayer
 
 public struct HomeView: View {
     @StateObject private var store: ViewStore
@@ -33,16 +32,6 @@ public struct HomeView: View {
 #if os(iOS)
         .navigationBarHidden(true)
 #endif
-        .onAppear {
-            Task {
-                await AudioPlayer.shared.resume(.musicLoneRider)
-            }
-        }
-        .onDisappear {
-            Task {
-                await AudioPlayer.shared.pause(.musicLoneRider)
-            }
-        }
     }
 
     private var contentView: some View {

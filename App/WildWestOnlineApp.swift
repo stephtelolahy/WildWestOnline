@@ -60,6 +60,7 @@ struct WildWestOnlineApp: App {
     let audioPlayer = AudioPlayer.live()
     Task {
         await audioPlayer.load(AudioPlayer.Sound.allSfx)
+        await audioPlayer.play(AudioPlayer.Sound.musicLoneRider)
     }
 
     return Store(
