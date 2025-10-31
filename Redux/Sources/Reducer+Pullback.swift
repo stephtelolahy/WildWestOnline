@@ -15,7 +15,7 @@ public func pullback<
     GlobalDependencies
 >(
     _ localReducer: @escaping Reducer<LocalState, LocalAction, LocalDependencies>,
-    state toLocalState: @escaping (inout GlobalState) -> WritableKeyPath<GlobalState, LocalState>?,
+    state toLocalState: @escaping (GlobalState) -> WritableKeyPath<GlobalState, LocalState>?,
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
     embedAction: @escaping (LocalAction) -> GlobalAction,
     dependencies toLocalDependencies: @escaping (GlobalDependencies) -> LocalDependencies
