@@ -34,6 +34,12 @@ extension AppFeature {
                 await resumeFunc(.musicLoneRider)
             }
 
+        case .settings(.updateMusicVolume(let value)):
+            let setMusicVolumeFunc = dependencies.setMusicVolume
+            Task {
+                await setMusicVolumeFunc(value)
+            }
+
         default:
             break
         }

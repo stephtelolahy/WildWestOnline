@@ -16,6 +16,7 @@ extension SettingsRootView {
         let speedIndex: Int
         let simulation: Bool
         let preferredFigure: String?
+        let musicVolume: Float
 
         struct SpeedOption: Equatable {
             let label: String
@@ -37,5 +38,6 @@ extension SettingsRootView.ViewState {
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
         simulation = appState.settings.simulation
         preferredFigure = appState.settings.preferredFigure
+        musicVolume = appState.settings.musicVolume
     }
 }

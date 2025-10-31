@@ -1,5 +1,5 @@
 //
-//  SettingsRepository.swift
+//  SettingsClient+Live.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -17,26 +17,31 @@ public extension SettingsClient {
             saveActionDelayMilliSeconds: { service.actionDelayMilliSeconds = $0 },
             saveSimulationEnabled: { service.simulationEnabled = $0 },
             savePreferredFigure: { service.preferredFigure = $0 },
+            saveMusicVolume: { service.musicVolume = $0 },
             playersCount: { service.playersCount },
             actionDelayMilliSeconds: { service.actionDelayMilliSeconds },
             isSimulationEnabled: { service.simulationEnabled },
-            preferredFigure: { service.preferredFigure }
+            preferredFigure: { service.preferredFigure },
+            musicVolume: { service.musicVolume }
         )
     }
-}
 
-private class StorageService {
-    init() {}
+    private class StorageService {
+        init() {}
 
-    @UserDefaultsStored("settings.playersCount", defaultValue: 5)
-    var playersCount: Int
+        @UserDefaultsStored("settings.playersCount", defaultValue: 5)
+        var playersCount: Int
 
-    @UserDefaultsStored("settings.actionDelayMilliSeconds", defaultValue: 500)
-    var actionDelayMilliSeconds: Int
+        @UserDefaultsStored("settings.actionDelayMilliSeconds", defaultValue: 500)
+        var actionDelayMilliSeconds: Int
 
-    @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
-    var simulationEnabled: Bool
+        @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
+        var simulationEnabled: Bool
 
-    @OptionalUserDefaultsStored("settings.preferredFigure")
-    var preferredFigure: String?
+        @OptionalUserDefaultsStored("settings.preferredFigure")
+        var preferredFigure: String?
+
+        @UserDefaultsStored("settings.musicVolume", defaultValue: 1.0)
+        var musicVolume: Float
+    }
 }

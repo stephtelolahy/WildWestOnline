@@ -39,6 +39,7 @@ struct WildWestOnlineApp: App {
         .withActionDelayMilliSeconds(settingsClient.actionDelayMilliSeconds())
         .withSimulation(settingsClient.isSimulationEnabled())
         .withPreferredFigure(settingsClient.preferredFigure())
+        .withMusicVolume(settingsClient.musicVolume())
         .build()
 
     let inventory = Inventory(
@@ -54,6 +55,7 @@ struct WildWestOnlineApp: App {
 
     let audioPlayer = AudioPlayer.live()
     Task {
+        await audioPlayer.setMusicVolume(settingsClient.musicVolume())
         await audioPlayer.load(AudioPlayer.Sound.allSfx)
         await audioPlayer.play(AudioPlayer.Sound.musicLoneRider)
     }

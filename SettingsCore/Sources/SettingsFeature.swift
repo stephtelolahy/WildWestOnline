@@ -13,6 +13,7 @@ public enum SettingsFeature {
         public var actionDelayMilliSeconds: Int
         public var simulation: Bool
         public var preferredFigure: String?
+        public var musicVolume: Float
     }
 
     public enum Action {
@@ -20,6 +21,7 @@ public enum SettingsFeature {
         case updateActionDelayMilliSeconds(Int)
         case toggleSimulation
         case updatePreferredFigure(String?)
+        case updateMusicVolume(Float)
     }
 
     public static func reducer(
@@ -43,6 +45,10 @@ public enum SettingsFeature {
         case .updatePreferredFigure(let value):
             state.preferredFigure = value
             dependencies.savePreferredFigure(value)
+
+        case .updateMusicVolume(let value):
+            state.musicVolume = value
+            dependencies.saveMusicVolume(value)
         }
 
         return .none

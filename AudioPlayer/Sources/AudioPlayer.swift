@@ -12,7 +12,7 @@ public struct AudioPlayer {
     public var pause: @Sendable (Sound) async -> Void
     public var resume: @Sendable (Sound) async -> Void
     public var stop: (Sound) async -> Void
-    public var setMusicVolume: (Float) async -> Void
+    public var setMusicVolume: @Sendable (Float) async -> Void
     public var getMusicVolume: () async -> Float
 
     public init(
@@ -22,7 +22,7 @@ public struct AudioPlayer {
         pause: @Sendable @escaping (Sound) async -> Void = { _ in },
         resume: @Sendable @escaping (Sound) async -> Void = { _ in },
         stop: @escaping (Sound) async -> Void = { _ in },
-        setMusicVolume: @escaping (Float) async -> Void = { _ in },
+        setMusicVolume: @Sendable @escaping (Float) async -> Void = { _ in },
         getMusicVolume: @escaping () async -> Float = { 1.0 },
     ) {
         self.load = load
