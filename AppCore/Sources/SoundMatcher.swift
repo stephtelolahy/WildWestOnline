@@ -6,7 +6,6 @@
 //
 
 import GameCore
-import GameData
 import AudioPlayer
 
 struct SoundMatcher {
@@ -50,17 +49,18 @@ struct SoundMatcher {
                 .sfxTaDa
 
         case .play:
+            #warning("Set sound effects for playing card")
             switch Card.name(of: action.playedCard) {
-            case .stagecoach, .wellsFargo:
+            case "stagecoach", "wellsFargo":
                     .sfxHorseGalloping
 
-            case .duel:
+            case "duel":
                     .sfxShotgunOldSchool
 
-            case .gatling:
+            case "gatling":
                     .sfxAutomaticMachineGun
 
-            case .indians, .brawl:
+            case "indians", "brawl":
                     .sfxPeacock
 
             default:

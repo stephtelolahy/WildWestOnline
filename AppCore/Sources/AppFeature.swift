@@ -105,7 +105,7 @@ public enum AppFeature {
                 dependencies: { _ in () }
             ),
             pullback(
-                reducerGameSound,
+                GameFeature.reducerSound,
                 state: { globalState in
                     globalState.game != nil ? \.game! : nil
                 },
@@ -164,15 +164,6 @@ public enum AppFeature {
             break
         }
 
-        return .none
-    }
-
-    private static func reducerGameSound(
-        into state: inout GameFeature.State,
-        action: GameFeature.Action,
-        dependencies: AudioPlayer
-    ) -> Effect<GameFeature.Action> {
-        print("🎼 \(action)")
         return .none
     }
 }
