@@ -10,13 +10,15 @@ public extension SettingsFeature.State {
         private var actionDelayMilliSeconds: Int = 0
         private var simulation: Bool = false
         private var preferredFigure: String?
+        private var musicVolume: Float = 1.0
 
         public func build() -> SettingsFeature.State {
             .init(
                 playersCount: playersCount,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
                 simulation: simulation,
-                preferredFigure: preferredFigure
+                preferredFigure: preferredFigure,
+                musicVolume: musicVolume
             )
         }
 
@@ -37,6 +39,11 @@ public extension SettingsFeature.State {
 
         public func withPreferredFigure(_ value: String?) -> Self {
             preferredFigure = value
+            return self
+        }
+
+        public func withMusicVolume(_ value: Float) -> Self {
+            musicVolume = value
             return self
         }
     }

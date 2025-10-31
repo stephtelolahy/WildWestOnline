@@ -18,6 +18,7 @@ struct RandomStrategy: AIStrategy {
 
 struct AgressiveStrategy: AIStrategy {
     func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
+        #warning("Set AI value for playing card")
         // swiftlint:disable no_magic_numbers
         let itemValue: [String: Int] = [
             "bang": 3,

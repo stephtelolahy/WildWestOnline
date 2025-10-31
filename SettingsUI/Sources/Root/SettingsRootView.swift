@@ -6,11 +6,9 @@
 //
 
 import SwiftUI
-import AudioPlayer
 
 struct SettingsRootView: View {
     @StateObject private var store: ViewStore
-    @State private var globalVolume: Float = 1.0
 
     @Environment(\.dismiss) private var dismiss
 
@@ -36,9 +34,6 @@ struct SettingsRootView: View {
                     }
                 }
             }
-        }
-        .task {
-            globalVolume = await AudioPlayer.shared.getMusicVolume()
         }
     }
 
@@ -136,12 +131,11 @@ struct SettingsRootView: View {
             VStack(alignment: .leading) {
                 Text("Sound volume")
                 Slider(
-                    value: Binding<Double>(
-                        get: { Double(globalVolume) },
+                    value: Binding<Float>(
+                        get: { store.state.musicVolume },
                         set: { newValue in
-                            globalVolume = Float(newValue)
                             Task {
-                                await AudioPlayer.shared.setMusicVolume(globalVolume)
+                                await store.dispatch(.settings(.updateMusicVolume(newValue)))
                             }
                         }
                     ),
@@ -166,7 +160,8 @@ private extension SettingsRootView.ViewState {
             playersCount: 5,
             speedIndex: 0,
             simulation: false,
-            preferredFigure: "Figure1"
+            preferredFigure: "Figure1",
+            musicVolume: 1.0
         )
     }
 }

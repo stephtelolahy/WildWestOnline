@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
 //
 
-public extension AudioPlayer.Sound {
+public extension AudioClient.Sound {
     static let allSfx: [Self] = [
         sfxHurt,
         sfxPeacock,

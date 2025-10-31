@@ -1,5 +1,5 @@
 //
-//  AudioPlayerLive.swift
+//  AudioClient+Live.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
@@ -7,8 +7,9 @@
 import Foundation
 import AVFoundation
 
-extension AudioPlayer {
-    static func live(bundles: [Bundle]) -> Self {
+extension AudioClient {
+    public static func live(bundles: [Bundle] = []) -> Self {
+        let bundles = bundles + [.module]
         let actor = AudioActor(bundles: bundles)
         return Self(
             load: { try? await actor.load(sounds: $0) },
@@ -25,8 +26,8 @@ extension AudioPlayer {
     private actor AudioActor {
         enum Failure: Error {
             case bufferInitializationFailed
-            case soundNotLoaded(AudioPlayer.Sound)
-            case soundsNotLoaded([AudioPlayer.Sound: Error])
+            case soundNotLoaded(AudioClient.Sound)
+            case soundsNotLoaded([AudioClient.Sound: Error])
         }
 
         let audioEngine: AVAudioEngine

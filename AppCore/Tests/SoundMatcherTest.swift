@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 17/10/2025.
 //
 
-@testable import GameUI
+@testable import AppCore
 import Testing
 import GameCore
 
@@ -15,7 +15,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayStagecoach() async throws {
         // Given
-        let event = GameFeature.Action.play(.stagecoach, player: "p1")
+        let event = GameFeature.Action.play("stagecoach", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))
@@ -26,7 +26,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayWellsFargo() async throws {
         // Given
-        let event = GameFeature.Action.play(.wellsFargo, player: "p1")
+        let event = GameFeature.Action.play("wellsFargo", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))
@@ -37,7 +37,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayDuel() async throws {
         // Given
-        let event = GameFeature.Action.play(.duel, player: "p1")
+        let event = GameFeature.Action.play("duel", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))
@@ -48,7 +48,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayGatling() async throws {
         // Given
-        let event = GameFeature.Action.play(.gatling, player: "p1")
+        let event = GameFeature.Action.play("gatling", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))
@@ -59,7 +59,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayIndians() async throws {
         // Given
-        let event = GameFeature.Action.play(.indians, player: "p1")
+        let event = GameFeature.Action.play("indians", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))
@@ -70,7 +70,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnPlayBrawl() async throws {
         // Given
-        let event = GameFeature.Action.play(.brawl, player: "p1")
+        let event = GameFeature.Action.play("brawl", player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))

@@ -9,6 +9,8 @@ import Redux
 import NavigationCore
 import SettingsCore
 import GameCore
+import AudioClient
+import SettingsClient
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
 
@@ -46,10 +48,15 @@ public enum AppFeature {
     }
 
     public struct Dependencies {
-        let settings: SettingsFeature.Dependencies
+        let settingsClient: SettingsClient
+        let audioClient: AudioClient
 
-        public init(settings: SettingsFeature.Dependencies) {
-            self.settings = settings
+        public init(
+            settingsClient: SettingsClient,
+            audioClient: AudioClient
+        ) {
+            self.settingsClient = settingsClient
+            self.audioClient = audioClient
         }
     }
 
@@ -82,11 +89,11 @@ public enum AppFeature {
                     return nil
                 },
                 embedAction: Action.settings,
-                dependencies: { $0.settings }
+                dependencies: { $0.settingsClient }
             ),
             pullback(
                 AppNavigationFeature.reducer,
-                state: { _  in
+                state: { _ in
                     \.navigation
                 },
                 action: { globalAction in
@@ -97,72 +104,16 @@ public enum AppFeature {
                 },
                 embedAction: Action.navigation,
                 dependencies: { _ in () }
+            ),
+            pullback(
+                reducerSound,
+                state: { _ in
+                    \.self
+                },
+                action: { $0 },
+                embedAction: \.self,
+                dependencies: { $0.audioClient }
             )
         )
-    }
-
-    private static func reducerMain(
-        into state: inout State,
-        action: Action,
-        dependencies: Dependencies
-    ) -> Effect<Action> {
-        switch action {
-        case .start:
-            let state = state
-            return .group([
-                .run {
-                    .setGame(.create(settings: state.settings, inventory: state.inventory))
-                },
-                .run {
-                    .navigation(.push(.game))
-                }
-            ])
-
-        case .quit:
-            return .group([
-                .run {
-                    .unsetGame
-                },
-                .run {
-                    .navigation(.pop)
-                }
-            ])
-
-        case .setGame(let game):
-            state.game = game
-
-        case .unsetGame:
-            state.game = nil
-
-        case .navigation:
-            break
-
-        case .settings:
-            break
-
-        case .game:
-            break
-        }
-
-        return .none
-    }
-}
-
-private extension GameFeature.State {
-    static func create(settings: SettingsFeature.State, inventory: Inventory) -> Self {
-        var game = GameSetupService.buildGame(
-            playersCount: settings.playersCount,
-            inventory: inventory,
-            preferredFigure: settings.preferredFigure
-        )
-
-        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
-        game.playMode = game.playOrder.reduce(into: [:]) {
-            $0[$1] = $1 == manualPlayer ? .manual : .auto
-        }
-
-        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
-
-        return game
     }
 }

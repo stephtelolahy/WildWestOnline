@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26250BCA2EB565D3008E351C /* AppBootstrap in Frameworks */ = {isa = PBXBuildFile; productRef = 26250BC92EB565D3008E351C /* AppBootstrap */; };
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
-		986B85F22EB00145001B198B /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 986B85F12EB00145001B198B /* AppUI */; };
-		986B85F42EB0015E001B198B /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 986B85F32EB0015E001B198B /* SettingsData */; };
 		98E868E62D9D19CC00EF4582 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -27,8 +26,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				986B85F22EB00145001B198B /* AppUI in Frameworks */,
-				986B85F42EB0015E001B198B /* SettingsData in Frameworks */,
+				26250BCA2EB565D3008E351C /* AppBootstrap in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,8 +77,7 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				986B85F12EB00145001B198B /* AppUI */,
-				986B85F32EB0015E001B198B /* SettingsData */,
+				26250BC92EB565D3008E351C /* AppBootstrap */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -112,7 +109,7 @@
 			);
 			mainGroup = 2699EEF429D93AD00030ACCD;
 			packageReferences = (
-				986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */,
+				26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */,
 			);
 			productRefGroup = 2699EEFE29D93AD00030ACCD /* Products */;
 			projectDirPath = "";
@@ -415,21 +412,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */ = {
+		26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		986B85F12EB00145001B198B /* AppUI */ = {
+		26250BC92EB565D3008E351C /* AppBootstrap */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppUI;
-		};
-		986B85F32EB0015E001B198B /* SettingsData */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */;
-			productName = SettingsData;
+			productName = AppBootstrap;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -55,7 +55,10 @@ public struct SettingsCoordinator: View {
     SettingsCoordinator(
         store: Store(
             initialState: .mock,
-            dependencies: .init(settings: .init())
+            dependencies: .init(
+                settingsClient: .empty(),
+                audioClient: .empty()
+            )
         )
     )
 }

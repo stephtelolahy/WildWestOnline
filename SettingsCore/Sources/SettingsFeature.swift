@@ -5,6 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 import Redux
+import SettingsClient
 
 public enum SettingsFeature {
     public struct State: Equatable, Codable, Sendable {
@@ -12,6 +13,7 @@ public enum SettingsFeature {
         public var actionDelayMilliSeconds: Int
         public var simulation: Bool
         public var preferredFigure: String?
+        public var musicVolume: Float
     }
 
     public enum Action {
@@ -19,31 +21,13 @@ public enum SettingsFeature {
         case updateActionDelayMilliSeconds(Int)
         case toggleSimulation
         case updatePreferredFigure(String?)
-    }
-
-    public struct Dependencies {
-        public var savePlayersCount: (Int) -> Void
-        public var saveActionDelayMilliSeconds: (Int) -> Void
-        public var saveSimulationEnabled: (Bool) -> Void
-        public var savePreferredFigure: (String?) -> Void
-
-        public init(
-            savePlayersCount: @escaping (Int) -> Void = { _ in },
-            saveActionDelayMilliSeconds: @escaping (Int) -> Void = { _ in },
-            saveSimulationEnabled: @escaping (Bool) -> Void = { _ in },
-            savePreferredFigure: @escaping (String?) -> Void = { _ in }
-        ) {
-            self.savePlayersCount = savePlayersCount
-            self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
-            self.saveSimulationEnabled = saveSimulationEnabled
-            self.savePreferredFigure = savePreferredFigure
-        }
+        case updateMusicVolume(Float)
     }
 
     public static func reducer(
         state: inout State,
         action: Action,
-        dependencies: Dependencies
+        dependencies: SettingsClient
     ) -> Effect<Action> {
         switch action {
         case .updatePlayersCount(let value):
@@ -61,6 +45,10 @@ public enum SettingsFeature {
         case .updatePreferredFigure(let value):
             state.preferredFigure = value
             dependencies.savePreferredFigure(value)
+
+        case .updateMusicVolume(let value):
+            state.musicVolume = value
+            dependencies.saveMusicVolume(value)
         }
 
         return .none

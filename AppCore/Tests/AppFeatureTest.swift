@@ -5,11 +5,11 @@
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
 
+import Testing
 import AppCore
 import GameCore
 import Redux
 import SettingsCore
-import Testing
 
 struct AppFeatureTest {
     private func createAppStore(initialState: AppFeature.State) async -> AppStore {
@@ -17,12 +17,8 @@ struct AppFeatureTest {
             initialState: initialState,
             reducer: AppFeature.reducer,
             dependencies: .init(
-                settings: .init(
-                    savePlayersCount: { _ in },
-                    saveActionDelayMilliSeconds: { _ in },
-                    saveSimulationEnabled: { _ in },
-                    savePreferredFigure: { _ in }
-                )
+                settingsClient: .empty(),
+                audioClient: .empty()
             )
         )
     }

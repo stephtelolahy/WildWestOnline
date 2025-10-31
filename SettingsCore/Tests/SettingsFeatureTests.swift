@@ -6,17 +6,18 @@
 //
 
 import Testing
-import SettingsCore
 import Redux
+import SettingsCore
+import SettingsClient
 
 struct SettingsFeatureTests {
-    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action, SettingsFeature.Dependencies>
+    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action, SettingsClient>
 
     private func createSettingsStore(initialState: SettingsFeature.State) async -> SettingsStore {
         await .init(
             initialState: initialState,
             reducer: SettingsFeature.reducer,
-            dependencies: .init()
+            dependencies: .empty()
         )
     }
 

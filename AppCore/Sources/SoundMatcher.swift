@@ -6,13 +6,16 @@
 //
 
 import GameCore
-import GameData
-import AudioPlayer
+import AudioClient
 
 struct SoundMatcher {
     // swiftlint:disable:next cyclomatic_complexity
-    func sfx(on action: GameFeature.Action) -> AudioPlayer.Sound? {
-        switch action.name {
+    func sfx(on action: GameFeature.Action) -> AudioClient.Sound? {
+        guard action.selectors.isEmpty else {
+            return nil
+        }
+
+        return switch action.name {
         case .shoot:
                 .sfxGunLoud
 
@@ -50,17 +53,18 @@ struct SoundMatcher {
                 .sfxTaDa
 
         case .play:
+            #warning("Set sound effects for playing card")
             switch Card.name(of: action.playedCard) {
-            case .stagecoach, .wellsFargo:
+            case "stagecoach", "wellsFargo":
                     .sfxHorseGalloping
 
-            case .duel:
+            case "duel":
                     .sfxShotgunOldSchool
 
-            case .gatling:
+            case "gatling":
                     .sfxAutomaticMachineGun
 
-            case .indians, .brawl:
+            case "indians", "brawl":
                     .sfxPeacock
 
             default:

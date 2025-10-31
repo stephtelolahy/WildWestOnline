@@ -12,15 +12,21 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        // Core
+        // Bootstrap
+        .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
+
+        // Features
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
-        // Data
+        // Dependency Abstraction
+        .library(name: "SettingsClient", targets: ["SettingsClient"]),
+
+        // Dependency Implementation
         .library(name: "GameData", targets: ["GameData"]),
-        .library(name: "SettingsData", targets: ["SettingsData"]),
+        .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
 
         // UI
         .library(name: "HomeUI", targets: ["HomeUI"]),
@@ -32,7 +38,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Serialization", targets: ["Serialization"]),
         .library(name: "Theme", targets: ["Theme"]),
-        .library(name: "AudioPlayer", targets: ["AudioPlayer"]),
+        .library(name: "AudioClient", targets: ["AudioClient"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -86,9 +92,17 @@ let package = Package(
             path: "GameCore/Tests"
         ),
         .target(
+            name: "SettingsClient",
+            path: "SettingsClient/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
             name: "SettingsCore",
             dependencies: [
-                "Redux"
+                "Redux",
+                "SettingsClient"
             ],
             path: "SettingsCore/Sources",
             plugins: [
@@ -124,7 +138,8 @@ let package = Package(
             dependencies: [
                 "GameCore",
                 "SettingsCore",
-                "NavigationCore"
+                "NavigationCore",
+                "AudioClient"
             ],
             path: "AppCore/Sources",
             plugins: [
@@ -147,9 +162,9 @@ let package = Package(
             ]
         ),
         .target(
-            name: "AudioPlayer",
+            name: "AudioClient",
             dependencies: [],
-            path: "AudioPlayer/Sources",
+            path: "AudioClient/Sources",
             resources: [
                 .process("Resources")
             ],
@@ -162,7 +177,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "AudioPlayer"
+                "AudioClient"
             ],
             path: "HomeUI/Sources",
             plugins: [
@@ -180,8 +195,7 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "AppCore",
-                "Theme",
-                "AudioPlayer"
+                "Theme"
             ],
             path: "SettingsUI/Sources",
             plugins: [
@@ -200,8 +214,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "GameData",
-                "AudioPlayer"
+                "GameData"
             ],
             path: "GameUI/Sources",
             resources: [
@@ -255,12 +268,23 @@ let package = Package(
             path: "GameData/Tests"
         ),
         .target(
-            name: "SettingsData",
+            name: "SettingsClientLive",
             dependencies: [
-                "SettingsCore",
+                "SettingsClient",
                 "Serialization"
             ],
-            path: "SettingsData/Sources",
+            path: "SettingsClientLive/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
+            name: "AppBootstrap",
+            dependencies: [
+                "AppUI",
+                "SettingsClientLive"
+            ],
+            path: "AppBootstrap/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
