@@ -17,7 +17,7 @@ struct AppFeatureTest {
             initialState: initialState,
             reducer: AppFeature.reducer,
             dependencies: .init(
-                settings: .init(),
+                settings: .empty(),
                 audioPlayer: .init()
             )
         )

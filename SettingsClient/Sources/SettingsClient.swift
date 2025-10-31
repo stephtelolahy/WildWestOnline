@@ -16,14 +16,14 @@ public struct SettingsClient {
     public var preferredFigure: () -> String?
 
     public init(
-        savePlayersCount: @escaping (Int) -> Void = { _ in },
-        saveActionDelayMilliSeconds: @escaping (Int) -> Void = { _ in },
-        saveSimulationEnabled: @escaping (Bool) -> Void = { _ in },
-        savePreferredFigure: @escaping (String?) -> Void = { _ in },
-        playersCount: @escaping () -> Int = { 0 },
-        actionDelayMilliSeconds: @escaping () -> Int = { 0 },
-        isSimulationEnabled: @escaping () -> Bool = { false },
-        preferredFigure: @escaping () -> String? = { nil }
+        savePlayersCount: @escaping (Int) -> Void,
+        saveActionDelayMilliSeconds: @escaping (Int) -> Void,
+        saveSimulationEnabled: @escaping (Bool) -> Void,
+        savePreferredFigure: @escaping (String?) -> Void,
+        playersCount: @escaping () -> Int,
+        actionDelayMilliSeconds: @escaping () -> Int,
+        isSimulationEnabled: @escaping () -> Bool,
+        preferredFigure: @escaping () -> String?
     ) {
         self.savePlayersCount = savePlayersCount
         self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
@@ -33,5 +33,20 @@ public struct SettingsClient {
         self.actionDelayMilliSeconds = actionDelayMilliSeconds
         self.isSimulationEnabled = isSimulationEnabled
         self.preferredFigure = preferredFigure
+    }
+}
+
+public extension SettingsClient {
+    static func empty() -> Self {
+        .init(
+            savePlayersCount: { _ in },
+            saveActionDelayMilliSeconds: { _ in },
+            saveSimulationEnabled: { _ in },
+            savePreferredFigure: { _ in },
+            playersCount: { 0 },
+            actionDelayMilliSeconds: { 0 },
+            isSimulationEnabled: { false },
+            preferredFigure: { nil },
+        )
     }
 }

@@ -16,7 +16,11 @@ public extension SettingsClient {
             savePlayersCount: { service.playersCount = $0 },
             saveActionDelayMilliSeconds: { service.actionDelayMilliSeconds = $0 },
             saveSimulationEnabled: { service.simulationEnabled = $0 },
-            savePreferredFigure: { service.preferredFigure = $0 }
+            savePreferredFigure: { service.preferredFigure = $0 },
+            playersCount: { service.playersCount },
+            actionDelayMilliSeconds: { service.actionDelayMilliSeconds },
+            isSimulationEnabled: { service.simulationEnabled },
+            preferredFigure: { service.preferredFigure }
         )
     }
 }
