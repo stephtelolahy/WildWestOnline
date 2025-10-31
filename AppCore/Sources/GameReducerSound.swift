@@ -15,7 +15,10 @@ extension GameFeature {
         dependencies: AudioPlayer
     ) -> Effect<Action> {
         if let sfx = SoundMatcher().sfx(on: action) {
-            print("play \(sfx)")
+            let playFunc = dependencies.play
+            Task {
+                await playFunc(sfx)
+            }
         }
         return .none
     }
