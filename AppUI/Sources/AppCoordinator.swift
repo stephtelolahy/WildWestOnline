@@ -79,7 +79,7 @@ public struct AppCoordinator: View {
         .init(
             initialState: .mock,
             dependencies: .init(
-                settings: .init(),
+                settings: .empty(),
                 audioPlayer: .init()
             )
         )
