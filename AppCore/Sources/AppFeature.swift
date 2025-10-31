@@ -58,7 +58,9 @@ public enum AppFeature {
             reducerMain,
             pullback(
                 GameFeature.reducer,
-                state: \.game!,
+                state: { globalState in
+                    globalState.game != nil ? \.game! : nil
+                },
                 action: { globalAction in
                     if case let .game(localAction) = globalAction {
                         return localAction
@@ -70,7 +72,9 @@ public enum AppFeature {
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: \.settings,
+                state: { _ in
+                    \.settings
+                },
                 action: { globalAction in
                     if case let .settings(localAction) = globalAction {
                         return localAction
@@ -82,7 +86,9 @@ public enum AppFeature {
             ),
             pullback(
                 AppNavigationFeature.reducer,
-                state: \.navigation,
+                state: { _  in
+                    \.navigation
+                },
                 action: { globalAction in
                     if case let .navigation(localAction) = globalAction {
                         return localAction

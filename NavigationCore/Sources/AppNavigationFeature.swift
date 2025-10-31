@@ -40,7 +40,7 @@ public enum AppNavigationFeature {
             pullback(
                 SettingsNavigationFeature.reducer,
                 state: { globalState in
-                    globalState.settingsSheet == nil ? nil : \.settingsSheet!
+                    globalState.settingsSheet != nil ? \.settingsSheet! : nil
                 },
                 action: { globalAction in
                     if case let .settingsSheet(localAction) = globalAction {
