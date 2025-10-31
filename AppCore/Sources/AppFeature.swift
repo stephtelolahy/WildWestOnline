@@ -105,17 +105,12 @@ public enum AppFeature {
                 dependencies: { _ in () }
             ),
             pullback(
-                GameFeature.reducerSound,
-                state: { globalState in
-                    globalState.game != nil ? \.game! : nil
+                reducerSound,
+                state: { _ in
+                    \.self
                 },
-                action: { globalAction in
-                    if case let .game(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: Action.game,
+                action: { $0 },
+                embedAction: \.self,
                 dependencies: { $0.audioPlayer }
             )
         )
