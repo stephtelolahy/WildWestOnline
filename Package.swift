@@ -12,13 +12,16 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        // Core
+        // Features
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
-        // Data
+        // Dependency Abstraction
+        .library(name: "SettingsClient", targets: ["SettingsClient"]),
+
+        // Dependency Impelmentation
         .library(name: "GameData", targets: ["GameData"]),
         .library(name: "SettingsData", targets: ["SettingsData"]),
 
@@ -86,9 +89,17 @@ let package = Package(
             path: "GameCore/Tests"
         ),
         .target(
+            name: "SettingsClient",
+            path: "SettingsClient/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
             name: "SettingsCore",
             dependencies: [
-                "Redux"
+                "Redux",
+                "SettingsClient"
             ],
             path: "SettingsCore/Sources",
             plugins: [

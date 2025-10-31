@@ -10,6 +10,7 @@ import NavigationCore
 import SettingsCore
 import GameCore
 import AudioPlayer
+import SettingsClient
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
 
@@ -47,11 +48,11 @@ public enum AppFeature {
     }
 
     public struct Dependencies {
-        let settings: SettingsFeature.Dependencies
+        let settings: SettingsClient
         let audioPlayer: AudioPlayer
 
         public init(
-            settings: SettingsFeature.Dependencies,
+            settings: SettingsClient,
             audioPlayer: AudioPlayer
         ) {
             self.settings = settings
