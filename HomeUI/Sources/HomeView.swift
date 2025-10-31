@@ -13,7 +13,6 @@ public struct HomeView: View {
     @StateObject private var store: ViewStore
 
     @Environment(\.theme) private var theme
-    @Environment(\.audioPlayer) private var audioPlayer
 
     public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
@@ -36,12 +35,12 @@ public struct HomeView: View {
 #endif
         .onAppear {
             Task {
-                await audioPlayer.resume(.musicLoneRider)
+                await AudioPlayer.shared.resume(.musicLoneRider)
             }
         }
         .onDisappear {
             Task {
-                await audioPlayer.pause(.musicLoneRider)
+                await AudioPlayer.shared.pause(.musicLoneRider)
             }
         }
     }

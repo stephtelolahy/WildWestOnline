@@ -8,8 +8,7 @@ import Foundation
 import AVFoundation
 
 extension AudioPlayer {
-    public static func live() -> Self {
-        let bundles: [Bundle] = [.module]
+    static func live(bundles: [Bundle]) -> Self {
         let actor = AudioActor(bundles: bundles)
         return Self(
             load: { try? await actor.load(sounds: $0) },

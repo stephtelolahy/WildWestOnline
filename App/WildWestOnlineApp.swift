@@ -18,25 +18,17 @@ import AudioPlayer
 
 @main
 struct WildWestOnlineApp: App {
+    @Environment(\.theme) private var theme
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.audioPlayer, AudioPlayer.live())
-        }
-    }
-}
-
-private struct ContentView: View {
-    @Environment(\.theme) private var theme
-    @Environment(\.audioPlayer) private var audioPlayer
-
-    var body: some View {
-        AppCoordinator {
-            createStore()
-        }
-        .accentColor(theme.colorAccent)
-        .task {
-            await audioPlayer.load(AudioPlayer.Sound.allSfx)
+            AppCoordinator {
+                createStore()
+            }
+            .accentColor(theme.colorAccent)
+            .task {
+                await AudioPlayer.shared.load(AudioPlayer.Sound.allSfx)
+            }
         }
     }
 }

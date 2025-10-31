@@ -13,7 +13,6 @@ struct SettingsRootView: View {
     @State private var globalVolume: Float = 1.0
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.audioPlayer) private var audioPlayer
 
     init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
@@ -39,7 +38,7 @@ struct SettingsRootView: View {
             }
         }
         .task {
-            globalVolume = await audioPlayer.getMusicVolume()
+            globalVolume = await AudioPlayer.shared.getMusicVolume()
         }
     }
 
@@ -142,7 +141,7 @@ struct SettingsRootView: View {
                         set: { newValue in
                             globalVolume = Float(newValue)
                             Task {
-                                await audioPlayer.setMusicVolume(globalVolume)
+                                await AudioPlayer.shared.setMusicVolume(globalVolume)
                             }
                         }
                     ),

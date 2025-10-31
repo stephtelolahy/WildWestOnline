@@ -32,7 +32,6 @@ public struct GameView: View {
     @State private var isAnimating = false
 
     @Environment(\.theme) private var theme
-    @Environment(\.audioPlayer) private var audioPlayer
 
     private let animationMatcher = AnimationMatcher()
     private let soundMatcher = SoundMatcher()
@@ -231,7 +230,7 @@ private extension GameView {
     func playSound(_ action: GameFeature.Action) {
         if let sfx = soundMatcher.sfx(on: action) {
             Task {
-                await audioPlayer.play(sfx)
+                await AudioPlayer.shared.play(sfx)
             }
         }
     }
