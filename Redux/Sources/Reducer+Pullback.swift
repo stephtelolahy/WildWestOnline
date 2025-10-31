@@ -4,17 +4,6 @@
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
 
-/// Combine reducers —
-/// multiple reducers for the same State and Action
-public func combine<State, Action, Dependencies>(
-    _ reducers: Reducer<State, Action, Dependencies>...
-) -> Reducer<State, Action, Dependencies> {
-    { state, action, dependencies in
-        let effects = reducers.map { $0(&state, action, dependencies) }
-        return .group(effects)
-    }
-}
-
 /// Pull back reducers —
 /// lift a small reducer that operates on part of the state/action into a global one.
 public func pullback<
@@ -26,7 +15,7 @@ public func pullback<
     GlobalDependencies
 >(
     _ localReducer: @escaping Reducer<LocalState, LocalAction, LocalDependencies>,
-    state toLocalState: WritableKeyPath<GlobalState, LocalState>,
+    state toLocalState: @escaping (GlobalState) -> WritableKeyPath<GlobalState, LocalState>?,
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
     embedAction: @escaping (LocalAction) -> GlobalAction,
     dependencies toLocalDependencies: @escaping (GlobalDependencies) -> LocalDependencies
@@ -37,10 +26,16 @@ public func pullback<
             return .none
         }
 
-        // Run the local reducer on the local portion of state
-        let localDeps = toLocalDependencies(globalDependencies)
-        let localEffect = localReducer(&globalState[keyPath: toLocalState], localAction, localDeps)
+        // Try to obtain the optional key path into local state
+        guard let localKeyPath = toLocalState(globalState) else {
+            return .none
+        }
 
+        // Run the local reducer directly on that portion of state
+        let localDeps = toLocalDependencies(globalDependencies)
+        let localEffect = localReducer(&globalState[keyPath: localKeyPath], localAction, localDeps)
+
+        // Map local effect’s actions back into global ones
         return localEffect.map(embedAction)
     }
 }
