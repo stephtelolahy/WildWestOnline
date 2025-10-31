@@ -18,22 +18,8 @@ struct AppFeatureTest {
             initialState: initialState,
             reducer: AppFeature.reducer,
             dependencies: .init(
-                settings: .init(
-                    savePlayersCount: { _ in },
-                    saveActionDelayMilliSeconds: { _ in },
-                    saveSimulationEnabled: { _ in },
-                    savePreferredFigure: { _ in }
-                ),
-                audioPlayer: .init(
-                    load: { _ in },
-                    loop: { _ in },
-                    play: { _ in },
-                    pause: { _ in },
-                    resume: { _ in },
-                    stop: { _ in },
-                    setMusicVolume: { _ in },
-                    getMusicVolume: { 1.0 }
-                )
+                settings: .init(),
+                audioPlayer: .init()
             )
         )
     }

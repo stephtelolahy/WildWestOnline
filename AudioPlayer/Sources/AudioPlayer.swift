@@ -16,14 +16,14 @@ public struct AudioPlayer {
     public var getMusicVolume: () async -> Float
 
     public init(
-        load: @escaping ([Sound]) async -> Void,
-        loop: @escaping (Sound) async -> Void,
-        play: @escaping (Sound) async -> Void,
-        pause: @escaping (Sound) async -> Void,
-        resume: @escaping (Sound) async -> Void,
-        stop: @escaping (Sound) async -> Void,
-        setMusicVolume: @escaping (Float) async -> Void,
-        getMusicVolume: @escaping () async -> Float
+        load: @escaping ([Sound]) async -> Void = { _ in },
+        loop: @escaping (Sound) async -> Void = { _ in },
+        play: @escaping (Sound) async -> Void = { _ in },
+        pause: @escaping (Sound) async -> Void = { _ in },
+        resume: @escaping (Sound) async -> Void = { _ in },
+        stop: @escaping (Sound) async -> Void = { _ in },
+        setMusicVolume: @escaping (Float) async -> Void = { _ in },
+        getMusicVolume: @escaping () async -> Float = { 1.0 },
     ) {
         self.load = load
         self.loop = loop

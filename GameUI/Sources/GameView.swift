@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable identifier_name force_unwrapping file_length
+// swiftlint:disable identifier_name force_unwrapping
 
 import SwiftUI
 import Theme
@@ -34,7 +34,6 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
 
     private let animationMatcher = AnimationMatcher()
-    private let soundMatcher = SoundMatcher()
 
     public init(store: @escaping () -> ViewStore) {
         _store = StateObject(wrappedValue: store())
@@ -72,7 +71,6 @@ public struct GameView: View {
             .onReceive(store.$state) { state in
                 if let action = state.lastSuccessfulAction {
                     animate(action, positions: objectPositions)
-                    playSound(action)
                 }
             }
         }
@@ -223,14 +221,6 @@ private extension GameView {
             switch animation {
             case let .moveCard(card, source, target):
                 moveCard(card, from: source, to: target, positions: positions)
-            }
-        }
-    }
-
-    func playSound(_ action: GameFeature.Action) {
-        if let sfx = soundMatcher.sfx(on: action) {
-            Task {
-                await AudioPlayer.shared.play(sfx)
             }
         }
     }
