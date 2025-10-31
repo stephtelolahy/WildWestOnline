@@ -11,7 +11,11 @@ import AudioPlayer
 struct SoundMatcher {
     // swiftlint:disable:next cyclomatic_complexity
     func sfx(on action: GameFeature.Action) -> AudioPlayer.Sound? {
-        switch action.name {
+        guard action.selectors.isEmpty else {
+            return nil
+        }
+
+        return switch action.name {
         case .shoot:
                 .sfxGunLoud
 
