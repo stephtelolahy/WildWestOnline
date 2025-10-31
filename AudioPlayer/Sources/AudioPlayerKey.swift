@@ -6,5 +6,6 @@
 //
 
 public extension AudioPlayer {
-    @MainActor static let shared: AudioPlayer = .live(bundles: [.module])
+    @available(*, deprecated, message: "Use middleware")
+    @MainActor static let shared: Self = .live()
 }

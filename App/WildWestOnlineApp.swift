@@ -57,7 +57,7 @@ struct WildWestOnlineApp: App {
         settings: settings
     )
 
-    let audioPlayer = AudioPlayer.shared
+    let audioPlayer = AudioPlayer.live()
     Task {
         await audioPlayer.load(AudioPlayer.Sound.allSfx)
     }
