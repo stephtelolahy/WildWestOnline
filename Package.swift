@@ -180,7 +180,8 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "AppCore",
-                "Theme"
+                "Theme",
+                "AudioPlayer"
             ],
             path: "SettingsUI/Sources",
             plugins: [

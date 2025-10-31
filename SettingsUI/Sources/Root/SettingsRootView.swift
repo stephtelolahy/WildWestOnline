@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import AudioPlayer
 
 struct SettingsRootView: View {
     @StateObject private var store: ViewStore
+    @State private var globalVolume: Float = 1.0
+
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.audioPlayer) private var audioPlayer
 
     init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
@@ -44,6 +48,7 @@ struct SettingsRootView: View {
             speedView
             simulationView
             figureView
+            volumeView
         }
     }
 
@@ -121,6 +126,27 @@ struct SettingsRootView: View {
             }
             .foregroundStyle(.foreground)
         })
+    }
+
+    private var volumeView: some View {
+        HStack {
+            Image(systemName: "speaker.wave.2")
+            VStack(alignment: .leading) {
+                Text("Sound volume")
+                Slider(
+                    value: Binding<Double>(
+                        get: { Double(globalVolume) },
+                        set: { newValue in
+                            globalVolume = Float(newValue)
+                            Task {
+                                await audioPlayer.setGlobalVolume(globalVolume)
+                            }
+                        }
+                    ),
+                    in: 0.0...1.0
+                )
+            }
+        }
     }
 }
 

@@ -20,14 +20,17 @@ import AudioPlayer
 struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
 
+    static let audioPlayer = AudioPlayer.live()
+
     var body: some Scene {
         WindowGroup {
             AppCoordinator {
                 createStore()
             }
+            .environment(\.audioPlayer, WildWestOnlineApp.audioPlayer)
             .accentColor(theme.colorAccent)
             .task {
-                await AudioPlayer.shared.load(AudioPlayer.Sound.allSfx)
+                await WildWestOnlineApp.audioPlayer.load(AudioPlayer.Sound.allSfx)
             }
         }
     }
