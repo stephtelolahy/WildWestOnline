@@ -14,8 +14,8 @@ public extension EnvironmentValues {
         play: { _ in },
         pause: { _ in },
         resume: { _ in },
-        setGlobalVolume: { _ in },
-        setVolume: { _, _ in },
-        stop: { _ in }
+        stop: { _ in },
+        setMusicVolume: { _ in },
+        getMusicVolume: { 1.0 }
     )
 }

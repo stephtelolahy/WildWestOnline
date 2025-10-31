@@ -11,9 +11,9 @@ public struct AudioPlayer {
     public var play: (Sound) async -> Void
     public var pause: (Sound) async -> Void
     public var resume: (Sound) async -> Void
-    public var setGlobalVolume: (Float) async -> Void
-    public var setVolume: (Sound, Float) async -> Void
     public var stop: (Sound) async -> Void
+    public var setMusicVolume: (Float) async -> Void
+    public var getMusicVolume: () async -> Float
 
     public typealias Sound = String
 }

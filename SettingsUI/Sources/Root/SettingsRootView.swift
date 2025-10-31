@@ -38,6 +38,9 @@ struct SettingsRootView: View {
                 }
             }
         }
+        .task {
+            globalVolume = await audioPlayer.getMusicVolume()
+        }
     }
 
     // MARK: - Preferences
@@ -139,7 +142,7 @@ struct SettingsRootView: View {
                         set: { newValue in
                             globalVolume = Float(newValue)
                             Task {
-                                await audioPlayer.setGlobalVolume(globalVolume)
+                                await audioPlayer.setMusicVolume(globalVolume)
                             }
                         }
                     ),
