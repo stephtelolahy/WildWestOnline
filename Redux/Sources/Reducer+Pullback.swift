@@ -27,7 +27,7 @@ public func pullback<
         }
 
         // Try to obtain the optional key path into local state
-        guard let localKeyPath = toLocalState(&globalState) else {
+        guard let localKeyPath = toLocalState(globalState) else {
             return .none
         }
 
