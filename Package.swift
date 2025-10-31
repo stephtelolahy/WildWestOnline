@@ -21,9 +21,9 @@ let package = Package(
         // Dependency Abstraction
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
 
-        // Dependency Impelmentation
+        // Dependency Implementation
         .library(name: "GameData", targets: ["GameData"]),
-        .library(name: "SettingsData", targets: ["SettingsData"]),
+        .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
 
         // UI
         .library(name: "HomeUI", targets: ["HomeUI"]),
@@ -265,12 +265,12 @@ let package = Package(
             path: "GameData/Tests"
         ),
         .target(
-            name: "SettingsData",
+            name: "SettingsClientLive",
             dependencies: [
-                "SettingsCore",
+                "SettingsClient",
                 "Serialization"
             ],
-            path: "SettingsData/Sources",
+            path: "SettingsClientLive/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]

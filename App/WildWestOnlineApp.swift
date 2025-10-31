@@ -9,7 +9,8 @@ import AppCore
 import GameCore
 import GameData
 import SettingsCore
-import SettingsData
+import SettingsClient
+import SettingsClientLive
 import NavigationCore
 import SwiftUI
 import Theme
@@ -31,19 +32,13 @@ struct WildWestOnlineApp: App {
 }
 
 @MainActor private func createStore() -> Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies> {
-    let settingsService = SettingsRepository()
-    let settingsDependency = SettingsFeature.Dependencies(
-        savePlayersCount: settingsService.savePlayersCount,
-        saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
-        saveSimulationEnabled: settingsService.saveSimulationEnabled,
-        savePreferredFigure: settingsService.savePreferredFigure
-    )
+    let settingsClient = SettingsClient.live()
 
     let settings = SettingsFeature.State.makeBuilder()
-        .withPlayersCount(settingsService.playersCount)
-        .withActionDelayMilliSeconds(settingsService.actionDelayMilliSeconds)
-        .withSimulation(settingsService.simulationEnabled)
-        .withPreferredFigure(settingsService.preferredFigure)
+        .withPlayersCount(settingsClient.playersCount())
+        .withActionDelayMilliSeconds(settingsClient.actionDelayMilliSeconds())
+        .withSimulation(settingsClient.isSimulationEnabled())
+        .withPreferredFigure(settingsClient.preferredFigure())
         .build()
 
     let inventory = Inventory(
@@ -67,7 +62,7 @@ struct WildWestOnlineApp: App {
         initialState: initialState,
         reducer: AppFeature.reducer,
         dependencies: .init(
-            settings: settingsDependency,
+            settings: settingsClient,
             audioPlayer: audioPlayer
         )
     )
