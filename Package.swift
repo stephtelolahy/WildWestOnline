@@ -12,6 +12,9 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
+        // Bootstrap
+        .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
+
         // Features
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
@@ -271,6 +274,17 @@ let package = Package(
                 "Serialization"
             ],
             path: "SettingsClientLive/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
+            name: "AppBootstrap",
+            dependencies: [
+                "AppUI",
+                "SettingsClientLive"
+            ],
+            path: "AppBootstrap/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]

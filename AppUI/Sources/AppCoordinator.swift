@@ -18,6 +18,8 @@ public struct AppCoordinator: View {
     @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
 
+    @Environment(\.theme) private var theme
+
     public init(store: @escaping () -> AppStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
@@ -64,6 +66,7 @@ public struct AppCoordinator: View {
         .onReceive(store.dispatchedAction) { event in
             print(event)
         }
+        .accentColor(theme.colorAccent)
     }
 
     @ViewBuilder private func viewForDestination(_ destination: AppNavigationFeature.State.Destination) -> some View {
