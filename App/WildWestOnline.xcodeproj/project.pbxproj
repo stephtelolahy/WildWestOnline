@@ -112,7 +112,7 @@
 			);
 			mainGroup = 2699EEF429D93AD00030ACCD;
 			packageReferences = (
-				26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../../wwo" */,
+				26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */,
 			);
 			productRefGroup = 2699EEFE29D93AD00030ACCD /* Products */;
 			projectDirPath = "";
@@ -415,21 +415,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../../wwo" */ = {
+		26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../wwo;
+			relativePath = ../;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		26250BC52EB5523A008E351C /* AppUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../../wwo" */;
+			package = 26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */;
 			productName = AppUI;
 		};
 		26250BC72EB55241008E351C /* SettingsClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../../wwo" */;
+			package = 26250BC42EB55233008E351C /* XCLocalSwiftPackageReference "../" */;
 			productName = SettingsClientLive;
 		};
 /* End XCSwiftPackageProductDependency section */
