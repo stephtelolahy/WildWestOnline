@@ -50,7 +50,7 @@ public enum AppBuilder {
             initialState: appState,
             reducer: AppFeature.reducer,
             dependencies: .init(
-                settings: settingsClient,
+                settingsClient: settingsClient,
                 audioClient: audioClient
             )
         )
