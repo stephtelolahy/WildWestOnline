@@ -38,7 +38,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Serialization", targets: ["Serialization"]),
         .library(name: "Theme", targets: ["Theme"]),
-        .library(name: "AudioPlayer", targets: ["AudioPlayer"]),
+        .library(name: "AudioClient", targets: ["AudioClient"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -139,7 +139,7 @@ let package = Package(
                 "GameCore",
                 "SettingsCore",
                 "NavigationCore",
-                "AudioPlayer"
+                "AudioClient"
             ],
             path: "AppCore/Sources",
             plugins: [
@@ -162,9 +162,9 @@ let package = Package(
             ]
         ),
         .target(
-            name: "AudioPlayer",
+            name: "AudioClient",
             dependencies: [],
-            path: "AudioPlayer/Sources",
+            path: "AudioClient/Sources",
             resources: [
                 .process("Resources")
             ],
@@ -177,7 +177,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "AudioPlayer"
+                "AudioClient"
             ],
             path: "HomeUI/Sources",
             plugins: [

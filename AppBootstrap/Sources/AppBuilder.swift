@@ -12,7 +12,7 @@ import SettingsClient
 import SettingsClientLive
 import GameCore
 import GameData
-import AudioPlayer
+import AudioClient
 import AppUI
 
 @MainActor
@@ -39,11 +39,11 @@ public enum AppBuilder {
             settings: settingsState
         )
 
-        let audioPlayer = AudioPlayer.live()
+        let audioClient = AudioClient.live()
         Task {
-            await audioPlayer.setMusicVolume(settingsClient.musicVolume())
-            await audioPlayer.load(AudioPlayer.Sound.allSfx)
-            await audioPlayer.play(AudioPlayer.Sound.musicLoneRider)
+            await audioClient.setMusicVolume(settingsClient.musicVolume())
+            await audioClient.load(AudioClient.Sound.allSfx)
+            await audioClient.play(AudioClient.Sound.musicLoneRider)
         }
 
         let store = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>(
@@ -51,7 +51,7 @@ public enum AppBuilder {
             reducer: AppFeature.reducer,
             dependencies: .init(
                 settings: settingsClient,
-                audioPlayer: audioPlayer
+                audioClient: audioClient
             )
         )
 

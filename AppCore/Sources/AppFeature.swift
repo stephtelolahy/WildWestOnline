@@ -9,7 +9,7 @@ import Redux
 import NavigationCore
 import SettingsCore
 import GameCore
-import AudioPlayer
+import AudioClient
 import SettingsClient
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
@@ -48,15 +48,15 @@ public enum AppFeature {
     }
 
     public struct Dependencies {
-        let settings: SettingsClient
-        let audioPlayer: AudioPlayer
+        let settingsClient: SettingsClient
+        let audioClient: AudioClient
 
         public init(
-            settings: SettingsClient,
-            audioPlayer: AudioPlayer
+            settingsClient: SettingsClient,
+            audioClient: AudioClient
         ) {
-            self.settings = settings
-            self.audioPlayer = audioPlayer
+            self.settingsClient = settingsClient
+            self.audioClient = audioClient
         }
     }
 
@@ -89,7 +89,7 @@ public enum AppFeature {
                     return nil
                 },
                 embedAction: Action.settings,
-                dependencies: { $0.settings }
+                dependencies: { $0.settingsClient }
             ),
             pullback(
                 AppNavigationFeature.reducer,
@@ -112,7 +112,7 @@ public enum AppFeature {
                 },
                 action: { $0 },
                 embedAction: \.self,
-                dependencies: { $0.audioPlayer }
+                dependencies: { $0.audioClient }
             )
         )
     }

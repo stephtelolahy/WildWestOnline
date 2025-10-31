@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import AudioPlayer
+import AudioClient
 
 struct SoundMatcher {
     // swiftlint:disable:next cyclomatic_complexity
-    func sfx(on action: GameFeature.Action) -> AudioPlayer.Sound? {
+    func sfx(on action: GameFeature.Action) -> AudioClient.Sound? {
         guard action.selectors.isEmpty else {
             return nil
         }
