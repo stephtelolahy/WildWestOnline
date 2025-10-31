@@ -10,8 +10,9 @@ import Theme
 import AudioPlayer
 
 public struct HomeView: View {
-    @Environment(\.theme) private var theme
     @StateObject private var store: ViewStore
+
+    @Environment(\.theme) private var theme
     @Environment(\.audioPlayer) private var audioPlayer
 
     public init(store: @escaping () -> ViewStore) {

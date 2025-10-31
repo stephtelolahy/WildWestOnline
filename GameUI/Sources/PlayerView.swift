@@ -9,6 +9,7 @@ import SwiftUI
 // Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
     var player: GameView.ViewState.PlayerItem
+
     @Environment(\.theme) private var theme
 
     var body: some View {
