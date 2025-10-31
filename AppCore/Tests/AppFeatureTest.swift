@@ -5,11 +5,12 @@
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
 
+import Testing
 import AppCore
 import GameCore
 import Redux
 import SettingsCore
-import Testing
+import AudioPlayer
 
 struct AppFeatureTest {
     private func createAppStore(initialState: AppFeature.State) async -> AppStore {
@@ -22,6 +23,16 @@ struct AppFeatureTest {
                     saveActionDelayMilliSeconds: { _ in },
                     saveSimulationEnabled: { _ in },
                     savePreferredFigure: { _ in }
+                ),
+                audioPlayer: .init(
+                    load: { _ in },
+                    loop: { _ in },
+                    play: { _ in },
+                    pause: { _ in },
+                    resume: { _ in },
+                    stop: { _ in },
+                    setMusicVolume: { _ in },
+                    getMusicVolume: { 1.0 }
                 )
             )
         )

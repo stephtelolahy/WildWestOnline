@@ -124,7 +124,8 @@ let package = Package(
             dependencies: [
                 "GameCore",
                 "SettingsCore",
-                "NavigationCore"
+                "NavigationCore",
+                "AudioPlayer"
             ],
             path: "AppCore/Sources",
             plugins: [
@@ -180,8 +181,7 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "AppCore",
-                "Theme",
-                "AudioPlayer"
+                "Theme"
             ],
             path: "SettingsUI/Sources",
             plugins: [
@@ -200,8 +200,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "GameData",
-                "AudioPlayer"
+                "GameData"
             ],
             path: "GameUI/Sources",
             resources: [

@@ -9,6 +9,7 @@ import Redux
 import NavigationCore
 import SettingsCore
 import GameCore
+import AudioPlayer
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
 
@@ -47,9 +48,14 @@ public enum AppFeature {
 
     public struct Dependencies {
         let settings: SettingsFeature.Dependencies
+        let audioPlayer: AudioPlayer
 
-        public init(settings: SettingsFeature.Dependencies) {
+        public init(
+            settings: SettingsFeature.Dependencies,
+            audioPlayer: AudioPlayer
+        ) {
             self.settings = settings
+            self.audioPlayer = audioPlayer
         }
     }
 
@@ -86,7 +92,7 @@ public enum AppFeature {
             ),
             pullback(
                 AppNavigationFeature.reducer,
-                state: { _  in
+                state: { _ in
                     \.navigation
                 },
                 action: { globalAction in
@@ -97,6 +103,20 @@ public enum AppFeature {
                 },
                 embedAction: Action.navigation,
                 dependencies: { _ in () }
+            ),
+            pullback(
+                reducerGameSound,
+                state: { globalState in
+                    globalState.game != nil ? \.game! : nil
+                },
+                action: { globalAction in
+                    if case let .game(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: Action.game,
+                dependencies: { $0.audioPlayer }
             )
         )
     }
@@ -144,6 +164,15 @@ public enum AppFeature {
             break
         }
 
+        return .none
+    }
+
+    private static func reducerGameSound(
+        into state: inout GameFeature.State,
+        action: GameFeature.Action,
+        dependencies: AudioPlayer
+    ) -> Effect<GameFeature.Action> {
+        print("🎼 \(action)")
         return .none
     }
 }
