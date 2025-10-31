@@ -189,7 +189,9 @@ enum GlobalFeature {
         combine(
             pullback(
                 CounterFeature.reducer,
-                state: \.counter,
+                state: { _ in
+                    \.counter
+                },
                 action: { globalAction in
                     if case let .counter(localAction) = globalAction { return localAction }
                     return nil
@@ -199,7 +201,9 @@ enum GlobalFeature {
             ),
             pullback(
                 FlagFeature.reducer,
-                state: \.flag,
+                state: { _ in
+                    \.flag
+                },
                 action: { globalAction in
                     if case let .flag(localAction) = globalAction { return localAction }
                     return nil

@@ -39,7 +39,9 @@ public enum AppNavigationFeature {
             reducerMain,
             pullback(
                 SettingsNavigationFeature.reducer,
-                state: \.settingsSheet!,
+                state: { globalState in
+                    globalState.settingsSheet != nil ? \.settingsSheet! : nil
+                },
                 action: { globalAction in
                     if case let .settingsSheet(localAction) = globalAction {
                         return localAction
