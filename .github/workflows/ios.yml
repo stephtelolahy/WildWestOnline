@@ -54,7 +54,6 @@ jobs:
           SCHEME="WildWestOnline-Package"
           echo "Running tests for scheme: $SCHEME"
           xcodebuild \
-            -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
             -destination "platform=macOS" \
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
