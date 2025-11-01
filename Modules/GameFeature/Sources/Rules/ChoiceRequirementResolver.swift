@@ -102,27 +102,16 @@ private extension Card.Selector.ChoiceRequirement {
             let player = pendingAction.sourcePlayer
             let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
-            var options: [Card.Selector.ChoicePrompt.Option] = []
-            options += playerObj.inPlay.map {
-                .init(id: $0, label: $0)
-            }
-            options += playerObj.hand.indices.map {
-                let value = playerObj.hand[$0]
-                let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
-                return .init(id: value, label: label)
-            }
-            options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
 
-            guard options.isNotEmpty else {
+            let costCards = playerObj.hand.filter { conditions.match($0, pendingAction: pendingAction, state: state) }
+
+            guard costCards.isNotEmpty else {
                 return []
             }
 
-            options.append(.init(id: .choicePass, label: .choicePass))
-
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: player,
-                options: options
-            )
+            let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
+                + [.init(id: .choicePass, label: .choicePass)]
+            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
 
             return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
