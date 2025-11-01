@@ -9,7 +9,7 @@ import Testing
 import AppCore
 import GameFeature
 import Redux
-import SettingsCore
+import SettingsFeature
 
 struct AppFeatureTest {
     private func createAppStore(initialState: AppFeature.State) async -> AppStore {

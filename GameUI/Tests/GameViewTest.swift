@@ -10,7 +10,7 @@ import Testing
 import AppCore
 import GameData
 import GameFeature
-import SettingsCore
+import SettingsFeature
 
 struct GameViewTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {

@@ -7,7 +7,7 @@
 import SwiftUI
 import Redux
 import AppCore
-import SettingsCore
+import SettingsFeature
 import SettingsClient
 import SettingsClientLive
 import GameFeature

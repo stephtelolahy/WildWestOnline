@@ -6,7 +6,7 @@
 //
 import Redux
 import GameFeature
-import SettingsCore
+import SettingsFeature
 
 extension AppFeature {
     static func reducerMain(

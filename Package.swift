@@ -17,7 +17,7 @@ let package = Package(
 
         // Features
         .library(name: "GameFeature", targets: ["GameFeature"]),
-        .library(name: "SettingsCore", targets: ["SettingsCore"]),
+        .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
@@ -99,22 +99,22 @@ let package = Package(
             ]
         ),
         .target(
-            name: "SettingsCore",
+            name: "SettingsFeature",
             dependencies: [
                 "Redux",
                 "SettingsClient"
             ],
-            path: "SettingsCore/Sources",
+            path: "SettingsFeature/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
-            name: "SettingsCoreTests",
+            name: "SettingsFeatureTests",
             dependencies: [
-                "SettingsCore"
+                "SettingsFeature"
             ],
-            path: "SettingsCore/Tests"
+            path: "SettingsFeature/Tests"
         ),
         .target(
             name: "NavigationCore",
@@ -137,7 +137,7 @@ let package = Package(
             name: "AppCore",
             dependencies: [
                 "GameFeature",
-                "SettingsCore",
+                "SettingsFeature",
                 "NavigationCore",
                 "AudioClient"
             ],

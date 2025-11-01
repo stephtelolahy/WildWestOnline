@@ -9,7 +9,7 @@
 import Testing
 import AppCore
 import GameFeature
-import SettingsCore
+import SettingsFeature
 
 struct HomeViewTest {
     @Test func HomeStateProjection() async throws {

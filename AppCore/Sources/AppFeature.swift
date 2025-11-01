@@ -7,7 +7,7 @@
 
 import Redux
 import NavigationCore
-import SettingsCore
+import SettingsFeature
 import GameFeature
 import AudioClient
 import SettingsClient
