@@ -11,13 +11,13 @@ import Redux
 @MainActor func dispatch(
     _ action: GameFeature.Action,
     state: GameFeature.State
-) async throws(Card.PlayError) -> GameFeature.State {
+) async throws(GameFeature.Error) -> GameFeature.State {
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerMechanics,
         dependencies: ()
     )
-    var receivedErrors: [Card.PlayError] = []
+    var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []
     sut.$state
         .sink { state in

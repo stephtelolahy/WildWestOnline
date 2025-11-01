@@ -194,19 +194,6 @@ public struct Card: Equatable, Codable, Sendable {
             }
         }
     }
-
-    @available(*, deprecated, message: "GameFeature.Error")
-    public enum PlayError: Error, Equatable, Codable {
-        case insufficientDeck
-        case insufficientDiscard
-        case playerAlreadyMaxHealth(String)
-        case noReq(Selector.StateCondition)
-        case noTarget(Selector.PlayerGroup)
-        case noChoosableTarget([Selector.PlayerFilter])
-        case noChoosableCard([Selector.CardFilter])
-        case cardNotPlayable(String)
-        case cardAlreadyInPlay(String)
-    }
 }
 
 public extension String {
