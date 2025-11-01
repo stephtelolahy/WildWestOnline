@@ -8,7 +8,7 @@
 import SwiftUI
 import NavigationFeature
 import Redux
-import AppCore
+import AppFeature
 import SettingsUI
 import HomeUI
 import GameUI

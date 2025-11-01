@@ -6,7 +6,7 @@
 //
 import Redux
 import SwiftUI
-import AppCore
+import AppFeature
 import NavigationFeature
 
 public struct SettingsCoordinator: View {

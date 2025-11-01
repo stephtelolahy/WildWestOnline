@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AppCore
+import AppFeature
 import Redux
 
 public extension HomeView {

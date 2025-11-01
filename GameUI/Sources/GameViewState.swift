@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 import Redux
-import AppCore
+import AppFeature
 import GameFeature
 
 public extension GameView {

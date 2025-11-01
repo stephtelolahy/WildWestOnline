@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
 //
 import Redux
-import AppCore
+import AppFeature
 
 extension SettingsRootView {
     struct ViewState: Equatable {

@@ -6,7 +6,7 @@
 //
 import SwiftUI
 import Redux
-import AppCore
+import AppFeature
 import SettingsFeature
 import SettingsClient
 import SettingsClientLive

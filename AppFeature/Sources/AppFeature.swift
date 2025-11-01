@@ -1,5 +1,5 @@
 //
-//  AppCore.swift
+//  AppFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.

@@ -7,7 +7,7 @@
 
 @testable import GameUI
 import Testing
-import AppCore
+import AppFeature
 import GameData
 import GameFeature
 import SettingsFeature

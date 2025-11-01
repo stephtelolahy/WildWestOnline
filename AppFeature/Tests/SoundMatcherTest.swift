@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 17/10/2025.
 //
 
-@testable import AppCore
+@testable import AppFeature
 import Testing
 import GameFeature
 

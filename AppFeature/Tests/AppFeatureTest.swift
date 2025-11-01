@@ -6,7 +6,7 @@
 //
 
 import Testing
-import AppCore
+import AppFeature
 import GameFeature
 import Redux
 import SettingsFeature

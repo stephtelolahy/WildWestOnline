@@ -19,7 +19,7 @@ let package = Package(
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "NavigationFeature", targets: ["NavigationFeature"]),
-        .library(name: "AppCore", targets: ["AppCore"]),
+        .library(name: "AppFeature", targets: ["AppFeature"]),
 
         // UI
         .library(name: "HomeUI", targets: ["HomeUI"]),
@@ -134,24 +134,24 @@ let package = Package(
             path: "NavigationFeature/Tests"
         ),
         .target(
-            name: "AppCore",
+            name: "AppFeature",
             dependencies: [
                 "GameFeature",
                 "SettingsFeature",
                 "NavigationFeature",
                 "AudioClient"
             ],
-            path: "AppCore/Sources",
+            path: "AppFeature/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
-            name: "AppCoreTests",
+            name: "AppFeatureTests",
             dependencies: [
-                "AppCore"
+                "AppFeature"
             ],
-            path: "AppCore/Tests"
+            path: "AppFeature/Tests"
         ),
         .target(
             name: "Theme",
@@ -175,7 +175,7 @@ let package = Package(
         .target(
             name: "HomeUI",
             dependencies: [
-                "AppCore",
+                "AppFeature",
                 "Theme",
                 "AudioClient"
             ],
@@ -194,7 +194,7 @@ let package = Package(
         .target(
             name: "SettingsUI",
             dependencies: [
-                "AppCore",
+                "AppFeature",
                 "Theme"
             ],
             path: "SettingsUI/Sources",
@@ -212,7 +212,7 @@ let package = Package(
         .target(
             name: "GameUI",
             dependencies: [
-                "AppCore",
+                "AppFeature",
                 "Theme",
                 "GameData"
             ],
