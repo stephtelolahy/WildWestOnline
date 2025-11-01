@@ -9,7 +9,7 @@
 import Testing
 import AppCore
 import GameData
-import GameCore
+import GameFeature
 import SettingsCore
 
 struct GameViewTest {

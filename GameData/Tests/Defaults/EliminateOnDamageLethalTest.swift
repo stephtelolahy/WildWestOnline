@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {

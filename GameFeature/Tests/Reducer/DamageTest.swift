@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct DamageTest {
     @Test func damage_with1LifePoint_shouldReduceHealthBy1() async throws {

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct StagecoachTest {
     @Test func play_shouldDraw2Cards() async throws {

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct PanicTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {

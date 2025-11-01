@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 import GameData
 
 struct RoseDoolanTest {

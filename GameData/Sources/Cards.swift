@@ -4,7 +4,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 // swiftlint:disable file_length line_length
-import GameCore
+import GameFeature
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result

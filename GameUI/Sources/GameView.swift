@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Theme
-import GameCore
+import GameFeature
 
 enum GameArea: Hashable {
     case deck

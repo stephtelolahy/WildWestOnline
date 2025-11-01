@@ -16,10 +16,16 @@ let package = Package(
         .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
 
         // Features
-        .library(name: "GameCore", targets: ["GameCore"]),
+        .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
+
+        // UI
+        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "SettingsUI", targets: ["SettingsUI"]),
+        .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "AppUI", targets: ["AppUI"]),
 
         // Dependency Abstraction
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
@@ -27,12 +33,6 @@ let package = Package(
         // Dependency Implementation
         .library(name: "GameData", targets: ["GameData"]),
         .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
-
-        // UI
-        .library(name: "HomeUI", targets: ["HomeUI"]),
-        .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "GameUI", targets: ["GameUI"]),
-        .library(name: "AppUI", targets: ["AppUI"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
@@ -75,21 +75,21 @@ let package = Package(
             path: "Serialization/Tests"
         ),
         .target(
-            name: "GameCore",
+            name: "GameFeature",
             dependencies: [
                 "Redux"
             ],
-            path: "GameCore/Sources",
+            path: "GameFeature/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
-            name: "GameCoreTests",
+            name: "GameFeatureTests",
             dependencies: [
-                "GameCore"
+                "GameFeature"
             ],
-            path: "GameCore/Tests"
+            path: "GameFeature/Tests"
         ),
         .target(
             name: "SettingsClient",
@@ -136,7 +136,7 @@ let package = Package(
         .target(
             name: "AppCore",
             dependencies: [
-                "GameCore",
+                "GameFeature",
                 "SettingsCore",
                 "NavigationCore",
                 "AudioClient"
@@ -253,7 +253,7 @@ let package = Package(
         .target(
             name: "GameData",
             dependencies: [
-                "GameCore"
+                "GameFeature"
             ],
             path: "GameData/Sources",
             plugins: [

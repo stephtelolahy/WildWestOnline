@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct DiscardExcessHandOnTurnEndedTest {
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {

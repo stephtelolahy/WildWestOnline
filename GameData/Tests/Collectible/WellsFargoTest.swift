@@ -5,7 +5,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct WellsFargoTest {
     @Test func play_shouldDraw3Cards() async throws {

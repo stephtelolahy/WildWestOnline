@@ -7,7 +7,7 @@
 
 @testable import AppCore
 import Testing
-import GameCore
+import GameFeature
 
 struct SoundMatcherTest {
 

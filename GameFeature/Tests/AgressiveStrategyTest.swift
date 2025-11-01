@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import GameCore
+@testable import GameFeature
 
 struct AgressiveStrategyTest {
     @Test func evaluatePlayedCard() async throws {

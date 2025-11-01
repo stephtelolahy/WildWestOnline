@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct SetWeaponTest {
     @Test func setWeapon_shouldSetValue() async throws {

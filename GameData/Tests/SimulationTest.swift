@@ -9,7 +9,7 @@ import Testing
 import Redux
 import GameData
 import Combine
-@testable import GameCore
+@testable import GameFeature
 
 struct SimulationTest {
     @Test func simulateGame_shouldComplete() async throws {

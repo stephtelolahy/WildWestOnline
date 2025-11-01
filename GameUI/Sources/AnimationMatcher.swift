@@ -6,7 +6,7 @@
 //
 // swiftlint:disable force_unwrapping
 
-import GameCore
+import GameFeature
 
 struct AnimationMatcher {
     // swiftlint:disable:next cyclomatic_complexity function_body_length

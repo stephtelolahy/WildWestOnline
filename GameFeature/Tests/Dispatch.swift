@@ -6,7 +6,7 @@
 //
 import Combine
 import Redux
-@testable import GameCore
+@testable import GameFeature
 
 @MainActor func dispatch(
     _ action: GameFeature.Action,

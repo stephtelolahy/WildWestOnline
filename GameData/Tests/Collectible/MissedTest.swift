@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct MissedTest {
     @Test func beingShot_discardingMissed_shouldCounter() async throws {

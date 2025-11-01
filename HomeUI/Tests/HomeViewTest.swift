@@ -8,7 +8,7 @@
 @testable import HomeUI
 import Testing
 import AppCore
-import GameCore
+import GameFeature
 import SettingsCore
 
 struct HomeViewTest {

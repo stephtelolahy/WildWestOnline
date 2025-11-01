@@ -6,7 +6,7 @@
 //
 
 import GameData
-import GameCore
+import GameFeature
 import Testing
 
 struct BlackJackTests {

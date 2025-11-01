@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import Redux
 import AppCore
-import GameCore
+import GameFeature
 
 public extension GameView {
     struct ViewState: Equatable {

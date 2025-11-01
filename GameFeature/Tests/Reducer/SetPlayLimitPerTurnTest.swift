@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct SetPlayLimitPerTurnTest {
     @Test func setPlayLimitPerTurn_shouldSetValue() async throws {

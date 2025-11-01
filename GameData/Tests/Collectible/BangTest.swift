@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct BangTest {
     @Test func play_shouldDeal1Damage() async throws {

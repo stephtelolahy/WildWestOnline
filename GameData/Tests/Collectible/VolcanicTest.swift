@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 import Testing
-import GameCore
+import GameFeature
 
 struct VolcanicTest {
     @Test func playVolcanic_withoutWeaponInPlay_shouldSetUnlimitedBangsPerTurn() async throws {

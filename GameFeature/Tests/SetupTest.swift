@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct SetupTest {
     @Test func setupDeck_shouldCreateCardsByCombiningNameAndValues() async throws {

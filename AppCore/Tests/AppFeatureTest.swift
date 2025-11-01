@@ -7,7 +7,7 @@
 
 import Testing
 import AppCore
-import GameCore
+import GameFeature
 import Redux
 import SettingsCore
 

@@ -7,7 +7,7 @@
 
 import Testing
 @testable import GameUI
-import GameCore
+import GameFeature
 
 struct AnimationMatcherTest {
     private let sut = AnimationMatcher()

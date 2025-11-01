@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct ActivatePlayableCardsTest {
     @Test func updateGame_withPlayableCards_shouldActivate() async throws {

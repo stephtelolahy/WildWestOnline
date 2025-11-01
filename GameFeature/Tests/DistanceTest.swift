@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 05/11/2024.
 //
 
-@testable import GameCore
+@testable import GameFeature
 import Testing
 
 struct DistanceTest {

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct NextTurnOnEliminatedTest {
     @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {

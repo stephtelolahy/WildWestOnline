@@ -10,7 +10,7 @@ import AppCore
 import SettingsCore
 import SettingsClient
 import SettingsClientLive
-import GameCore
+import GameFeature
 import GameData
 import AudioClient
 import AppUI

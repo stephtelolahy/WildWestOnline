@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import GameCore
+import GameFeature
 
 /// A view that displays a card
 struct CardView: View {

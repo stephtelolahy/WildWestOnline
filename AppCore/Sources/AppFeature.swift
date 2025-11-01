@@ -8,7 +8,7 @@
 import Redux
 import NavigationCore
 import SettingsCore
-import GameCore
+import GameFeature
 import AudioClient
 import SettingsClient
 

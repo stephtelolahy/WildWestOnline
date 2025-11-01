@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 28/09/2025.
 //
 
-import GameCore
+import GameFeature
 import AudioClient
 
 struct SoundMatcher {

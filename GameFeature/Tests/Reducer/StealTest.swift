@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct StealTest {
     @Test func steal_shouldRemoveCardFromTargetHand() async throws {

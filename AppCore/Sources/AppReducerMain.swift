@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 31/10/2025.
 //
 import Redux
-import GameCore
+import GameFeature
 import SettingsCore
 
 extension AppFeature {

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 04/11/2023.
 //
 
-import GameCore
+import GameFeature
 import Testing
 
 struct ElGringoTests {

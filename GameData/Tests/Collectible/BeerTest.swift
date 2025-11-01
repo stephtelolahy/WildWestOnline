@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct BeerTest {
     @Test func play_beingDamaged_shouldHealOneLifePoint() async throws {

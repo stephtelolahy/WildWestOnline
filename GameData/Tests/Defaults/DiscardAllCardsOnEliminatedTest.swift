@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct DiscardAllCardsOnEliminatedTest {
     @Test func beingEliminated_havingCards_shouldDiscardAllCards() async throws {

@@ -7,7 +7,7 @@
 import Testing
 import Redux
 import Combine
-import GameCore
+import GameFeature
 
 struct Choice {
     let options: [String]

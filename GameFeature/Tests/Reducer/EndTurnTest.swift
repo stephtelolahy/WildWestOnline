@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameCore
+import GameFeature
 
 struct EndTurnTest {
     @Test func endTurn_shouldUnsetTurn() async throws {
