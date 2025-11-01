@@ -38,19 +38,17 @@ private extension Card.Selector.ChoiceRequirement {
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
-            let result = state.playOrder
+            let targetPlayers = state.playOrder
                 .starting(with: player)
                 .dropFirst()
                 .filter { conditions.match($0, pendingAction: pendingAction, state: state) }
 
-            guard result.isNotEmpty else {
+            guard targetPlayers.isNotEmpty else {
                 throw .noChoosableTarget(conditions)
             }
 
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: player,
-                options: result.map { .init(id: $0, label: $0) }
-            )
+            let options: [Card.Selector.ChoicePrompt.Option] = targetPlayers.map { .init(id: $0, label: $0) }
+            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
 
             return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
@@ -67,6 +65,7 @@ private extension Card.Selector.ChoiceRequirement {
             let player = pendingAction.sourcePlayer
             let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
+
             var options: [Card.Selector.ChoicePrompt.Option] = []
             options += playerObj.inPlay.map {
                 .init(id: $0, label: $0)
@@ -79,7 +78,7 @@ private extension Card.Selector.ChoiceRequirement {
             options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
 
             guard options.isNotEmpty else {
-                fatalError("No card matching \(conditions)")
+                throw .noChoosableCard(conditions)
             }
 
             let prompt = Card.Selector.ChoicePrompt(
