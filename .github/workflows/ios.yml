@@ -60,7 +60,6 @@ jobs:
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
             -skipPackagePluginValidation \
             -enableCodeCoverage YES \
-            -alltargets \
             build-for-testing test-without-building
 
       - name: Build App (Xcode)
