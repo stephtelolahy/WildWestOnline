@@ -58,7 +58,7 @@ extension AppFeature {
 
 private extension GameFeature.State {
     static func create(settings: SettingsFeature.State, inventory: Inventory) -> Self {
-        var game = GameSetupService.buildGame(
+        var game = GameSetup.buildGame(
             playersCount: settings.playersCount,
             inventory: inventory,
             preferredFigure: settings.preferredFigure

@@ -12,7 +12,7 @@ import CardsClientLive
 struct PaulRegretTest {
     @Test func paulRegret_shouldIncrementDistanceFromOthers() async throws {
         // Given
-        let state = GameSetupService.buildGame(
+        let state = GameSetup.buildGame(
             figures: [.paulRegret],
             deck: [],
             cards: Cards.all.toDictionary,

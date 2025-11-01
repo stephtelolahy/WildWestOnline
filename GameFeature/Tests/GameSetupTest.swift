@@ -1,5 +1,5 @@
 //
-//  SetupTest.swift
+//  GameSetupTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import GameFeature
 
-struct SetupTest {
+struct GameSetupTest {
     @Test func setupDeck_shouldCreateCardsByCombiningNameAndValues() async throws {
         // Given
         let cardSets: [String: [String]] = [
@@ -17,7 +17,7 @@ struct SetupTest {
         ]
 
         // When
-        let deck = GameSetupService.buildDeck(deck: cardSets)
+        let deck = GameSetup.buildDeck(deck: cardSets)
 
         // Then
         #expect(deck.contains("card1-val11"))
@@ -51,7 +51,7 @@ struct SetupTest {
         ]
 
         // When
-        let state = GameSetupService.buildGame(
+        let state = GameSetup.buildGame(
             figures: figures,
             deck: deck,
             cards: cards,

@@ -1,11 +1,11 @@
 //
-//  GameSetupService.swift
+//  GameSetup.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-public enum GameSetupService {
+public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
         inventory: Inventory,
@@ -61,7 +61,7 @@ public enum GameSetupService {
     }
 }
 
-private extension GameSetupService {
+private extension GameSetup {
     static func buildPlayer(
         figure: String,
         cards: [String: Card],

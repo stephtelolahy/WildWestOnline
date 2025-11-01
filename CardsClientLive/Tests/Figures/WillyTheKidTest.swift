@@ -12,7 +12,7 @@ import CardsClientLive
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
         // Given
-        let state = GameSetupService.buildGame(
+        let state = GameSetup.buildGame(
             figures: [.willyTheKid],
             deck: [],
             cards: Cards.all.toDictionary,

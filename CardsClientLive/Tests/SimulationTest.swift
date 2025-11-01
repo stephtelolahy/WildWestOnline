@@ -19,7 +19,7 @@ struct SimulationTest {
     @MainActor
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        var state = GameSetupService.buildGame(
+        var state = GameSetup.buildGame(
             playersCount: playersCount,
             inventory: .init(cards: Cards.all, deck: Deck.bang)
         )
