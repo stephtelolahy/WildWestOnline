@@ -20,7 +20,7 @@ jobs:
     runs-on: macos-15
     strategy:
       matrix:
-        job: [ "swiftpm", "xcode-ui" ]
+        job: [ "swiftpm", "ios-app" ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
             derived-${{ matrix.job }}-
 
       - name: Select iPhone Simulator
-        if: matrix.job == 'xcode-ui'
+        if: matrix.job == 'ios-app'
         id: sim
         run: |
           # Get the list of simulators, filter for iPhone devices, and sort by iOS version numerically
@@ -60,15 +60,16 @@ jobs:
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
             -skipPackagePluginValidation \
             -enableCodeCoverage YES \
+            -alltargets \
             build-for-testing test-without-building
 
       - name: Build App (Xcode)
-        if: matrix.job == 'xcode-ui'
+        if: matrix.job == 'ios-app'
         env:
           DEVICE: ${{ steps.sim.outputs.device }}
         run: |
-          SCHEME="WildWestOnline"
           PROJECT="App/WildWestOnline.xcodeproj"
+          SCHEME="WildWestOnline"
           echo "Building app scheme: $SCHEME"
           xcodebuild \
             -project "$PROJECT" \
