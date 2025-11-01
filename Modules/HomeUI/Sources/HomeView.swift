@@ -76,10 +76,10 @@ public struct HomeView: View {
     private var footerView: some View {
         VStack {
             Text(.menuDeveloperName)
-                .font(.footnote)
+                .font(theme.fontHeadline)
                 .foregroundStyle(.primary)
             Text(.menuDeveloperEmail)
-                .font(.footnote)
+                .font(theme.fontHeadline)
                 .foregroundStyle(.primary.opacity(0.4))
         }
     }
