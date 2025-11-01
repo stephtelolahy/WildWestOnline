@@ -195,6 +195,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
+    @available(*, deprecated, message: "GameFeature.Error")
     public enum PlayError: Error, Equatable, Codable {
         case insufficientDeck
         case insufficientDiscard

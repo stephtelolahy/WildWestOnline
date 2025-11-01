@@ -167,12 +167,9 @@ private extension Card.Selector.ChoiceRequirement {
                 return [pendingAction]
             }
 
-            var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
-            options.append(.init(id: .choicePass, label: .choicePass))
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: options
-            )
+            let options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
+                + [.init(id: .choicePass, label: .choicePass)]
+            let prompt = Card.Selector.ChoicePrompt(chooser: target, options: options)
 
             return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
@@ -191,20 +188,17 @@ private extension Card.Selector.ChoiceRequirement {
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let target = pendingAction.targetedPlayer!
-            let counterCards = state.players.get(target).hand.filter {
+            let redirectCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
             }
 
-            guard counterCards.isNotEmpty else {
+            guard redirectCards.isNotEmpty else {
                 return [pendingAction]
             }
 
-            var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
-            options.append(.init(id: .choicePass, label: .choicePass))
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: options
-            )
+            let options: [Card.Selector.ChoicePrompt.Option] = redirectCards.map { .init(id: $0, label: $0) }
+                + [.init(id: .choicePass, label: .choicePass)]
+            let prompt = Card.Selector.ChoicePrompt(chooser: target, options: options)
 
             return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
