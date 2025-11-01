@@ -11,7 +11,8 @@ import SettingsFeature
 import SettingsClient
 import SettingsClientLive
 import GameFeature
-import GameData
+import CardsClient
+import CardsClientLive
 import AudioClient
 import AudioClientLive
 import AppUI
@@ -29,9 +30,10 @@ public enum AppBuilder {
             .withMusicVolume(settingsClient.musicVolume())
             .build()
 
+        let cardsClient = CardsClient.live()
         let inventory = Inventory(
-            cards: Cards.all,
-            deck: Deck.bang
+            cards: cardsClient.loadCards(),
+            deck: cardsClient.loadDeck()
         )
 
         let appState = AppFeature.State(

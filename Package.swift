@@ -28,11 +28,12 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
         // Dependencies abstraction
+        .library(name: "CardsClient", targets: ["CardsClient"]),
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
         .library(name: "AudioClient", targets: ["AudioClient"]),
 
         // Dependencies implementation
-        .library(name: "GameData", targets: ["GameData"]),
+        .library(name: "CardsClientLive", targets: ["CardsClientLive"]),
         .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
 
@@ -172,7 +173,9 @@ let package = Package(
         ),
         .target(
             name: "AudioClientLive",
-            dependencies: [],
+            dependencies: [
+                "AudioClient"
+            ],
             path: "AudioClientLive/Sources",
             resources: [
                 .process("Resources")
@@ -223,7 +226,7 @@ let package = Package(
             dependencies: [
                 "AppFeature",
                 "Theme",
-                "GameData"
+                "CardsClientLive"
             ],
             path: "GameUI/Sources",
             resources: [
@@ -260,21 +263,31 @@ let package = Package(
             path: "AppUI/Tests"
         ),
         .target(
-            name: "GameData",
+            name: "CardsClient",
             dependencies: [
                 "GameFeature"
             ],
-            path: "GameData/Sources",
+            path: "CardsClient/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
+            name: "CardsClientLive",
+            dependencies: [
+                "CardsClient"
+            ],
+            path: "CardsClientLive/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
-            name: "GameDataTests",
+            name: "CardsClientLiveTests",
             dependencies: [
-                "GameData"
+                "CardsClientLive"
             ],
-            path: "GameData/Tests"
+            path: "CardsClientLive/Tests"
         ),
         .target(
             name: "SettingsClientLive",
@@ -291,7 +304,9 @@ let package = Package(
             name: "AppBootstrap",
             dependencies: [
                 "AppUI",
-                "SettingsClientLive"
+                "CardsClientLive",
+                "SettingsClientLive",
+                "AudioClientLive"
             ],
             path: "AppBootstrap/Sources",
             plugins: [

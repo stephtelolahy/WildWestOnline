@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 10/11/2023.
 //
 
-import GameData
+import CardsClientLive
 import GameFeature
 import Testing
 
