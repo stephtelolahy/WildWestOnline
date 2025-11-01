@@ -27,11 +27,11 @@ let package = Package(
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
-        // Dependencies
+        // Dependencies abstraction
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
         .library(name: "AudioClient", targets: ["AudioClient"]),
 
-        // Dependency Implementation
+        // Dependencies implementation
         .library(name: "GameData", targets: ["GameData"]),
         .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),

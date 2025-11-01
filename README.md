@@ -90,8 +90,8 @@ graph TD;
 
 This project uses a modular architecture, dividing functionality into focused feature modules:
 
-- **Core**: Self-contained Domain and Business logic (`GameFeature`, `SettingsFeature`, `NavigationFeature`, `AppFeature`)
-- **Data**: Data management and persistence (`GameData`, `SettingsData`)
+- **Core**: Self-contained Domain and Business logic (`AppFeature`, `GameFeature`, `SettingsFeature`, `SettingsClient`)
+- **Data**: Data management and persistence (`GameData`, `SettingsClientLive`)
 - **UI**: Feature UIs (`HomeUI`, `SettingsUI`, `GameUI`, `AppUI`)
 - **Utilities**: Supporting libraries (`Redux`, `Utils`, `Theme`)
 
