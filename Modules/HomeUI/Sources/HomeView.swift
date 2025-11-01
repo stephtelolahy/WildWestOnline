@@ -38,7 +38,7 @@ public struct HomeView: View {
         VStack {
             VStack {
                 Text(.menuGameTitle)
-                    .font(.subheadline)
+                    .font(theme.fontHeadline)
                     .foregroundStyle(.primary)
                 Image(.logo)
                     .resizable()
@@ -68,7 +68,7 @@ public struct HomeView: View {
     ) -> some View {
         Button(action: action) {
             Text(String(localized: titleKey, bundle: .module))
-                .font(.headline)
+                .font(theme.fontTitle)
                 .padding(8)
         }
     }
