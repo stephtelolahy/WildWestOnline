@@ -52,9 +52,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: result.map { .init(id: $0, label: $0) }
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -89,9 +87,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: options
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -128,9 +124,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: options
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -152,9 +146,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: state.discovered.map { .init(id: $0, label: $0) }
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -182,9 +174,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: options
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -216,9 +206,7 @@ private extension Card.Selector.ChoiceRequirement {
                 options: options
             )
 
-            var updatedAction = pendingAction
-            updatedAction.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
-            return [updatedAction]
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -252,5 +240,16 @@ private extension Array where Element == Card.Selector.CardFilter {
         allSatisfy {
             $0.match(card, pendingAction: pendingAction, state: state)
         }
+    }
+}
+
+private extension GameFeature.Action {
+    func withChoice(
+        _ requirement: Card.Selector.ChoiceRequirement,
+        prompt: Card.Selector.ChoicePrompt
+    ) -> Self {
+        var copy = self
+        copy.selectors.insert(.chooseOne(requirement, prompt: prompt), at: 0)
+        return copy
     }
 }
