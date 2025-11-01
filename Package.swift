@@ -34,6 +34,7 @@ let package = Package(
         // Dependency Implementation
         .library(name: "GameData", targets: ["GameData"]),
         .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
+        .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
@@ -165,6 +166,14 @@ let package = Package(
             name: "AudioClient",
             dependencies: [],
             path: "AudioClient/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
+            name: "AudioClientLive",
+            dependencies: [],
+            path: "AudioClientLive/Sources",
             resources: [
                 .process("Resources")
             ],

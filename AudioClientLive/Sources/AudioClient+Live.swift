@@ -6,6 +6,7 @@
 //
 import Foundation
 import AVFoundation
+import AudioClient
 
 extension AudioClient {
     public static func live(bundles: [Bundle] = []) -> Self {

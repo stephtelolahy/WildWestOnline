@@ -13,6 +13,7 @@ import SettingsClientLive
 import GameFeature
 import GameData
 import AudioClient
+import AudioClientLive
 import AppUI
 
 @MainActor
