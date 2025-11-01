@@ -16,19 +16,20 @@ let package = Package(
         .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
 
         // Features
+        .library(name: "AppFeature", targets: ["AppFeature"]),
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "NavigationFeature", targets: ["NavigationFeature"]),
-        .library(name: "AppFeature", targets: ["AppFeature"]),
 
         // UI
-        .library(name: "HomeUI", targets: ["HomeUI"]),
-        .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "AppUI", targets: ["AppUI"]),
+        .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "SettingsUI", targets: ["SettingsUI"]),
+        .library(name: "HomeUI", targets: ["HomeUI"]),
 
-        // Dependency Abstraction
+        // Dependencies
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
+        .library(name: "AudioClient", targets: ["AudioClient"]),
 
         // Dependency Implementation
         .library(name: "GameData", targets: ["GameData"]),
@@ -36,9 +37,8 @@ let package = Package(
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
-        .library(name: "Serialization", targets: ["Serialization"]),
         .library(name: "Theme", targets: ["Theme"]),
-        .library(name: "AudioClient", targets: ["AudioClient"]),
+        .library(name: "Utils", targets: ["Utils"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -60,19 +60,19 @@ let package = Package(
             path: "Redux/Tests"
         ),
         .target(
-            name: "Serialization",
+            name: "Utils",
             dependencies: [],
-            path: "Serialization/Sources",
+            path: "Utils/Sources",
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
-            name: "SerializationTests",
+            name: "UtilsTests",
             dependencies: [
-                "Serialization"
+                "Utils"
             ],
-            path: "Serialization/Tests"
+            path: "Utils/Tests"
         ),
         .target(
             name: "GameFeature",
@@ -271,7 +271,7 @@ let package = Package(
             name: "SettingsClientLive",
             dependencies: [
                 "SettingsClient",
-                "Serialization"
+                "Utils"
             ],
             path: "SettingsClientLive/Sources",
             plugins: [

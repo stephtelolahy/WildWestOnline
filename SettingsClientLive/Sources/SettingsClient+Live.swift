@@ -6,7 +6,7 @@
 //
 // swiftlint:disable no_magic_numbers
 
-import Serialization
+import Utils
 import SettingsClient
 
 public extension SettingsClient {

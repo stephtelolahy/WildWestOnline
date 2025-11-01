@@ -93,7 +93,7 @@ This project uses a modular architecture, dividing functionality into focused fe
 - **Core**: Self-contained Domain and Business logic (`GameFeature`, `SettingsFeature`, `NavigationFeature`, `AppFeature`)
 - **Data**: Data management and persistence (`GameData`, `SettingsData`)
 - **UI**: Feature UIs (`HomeUI`, `SettingsUI`, `GameUI`, `AppUI`)
-- **Utilities**: Supporting libraries (`Redux`, `Serialization`, `Theme`)
+- **Utilities**: Supporting libraries (`Redux`, `Utils`, `Theme`)
 
 ```mermaid
  graph TD;
