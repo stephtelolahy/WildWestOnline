@@ -5,13 +5,13 @@
 //
 // swiftlint:disable file_length force_unwrapping
 
-extension Card.EffectName {
+extension Card.ActionName {
     func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
         try reducer.reduce(action, state: state)
     }
 }
 
-private extension Card.EffectName {
+private extension Card.ActionName {
     protocol Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State
     }

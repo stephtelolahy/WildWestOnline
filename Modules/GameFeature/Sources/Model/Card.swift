@@ -37,14 +37,14 @@ public struct Card: Equatable, Codable, Sendable {
 
     public struct EffectDefinition: Equatable, Codable, Sendable {
         public let trigger: Trigger
-        public let action: EffectName
+        public let action: ActionName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let selectors: [Selector]
 
         public init(
             trigger: Trigger,
-            action: EffectName,
+            action: ActionName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             selectors: [Selector] = []
@@ -73,7 +73,7 @@ public struct Card: Equatable, Codable, Sendable {
         case eliminating
     }
 
-    public enum EffectName: String, Codable, Sendable {
+    public enum ActionName: String, Codable, Sendable {
         case preparePlay
         case play
         case equip

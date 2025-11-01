@@ -50,7 +50,7 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Codable, Sendable {
-        public let name: Card.EffectName
+        public let name: Card.ActionName
 
         public let sourcePlayer: String
         public let playedCard: String
@@ -67,7 +67,7 @@ public enum GameFeature {
         public var selectors: [Card.Selector]
 
         public init(
-            name: Card.EffectName,
+            name: Card.ActionName,
             sourcePlayer: String = "",
             playedCard: String = "",
             triggeredBy: [Self] = [],
