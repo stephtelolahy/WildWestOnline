@@ -3,6 +3,10 @@
 
 import PackageDescription
 
+let lintPlugin: [Target.PluginUsage] = [
+    .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+]
+
 let package = Package(
     name: "WildWestOnline",
     defaultLocalization: "fr",
@@ -65,9 +69,7 @@ let package = Package(
             name: "Utils",
             dependencies: [],
             path: "Utils/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "UtilsTests",
@@ -82,9 +84,7 @@ let package = Package(
                 "Redux"
             ],
             path: "GameFeature/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "GameFeatureTests",
@@ -96,9 +96,7 @@ let package = Package(
         .target(
             name: "SettingsClient",
             path: "SettingsClient/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "SettingsFeature",
@@ -107,9 +105,7 @@ let package = Package(
                 "SettingsClient"
             ],
             path: "SettingsFeature/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "SettingsFeatureTests",
@@ -124,9 +120,7 @@ let package = Package(
                 "Redux"
             ],
             path: "NavigationFeature/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "NavigationFeatureTests",
@@ -144,9 +138,7 @@ let package = Package(
                 "AudioClient"
             ],
             path: "AppFeature/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "AppFeatureTests",
@@ -159,17 +151,13 @@ let package = Package(
             name: "Theme",
             dependencies: [],
             path: "Theme/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "AudioClient",
             dependencies: [],
             path: "AudioClient/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "AudioClientLive",
@@ -180,9 +168,7 @@ let package = Package(
             resources: [
                 .process("Resources")
             ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "HomeUI",
@@ -192,9 +178,7 @@ let package = Package(
                 "AudioClient"
             ],
             path: "HomeUI/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "HomeUITests",
@@ -210,9 +194,7 @@ let package = Package(
                 "Theme"
             ],
             path: "SettingsUI/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "SettingsUITests",
@@ -232,9 +214,7 @@ let package = Package(
             resources: [
                 .process("Resources")
             ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "GameUITests",
@@ -251,9 +231,7 @@ let package = Package(
                 "SettingsUI"
             ],
             path: "AppUI/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "AppUITests",
@@ -268,9 +246,7 @@ let package = Package(
                 "GameFeature"
             ],
             path: "CardsClient/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "CardsClientLive",
@@ -278,9 +254,7 @@ let package = Package(
                 "CardsClient"
             ],
             path: "CardsClientLive/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .testTarget(
             name: "CardsClientLiveTests",
@@ -296,9 +270,7 @@ let package = Package(
                 "Utils"
             ],
             path: "SettingsClientLive/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
         .target(
             name: "AppBootstrap",
@@ -309,9 +281,8 @@ let package = Package(
                 "AudioClientLive"
             ],
             path: "AppBootstrap/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: lintPlugin
         ),
     ]
 )
+
