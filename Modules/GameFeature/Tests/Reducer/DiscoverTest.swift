@@ -66,7 +66,7 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameFeature.Action.discover()
-        await #expect(throws: Card.PlayError.insufficientDeck) {
+        await #expect(throws: GameFeature.Error.insufficientDeck) {
             try await dispatch(action, state: state)
         }
     }
@@ -81,7 +81,7 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameFeature.Action.discover()
-        await #expect(throws: Card.PlayError.insufficientDeck) {
+        await #expect(throws: GameFeature.Error.insufficientDeck) {
             try await dispatch(action, state: state)
         }
     }

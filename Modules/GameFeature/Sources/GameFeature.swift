@@ -20,7 +20,7 @@ public enum GameFeature {
         public var startOrder: [String]
         public var queue: [Action]
         public var lastSuccessfulAction: Action?
-        public var lastActionError: Card.PlayError?
+        public var lastActionError: GameFeature.Error?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]
@@ -50,7 +50,7 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Codable, Sendable {
-        public let name: Card.EffectName
+        public let name: Card.ActionName
 
         public let sourcePlayer: String
         public let playedCard: String
@@ -67,7 +67,7 @@ public enum GameFeature {
         public var selectors: [Card.Selector]
 
         public init(
-            name: Card.EffectName,
+            name: Card.ActionName,
             sourcePlayer: String = "",
             playedCard: String = "",
             triggeredBy: [Self] = [],
@@ -97,6 +97,18 @@ public enum GameFeature {
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
         }
+    }
+
+    public enum Error: Swift.Error, Equatable, Codable {
+        case insufficientDeck
+        case insufficientDiscard
+        case playerAlreadyMaxHealth(String)
+        case noReq(Card.Selector.StateCondition)
+        case noTarget(Card.Selector.PlayerGroup)
+        case noChoosableTarget([Card.Selector.PlayerFilter])
+        case noChoosableCard([Card.Selector.CardFilter])
+        case cardNotPlayable(String)
+        case cardAlreadyInPlay(String)
     }
 
     public static var reducer: Reducer<State, Action, Void> {

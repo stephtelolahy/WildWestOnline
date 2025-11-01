@@ -23,7 +23,7 @@ struct BangTest {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2", "p3"], selectionIndex: 0)
+            .init(options: ["p2", "p3", .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -50,7 +50,7 @@ struct BangTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: Card.PlayError.noReq(.playLimitPerTurn([.bang: 1]))) {
+        await #expect(throws: GameFeature.Error.noReq(.playLimitPerTurn([.bang: 1]))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
@@ -70,7 +70,7 @@ struct BangTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: Card.PlayError.noChoosableTarget([.reachable])) {
+        await #expect(throws: GameFeature.Error.noChoosableTarget([.reachable])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

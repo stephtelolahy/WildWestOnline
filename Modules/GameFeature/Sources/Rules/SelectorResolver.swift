@@ -5,14 +5,14 @@
 //
 
 extension Card.Selector {
-    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         try resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector {
     protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action]
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action]
     }
 
     var resolver: Resolver {
@@ -29,7 +29,7 @@ private extension Card.Selector {
     struct Repeat: Resolver {
         let count: Card.Selector.RepeatCount
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             let value = count.resolve(pendingAction, state: state)
             return Array(repeating: pendingAction, count: value)
         }
@@ -38,7 +38,7 @@ private extension Card.Selector {
     struct SetTarget: Resolver {
         let targetGroup: Card.Selector.PlayerGroup
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             try targetGroup.resolve(pendingAction, state: state)
                 .map { pendingAction.withTarget($0) }
         }
@@ -47,7 +47,7 @@ private extension Card.Selector {
     struct SetCard: Resolver {
         let cardGroup: Card.Selector.CardGroup
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             try cardGroup.resolve(pendingAction, state: state)
                 .map { pendingAction.withCard($0) }
         }
@@ -58,7 +58,7 @@ private extension Card.Selector {
         let prompt: ChoicePrompt?
         let selection: String?
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             if let prompt {
                 guard let selection else {
                     fatalError("Unexpected, waiting user choice")
@@ -78,7 +78,7 @@ private extension Card.Selector {
     struct Require: Resolver {
         let playCondition: Card.Selector.StateCondition
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard playCondition.match(pendingAction, state: state) else {
                 return []
             }
@@ -90,7 +90,7 @@ private extension Card.Selector {
     struct RequireThrows: Resolver {
         let playCondition: Card.Selector.StateCondition
 
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard playCondition.match(pendingAction, state: state) else {
                 throw .noReq(playCondition)
             }

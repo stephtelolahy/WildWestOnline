@@ -26,7 +26,7 @@ struct ElGringoTests {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let choices: [Choice] = [
-            .init(options: ["p1"], selectionIndex: 0),
+            .init(options: ["p1", .choicePass], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
@@ -59,7 +59,7 @@ struct ElGringoTests {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let choices: [Choice] = [
-            .init(options: ["p1"], selectionIndex: 0)
+            .init(options: ["p1", .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 

@@ -21,7 +21,7 @@ struct JailTest {
         // When
         let action = GameFeature.Action.preparePlay(.jail, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0)
+            .init(options: ["p2", .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -29,6 +29,28 @@ struct JailTest {
         #expect(result == [
             .choose("p2", player: "p1"),
             .handicap(.jail, target: "p2", player: "p1")
+        ])
+    }
+
+    @Test func playingJail_cancellingPlayerChoice_shouldDoNothing() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.jail])
+            }
+            .withPlayer("p2")
+            .build()
+
+        // When
+        let action = GameFeature.Action.preparePlay(.jail, player: "p1")
+        let choices: [Choice] = [
+            .init(options: ["p2", .choicePass], selectionIndex: 1)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+
+        // Then
+        #expect(result == [
+            .choose(.choicePass, player: "p1")
         ])
     }
 

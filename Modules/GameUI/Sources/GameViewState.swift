@@ -49,7 +49,7 @@ public extension GameView {
         }
 
         struct ChooseOne: Equatable {
-            let resolvingAction: Card.EffectName
+            let resolvingAction: Card.ActionName
             let chooser: String
             let options: [String]
         }
