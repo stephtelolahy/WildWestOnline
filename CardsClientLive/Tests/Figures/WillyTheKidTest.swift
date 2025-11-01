@@ -7,7 +7,7 @@
 
 import Testing
 import GameFeature
-import CardsClientLive
+@testable import CardsClientLive
 
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
