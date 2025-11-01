@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 24/07/2024.
 //
 import Testing
-import NavigationCore
+import NavigationFeature
 import Redux
 
 struct AppNavigationFeatureTests {

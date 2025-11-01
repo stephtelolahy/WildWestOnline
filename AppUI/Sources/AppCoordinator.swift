@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import NavigationCore
+import NavigationFeature
 import Redux
 import AppCore
 import SettingsUI

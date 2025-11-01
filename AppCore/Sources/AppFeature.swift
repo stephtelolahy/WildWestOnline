@@ -6,7 +6,7 @@
 //
 
 import Redux
-import NavigationCore
+import NavigationFeature
 import SettingsFeature
 import GameFeature
 import AudioClient

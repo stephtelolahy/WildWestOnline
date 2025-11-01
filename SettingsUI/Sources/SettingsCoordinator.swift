@@ -7,7 +7,7 @@
 import Redux
 import SwiftUI
 import AppCore
-import NavigationCore
+import NavigationFeature
 
 public struct SettingsCoordinator: View {
     @ObservedObject private var store: AppStore
