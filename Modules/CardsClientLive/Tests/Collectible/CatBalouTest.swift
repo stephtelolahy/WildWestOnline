@@ -23,7 +23,7 @@ struct CatBalouTest {
         // When
         let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
@@ -52,7 +52,7 @@ struct CatBalouTest {
         // When
         let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["c21"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
@@ -82,7 +82,7 @@ struct CatBalouTest {
         // When
         let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["c23", "c24", "hiddenHand-0", "hiddenHand-1"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)

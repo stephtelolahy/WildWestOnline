@@ -48,13 +48,18 @@ private extension Card.Selector.ChoiceRequirement {
             }
 
             let options: [Card.Selector.ChoicePrompt.Option] = targetPlayers.map { .init(id: $0, label: $0) }
+                + [.init(id: .choicePass, label: .choicePass)]
             let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
 
             return [pendingAction.withChoice(requirement, prompt: prompt)]
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            [pendingAction.withTarget(selection)]
+            if selection == .choicePass {
+                []
+            } else {
+                [pendingAction.withTarget(selection)]
+            }
         }
     }
 
