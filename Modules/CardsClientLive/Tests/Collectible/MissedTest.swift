@@ -25,7 +25,7 @@ struct MissedTest {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: [.missed1, .missed2, .choicePass], selectionIndex: 1)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
@@ -57,7 +57,7 @@ struct MissedTest {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: [.missed, .choicePass], selectionIndex: 1)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
@@ -87,7 +87,7 @@ struct MissedTest {
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
-            .init(options: ["p2"], selectionIndex: 0)
+            .init(options: ["p2", .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 

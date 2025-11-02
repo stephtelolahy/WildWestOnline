@@ -19,14 +19,14 @@ func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
     expectedChoices: [Choice] = []
-) async throws(Card.PlayError) -> [GameFeature.Action] {
+) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerTest,
         dependencies: GameFeature.TestDependencies(choicesHolder: .init(choices: expectedChoices))
     )
     var receivedActions: [GameFeature.Action] = []
-    var receivedErrors: [Card.PlayError] = []
+    var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []
     sut.$state
         .sink { state in

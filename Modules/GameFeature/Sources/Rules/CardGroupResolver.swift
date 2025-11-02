@@ -7,14 +7,14 @@
 // swiftlint:disable force_unwrapping
 
 extension Card.Selector.CardGroup {
-    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
         try resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.CardGroup {
     protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String]
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String]
     }
 
     var resolver: Resolver {
@@ -27,25 +27,25 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInPlay: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
             state.players.get(pendingAction.targetedPlayer!).inPlay
         }
     }
 
     struct AllInHand: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
             state.players.get(pendingAction.targetedPlayer!).hand
         }
     }
 
     struct Played: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
             [pendingAction.playedCard]
         }
     }
 
     struct EquippedWeapon: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
             state.players.get(pendingAction.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
         }
     }

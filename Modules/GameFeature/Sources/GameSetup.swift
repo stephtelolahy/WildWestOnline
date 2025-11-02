@@ -110,7 +110,7 @@ private extension GameSetup {
 }
 
 private extension Card {
-    func amountOfActiveEffect(named action: Card.EffectName) -> Int? {
+    func amountOfActiveEffect(named action: Card.ActionName) -> Int? {
         effects.first { $0.trigger == .permanent && $0.action == action }?.amount
     }
 

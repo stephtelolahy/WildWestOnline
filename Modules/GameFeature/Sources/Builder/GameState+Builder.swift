@@ -102,7 +102,7 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withPendingAction(name: Card.EffectName, prompt: Card.Selector.ChoicePrompt) -> Self {
+        public func withPendingAction(name: Card.ActionName, prompt: Card.Selector.ChoicePrompt) -> Self {
             let nextAction = GameFeature.Action(
                 name: name,
                 selectors: [.chooseOne(.targetCard(), prompt: prompt, selection: nil)]

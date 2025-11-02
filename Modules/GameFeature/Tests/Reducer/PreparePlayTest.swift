@@ -57,7 +57,7 @@ struct PreparePlayTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay("c1", player: "p1")
-        await #expect(throws: Card.PlayError.cardNotPlayable("c1")) {
+        await #expect(throws: GameFeature.Error.cardNotPlayable("c1")) {
             try await dispatch(action, state: state)
         }
     }
