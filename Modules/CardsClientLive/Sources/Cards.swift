@@ -528,7 +528,6 @@ private extension Card {
         )
     }
 
-    @available(*, deprecated, message: "Restore amountPerTurn")
     static var volcanic: Self {
         .init(
             name: .volcanic,
