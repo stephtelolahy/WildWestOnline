@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
-// swiftlint:disable force_unwrapping
 
 extension Card.Selector.StateCondition {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -100,8 +99,9 @@ private extension Card.Selector.StateCondition {
 
     struct TargetedCardFromHand: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let card = pendingAction.targetedCard!
-            let target = pendingAction.targetedPlayer!
+            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             let targetObj = state.players.get(target)
             return targetObj.hand.contains(card)
         }
@@ -109,8 +109,9 @@ private extension Card.Selector.StateCondition {
 
     struct TargetedCardFromInPlay: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let card = pendingAction.targetedCard!
-            let target = pendingAction.targetedPlayer!
+            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
         }
@@ -118,7 +119,8 @@ private extension Card.Selector.StateCondition {
 
     struct TargetedPlayerHasHandCard: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let target = pendingAction.targetedPlayer!
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             let targetObj = state.players.get(target)
             return !targetObj.hand.isEmpty
         }
