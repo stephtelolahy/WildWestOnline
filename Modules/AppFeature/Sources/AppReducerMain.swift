@@ -60,7 +60,8 @@ private extension GameFeature.State {
     static func create(settings: SettingsFeature.State, inventory: Inventory) -> Self {
         var game = GameSetup.buildGame(
             playersCount: settings.playersCount,
-            inventory: inventory,
+            cards: inventory.cards,
+            deck: inventory.deck,
             preferredFigure: settings.preferredFigure
         )
 
