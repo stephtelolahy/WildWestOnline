@@ -13,19 +13,13 @@ enum NonStandardLogic {
             return nil
 
         case .drawDeck,
-                .drawDiscard,
-                .drawDiscovered,
-                .discardHand,
                 .discardInPlay,
                 .heal,
                 .setWeapon,
                 .setPlayLimitPerTurn,
                 .increaseMagnifying,
                 .increaseRemoteness,
-                .shoot,
-                .choose,
-                .endTurn,
-                .startTurn:
+                .endTurn:
             return parentAction.targetedPlayer ?? parentAction.sourcePlayer
 
         default:
