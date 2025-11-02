@@ -66,7 +66,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(target)
@@ -103,7 +103,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(target)
@@ -122,7 +122,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return if selection == .choicePass {
                 []
@@ -137,7 +137,7 @@ private extension Card.Selector.ChoiceRequirement {
 
     struct DiscoverCard: Resolver {
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let prompt = Card.Selector.ChoicePrompt(
                 chooser: target,
@@ -156,7 +156,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let counterCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
@@ -174,7 +174,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return if selection == .choicePass {
                 [pendingAction]
@@ -188,7 +188,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let redirectCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
@@ -206,7 +206,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             if selection == .choicePass {
                 return [pendingAction]

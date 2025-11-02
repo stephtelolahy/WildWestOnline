@@ -27,7 +27,7 @@ private extension Card.Selector.CardGroup {
 
     struct AllInPlay: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).inPlay
         }
@@ -35,7 +35,7 @@ private extension Card.Selector.CardGroup {
 
     struct AllInHand: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).hand
         }
@@ -49,7 +49,7 @@ private extension Card.Selector.CardGroup {
 
     struct EquippedWeapon: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).inPlay.filter { state.isWeapon($0) }
         }
