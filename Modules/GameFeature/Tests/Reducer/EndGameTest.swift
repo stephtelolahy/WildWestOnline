@@ -15,7 +15,7 @@ struct EndGameTest {
             .build()
 
         // When
-        let action = GameFeature.Action.endGame(player: "p1")
+        let action = GameFeature.Action.endGame()
         let result = try await dispatch(action, state: state)
 
         // Then
