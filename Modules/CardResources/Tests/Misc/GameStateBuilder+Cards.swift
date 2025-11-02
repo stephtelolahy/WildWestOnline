@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import GameFeature
-@testable import CardsClientLive
+@testable import CardResources
 
 extension GameFeature.State {
     static func makeBuilderWithAllCards() -> Builder {

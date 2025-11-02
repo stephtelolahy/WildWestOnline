@@ -8,7 +8,7 @@
 @testable import GameUI
 import Testing
 import AppFeature
-import CardsClientLive
+import CardResources
 import GameFeature
 import SettingsFeature
 
