@@ -18,11 +18,6 @@ public extension Inventory {
             )
         }
 
-        public func withCards(_ value: [Card]) -> Self {
-            cards = value
-            return self
-        }
-
         public func withSample() -> Self {
             deck = [:]
             cards = (1...100).map {
