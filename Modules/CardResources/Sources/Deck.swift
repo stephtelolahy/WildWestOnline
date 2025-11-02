@@ -5,8 +5,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-enum Deck {
-    static let bang: [String: [String]] = [
+public enum Deck {
+    public static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
         .dynamite: ["2♥️"],
         .jail: ["J♠️", "10♠️", "4♥️"],

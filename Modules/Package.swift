@@ -32,14 +32,13 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
         // Dependencies abstraction
-        .library(name: "CardsClient", targets: ["CardsClient"]),
         .library(name: "SettingsClient", targets: ["SettingsClient"]),
         .library(name: "AudioClient", targets: ["AudioClient"]),
 
         // Dependencies implementation
-        .library(name: "CardsClientLive", targets: ["CardsClientLive"]),
         .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
+        .library(name: "CardResources", targets: ["CardResources"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
@@ -208,7 +207,7 @@ let package = Package(
             dependencies: [
                 "AppFeature",
                 "Theme",
-                "CardsClientLive"
+                "CardResources"
             ],
             path: "GameUI/Sources",
             resources: [
@@ -241,27 +240,19 @@ let package = Package(
             path: "AppUI/Tests"
         ),
         .target(
-            name: "CardsClient",
+            name: "CardResources",
             dependencies: [
                 "GameFeature"
             ],
-            path: "CardsClient/Sources",
-            plugins: lintPlugin
-        ),
-        .target(
-            name: "CardsClientLive",
-            dependencies: [
-                "CardsClient"
-            ],
-            path: "CardsClientLive/Sources",
+            path: "CardResources/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
-            name: "CardsClientLiveTests",
+            name: "CardResourcesTests",
             dependencies: [
-                "CardsClientLive"
+                "CardResources"
             ],
-            path: "CardsClientLive/Tests"
+            path: "CardResources/Tests"
         ),
         .target(
             name: "SettingsClientLive",
@@ -276,7 +267,7 @@ let package = Package(
             name: "AppBootstrap",
             dependencies: [
                 "AppUI",
-                "CardsClientLive",
+                "CardResources",
                 "SettingsClientLive",
                 "AudioClientLive"
             ],

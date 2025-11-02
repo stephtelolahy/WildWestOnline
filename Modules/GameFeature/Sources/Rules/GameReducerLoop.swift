@@ -3,8 +3,6 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-// swiftlint:disable force_unwrapping
-
 import Redux
 
 extension GameFeature {
@@ -89,13 +87,15 @@ private extension GameFeature.State {
 
         switch action.name {
         case .eliminate:
-            let player = action.targetedPlayer!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             let triggerableCards = players.get(player).abilities
             result += triggerableCards.map { .init(card: $0, player: player) }
 
         case .discardInPlay, .stealInPlay:
-            let player = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
+
             result += [.init(card: card, player: player)]
 
         default:
