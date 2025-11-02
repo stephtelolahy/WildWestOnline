@@ -25,7 +25,7 @@ struct EndGameOnEliminatedTest {
         // Then
         #expect(result == [
             .eliminate(player: "p2"),
-            .endGame(player: "p2")
+            .endGame()
         ])
     }
 
