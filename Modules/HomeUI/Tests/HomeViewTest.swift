@@ -15,7 +15,7 @@ struct HomeViewTest {
     @Test func HomeStateProjection() async throws {
         // Given
         let appState = AppFeature.State(
-            inventory: Inventory.makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build()
         )
