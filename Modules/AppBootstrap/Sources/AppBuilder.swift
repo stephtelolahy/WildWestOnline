@@ -29,11 +29,13 @@ public enum AppBuilder {
             .withMusicVolume(settingsClient.musicVolume())
             .build()
 
+        let cardLibrary = AppFeature.State.CardLibrary(
+            cards: Cards.all,
+            deck: Deck.bang
+        )
+
         let appState = AppFeature.State(
-            cardLibrary: .init(
-                cards: Cards.all,
-                deck: Deck.bang
-            ),
+            cardLibrary: cardLibrary,
             navigation: .init(),
             settings: settingsState
         )
