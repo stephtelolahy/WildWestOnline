@@ -3,7 +3,7 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
-// swiftlint:disable file_length force_unwrapping
+// swiftlint:disable file_length
 
 extension Card.ActionName {
     func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
@@ -64,7 +64,7 @@ private extension Card.ActionName {
 
     struct DrawDeck: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
             let card = try state.popDeck()
@@ -75,7 +75,7 @@ private extension Card.ActionName {
 
     struct DrawDiscard: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
             let card = try state.popDiscard()
@@ -86,8 +86,8 @@ private extension Card.ActionName {
 
     struct DrawDiscovered: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
             guard let discoverIndex = state.discovered.firstIndex(of: card) else {
                 fatalError("Card \(card) not discovered")
@@ -201,7 +201,7 @@ private extension Card.ActionName {
 
     struct Handicap: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             let player = action.sourcePlayer
             let card = action.playedCard
 
@@ -224,8 +224,8 @@ private extension Card.ActionName {
 
     struct Heal: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.targetedPlayer!
-            let amount = action.amount!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amount = action.amount else { fatalError("Missing amount") }
 
             var playerObj = state.players.get(player)
             let maxHealth = playerObj.maxHealth
@@ -242,8 +242,8 @@ private extension Card.ActionName {
 
     struct DiscardHand: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
             var state = state
             let playerObj = state.players.get(player)
@@ -261,8 +261,8 @@ private extension Card.ActionName {
 
     struct DiscardInPlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
             var state = state
             let playerObj = state.players.get(player)
@@ -280,7 +280,7 @@ private extension Card.ActionName {
 
     struct Choose: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let selection = action.chosenOption!
+            guard let selection = action.chosenOption else { fatalError("Missing selection") }
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.selectors.first,
@@ -288,7 +288,7 @@ private extension Card.ActionName {
                   let choice = prompt,
                   choice.options.map(\.label).contains(selection),
                   prevSelection == nil else {
-                fatalError("Unexpected choose action")
+                fatalError("Missing prompt")
             }
 
             var state = state
@@ -302,8 +302,8 @@ private extension Card.ActionName {
 
     struct StealHand: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
 
             var state = state
@@ -321,8 +321,8 @@ private extension Card.ActionName {
 
     struct StealInPlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
 
             let playerObj = state.players.get(target)
@@ -340,8 +340,8 @@ private extension Card.ActionName {
 
     struct PassInPlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let card = action.targetedCard!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
 
             let playerObj = state.players.get(player)
@@ -359,13 +359,15 @@ private extension Card.ActionName {
 
     struct Shoot: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             var state = state
             let damage = GameFeature.Action(
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
                 triggeredBy: [action],
-                targetedPlayer: action.targetedPlayer,
+                targetedPlayer: target,
                 amount: 1
             )
             state.queue.insert(damage, at: 0)
@@ -393,8 +395,8 @@ private extension Card.ActionName {
 
     struct Damage: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.targetedPlayer!
-            let amount = action.amount!
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amount = action.amount else { fatalError("Missing amount") }
 
             var state = state
             state[keyPath: \.players[player]!.health] -= amount
@@ -404,19 +406,21 @@ private extension Card.ActionName {
 
     struct EndTurn: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             var state = state
-            if let current = state.turn {
-                state.queue.removeAll { $0.sourcePlayer == current && $0.playedCard != action.playedCard }
-            }
             state.turn = nil
+            state.queue.removeAll { $0.sourcePlayer == target && $0.playedCard != action.playedCard }
             return state
         }
     }
 
     struct StartTurn: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             var state = state
-            state.turn = action.targetedPlayer
+            state.turn = target
             state.playedThisTurn = [:]
             return state
         }
@@ -424,7 +428,7 @@ private extension Card.ActionName {
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let children = action.nestedEffects!
+            guard let children = action.nestedEffects else { fatalError("Missing nestedEffects") }
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
@@ -434,9 +438,11 @@ private extension Card.ActionName {
 
     struct Eliminate: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             var state = state
-            state.playOrder.removeAll { $0 == action.targetedPlayer }
-            state.queue.removeAll { $0.sourcePlayer == action.targetedPlayer }
+            state.playOrder.removeAll { $0 == target }
+            state.queue.removeAll { $0.sourcePlayer == target }
             return state
         }
     }
@@ -451,8 +457,8 @@ private extension Card.ActionName {
 
     struct Activate: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let cards = action.affectedCards!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let cards = action.affectedCards else { fatalError("Missing affectedCards") }
 
             var state = state
             state.active = [target: cards]
@@ -462,19 +468,19 @@ private extension Card.ActionName {
 
     struct SetWeapon: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let weapon = action.amount!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amount = action.amount else { fatalError("Missing amount") }
 
             var state = state
-            state[keyPath: \.players[target]!.weapon] = weapon
+            state[keyPath: \.players[target]!.weapon] = amount
             return state
         }
     }
 
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let amountPerTurn = action.amountPerTurn!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amountPerTurn = action.amountPerTurn else { fatalError("Missing amountPerTurn") }
 
             var state = state
             state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerTurn
@@ -484,8 +490,8 @@ private extension Card.ActionName {
 
     struct IncreaseMagnifying: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let amount = action.amount!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amount = action.amount else { fatalError("Missing amount") }
 
             var state = state
             state[keyPath: \.players[target]!.magnifying] += amount
@@ -495,8 +501,8 @@ private extension Card.ActionName {
 
     struct IncreaseRemoteness: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let target = action.targetedPlayer!
-            let amount = action.amount!
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let amount = action.amount else { fatalError("Missing amount") }
 
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
