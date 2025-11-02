@@ -8,8 +8,8 @@ import GameFeature
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
-enum Cards {
-    static let all: [Card] = [
+public enum Cards {
+    public static let all: [Card] = [
         .endTurn,
         .discardCounterCardOnShot,
         .discardExcessHandOnTurnEnded,

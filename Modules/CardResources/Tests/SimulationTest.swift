@@ -9,7 +9,7 @@ import Testing
 import Redux
 import Combine
 @testable import GameFeature
-@testable import CardsClientLive
+@testable import CardResources
 
 struct SimulationTest {
     @Test func simulateGame_shouldComplete() async throws {
