@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 10/11/2024.
 //
-// swiftlint:disable force_unwrapping
 
 extension Card.Selector.CardFilter {
     func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -43,7 +42,8 @@ private extension Card.Selector.CardFilter {
 
     struct IsFromHand: Matcher {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.targetedPlayer!
+            guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             let playerObj = state.players.get(player)
             return playerObj.hand.contains(card)
         }
