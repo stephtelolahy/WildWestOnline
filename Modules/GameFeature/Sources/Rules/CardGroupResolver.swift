@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 19/11/2024.
 //
-// swiftlint:disable force_unwrapping
 
 extension Card.Selector.CardGroup {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
@@ -28,13 +27,17 @@ private extension Card.Selector.CardGroup {
 
     struct AllInPlay: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            state.players.get(pendingAction.targetedPlayer!).inPlay
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+
+            return state.players.get(target).inPlay
         }
     }
 
     struct AllInHand: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            state.players.get(pendingAction.targetedPlayer!).hand
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+
+            return state.players.get(target).hand
         }
     }
 
@@ -46,7 +49,9 @@ private extension Card.Selector.CardGroup {
 
     struct EquippedWeapon: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-            state.players.get(pendingAction.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer")}
+
+            return state.players.get(target).inPlay.filter { state.isWeapon($0) }
         }
     }
 }
