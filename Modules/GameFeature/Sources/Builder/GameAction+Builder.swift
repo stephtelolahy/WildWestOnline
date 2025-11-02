@@ -150,10 +150,9 @@ public extension GameFeature.Action {
         )
     }
 
-    static func endGame(player: String) -> Self {
+    static func endGame() -> Self {
         .init(
-            name: .endGame,
-            targetedPlayer: player
+            name: .endGame
         )
     }
 

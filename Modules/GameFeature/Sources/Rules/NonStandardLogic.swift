@@ -6,31 +6,21 @@
 //
 
 enum NonStandardLogic {
-    @available(*, deprecated, message: "Set explicit targetPlayer")
     static func targetedPlayerForChildEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {
         switch name {
+        case .draw,
+                .endGame:
+            return nil
+
         case .drawDeck,
-                .drawDiscard,
-                .drawDiscovered,
-                .discardHand,
                 .discardInPlay,
                 .heal,
                 .setWeapon,
                 .setPlayLimitPerTurn,
                 .increaseMagnifying,
                 .increaseRemoteness,
-                .shoot,
-                .damage,
-                .choose,
-                .counterShot,
-                .endGame,
-                .eliminate,
-                .endTurn,
-                .startTurn:
+                .endTurn:
             return parentAction.targetedPlayer ?? parentAction.sourcePlayer
-
-        case .draw:
-            return nil
 
         default:
             return parentAction.targetedPlayer
