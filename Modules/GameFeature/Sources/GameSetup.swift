@@ -8,17 +8,18 @@
 public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
-        inventory: Inventory,
+        cards: [Card],
+        deck: [String: [String]],
         preferredFigure: String? = nil
     ) -> GameFeature.State {
-        let figures = inventory.cards.names(for: .character)
+        let figures = cards.names(for: .character)
             .shuffled()
             .starting(with: preferredFigure)
         return buildGame(
             figures: Array(figures.prefix(playersCount)),
-            deck: buildDeck(deck: inventory.deck).shuffled(),
-            cards: inventory.cards.toDictionary,
-            playerAbilities: inventory.cards.names(for: .ability)
+            deck: buildDeck(deck: deck).shuffled(),
+            cards: cards.toDictionary,
+            playerAbilities: cards.names(for: .ability)
         )
     }
 
@@ -54,7 +55,7 @@ public enum GameSetup {
         )
     }
 
-    public static func buildDeck(deck: [String: [String]]) -> [String] {
+    static func buildDeck(deck: [String: [String]]) -> [String] {
         deck.reduce(into: [String]()) { result, card in
             result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
         }

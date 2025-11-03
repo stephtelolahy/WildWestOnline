@@ -21,7 +21,8 @@ struct SimulationTest {
         // Given
         var state = GameSetup.buildGame(
             playersCount: playersCount,
-            inventory: .init(cards: Cards.all, deck: Deck.bang)
+            cards: Cards.all,
+            deck: Deck.bang
         )
         for player in state.playOrder {
             state.playMode[player] = .auto
