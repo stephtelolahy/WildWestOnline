@@ -19,21 +19,34 @@ public enum AppFeature {
     /// Organize State Structure Based on Data Types, Not Components
     /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
     public struct State: Codable, Equatable, Sendable {
-        public let inventory: Inventory
+        public let cardLibrary: CardLibrary
         public var navigation: AppNavigationFeature.State
         public var settings: SettingsFeature.State
         public var game: GameFeature.State?
 
         public init(
-            inventory: Inventory,
+            cardLibrary: CardLibrary,
             navigation: AppNavigationFeature.State,
             settings: SettingsFeature.State,
             game: GameFeature.State? = nil
         ) {
-            self.inventory = inventory
+            self.cardLibrary = cardLibrary
             self.navigation = navigation
             self.settings = settings
             self.game = game
+        }
+
+        public struct CardLibrary: Codable, Equatable, Sendable {
+            public let cards: [Card]
+            public let deck: [String: [String]]
+
+            public init(
+                cards: [Card] = [],
+                deck: [String: [String]] = [:]
+            ) {
+                self.cards = cards
+                self.deck = deck
+            }
         }
     }
 

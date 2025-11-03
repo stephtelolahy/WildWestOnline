@@ -19,7 +19,7 @@ extension AppFeature {
             let state = state
             return .group([
                 .run {
-                    .setGame(.create(settings: state.settings, inventory: state.inventory))
+                    .setGame(.create(settings: state.settings, cardLibrary: state.cardLibrary))
                 },
                 .run {
                     .navigation(.push(.game))
@@ -57,10 +57,11 @@ extension AppFeature {
 }
 
 private extension GameFeature.State {
-    static func create(settings: SettingsFeature.State, inventory: Inventory) -> Self {
+    static func create(settings: SettingsFeature.State, cardLibrary: AppFeature.State.CardLibrary) -> Self {
         var game = GameSetup.buildGame(
             playersCount: settings.playersCount,
-            inventory: inventory,
+            cards: cardLibrary.cards,
+            deck: cardLibrary.deck,
             preferredFigure: settings.preferredFigure
         )
 

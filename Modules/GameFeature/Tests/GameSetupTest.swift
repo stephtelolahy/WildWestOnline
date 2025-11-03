@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct GameSetupTest {
     @Test func setupDeck_shouldCreateCardsByCombiningNameAndValues() async throws {

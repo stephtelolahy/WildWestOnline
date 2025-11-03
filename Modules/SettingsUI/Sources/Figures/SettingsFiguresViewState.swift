@@ -22,7 +22,7 @@ extension SettingsFiguresView {
 
 extension SettingsFiguresView.ViewState {
     init?(appState: AppFeature.State) {
-        figures = appState.inventory.cards.names(for: .character)
+        figures = appState.cardLibrary.cards.names(for: .character)
             .map {
                 .init(
                     name: $0,
