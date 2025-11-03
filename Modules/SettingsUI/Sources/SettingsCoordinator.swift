@@ -66,7 +66,7 @@ public struct SettingsCoordinator: View {
 private extension AppFeature.State {
     static var mock: Self {
         .init(
-            inventory: .makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: .makeBuilder().build()
         )
