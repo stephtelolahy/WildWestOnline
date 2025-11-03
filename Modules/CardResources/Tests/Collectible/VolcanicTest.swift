@@ -8,7 +8,7 @@ import Testing
 import GameFeature
 
 struct VolcanicTest {
-    @Test func playVolcanic_withoutWeaponInPlay_shouldSetUnlimitedBangsPerTurn() async throws {
+    @Test func playVolcanic_shouldSetUnlimitedBangsPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -28,7 +28,7 @@ struct VolcanicTest {
         ])
     }
 
-    @Test func discardVolcanicFromInPlay_shouldResetToDefaultWeapon() async throws {
+    @Test func discardVolcanicFromInPlay_shouldResetBangsPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -44,28 +44,8 @@ struct VolcanicTest {
         // Then
         #expect(result == [
             .discardInPlay(.volcanic, player: "p1"),
-            .setWeapon(1, player: "p1")
-        ])
-    }
-
-    @Test func stealVolcanicFromInPlay_shouldResetToDefaultWeapon() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withInPlay([.volcanic])
-                    .withWeapon(2)
-            }
-            .withPlayer("p2")
-            .build()
-
-        // When
-        let action = GameFeature.Action.stealInPlay(.volcanic, target: "p1", player: "p2")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            action,
-            .setWeapon(1, player: "p1")
+            .setWeapon(1, player: "p1"),
+            .setPlayLimitPerTurn([.bang: 1], player: "p1")
         ])
     }
 }

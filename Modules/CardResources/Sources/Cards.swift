@@ -538,6 +538,11 @@ private extension Card {
                     trigger: .cardEquiped,
                     action: .setPlayLimitPerTurn,
                     amountPerTurn: [.bang: .unlimited]
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .setPlayLimitPerTurn,
+                    amountPerTurn: [.bang: 1]
                 )
             ]
         )
