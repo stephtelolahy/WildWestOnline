@@ -21,7 +21,7 @@ struct GameViewTest {
             .withPlayer("p1")
             .build()
         let appState = AppFeature.State(
-            inventory: Inventory.makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             game: game
@@ -51,7 +51,7 @@ struct GameViewTest {
             .withTurn("p1")
             .build()
         let appState = AppFeature.State(
-            inventory: Inventory.makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             game: game
@@ -102,7 +102,7 @@ struct GameViewTest {
             .withActive(["p1": [.bang, .endTurn]])
             .build()
         let appState = AppFeature.State(
-            inventory: Inventory.makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             game: game
@@ -137,7 +137,7 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .build()
         let appState = AppFeature.State(
-            inventory: Inventory.makeBuilder().build(),
+            cardLibrary: .init(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             game: game
