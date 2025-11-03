@@ -23,27 +23,6 @@
      )
  }
 
- static var jourdonnais: Self {
-     .init(
-         name: .jourdonnais,
-         description: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
-         setPlayerAttribute: [.maxHealth: 4],
-         effects: [
-             .init(
-                 name: .draw,
-                 when: .shot
-             ),
-             .init(
-                 name: .missed,
-                 selectors: [
-                     .require(.draw("♥️"))
-                 ],
-                 when: .shot
-             )
-         ]
-     )
- }
-
  static var sidKetchum: Self {
      .init(
          name: .sidKetchum,

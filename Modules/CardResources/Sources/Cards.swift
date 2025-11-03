@@ -48,6 +48,7 @@ public enum Cards {
         .bartCassidy,
         .elGringo,
         .suzyLafayette,
+        .jourdonnais,
     ]
 }
 
@@ -793,6 +794,31 @@ private extension Card {
                 .init(
                     trigger: .handEmptied,
                     action: .drawDeck
+                )
+            ]
+        )
+    }
+
+    static var jourdonnais: Self {
+        .init(
+            name: .jourdonnais,
+            type: .character,
+            description: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .shot,
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawnCardCount)
+                    ]
+                ),
+                .init(
+                    trigger: .shot,
+                    action: .counterShot,
+                    selectors: [
+                        .require(.drawnCardMatches(.regexHearts))
+                    ]
                 )
             ]
         )
