@@ -96,7 +96,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .requireThrows(.minimumPlayers(3)),
+                        .require(.minimumPlayers(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
                 )
