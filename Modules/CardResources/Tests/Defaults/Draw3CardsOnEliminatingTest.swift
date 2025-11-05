@@ -17,7 +17,7 @@ struct Draw3CardsOnEliminatingTest {
             }
             .withPlayer("p2") {
                 $0.withHealth(1)
-                    .withAbilities([.eliminateOnDamageLethal])
+                    .withAbilities([.eliminateOnDamagedLethal])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()
@@ -41,7 +41,7 @@ struct Draw3CardsOnEliminatingTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([.draw3CardsOnEliminating, .eliminateOnDamageLethal])
+                    .withAbilities([.draw3CardsOnEliminating, .eliminateOnDamagedLethal])
             }
             .build()
 

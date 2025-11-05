@@ -16,7 +16,7 @@ public enum Cards {
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
         .nextTurnOnTurnEnded,
-        .eliminateOnDamageLethal,
+        .eliminateOnDamagedLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
@@ -156,9 +156,9 @@ private extension Card {
         )
     }
 
-    static var eliminateOnDamageLethal: Self {
+    static var eliminateOnDamagedLethal: Self {
         .init(
-            name: .eliminateOnDamageLethal,
+            name: .eliminateOnDamagedLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
