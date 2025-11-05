@@ -38,7 +38,7 @@ public struct HomeView: View {
         VStack {
             VStack {
                 Text(.menuGameTitle)
-                    .font(theme.fontHeadline)
+                    .font(.subheadline)
                     .foregroundStyle(.primary)
                 Image(.logo)
                     .resizable()
@@ -68,7 +68,7 @@ public struct HomeView: View {
     ) -> some View {
         Button(action: action) {
             Text(String(localized: titleKey, bundle: .module))
-                .font(theme.fontTitle)
+                .font(.headline)
                 .padding(8)
         }
     }
@@ -76,10 +76,10 @@ public struct HomeView: View {
     private var footerView: some View {
         VStack {
             Text(.menuDeveloperName)
-                .font(theme.fontHeadline)
+                .font(.footnote)
                 .foregroundStyle(.primary)
             Text(.menuDeveloperEmail)
-                .font(theme.fontHeadline)
+                .font(.footnote)
                 .foregroundStyle(.primary.opacity(0.4))
         }
     }
