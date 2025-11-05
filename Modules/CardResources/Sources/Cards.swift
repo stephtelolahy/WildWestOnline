@@ -164,7 +164,10 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .damagedLethal,
-                    action: .eliminate
+                    action: .eliminate,
+                    selectors: [
+                        .require(.isDamagedLethal)
+                    ]
                 )
             ]
         )
