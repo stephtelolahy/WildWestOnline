@@ -12,6 +12,7 @@ public enum Cards {
     public static let all: [Card] = [
         .endTurn,
         .discardCounterCardOnShot,
+        .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
         .nextTurnOnTurnEnded,
@@ -78,6 +79,25 @@ private extension Card {
                     action: .counterShot,
                     selectors: [
                         .chooseOne(.costCard([.canCounterShot]))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var discardBeerOnDamagedLethal: Self {
+        .init(
+            name: .discardBeerOnDamagedLethal,
+            type: .ability,
+            description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
+            effects: [
+                .init(
+                    trigger: .damagedLethal,
+                    action: .heal,
+                    amount: 1,
+                    selectors: [
+                        .requireThrows(.minimumPlayers(3)),
+                        .chooseOne(.costCard([.named(.beer)]))
                     ]
                 )
             ]
