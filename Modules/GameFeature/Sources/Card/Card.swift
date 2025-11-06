@@ -113,8 +113,8 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(PlayerGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
+        case satisfies(StateCondition)
         case require(StateCondition)
-        case requireThrows(StateCondition)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
