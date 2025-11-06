@@ -1,5 +1,5 @@
 //
-//  EliminateOnDamagedLethalTest.swift
+//  EliminateOnDamageLethalTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import GameFeature
 
-struct EliminateOnDamagedLethalTest {
+struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
@@ -16,6 +16,8 @@ struct EliminateOnDamagedLethalTest {
                 $0.withHealth(1)
                     .withAbilities([.eliminateOnDamagedLethal])
             }
+            .withPlayer("p2")
+            .withPlayer("p3")
             .build()
 
         // When

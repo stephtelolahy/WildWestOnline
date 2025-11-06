@@ -132,7 +132,7 @@ private extension GameFeature.State {
         let playerObj = players.get(player)
         let activeCards = (playerObj.abilities + players.get(player).hand)
             .filter {
-                GameFeature.Action.validatePlay(card: $0, player: player, state: self)
+                Self.isCardPlayable($0, player: player, state: self)
             }
 
         guard activeCards.isNotEmpty else {
@@ -141,25 +141,27 @@ private extension GameFeature.State {
 
         return .activate(activeCards, player: player)
     }
-}
 
-private extension GameFeature.Action {
-    static func validatePlay(card: String, player: String, state: GameFeature.State) -> Bool {
+    static func isCardPlayable(
+        _ card: String,
+        player: String,
+        state: GameFeature.State
+    ) -> Bool {
         let action = GameFeature.Action.preparePlay(card, player: player)
         do {
-            try action.validate(state: state)
-            // print("🟢 validatePlay: \(card)")
+            try resolveUntilCompleted(action, state: state)
+            // print("🟢 isCardPlayable: \(card)")
             return true
         } catch {
-            // print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            // print("🛑 isCardPlayable: \(card)\tthrows: \(error)")
             return false
         }
     }
 
-    func validate(state: GameFeature.State) throws {
+    static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State) throws {
         var newState = state
 
-        _ = GameFeature.reducerMechanics(into: &newState, action: self, dependencies: ())
+        _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: ())
         if let error = newState.lastActionError {
             throw error
         }
@@ -167,11 +169,11 @@ private extension GameFeature.Action {
         if let choice = newState.pendingChoice {
             for option in choice.options {
                 let next = GameFeature.Action.choose(option.label, player: choice.chooser)
-                try next.validate(state: newState)
+                try resolveUntilCompleted(next, state: newState)
             }
         } else if newState.queue.isNotEmpty {
             let next = newState.queue.removeFirst()
-            try next.validate(state: newState)
+            try resolveUntilCompleted(next, state: newState)
         }
     }
 }

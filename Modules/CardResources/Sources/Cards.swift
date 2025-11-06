@@ -16,7 +16,7 @@ public enum Cards {
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
         .nextTurnOnTurnEnded,
-        .eliminateOnDamagedLethal,
+        .eliminateOnDamageLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
@@ -156,7 +156,7 @@ private extension Card {
         )
     }
 
-    static var eliminateOnDamagedLethal: Self {
+    static var eliminateOnDamageLethal: Self {
         .init(
             name: .eliminateOnDamagedLethal,
             type: .ability,

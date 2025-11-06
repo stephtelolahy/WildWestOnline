@@ -85,9 +85,3 @@ private extension Card.Selector.PlayerGroup {
         }
     }
 }
-
-private extension GameFeature.State.Player {
-    var isWounded: Bool {
-        health < maxHealth
-    }
-}

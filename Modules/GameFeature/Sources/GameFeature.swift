@@ -50,21 +50,21 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Codable, Sendable {
-        public let name: Card.ActionName
+        let name: Card.ActionName
 
-        public let sourcePlayer: String
-        public let playedCard: String
-        public let triggeredBy: [Self]
+        let sourcePlayer: String
+        let playedCard: String
+        let triggeredBy: [Self]
 
-        public var targetedPlayer: String?
-        public var targetedCard: String?
-        public var amount: Int?
-        public var chosenOption: String?
-        public var nestedEffects: [Self]?
-        public var affectedCards: [String]?
-        public var amountPerTurn: [String: Int]?
+        var targetedPlayer: String?
+        var targetedCard: String?
+        var amount: Int?
+        var chosenOption: String?
+        var nestedEffects: [Self]?
+        var affectedCards: [String]?
+        var amountPerTurn: [String: Int]?
 
-        public var selectors: [Card.Selector]
+        var selectors: [Card.Selector]
 
         public init(
             name: Card.ActionName,
