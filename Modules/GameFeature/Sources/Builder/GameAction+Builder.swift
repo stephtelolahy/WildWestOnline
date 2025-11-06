@@ -64,9 +64,10 @@ public extension GameFeature.Action {
         )
     }
 
-    static func damage(_ amount: Int, player: String) -> Self {
+    static func damage(_ amount: Int, player: String, sourcePlayer: String = "") -> Self {
         .init(
             name: .damage,
+            sourcePlayer: sourcePlayer,
             targetedPlayer: player,
             amount: amount
         )

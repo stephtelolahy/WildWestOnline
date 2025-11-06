@@ -16,8 +16,6 @@ struct EliminateOnDamageLethalTest {
                 $0.withHealth(1)
                     .withAbilities([.eliminateOnDamagedLethal])
             }
-            .withPlayer("p2")
-            .withPlayer("p3")
             .build()
 
         // When

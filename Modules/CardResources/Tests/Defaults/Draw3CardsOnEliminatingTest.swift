@@ -23,7 +23,7 @@ struct Draw3CardsOnEliminatingTest {
             .build()
 
         // When
-        let action = GameFeature.Action(name: .damage, sourcePlayer: "p1", targetedPlayer: "p2", amount: 1)
+        let action = GameFeature.Action.damage(1, player: "p2", sourcePlayer: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -46,7 +46,7 @@ struct Draw3CardsOnEliminatingTest {
             .build()
 
         // When
-        let action = GameFeature.Action(name: .damage, sourcePlayer: "p1", targetedPlayer: "p1", amount: 1)
+        let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
