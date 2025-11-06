@@ -51,11 +51,9 @@ public enum GameFeature {
 
     public struct Action: Equatable, Codable, Sendable {
         public let name: Card.ActionName
-
-        public let sourcePlayer: String
-        public let playedCard: String
-        public let triggeredBy: [Self]
-
+        public var sourcePlayer: String = ""
+        public var playedCard: String = ""
+        public var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
         public var amount: Int?
@@ -63,36 +61,7 @@ public enum GameFeature {
         public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
-
-        public var selectors: [Card.Selector]
-
-        public init(
-            name: Card.ActionName,
-            sourcePlayer: String = "",
-            playedCard: String = "",
-            triggeredBy: [Self] = [],
-            targetedPlayer: String? = nil,
-            targetedCard: String? = nil,
-            amount: Int? = nil,
-            chosenOption: String? = nil,
-            nestedEffects: [Self]? = nil,
-            affectedCards: [String]? = nil,
-            amountPerTurn: [String: Int]? = nil,
-            selectors: [Card.Selector] = []
-        ) {
-            self.name = name
-            self.selectors = selectors
-            self.sourcePlayer = sourcePlayer
-            self.playedCard = playedCard
-            self.triggeredBy = triggeredBy
-            self.targetedPlayer = targetedPlayer
-            self.targetedCard = targetedCard
-            self.amount = amount
-            self.chosenOption = chosenOption
-            self.nestedEffects = nestedEffects
-            self.affectedCards = affectedCards
-            self.amountPerTurn = amountPerTurn
-        }
+        public var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)

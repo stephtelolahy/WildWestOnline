@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.CardGroup {
-    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
-        try resolver.resolve(pendingAction, state: state)
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
+        resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.CardGroup {
     protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String]
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]
     }
 
     var resolver: Resolver {
@@ -26,7 +26,7 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInPlay: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).inPlay
@@ -34,7 +34,7 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInHand: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).hand
@@ -42,13 +42,13 @@ private extension Card.Selector.CardGroup {
     }
 
     struct Played: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             [pendingAction.playedCard]
         }
     }
 
     struct EquippedWeapon: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).inPlay.filter { state.isWeapon($0) }
