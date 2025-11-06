@@ -50,18 +50,18 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Codable, Sendable {
-        let name: Card.ActionName
-        var sourcePlayer: String = ""
-        var playedCard: String = ""
-        var triggeredBy: [Self] = []
-        var targetedPlayer: String?
-        var targetedCard: String?
-        var amount: Int?
-        var chosenOption: String?
-        var nestedEffects: [Self]?
-        var affectedCards: [String]?
-        var amountPerTurn: [String: Int]?
-        var selectors: [Card.Selector] = []
+        public let name: Card.ActionName
+        public var sourcePlayer: String = ""
+        public var playedCard: String = ""
+        public var triggeredBy: [Self] = []
+        public var targetedPlayer: String?
+        public var targetedCard: String?
+        public var amount: Int?
+        public var chosenOption: String?
+        public var nestedEffects: [Self]?
+        public var affectedCards: [String]?
+        public var amountPerTurn: [String: Int]?
+        public var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
