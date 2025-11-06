@@ -314,7 +314,13 @@ private extension Card {
             type: .playable,
             description: "All players in play regain one life point.",
             effects: [
-                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .require(.woundedPlayers)
+                    ]
+                ),
                 .init(
                     trigger: .cardPlayed,
                     action: .heal,
