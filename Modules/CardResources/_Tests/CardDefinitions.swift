@@ -6,23 +6,6 @@
 //
 
 /*
- static var discardBeerOnDamagedLethal: Self {
-     .init(
-         name: .discardBeerOnDamagedLethal,
-         description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
-         canPlay: .damagedLethal,
-         effects: [
-             .init(
-                 name: .heal,
-                 selectors: [
-                     .require(.minimumPlayers(3)),
-                     .chooseCostHandCard(.named(.beer))
-                 ]
-             )
-         ]
-     )
- }
-
  static var sidKetchum: Self {
      .init(
          name: .sidKetchum,

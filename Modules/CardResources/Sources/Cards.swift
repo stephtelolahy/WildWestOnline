@@ -12,10 +12,11 @@ public enum Cards {
     public static let all: [Card] = [
         .endTurn,
         .discardCounterCardOnShot,
+        .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
         .nextTurnOnTurnEnded,
-        .eliminateOnDamageLethal,
+        .eliminateOnDamagedLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
@@ -84,6 +85,25 @@ private extension Card {
         )
     }
 
+    static var discardBeerOnDamagedLethal: Self {
+        .init(
+            name: .discardBeerOnDamagedLethal,
+            type: .ability,
+            description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
+            effects: [
+                .init(
+                    trigger: .damagedLethal,
+                    action: .heal,
+                    amount: 1,
+                    selectors: [
+                        .require(.minimumPlayers(3)),
+                        .chooseOne(.costCard([.named(.beer)]))
+                    ]
+                )
+            ]
+        )
+    }
+
     static var discardExcessHandOnTurnEnded: Self {
         .init(
             name: .discardExcessHandOnTurnEnded,
@@ -136,15 +156,18 @@ private extension Card {
         )
     }
 
-    static var eliminateOnDamageLethal: Self {
+    static var eliminateOnDamagedLethal: Self {
         .init(
-            name: .eliminateOnDamageLethal,
+            name: .eliminateOnDamagedLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
                 .init(
                     trigger: .damagedLethal,
-                    action: .eliminate
+                    action: .eliminate,
+                    selectors: [
+                        .require(.isDamagedLethal)
+                    ]
                 )
             ]
         )

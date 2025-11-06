@@ -11,7 +11,7 @@ public extension String {
     static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
     static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
     static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
-    static let eliminateOnDamageLethal = "eliminateOnDamageLethal"
+    static let eliminateOnDamagedLethal = "eliminateOnDamagedLethal"
     static let endGameOnEliminated = "endGameOnEliminated"
     static let discardAllCardsOnEliminated = "discardAllCardsOnEliminated"
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
