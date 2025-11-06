@@ -40,12 +40,10 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             let targets = targetGroup.resolve(pendingAction, state: state)
-            guard targets.isNotEmpty else {
-                if case .woundedPlayers = targetGroup {
-                    throw .noTarget(targetGroup)
-                }
-
-                return []
+            #warning("Always throw empty targets")
+            if targets.isEmpty,
+               case .woundedPlayers = targetGroup {
+                throw .noTarget(targetGroup)
             }
 
             return targets.map { pendingAction.withTarget($0) }
@@ -56,7 +54,8 @@ private extension Card.Selector {
         let cardGroup: Card.Selector.CardGroup
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            try cardGroup.resolve(pendingAction, state: state)
+            #warning("Always throw empty cards")
+            cardGroup.resolve(pendingAction, state: state)
                 .map { pendingAction.withCard($0) }
         }
     }
