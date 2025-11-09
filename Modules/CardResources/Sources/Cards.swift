@@ -713,7 +713,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .satisfies(.drawnCardDoesNotMatch(.regexHearts))
+                        .require(.drawnCardDoesNotMatch(.regexHearts))
                     ]
                 ),
                 .init(

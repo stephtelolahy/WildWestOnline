@@ -42,6 +42,9 @@ struct SimulationTest {
             .sink {
                 prevState = currentState
                 currentState = $0
+                if let error = $0.lastError {
+                    print("⚠️ \(error)")
+                }
             }
             .store(in: &cancellables)
 
