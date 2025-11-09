@@ -7,14 +7,6 @@
 import GameFeature
 @testable import CardResources
 
-extension GameFeature.State {
-    @available(*, deprecated, message: "create builder then set all cards")
-    static func makeBuilderWithAllCards() -> Builder {
-        makeBuilder()
-            .withCards(Cards.all.toDictionary)
-    }
-}
-
 extension GameFeature.State.Builder {
     func withAllCards() -> Self {
         withCards(Cards.all.toDictionary)

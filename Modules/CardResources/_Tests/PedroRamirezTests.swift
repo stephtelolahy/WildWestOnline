@@ -23,7 +23,8 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -53,7 +54,8 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -82,7 +84,8 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])

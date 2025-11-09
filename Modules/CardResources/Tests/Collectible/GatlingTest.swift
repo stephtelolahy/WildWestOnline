@@ -11,7 +11,8 @@ import GameFeature
 struct GatlingTest {
     @Test func play_withThreePlayers_shouldDamageEachPlayer() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.gatling])
             }
@@ -35,7 +36,8 @@ struct GatlingTest {
 
     @Test func play_withTwoPlayers_shouldDamageEachPlayer() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.gatling])
             }

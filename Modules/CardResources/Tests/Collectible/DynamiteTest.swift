@@ -11,7 +11,8 @@ import GameFeature
 struct DynamiteTest {
     @Test func playDynamite_shouldEquip() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.dynamite])
             }
@@ -29,7 +30,8 @@ struct DynamiteTest {
 
     @Test func triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
@@ -56,7 +58,8 @@ struct DynamiteTest {
 
     @Test func triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
@@ -84,7 +87,8 @@ struct DynamiteTest {
 
     @Test func triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withDummyCards(["c2", "c3", "c4"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])

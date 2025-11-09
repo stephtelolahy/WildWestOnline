@@ -12,7 +12,8 @@ import Testing
 struct KitCarlsonTests {
     @Test(.disabled()) func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])
@@ -38,7 +39,8 @@ struct KitCarlsonTests {
 
     @Test(.disabled()) func kitCarlsonStartTurn_withoutEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])

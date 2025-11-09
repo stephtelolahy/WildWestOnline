@@ -11,7 +11,8 @@ import Testing
 struct BartCassidyTests {
     @Test func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -32,7 +33,8 @@ struct BartCassidyTests {
 
     @Test func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -54,7 +56,8 @@ struct BartCassidyTests {
 
     @Test func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(1)

@@ -11,7 +11,8 @@ import GameFeature
 struct RevCarabineTest {
     @Test func playRevCarabine_shouldEquipAndSetWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.revCarabine])
             }

@@ -10,7 +10,8 @@ import GameFeature
 struct VolcanicTest {
     @Test func playVolcanic_shouldSetUnlimitedBangsPerTurn() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.volcanic])
             }
@@ -30,7 +31,8 @@ struct VolcanicTest {
 
     @Test func discardVolcanicFromInPlay_shouldResetBangsPerTurn() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.volcanic])
                     .withWeapon(2)

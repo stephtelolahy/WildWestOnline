@@ -11,7 +11,8 @@ import Testing
 struct SuzyLafayetteTests {
     @Test func suzyLafayette_discardHand_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -32,7 +33,8 @@ struct SuzyLafayetteTests {
 
     @Test func suzyLafayette_discardHand_havingSomeHandCards_shouldDoNothing() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1", "c2"])
@@ -51,7 +53,8 @@ struct SuzyLafayetteTests {
 
     @Test func suzyLafayette_play_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -73,7 +76,8 @@ struct SuzyLafayetteTests {
 
     @Test func suzyLafayette_equip_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -95,7 +99,8 @@ struct SuzyLafayetteTests {
 
     @Test func suzyLafayette_stolenHand_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])

@@ -11,7 +11,8 @@ import GameFeature
 struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withAbilities([.eliminateOnDamagedLethal])
@@ -31,7 +32,8 @@ struct EliminateOnDamageLethalTest {
 
     @Test func beingDamaged_nonLethal_shouldRemainActive() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withAbilities([.eliminateOnDamagedLethal])

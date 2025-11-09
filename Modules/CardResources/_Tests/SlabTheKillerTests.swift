@@ -23,7 +23,8 @@ struct SlabTheKillerTests {
 
     @Test(.disabled()) func slabTheKillerPlayingBang_shouldRequiresTwoMisses() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])
@@ -54,7 +55,8 @@ struct SlabTheKillerTests {
 
     @Test(.disabled()) func slabTheKillerPlayingBang_withOneCounter_shouldDamage() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])

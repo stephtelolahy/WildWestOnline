@@ -11,7 +11,8 @@ import GameFeature
 struct BangTest {
     @Test func play_shouldDeal1Damage() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -38,7 +39,8 @@ struct BangTest {
 
     @Test func play_reachedLimitPerTurn_shouldThrowError() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -57,7 +59,8 @@ struct BangTest {
 
     @Test func play_noPlayerReachable_shouldThrowError() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)

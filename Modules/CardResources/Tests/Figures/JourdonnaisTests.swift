@@ -11,7 +11,8 @@ import Testing
 struct JourdonnaisTests {
     @Test func JourdonnaisBeingShot_flippedCardIsHearts_shouldCounterShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jourdonnais])
                     .withDrawCards(1)
