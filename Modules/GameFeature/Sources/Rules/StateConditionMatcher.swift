@@ -19,7 +19,6 @@ private extension Card.Selector.StateCondition {
     var matcher: Matcher {
         switch self {
         case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .minimumHandCards(let count): MinimumHandCards(count: count)
         case .woundedPlayers: WoundedPlayers()
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .isGameOver: IsGameOver()
@@ -38,14 +37,6 @@ private extension Card.Selector.StateCondition {
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.playOrder.count >= count
-        }
-    }
-
-    struct MinimumHandCards: Matcher {
-        let count: Int
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.players.get(pendingAction.sourcePlayer).hand.count >= count
         }
     }
 

@@ -866,7 +866,6 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .require(.minimumHandCards(2)),
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.costCard([.isFromHand]))
                     ]

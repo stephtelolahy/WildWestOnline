@@ -72,4 +72,27 @@ struct DiscardBeerOnDamagedLethalTest {
             .eliminate(player: "p1")
         ])
     }
+
+    @Test func beingDamagedLethal_withoutBeer_shouldBeEliminated() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHealth(1)
+                    .withAbilities([
+                        .discardBeerOnDamagedLethal,
+                        .eliminateOnDamagedLethal
+                    ])
+            }
+            .withPlayer("p2")
+            .withPlayer("p3")
+            .build()
+
+        // When
+        // Then
+        let action = GameFeature.Action.damage(1, player: "p1")
+        await #expect(throws: GameFeature.Error.noChoosableCard([.named(.beer)])) {
+            try await dispatchUntilCompleted(action, state: state)
+        }
+    }
 }
