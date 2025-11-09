@@ -18,7 +18,8 @@ struct Choice {
 func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
-    expectedChoices: [Choice] = []
+    expectedChoices: [Choice] = [],
+    ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let sut = Store(
         initialState: state,
@@ -43,7 +44,8 @@ func dispatchUntilCompleted(
     await sut.dispatch(action)
 
     // Then
-    if !receivedErrors.isEmpty {
+    if !ignoreError,
+       !receivedErrors.isEmpty {
         throw receivedErrors[0]
     }
 

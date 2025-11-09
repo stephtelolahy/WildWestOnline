@@ -12,11 +12,6 @@ extension GameFeature {
         dependencies: Void
     ) -> Effect<Action> {
         let state = state
-
-        guard state.lastError == nil else {
-            return .none
-        }
-
         return .run {
             await playAIMove(state: state, action: action)
         }

@@ -111,7 +111,7 @@ private extension Card.Selector.ChoiceRequirement {
             let costCards = playerObj.hand.filter { conditions.match($0, pendingAction: pendingAction, state: state) }
 
             guard costCards.isNotEmpty else {
-                return []
+                throw .noChoosableCard(conditions)
             }
 
             let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
