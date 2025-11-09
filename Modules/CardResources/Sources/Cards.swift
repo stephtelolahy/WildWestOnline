@@ -352,14 +352,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .discardHand,
                     selectors: [
-                        .satisfies(.targetedCardFromHand)
+                        .require(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .discardInPlay,
                     selectors: [
-                        .satisfies(.targetedCardFromInPlay)
+                        .require(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -384,14 +384,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .stealHand,
                     selectors: [
-                        .satisfies(.targetedCardFromHand)
+                        .require(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .stealInPlay,
                     selectors: [
-                        .satisfies(.targetedCardFromInPlay)
+                        .require(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -639,7 +639,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regexHearts))
+                        .require(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
