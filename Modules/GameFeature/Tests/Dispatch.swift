@@ -21,7 +21,7 @@ import Redux
     var cancellables: Set<AnyCancellable> = []
     sut.$state
         .sink { state in
-            if let error = state.lastActionError {
+            if let error = state.lastError {
                 receivedErrors.append(error)
             }
         }

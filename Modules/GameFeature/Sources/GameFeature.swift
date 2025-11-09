@@ -20,7 +20,7 @@ public enum GameFeature {
         public var startOrder: [String]
         public var queue: [Action]
         public var lastSuccessfulAction: Action?
-        public var lastActionError: GameFeature.Error?
+        public var lastError: GameFeature.Error?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]

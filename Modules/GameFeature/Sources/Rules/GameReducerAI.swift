@@ -13,7 +13,7 @@ extension GameFeature {
     ) -> Effect<Action> {
         let state = state
 
-        guard state.lastActionError == nil else {
+        guard state.lastError == nil else {
             return .none
         }
 

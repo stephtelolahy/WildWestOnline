@@ -12,22 +12,6 @@ extension GameFeature {
         action: Action,
         dependencies: Void
     ) -> Effect<Action> {
-        state.lastSuccessfulAction = nil
-        state.lastActionError = nil
-
-        do {
-            try updateState(&state, action: action)
-            if action.isResolved {
-                state.lastSuccessfulAction = action
-            }
-        } catch {
-            state.lastActionError = error
-        }
-
-        return .none
-    }
-
-    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(GameFeature.Error) {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
         }
@@ -45,19 +29,31 @@ extension GameFeature {
             state.active.removeValue(forKey: action.sourcePlayer)
         }
 
-        if action.selectors.isNotEmpty {
-            if state.pendingChoice != nil {
-                fatalError("Unexpected waiting user choice")
+        state.lastSuccessfulAction = nil
+        state.lastError = nil
+
+        do {
+            if action.selectors.isNotEmpty {
+                if state.pendingChoice != nil {
+                    fatalError("Unexpected waiting user choice")
+                }
+
+                var pendingAction = action
+                let selector = pendingAction.selectors.remove(at: 0)
+                let children = try selector.resolve(pendingAction, state: state)
+                state.queue.insert(contentsOf: children, at: 0)
+            } else {
+                state = try action.name.reduce(action, state: state)
             }
 
-            var pendingAction = action
-            let selector = pendingAction.selectors.remove(at: 0)
-            let children = try selector.resolve(pendingAction, state: state)
-
-            state.queue.insert(contentsOf: children, at: 0)
-        } else {
-            state = try action.name.reduce(action, state: state)
+            if action.isResolved {
+                state.lastSuccessfulAction = action
+            }
+        } catch {
+            state.lastError = error
         }
+
+        return .none
     }
 }
 
