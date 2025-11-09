@@ -141,7 +141,6 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum StateCondition: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
-            case woundedPlayers
             case playLimitPerTurn([String: Int])
             case isGameOver
             case isCurrentTurn

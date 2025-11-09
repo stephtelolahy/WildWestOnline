@@ -317,10 +317,7 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .cardPrePlayed,
-                    action: .play,
-                    selectors: [
-                        .require(.woundedPlayers)
-                    ]
+                    action: .play
                 ),
                 .init(
                     trigger: .cardPlayed,
