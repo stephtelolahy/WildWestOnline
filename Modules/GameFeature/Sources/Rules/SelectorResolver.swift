@@ -38,8 +38,12 @@ private extension Card.Selector {
         let targetGroup: Card.Selector.PlayerGroup
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            targetGroup.resolve(pendingAction, state: state)
-                .map { pendingAction.withTarget($0) }
+            let targets = targetGroup.resolve(pendingAction, state: state)
+            guard targets.isNotEmpty else {
+                throw .noTarget(targetGroup)
+            }
+
+            return targets.map { pendingAction.withTarget($0) }
         }
     }
 

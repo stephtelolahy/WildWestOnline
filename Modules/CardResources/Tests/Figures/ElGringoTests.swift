@@ -86,7 +86,7 @@ struct ElGringoTests {
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
