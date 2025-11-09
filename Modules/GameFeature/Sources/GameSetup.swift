@@ -74,7 +74,7 @@ private extension GameSetup {
         }
 
         guard let maxHealth = figureObj.amountOfActiveEffect(named: .setMaxHealth) else {
-            fatalError("unexpected")
+            fatalError("Missing maxHealth for \(figure)")
         }
 
         let weapon = 1

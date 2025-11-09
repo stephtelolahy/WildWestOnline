@@ -68,7 +68,7 @@ private extension Card.Selector {
 
             guard let selection,
                   let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
-                fatalError("Selection \(selection ?? "nil") not found in options")
+                fatalError("Selection \(String(describing: selection)) not found in options")
             }
 
             return requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
