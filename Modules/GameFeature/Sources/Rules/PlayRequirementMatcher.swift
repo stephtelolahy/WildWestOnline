@@ -1,17 +1,17 @@
 //
-//  StateConditionMatcher.swift
+//  PlayRequirementMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension Card.Selector.StateCondition {
+extension Card.Selector.PlayRequirement {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.StateCondition {
+private extension Card.Selector.PlayRequirement {
     protocol Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }

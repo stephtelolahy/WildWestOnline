@@ -113,7 +113,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(PlayerGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
-        case require(StateCondition)
+        case require(PlayRequirement)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -139,7 +139,7 @@ public struct Card: Equatable, Codable, Sendable {
             case equippedWeapon
         }
 
-        public enum StateCondition: Equatable, Codable, Sendable {
+        public enum PlayRequirement: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
             case playLimitPerTurn([String: Int])
             case isGameOver
