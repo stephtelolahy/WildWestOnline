@@ -21,7 +21,6 @@ private extension Card.Selector {
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
-        case .satisfies(let playCondition): Satisfies(playCondition: playCondition)
         case .require(let playCondition): Require(playCondition: playCondition)
         }
     }
@@ -69,18 +68,6 @@ private extension Card.Selector {
             }
 
             return requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
-        }
-    }
-
-    struct Satisfies: Resolver {
-        let playCondition: Card.Selector.StateCondition
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard playCondition.match(pendingAction, state: state) else {
-                return []
-            }
-
-            return [pendingAction]
         }
     }
 
