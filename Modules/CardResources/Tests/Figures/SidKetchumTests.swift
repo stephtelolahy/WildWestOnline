@@ -38,28 +38,32 @@ struct SidKetchumTests {
             .heal(1, player: "p1")
         ])
     }
-/*
+
     @Test func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
-                    .withAttributes([.maxHealth: 4])
-                    .withHand(["c1", "c2", "c3"])
+                    .withMaxHealth(4)
                     .withHealth(1)
+                    .withHand(["c1", "c2", "c3"])
             }
             .build()
 
         // When
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
+        let choices: [Choice] = [
+            .init(options: ["c1", "c2", "c3", .choicePass], selectionIndex: 0),
+            .init(options: ["c2", "c3", .choicePass], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .playAbility(.sidKetchum, player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["c2", "c3"], player: "p1"),
+            .choose("c2", player: "p1"),
             .discardHand("c2", player: "p1"),
             .heal(1, player: "p1")
         ])
@@ -67,39 +71,45 @@ struct SidKetchumTests {
 
     @Test func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
                     .withHealth(1)
             }
             .build()
 
+
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            #expect(error as? ArgCard.Error == .noCard(.selectHand))
+        await #expect(throws: GameFeature.Error.noChoosableCard([.isFromHand])) {
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 
     @Test func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
-                    .withAttributes([.maxHealth: 4])
-                    .withHand(["c1", "c2"])
+                    .withMaxHealth(4)
                     .withHealth(4)
+                    .withHand(["c1", "c2"])
             }
             .build()
 
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            #expect(error as? PlayersState.Error == .playerAlreadyMaxHealth("p1"))
+        let choices: [Choice] = [
+            .init(options: ["c1", "c2", .choicePass], selectionIndex: 0),
+            .init(options: ["c2", .choicePass], selectionIndex: 0)
+        ]
+        await #expect(throws: GameFeature.Error.playerAlreadyMaxHealth("p1")) {
+            try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
         }
     }
- */
 }

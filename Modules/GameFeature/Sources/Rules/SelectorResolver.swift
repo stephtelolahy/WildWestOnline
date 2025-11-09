@@ -59,19 +59,16 @@ private extension Card.Selector {
         let selection: String?
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            if let prompt {
-                guard let selection else {
-                    fatalError("Unexpected, waiting user choice")
-                }
-
-                guard let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
-                    fatalError("Selection \(selection) not found in options")
-                }
-
-                return requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
-            } else {
+            guard let prompt else {
                 return try requirement.resolveOptions(pendingAction, state: state)
             }
+
+            guard let selection,
+                  let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
+                fatalError("Selection \(selection ?? "nil") not found in options")
+            }
+
+            return requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
         }
     }
 
