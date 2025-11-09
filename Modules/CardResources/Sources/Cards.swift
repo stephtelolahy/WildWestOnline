@@ -806,7 +806,6 @@ private extension Card {
                     selectors: [
                         .setTarget(.damagingPlayer),
                         .repeat(.receivedDamageAmount),
-                        .satisfies(.targetedPlayerHasHandCard),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
@@ -847,7 +846,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regexHearts))
+                        .require(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]

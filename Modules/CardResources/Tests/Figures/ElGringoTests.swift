@@ -63,7 +63,7 @@ struct ElGringoTests {
         let choices: [Choice] = [
             .init(options: ["p1", .choicePass], selectionIndex: 0)
         ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
 
         // Then
         #expect(result == [

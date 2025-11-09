@@ -151,7 +151,6 @@ public struct Card: Equatable, Codable, Sendable {
             case drawnCardDoesNotMatch(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
-            case targetedPlayerHasHandCard
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {

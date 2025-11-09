@@ -28,7 +28,6 @@ private extension Card.Selector.StateCondition {
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
-        case .targetedPlayerHasHandCard: TargetedPlayerHasHandCard()
         }
     }
 
@@ -129,15 +128,6 @@ private extension Card.Selector.StateCondition {
 
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
-        }
-    }
-
-    struct TargetedPlayerHasHandCard: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return !targetObj.hand.isEmpty
         }
     }
 }
