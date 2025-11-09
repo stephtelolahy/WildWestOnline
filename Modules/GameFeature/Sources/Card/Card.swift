@@ -144,7 +144,7 @@ public struct Card: Equatable, Codable, Sendable {
             case playLimitPerTurn([String: Int])
             case isGameOver
             case isCurrentTurn
-            case isDamagedLethal
+            case isHealthZero
             case drawnCardMatches(_ regex: String)
             case drawnCardDoesNotMatch(_ regex: String)
             case targetedCardFromHand

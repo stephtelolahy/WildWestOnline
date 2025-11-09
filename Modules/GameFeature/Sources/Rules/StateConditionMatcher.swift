@@ -22,7 +22,7 @@ private extension Card.Selector.StateCondition {
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
-        case .isDamagedLethal: IsDamagedLethal()
+        case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
@@ -73,7 +73,7 @@ private extension Card.Selector.StateCondition {
         }
     }
 
-    struct IsDamagedLethal: Matcher {
+    struct IsHealthZero: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.players.get(pendingAction.sourcePlayer).health <= 0
         }
