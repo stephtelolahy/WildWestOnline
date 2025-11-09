@@ -9,33 +9,37 @@ import GameFeature
 import Testing
 
 struct SidKetchumTests {
-    @Test(.disabled()) func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
+    @Test func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
-                    .withAttributes([.maxHealth: 4])
-                    .withHand(["c1", "c2"])
+                    .withMaxHealth(4)
                     .withHealth(1)
+                    .withHand(["c1", "c2"])
             }
             .build()
 
         // When
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
+        let choices: [Choice] = [
+            .init(options: ["c1", "c2", .choicePass], selectionIndex: 0),
+            .init(options: ["c2", .choicePass], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .playAbility(.sidKetchum, player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["c1", "c2"], player: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["c2"], player: "p1"),
+            .choose("c2", player: "p1"),
             .discardHand("c2", player: "p1"),
             .heal(1, player: "p1")
         ])
     }
-
-    @Test(.disabled()) func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
+/*
+    @Test func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -61,7 +65,7 @@ struct SidKetchumTests {
         ])
     }
 
-    @Test(.disabled()) func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
+    @Test func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -79,7 +83,7 @@ struct SidKetchumTests {
         }
     }
 
-    @Test(.disabled()) func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
+    @Test func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -97,4 +101,5 @@ struct SidKetchumTests {
             #expect(error as? PlayersState.Error == .playerAlreadyMaxHealth("p1"))
         }
     }
+ */
 }
