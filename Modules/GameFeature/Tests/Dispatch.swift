@@ -31,7 +31,7 @@ import Redux
     await sut.dispatch(action)
 
     // Then
-    guard receivedErrors.isEmpty else {
+    if !receivedErrors.isEmpty {
         throw receivedErrors[0]
     }
 

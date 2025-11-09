@@ -11,7 +11,8 @@ import GameFeature
 struct WinchesterTest {
     @Test func playWinchester_shouldEquipAndSetAttribute() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.winchester])
             }

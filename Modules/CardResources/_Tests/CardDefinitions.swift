@@ -6,22 +6,6 @@
 //
 
 /*
- static var sidKetchum: Self {
-     .init(
-         name: .sidKetchum,
-         description: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
-         setPlayerAttribute: [.maxHealth: 4],
-         effects: [
-             .init(
-                 name: .heal,
-                 selectors: [
-                     .chooseCostHandCard(count: 2)
-                 ]
-             )
-         ]
-     )
- }
-
  static var vultureSam: Self {
      .init(
          name: .vultureSam,

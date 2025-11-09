@@ -11,7 +11,8 @@ import GameFeature
 struct SchofieldTest {
     @Test func playSchofield_shouldSetWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
             }
@@ -30,7 +31,8 @@ struct SchofieldTest {
 
     @Test func discardSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withWeapon(2)
@@ -50,7 +52,8 @@ struct SchofieldTest {
 
     @Test func stealSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withWeapon(2)
@@ -71,7 +74,8 @@ struct SchofieldTest {
 
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])

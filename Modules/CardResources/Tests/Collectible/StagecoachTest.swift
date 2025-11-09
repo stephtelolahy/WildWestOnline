@@ -11,7 +11,8 @@ import GameFeature
 struct StagecoachTest {
     @Test func play_shouldDraw2Cards() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.stagecoach])
             }

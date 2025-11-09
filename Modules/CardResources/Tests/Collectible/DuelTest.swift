@@ -11,7 +11,8 @@ import GameFeature
 struct DuelTests {
     // Given
     private var state: GameFeature.State {
-        GameFeature.State.makeBuilderWithAllCards()
+        GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.duel, .bang1])
             }

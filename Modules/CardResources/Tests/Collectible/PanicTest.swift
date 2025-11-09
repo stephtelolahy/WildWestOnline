@@ -11,7 +11,8 @@ import GameFeature
 struct PanicTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -39,7 +40,8 @@ struct PanicTest {
 
     @Test func play_targetHavingInPlayCards_shouldChooseInPlayCard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withDummyCards(["c21", "c22"])
             .withPlayer("p1") {
                 $0.withHand([.panic])
@@ -68,7 +70,8 @@ struct PanicTest {
 
     @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withDummyCards(["c22", "c23"])
             .withPlayer("p1") {
                 $0.withHand([.panic])
@@ -98,7 +101,8 @@ struct PanicTest {
 
     @Test func play_noTarget_shouldThrowError() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }

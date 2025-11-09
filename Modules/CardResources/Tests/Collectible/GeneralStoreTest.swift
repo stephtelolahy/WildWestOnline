@@ -11,7 +11,8 @@ import GameFeature
 struct GeneralStoreTests {
     @Test func play_threePlayers_shouldAllowEachPlayerToChooseACard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.generalStore])
             }

@@ -11,7 +11,8 @@ import GameFeature
 struct BarrelTest {
     @Test func playingBarrel_shouldEquip() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.barrel])
             }
@@ -29,7 +30,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_oneFlippedCardIsHearts_shouldCancelShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
@@ -52,7 +54,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_oneFlippedCardIsSpades_shouldNotCancelShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
@@ -75,7 +78,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_twoFlippedCardsWithFirstIsHearts_shouldCancelShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
@@ -99,7 +103,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_twoFlippedCardsWithSecondIsHearts_shouldCancelShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
@@ -123,7 +128,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_twoFlippedCardsNoneIsHearts_shouldNotCancelShot() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
@@ -147,7 +153,8 @@ struct BarrelTest {
 
     @Test func triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withHand([.missed])

@@ -50,6 +50,7 @@ public enum Cards {
         .elGringo,
         .suzyLafayette,
         .jourdonnais,
+        .sidKetchum,
     ]
 }
 
@@ -847,6 +848,27 @@ private extension Card {
                     action: .counterShot,
                     selectors: [
                         .satisfies(.drawnCardMatches(.regexHearts))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var sidKetchum: Self {
+        .init(
+            name: .sidKetchum,
+            type: .character,
+            description: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .heal,
+                    amount: 1,
+                    selectors: [
+                        .require(.minimumHandCards(2)),
+                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.costCard([.isFromHand]))
                     ]
                 )
             ]

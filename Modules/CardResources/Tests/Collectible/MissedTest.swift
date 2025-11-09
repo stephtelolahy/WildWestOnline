@@ -11,7 +11,8 @@ import GameFeature
 struct MissedTest {
     @Test func beingShot_discardingMissed_shouldCounter() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -43,7 +44,8 @@ struct MissedTest {
 
     @Test func beingShot_choosingPass_shouldDealDamage() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -74,7 +76,8 @@ struct MissedTest {
 
     @Test func beingShot_noCounterCard_shouldDealDamage() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)

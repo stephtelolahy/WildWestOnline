@@ -28,7 +28,8 @@ struct WillyTheKidTest {
 
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)

@@ -11,7 +11,8 @@ import GameFeature
 struct Draw3CardsOnEliminatingTest {
     @Test func eliminating_shouldDraw2Cards() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.draw3CardsOnEliminating])
             }
@@ -38,7 +39,8 @@ struct Draw3CardsOnEliminatingTest {
 
     @Test func eliminated_withOffenderIsHimself_shouldDoNoting() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withAbilities([.draw3CardsOnEliminating, .eliminateOnDamagedLethal])

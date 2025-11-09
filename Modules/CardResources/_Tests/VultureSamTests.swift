@@ -11,7 +11,8 @@ import Testing
 struct VultureSamTests {
     @Test(.disabled()) func VultureSam_anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.vultureSam])
             }

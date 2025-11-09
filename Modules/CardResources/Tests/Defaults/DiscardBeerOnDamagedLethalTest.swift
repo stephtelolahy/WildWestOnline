@@ -11,7 +11,8 @@ import GameFeature
 struct DiscardBeerOnDamagedLethalTest {
     @Test func beingDamagedLethal_discardingBeer_shouldRestoreHealth() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withMaxHealth(4)
@@ -43,7 +44,8 @@ struct DiscardBeerOnDamagedLethalTest {
 
     @Test func beingDamagedLethal_notDiscardingBeer_shouldBeEliminated() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withAbilities([

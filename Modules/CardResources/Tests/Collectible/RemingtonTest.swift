@@ -11,7 +11,8 @@ import GameFeature
 struct RemingtonTest {
     @Test func playRemington_shouldEquipAndSetWeapon() async throws {
         // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.remington])
             }
