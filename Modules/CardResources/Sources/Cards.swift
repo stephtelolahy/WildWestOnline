@@ -664,7 +664,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .satisfies(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -674,14 +674,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regex2To9Spades))
+                        .require(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regex2To9Spades)),
+                        .require(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
