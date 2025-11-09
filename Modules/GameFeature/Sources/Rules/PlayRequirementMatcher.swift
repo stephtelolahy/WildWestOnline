@@ -1,17 +1,17 @@
 //
-//  StateConditionMatcher.swift
+//  PlayRequirementMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension Card.Selector.StateCondition {
+extension Card.Selector.PlayRequirement {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.StateCondition {
+private extension Card.Selector.PlayRequirement {
     protocol Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }
@@ -19,17 +19,14 @@ private extension Card.Selector.StateCondition {
     var matcher: Matcher {
         switch self {
         case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .minimumHandCards(let count): MinimumHandCards(count: count)
-        case .woundedPlayers: WoundedPlayers()
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
-        case .isDamagedLethal: IsDamagedLethal()
+        case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
-        case .targetedPlayerHasHandCard: TargetedPlayerHasHandCard()
         }
     }
 
@@ -38,21 +35,6 @@ private extension Card.Selector.StateCondition {
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.playOrder.count >= count
-        }
-    }
-
-    struct MinimumHandCards: Matcher {
-        let count: Int
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.players.get(pendingAction.sourcePlayer).hand.count >= count
-        }
-    }
-
-    struct WoundedPlayers: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.playOrder
-                .contains { state.players.get($0).isWounded }
         }
     }
 
@@ -91,7 +73,7 @@ private extension Card.Selector.StateCondition {
         }
     }
 
-    struct IsDamagedLethal: Matcher {
+    struct IsHealthZero: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.players.get(pendingAction.sourcePlayer).health <= 0
         }
@@ -138,15 +120,6 @@ private extension Card.Selector.StateCondition {
 
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
-        }
-    }
-
-    struct TargetedPlayerHasHandCard: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return !targetObj.hand.isEmpty
         }
     }
 }

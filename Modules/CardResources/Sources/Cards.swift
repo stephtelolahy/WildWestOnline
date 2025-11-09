@@ -97,7 +97,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .satisfies(.minimumPlayers(3)),
+                        .require(.minimumPlayers(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
                 )
@@ -167,7 +167,7 @@ private extension Card {
                     trigger: .damagedLethal,
                     action: .eliminate,
                     selectors: [
-                        .satisfies(.isDamagedLethal)
+                        .require(.isHealthZero)
                     ]
                 )
             ]
@@ -184,7 +184,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .endGame,
                     selectors: [
-                        .satisfies(.isGameOver)
+                        .require(.isGameOver)
                     ]
                 )
             ]
@@ -225,7 +225,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .startTurn,
                     selectors: [
-                        .satisfies(.isCurrentTurn),
+                        .require(.isCurrentTurn),
                         .setTarget(.nextPlayer)
                     ]
                 )
@@ -317,10 +317,7 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .cardPrePlayed,
-                    action: .play,
-                    selectors: [
-                        .require(.woundedPlayers)
-                    ]
+                    action: .play
                 ),
                 .init(
                     trigger: .cardPlayed,
@@ -352,14 +349,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .discardHand,
                     selectors: [
-                        .satisfies(.targetedCardFromHand)
+                        .require(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .discardInPlay,
                     selectors: [
-                        .satisfies(.targetedCardFromInPlay)
+                        .require(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -384,14 +381,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .stealHand,
                     selectors: [
-                        .satisfies(.targetedCardFromHand)
+                        .require(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .stealInPlay,
                     selectors: [
-                        .satisfies(.targetedCardFromInPlay)
+                        .require(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -639,7 +636,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regexHearts))
+                        .require(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -664,7 +661,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .satisfies(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -674,14 +671,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regex2To9Spades))
+                        .require(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regex2To9Spades)),
+                        .require(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
@@ -713,7 +710,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .satisfies(.drawnCardDoesNotMatch(.regexHearts))
+                        .require(.drawnCardDoesNotMatch(.regexHearts))
                     ]
                 ),
                 .init(
@@ -806,7 +803,6 @@ private extension Card {
                     selectors: [
                         .setTarget(.damagingPlayer),
                         .repeat(.receivedDamageAmount),
-                        .satisfies(.targetedPlayerHasHandCard),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
@@ -847,7 +843,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .satisfies(.drawnCardMatches(.regexHearts))
+                        .require(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -866,7 +862,6 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .require(.minimumHandCards(2)),
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.costCard([.isFromHand]))
                     ]

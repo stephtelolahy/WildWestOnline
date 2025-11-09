@@ -20,7 +20,7 @@ public enum GameFeature {
         public var startOrder: [String]
         public var queue: [Action]
         public var lastSuccessfulAction: Action?
-        public var lastActionError: GameFeature.Error?
+        public var lastError: GameFeature.Error?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]
@@ -72,12 +72,12 @@ public enum GameFeature {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(Card.Selector.StateCondition)
+        case cardNotPlayable(String)
+        case cardAlreadyInPlay(String)
+        case noReq(Card.Selector.PlayRequirement)
         case noTarget(Card.Selector.PlayerGroup)
         case noChoosableTarget([Card.Selector.PlayerFilter])
         case noChoosableCard([Card.Selector.CardFilter])
-        case cardNotPlayable(String)
-        case cardAlreadyInPlay(String)
     }
 
     public static var reducer: Reducer<State, Action, Void> {

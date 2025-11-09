@@ -12,11 +12,6 @@ extension GameFeature {
         dependencies: Void
     ) -> Effect<Action> {
         let state = state
-
-        guard state.lastActionError == nil else {
-            return .none
-        }
-
         return .run {
             await nextAction(state: state, action: action)
         }
@@ -162,7 +157,7 @@ private extension GameFeature.State {
         var newState = state
 
         _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: ())
-        if let error = newState.lastActionError {
+        if let error = newState.lastError {
             throw error
         }
 

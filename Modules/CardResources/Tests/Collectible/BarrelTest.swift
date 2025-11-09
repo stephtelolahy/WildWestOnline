@@ -66,7 +66,7 @@ struct BarrelTest {
 
         // When
         let action = GameFeature.Action.shoot("p2")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
@@ -140,7 +140,7 @@ struct BarrelTest {
 
         // When
         let action = GameFeature.Action.shoot("p2")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [

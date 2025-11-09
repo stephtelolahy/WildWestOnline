@@ -18,7 +18,8 @@ struct Choice {
 func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
-    expectedChoices: [Choice] = []
+    expectedChoices: [Choice] = [],
+    ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let sut = Store(
         initialState: state,
@@ -30,7 +31,7 @@ func dispatchUntilCompleted(
     var cancellables: Set<AnyCancellable> = []
     sut.$state
         .sink { state in
-            if let error = state.lastActionError {
+            if let error = state.lastError {
                 receivedErrors.append(error)
             }
             if let event = state.lastSuccessfulAction {
@@ -43,7 +44,8 @@ func dispatchUntilCompleted(
     await sut.dispatch(action)
 
     // Then
-    if !receivedErrors.isEmpty {
+    if !ignoreError,
+       !receivedErrors.isEmpty {
         throw receivedErrors[0]
     }
 

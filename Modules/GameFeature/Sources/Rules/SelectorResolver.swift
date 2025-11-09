@@ -21,8 +21,7 @@ private extension Card.Selector {
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
-        case .satisfies(let playCondition): Satisfies(playCondition: playCondition)
-        case .require(let playCondition): Require(playCondition: playCondition)
+        case .require(let requirement): Require(requirement: requirement)
         }
     }
 
@@ -39,8 +38,12 @@ private extension Card.Selector {
         let targetGroup: Card.Selector.PlayerGroup
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            targetGroup.resolve(pendingAction, state: state)
-                .map { pendingAction.withTarget($0) }
+            let targets = targetGroup.resolve(pendingAction, state: state)
+            guard targets.isNotEmpty else {
+                throw .noTarget(targetGroup)
+            }
+
+            return targets.map { pendingAction.withTarget($0) }
         }
     }
 
@@ -65,31 +68,19 @@ private extension Card.Selector {
 
             guard let selection,
                   let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
-                fatalError("Selection \(selection ?? "nil") not found in options")
+                fatalError("Selection \(String(describing: selection)) not found in options")
             }
 
             return requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
         }
     }
 
-    struct Satisfies: Resolver {
-        let playCondition: Card.Selector.StateCondition
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard playCondition.match(pendingAction, state: state) else {
-                return []
-            }
-
-            return [pendingAction]
-        }
-    }
-
     struct Require: Resolver {
-        let playCondition: Card.Selector.StateCondition
+        let requirement: Card.Selector.PlayRequirement
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard playCondition.match(pendingAction, state: state) else {
-                throw .noReq(playCondition)
+            guard requirement.match(pendingAction, state: state) else {
+                throw .noReq(requirement)
             }
 
             return [pendingAction]

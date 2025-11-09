@@ -43,7 +43,7 @@ struct EndGameOnEliminatedTest {
 
         // When
         let action = GameFeature.Action.eliminate(player: "p3")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [

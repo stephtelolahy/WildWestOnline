@@ -170,7 +170,7 @@ private extension GameFeature.State {
 
     var startPlayerId: String {
         guard let playerId = startOrder.first else {
-            fatalError("unsupported")
+            fatalError("Missing start player")
         }
 
         return playerId

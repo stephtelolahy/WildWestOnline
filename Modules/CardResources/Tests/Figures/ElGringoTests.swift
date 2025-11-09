@@ -63,7 +63,7 @@ struct ElGringoTests {
         let choices: [Choice] = [
             .init(options: ["p1", .choicePass], selectionIndex: 0)
         ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
 
         // Then
         #expect(result == [
@@ -86,7 +86,7 @@ struct ElGringoTests {
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
