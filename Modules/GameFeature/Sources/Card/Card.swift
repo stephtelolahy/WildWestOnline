@@ -71,6 +71,7 @@ public struct Card: Equatable, Codable, Sendable {
         case turnEnded
         case shot
         case eliminating
+        case otherEliminated
     }
 
     public enum ActionName: String, Codable, Sendable {
@@ -130,6 +131,7 @@ public struct Card: Equatable, Codable, Sendable {
             case nextPlayer
             case damagingPlayer
             case currentPlayer
+            case eliminated
         }
 
         public enum CardGroup: String, Codable, Sendable {

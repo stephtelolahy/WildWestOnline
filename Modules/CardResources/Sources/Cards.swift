@@ -51,6 +51,7 @@ public enum Cards {
         .suzyLafayette,
         .jourdonnais,
         .sidKetchum,
+        .vultureSam,
     ]
 }
 
@@ -864,6 +865,33 @@ private extension Card {
                     selectors: [
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.costCard([.isFromHand]))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var vultureSam: Self {
+        .init(
+            name: .vultureSam,
+            type: .character,
+            description: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .otherEliminated,
+                    action: .stealInPlay,
+                    selectors: [
+                        .setTarget(.eliminated),
+                        .setCard(.allInPlay)
+                    ]
+                ),
+                .init(
+                    trigger: .otherEliminated,
+                    action: .stealHand,
+                    selectors: [
+                        .setTarget(.eliminated),
+                        .setCard(.allInHand)
                     ]
                 )
             ]
