@@ -6,24 +6,6 @@
 //
 
 /*
- static var vultureSam: Self {
-     .init(
-         name: .vultureSam,
-         description: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
-         setPlayerAttribute: [.maxHealth: 4],
-         effects: [
-             .init(
-                 name: .steal,
-                 selectors: [
-                     .setTarget(.eliminated),
-                     .setCard(.all)
-                 ],
-                 when: .otherEliminated
-             )
-         ]
-     )
- }
-
  static var slabTheKiller: Self {
      .init(
          name: .slabTheKiller,

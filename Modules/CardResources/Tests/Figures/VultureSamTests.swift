@@ -9,15 +9,16 @@ import GameFeature
 import Testing
 
 struct VultureSamTests {
-    @Test(.disabled()) func VultureSam_anotherPlayerEliminated_shouldDrawItsCard() async throws {
+    @Test func VultureSam_anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([.vultureSam])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.discardCardsOnEliminated])
+                $0.withAbilities([.discardAllCardsOnEliminated])
                     .withHand(["c1"])
                     .withInPlay(["c2"])
             }

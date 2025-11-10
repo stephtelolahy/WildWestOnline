@@ -31,6 +31,7 @@ private extension Card.Trigger {
         case .cardPrePlayed: NeverMatch()
         case .cardPlayed: NeverMatch()
         case .eliminating: Eliminating()
+        case .otherEliminated: OtherEliminated()
         }
     }
 
@@ -175,6 +176,17 @@ private extension Card.Trigger {
                   parentAction.name == .damage,
                   parentAction.sourcePlayer == player,
                   parentAction.targetedPlayer != player else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct OtherEliminated: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .eliminate = action.name,
+                  action.targetedPlayer != player else {
                 return false
             }
 

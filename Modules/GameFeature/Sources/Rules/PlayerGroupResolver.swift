@@ -24,6 +24,7 @@ private extension Card.Selector.PlayerGroup {
         case .nextPlayer: NextPlayer()
         case .damagingPlayer: DamagingPlayer()
         case .currentPlayer: CurrentPlayer()
+        case .eliminatedPlayer: EliminatedPlayer()
         }
     }
 
@@ -65,17 +66,30 @@ private extension Card.Selector.PlayerGroup {
                 fatalError("Expected trigger from damage")
             }
 
-            guard parentAction.sourcePlayer != parentAction.targetedPlayer else {
+            let damagingPlayer = parentAction.sourcePlayer
+            guard damagingPlayer != parentAction.targetedPlayer else {
                 return []
             }
 
-            return [parentAction.sourcePlayer]
+            return [damagingPlayer]
         }
     }
 
     struct CurrentPlayer: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             [pendingAction.sourcePlayer]
+        }
+    }
+
+    struct EliminatedPlayer: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
+            guard let parentAction = pendingAction.triggeredBy.first,
+                  parentAction.name == .eliminate,
+                    let targetedPlayer = parentAction.targetedPlayer else {
+                fatalError("Expected trigger from eliminate")
+            }
+
+            return [targetedPlayer]
         }
     }
 }
