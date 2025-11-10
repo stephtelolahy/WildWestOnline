@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CardResources
 
 struct SettingsFiguresView: View {
     @StateObject private var store: ViewStore
@@ -24,7 +25,7 @@ struct SettingsFiguresView: View {
                         await store.dispatch(.settings(.updatePreferredFigure(figure.name)))
                     }
                 }, label: {
-                    FigureRow(figure: figure)
+                    figureRow(figure: figure)
                         .foregroundStyle(.foreground)
                 })
             }
@@ -32,15 +33,35 @@ struct SettingsFiguresView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("Figures")
     }
+
+    func figureRow(figure: ViewState.Figure) -> some View {
+        HStack {
+            Image(figure.name, bundle: .cardResources)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .clipShape(Circle())
+
+            Text(figure.name.uppercased())
+
+            Spacer()
+
+            if figure.isFavorite {
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+                    .padding()
+            }
+        }
+    }
 }
 
 #Preview {
     SettingsFiguresView {
         .init(
             initialState: .init(figures: [
-                .init(name: "Figure1", isFavorite: false),
-                .init(name: "Figure2", isFavorite: false),
-                .init(name: "Figure3", isFavorite: true)
+                .init(name: .willyTheKid, isFavorite: false),
+                .init(name: .calamityJanet, isFavorite: false),
+                .init(name: .blackJack, isFavorite: true)
             ]),
             dependencies: ()
         )

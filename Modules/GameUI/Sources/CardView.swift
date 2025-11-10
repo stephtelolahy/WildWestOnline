@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GameFeature
+import CardResources
 
 /// A view that displays a card
 struct CardView: View {
@@ -22,7 +23,7 @@ struct CardView: View {
     }
 
     var body: some View {
-        Image(cardImageName, bundle: .module)
+        Image(cardImageName, bundle: .cardResources)
             .resizable()
             .scaledToFit()
             .background(

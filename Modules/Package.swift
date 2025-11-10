@@ -190,6 +190,7 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "AppFeature",
+                "CardResources",
                 "Theme"
             ],
             path: "SettingsUI/Sources",
@@ -245,6 +246,9 @@ let package = Package(
                 "GameFeature"
             ],
             path: "CardResources/Sources",
+            resources: [
+                .process("Resources")
+            ],
             plugins: lintPlugin
         ),
         .testTarget(
