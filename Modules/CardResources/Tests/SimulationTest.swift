@@ -13,7 +13,7 @@ import Combine
 
 struct SimulationTest {
     @Test func simulateGame_shouldComplete() async throws {
-        try await simulateGame(playersCount: 5)
+        try await simulateGame(playersCount: 7)
     }
 
     @MainActor

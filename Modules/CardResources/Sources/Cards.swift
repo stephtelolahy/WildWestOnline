@@ -52,6 +52,7 @@ public enum Cards {
         .jourdonnais,
         .sidKetchum,
         .vultureSam,
+        .luckyDuke,
     ]
 }
 
@@ -893,6 +894,22 @@ private extension Card {
                         .setTarget(.eliminatedPlayer),
                         .setCard(.allInHand)
                     ]
+                )
+            ]
+        )
+    }
+
+    static var luckyDuke: Self {
+        .init(
+            name: .luckyDuke,
+            type: .character,
+            description: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .setDrawCards,
+                    amount: 2
                 )
             ]
         )
