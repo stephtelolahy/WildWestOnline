@@ -15,14 +15,6 @@
      )
  }
 
- static var luckyDuke: Self {
-     .init(
-         name: .luckyDuke,
-         description: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
-         setPlayerAttribute: [.maxHealth: 4, .drawCards: 2]
-     )
- }
-
  static var calamityJanet: Self {
      .init(
          name: .calamityJanet,
