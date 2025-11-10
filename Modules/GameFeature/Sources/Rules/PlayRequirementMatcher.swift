@@ -84,9 +84,9 @@ private extension Card.Selector.PlayRequirement {
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
-            let drawCards = state.players.get(player).drawCards
+            let cardsPerDraw = state.players.get(player).cardsPerDraw
             return state.discard
-                .prefix(drawCards)
+                .prefix(cardsPerDraw)
                 .contains { $0.matches(regex: regex) }
         }
     }
@@ -96,9 +96,9 @@ private extension Card.Selector.PlayRequirement {
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
-            let drawCards = state.players.get(player).drawCards
+            let cardsPerDraw = state.players.get(player).cardsPerDraw
             return state.discard
-                .prefix(drawCards)
+                .prefix(cardsPerDraw)
                 .allSatisfy { $0.matches(regex: regex) == false }
         }
     }

@@ -908,7 +908,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setDrawCards,
+                    action: .setCardsPerDraw,
                     amount: 2
                 )
             ]

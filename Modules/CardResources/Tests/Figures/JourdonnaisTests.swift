@@ -15,7 +15,7 @@ struct JourdonnaisTests {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jourdonnais])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withPlayer("p2") {
                 $0.withHand([.bang, "c2"])

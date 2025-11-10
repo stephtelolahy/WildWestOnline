@@ -40,7 +40,7 @@ public enum GameFeature {
             public var abilities: [String]
             public var handLimit: Int
             public var playLimitPerTurn: [String: Int]
-            public var drawCards: Int
+            public var cardsPerDraw: Int
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {

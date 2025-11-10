@@ -105,7 +105,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setMaxHealth
         case setHandLimit
         case setPlayLimitPerTurn
-        case setDrawCards
+        case setCardsPerDraw
         case queue
     }
 

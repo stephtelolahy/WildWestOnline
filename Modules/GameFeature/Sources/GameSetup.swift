@@ -78,7 +78,7 @@ private extension GameSetup {
         }
 
         let weapon = 1
-        let drawCards = figureObj.amountOfActiveEffect(named: .setDrawCards) ?? 1
+        let cardsPerDraw = figureObj.amountOfActiveEffect(named: .setCardsPerDraw) ?? 1
         let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
         let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
@@ -105,7 +105,7 @@ private extension GameSetup {
             abilities: abilities,
             handLimit: handLimit,
             playLimitPerTurn: playLimitPerTurn,
-            drawCards: drawCards
+            cardsPerDraw: cardsPerDraw
         )
     }
 }
