@@ -5,6 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
 //
 import SwiftUI
+import CardResources
 
 // Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
@@ -15,7 +16,7 @@ struct PlayerView: View {
     var body: some View {
         VStack(spacing: 4) {
             // Figure image
-            Image(player.imageName, bundle: .module)
+            Image(player.imageName, bundle: .cardResources)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50, height: 50)

@@ -4,6 +4,9 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 10/11/2025.
 //
+import Foundation
 
-/// Used for asset bundle lookup
-public class CardResources {}
+/// Expose the bundle publicly
+public extension Bundle {
+    static var cardResources: Bundle { Bundle.module }
+}
