@@ -6,7 +6,6 @@
 //
 import Foundation
 
-/// Expose the bundle publicly
 public extension Bundle {
     static var cardResources: Bundle { Bundle.module }
 }
