@@ -631,7 +631,7 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
@@ -656,7 +656,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
@@ -705,7 +705,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
@@ -838,7 +838,7 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
