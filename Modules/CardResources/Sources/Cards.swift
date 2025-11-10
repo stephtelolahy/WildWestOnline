@@ -882,7 +882,7 @@ private extension Card {
                     trigger: .otherEliminated,
                     action: .stealInPlay,
                     selectors: [
-                        .setTarget(.eliminated),
+                        .setTarget(.eliminatedPlayer),
                         .setCard(.allInPlay)
                     ]
                 ),
@@ -890,7 +890,7 @@ private extension Card {
                     trigger: .otherEliminated,
                     action: .stealHand,
                     selectors: [
-                        .setTarget(.eliminated),
+                        .setTarget(.eliminatedPlayer),
                         .setCard(.allInHand)
                     ]
                 )

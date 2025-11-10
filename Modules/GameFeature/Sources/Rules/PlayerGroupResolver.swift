@@ -24,7 +24,7 @@ private extension Card.Selector.PlayerGroup {
         case .nextPlayer: NextPlayer()
         case .damagingPlayer: DamagingPlayer()
         case .currentPlayer: CurrentPlayer()
-        case .eliminated: Eliminated()
+        case .eliminatedPlayer: EliminatedPlayer()
         }
     }
 
@@ -81,7 +81,7 @@ private extension Card.Selector.PlayerGroup {
         }
     }
 
-    struct Eliminated: Resolver {
+    struct EliminatedPlayer: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .eliminate,

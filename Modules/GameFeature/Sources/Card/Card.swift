@@ -131,7 +131,7 @@ public struct Card: Equatable, Codable, Sendable {
             case nextPlayer
             case damagingPlayer
             case currentPlayer
-            case eliminated
+            case eliminatedPlayer
         }
 
         public enum CardGroup: String, Codable, Sendable {
