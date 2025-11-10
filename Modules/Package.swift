@@ -245,6 +245,9 @@ let package = Package(
                 "GameFeature"
             ],
             path: "CardResources/Sources",
+            resources: [
+                .process("Resources")
+            ],
             plugins: lintPlugin
         ),
         .testTarget(
