@@ -25,7 +25,7 @@ struct VolcanicTest {
         #expect(result == [
             .equip(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
-            .setPlayLimitPerTurn([.bang: .unlimited], player: "p1")
+            .setCardPlayLimitsPerTurn([.bang: .unlimited], player: "p1")
         ])
     }
 
@@ -47,7 +47,7 @@ struct VolcanicTest {
         #expect(result == [
             .discardInPlay(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
-            .setPlayLimitPerTurn([.bang: 1], player: "p1")
+            .setCardPlayLimitsPerTurn([.bang: 1], player: "p1")
         ])
     }
 }

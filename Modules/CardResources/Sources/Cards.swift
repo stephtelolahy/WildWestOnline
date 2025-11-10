@@ -433,7 +433,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .require(.playLimitPerTurn([.bang: 1])),
+                        .require(.cardPlayLimitsPerTurn([.bang: 1])),
                         .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
@@ -566,12 +566,12 @@ private extension Card {
             effects: Card.EffectDefinition.weapon(range: 1) + [
                 .init(
                     trigger: .cardEquiped,
-                    action: .setPlayLimitPerTurn,
+                    action: .setCardPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 ),
                 .init(
                     trigger: .cardDiscarded,
-                    action: .setPlayLimitPerTurn,
+                    action: .setCardPlayLimitsPerTurn,
                     amountPerTurn: [.bang: 1]
                 )
             ]
@@ -735,7 +735,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setPlayLimitPerTurn,
+                    action: .setCardPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 )
             ]

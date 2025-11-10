@@ -20,7 +20,7 @@ struct ElGringoTests {
             .withPlayer("p2") {
                 $0.withHand([.bang, "c2"])
                     .withWeapon(1)
-                    .withPlayLimitPerTurn([.bang: 1])
+                    .withCardPlayLimitsPerTurn([.bang: 1])
             }
             .build()
 
@@ -54,7 +54,7 @@ struct ElGringoTests {
             .withPlayer("p2") {
                 $0.withHand([.bang])
                     .withWeapon(1)
-                    .withPlayLimitPerTurn([.bang: 1])
+                    .withCardPlayLimitsPerTurn([.bang: 1])
             }
             .build()
 

@@ -129,22 +129,22 @@ public extension GameFeature.State.Player {
         private var weapon: Int = 0
         private var abilities: [String] = []
         private var handLimit: Int = 0
-        private var playLimitPerTurn: [String: Int] = [:]
+        private var cardPlayLimitsPerTurn: [String: Int] = [:]
         private var cardsPerDraw: Int = 0
 
         public func build() -> GameFeature.State.Player {
             .init(
                 figure: figure,
+                abilities: abilities,
                 health: health,
                 maxHealth: maxHealth,
                 hand: hand,
                 inPlay: inPlay,
+                weapon: weapon,
                 magnifying: magnifying,
                 remoteness: remoteness,
-                weapon: weapon,
-                abilities: abilities,
                 handLimit: handLimit,
-                playLimitPerTurn: playLimitPerTurn,
+                cardPlayLimitsPerTurn: cardPlayLimitsPerTurn,
                 cardsPerDraw: cardsPerDraw
             )
         }
@@ -199,8 +199,8 @@ public extension GameFeature.State.Player {
             return self
         }
 
-        public func withPlayLimitPerTurn(_ value: [String: Int]) -> Self {
-            playLimitPerTurn = value
+        public func withCardPlayLimitsPerTurn(_ value: [String: Int]) -> Self {
+            cardPlayLimitsPerTurn = value
             return self
         }
 

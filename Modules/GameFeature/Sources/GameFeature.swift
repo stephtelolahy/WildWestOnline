@@ -30,16 +30,16 @@ public enum GameFeature {
 
         public struct Player: Equatable, Codable, Sendable {
             public var figure: String
+            public var abilities: [String]
             public var health: Int
             public var maxHealth: Int
             public var hand: [String]
             public var inPlay: [String]
+            public var weapon: Int
             public var magnifying: Int
             public var remoteness: Int
-            public var weapon: Int
-            public var abilities: [String]
             public var handLimit: Int
-            public var playLimitPerTurn: [String: Int]
+            public var cardPlayLimitsPerTurn: [String: Int]
             public var cardsPerDraw: Int
         }
 

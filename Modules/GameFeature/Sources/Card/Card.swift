@@ -104,7 +104,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setWeapon
         case setMaxHealth
         case setHandLimit
-        case setPlayLimitPerTurn
+        case setCardPlayLimitsPerTurn
         case setCardsPerDraw
         case queue
     }
@@ -143,7 +143,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum PlayRequirement: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
-            case playLimitPerTurn([String: Int])
+            case cardPlayLimitsPerTurn([String: Int])
             case isGameOver
             case isCurrentTurn
             case isHealthZero
