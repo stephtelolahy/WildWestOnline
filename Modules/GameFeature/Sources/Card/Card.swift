@@ -110,6 +110,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setHandLimit
         case setPlayLimitsPerTurn
         case setCardsPerDraw
+        @available(*, deprecated, message: "Use state.cardsToDrawThisTurn instead")
         case silent
         case queue
     }

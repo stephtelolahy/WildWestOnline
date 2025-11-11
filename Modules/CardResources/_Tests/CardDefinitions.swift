@@ -71,29 +71,6 @@
      )
  }
 
- static var pedroRamirez: Self {
-     .init(
-         name: .pedroRamirez,
-         description: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
-         effects: [
-             .init(
-                 name: .steal,
-                 selectors: [
-                     .chooseTarget([.havingHandCard]),
-                     .chooseCard()
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 name: .drawDeck,
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
  // MARK: - Dodge city
 
  static var punch: Self {
