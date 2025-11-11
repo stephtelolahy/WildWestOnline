@@ -83,7 +83,7 @@ private extension GameSetup {
         let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + playerAbilities
-        let cardPlayLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
+        let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -104,7 +104,7 @@ private extension GameSetup {
             magnifying: magnifying,
             remoteness: remoteness,
             handLimit: handLimit,
-            cardPlayLimitsPerTurn: cardPlayLimitsPerTurn,
+            playLimitsPerTurn: playLimitsPerTurn,
             cardsPerDraw: cardsPerDraw
         )
     }
@@ -116,6 +116,6 @@ private extension Card {
     }
 
     var playlimitPerTurn: [String: Int]? {
-        effects.first { $0.trigger == .permanent && $0.action == .setCardPlayLimitsPerTurn }?.amountPerTurn
+        effects.first { $0.trigger == .permanent && $0.action == .setPlayLimitsPerTurn }?.amountPerTurn
     }
 }

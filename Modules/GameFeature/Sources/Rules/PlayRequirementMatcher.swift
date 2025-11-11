@@ -19,7 +19,7 @@ private extension Card.Selector.PlayRequirement {
     var matcher: Matcher {
         switch self {
         case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .cardPlayLimitsPerTurn(let limits): CardPlayLimitsPerTurn(limits: limits)
+        case .playLimitsPerTurn(let limits): PlayLimitsPerTurn(limits: limits)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
         case .isHealthZero: IsHealthZero()
@@ -39,7 +39,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct CardPlayLimitsPerTurn: Matcher {
+    struct PlayLimitsPerTurn: Matcher {
         let limits: [String: Int]
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -50,7 +50,7 @@ private extension Card.Selector.PlayRequirement {
 
             let playedCount = state.playedThisTurn[card] ?? 0
 
-            if let playerLimit = state.players.get(player).cardPlayLimitsPerTurn[card] {
+            if let playerLimit = state.players.get(player).playLimitsPerTurn[card] {
                 return playedCount < playerLimit
             }
 

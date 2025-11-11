@@ -82,7 +82,7 @@ struct PedroRamirezTests {
         ])
     }
 
-    @Test(.disabled()) func pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldCardsPerDrawFromDeck() async throws {
+    @Test(.disabled()) func pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

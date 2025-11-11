@@ -434,7 +434,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .require(.cardPlayLimitsPerTurn([.bang: 1])),
+                        .require(.playLimitsPerTurn([.bang: 1])),
                         .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
@@ -559,7 +559,7 @@ private extension Card {
         )
     }
 
-    #warning("restore default bangPerTurn on discarded")
+    #warning("restore player's bangPerTurn on discarded")
     static var volcanic: Self {
         .init(
             name: .volcanic,
@@ -568,12 +568,12 @@ private extension Card {
             effects: Card.EffectDefinition.weapon(range: 1) + [
                 .init(
                     trigger: .cardEquiped,
-                    action: .setCardPlayLimitsPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 ),
                 .init(
                     trigger: .cardDiscarded,
-                    action: .setCardPlayLimitsPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: 1]
                 )
             ]
@@ -737,7 +737,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setCardPlayLimitsPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 )
             ]

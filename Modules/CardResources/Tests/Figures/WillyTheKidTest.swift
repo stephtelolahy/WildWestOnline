@@ -23,7 +23,7 @@ struct WillyTheKidTest {
         let player = state.players.get(.willyTheKid)
 
         // Then
-        #expect(player.cardPlayLimitsPerTurn[.bang] == .unlimited)
+        #expect(player.playLimitsPerTurn[.bang] == .unlimited)
     }
 
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
@@ -33,7 +33,7 @@ struct WillyTheKidTest {
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
-                    .withCardPlayLimitsPerTurn([.bang: .unlimited])
+                    .withPlayLimitsPerTurn([.bang: .unlimited])
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])

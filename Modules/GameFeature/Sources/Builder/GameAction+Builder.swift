@@ -208,9 +208,9 @@ public extension GameFeature.Action {
         )
     }
 
-    static func setCardPlayLimitsPerTurn(_ limit: [String: Int], player: String) -> Self {
+    static func setPlayLimitsPerTurn(_ limit: [String: Int], player: String) -> Self {
         .init(
-            name: .setCardPlayLimitsPerTurn,
+            name: .setPlayLimitsPerTurn,
             targetedPlayer: player,
             amountPerTurn: limit
         )

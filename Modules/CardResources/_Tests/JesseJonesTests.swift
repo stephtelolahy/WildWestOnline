@@ -34,7 +34,7 @@ struct JesseJonesTests {
         ])
     }
 
-    @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldCardsPerDrawFromDeck() async throws {
+    @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
