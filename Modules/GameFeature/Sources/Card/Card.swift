@@ -89,6 +89,7 @@ public struct Card: Equatable, Codable, Sendable {
         case discardHand
         case discardInPlay
         case passInPlay
+        case showHand
         case heal
         case damage
         case shoot

@@ -26,6 +26,7 @@ private extension Card.ActionName {
         case .discover: Discover()
         case .discardHand: DiscardHand()
         case .discardInPlay: DiscardInPlay()
+        case .showHand: ShowHand()
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
@@ -273,6 +274,15 @@ private extension Card.ActionName {
 
             state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
+
+            return state
+        }
+    }
+
+    struct ShowHand: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard action.targetedPlayer != nil else { fatalError("Missing targetedPlayer") }
+            guard action.targetedCard != nil else { fatalError("Missing targetedCard") }
 
             return state
         }

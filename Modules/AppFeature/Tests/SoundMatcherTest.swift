@@ -210,4 +210,15 @@ struct SoundMatcherTest {
         // Then
         #expect(sound == .sfxSlideClosed)
     }
+
+    @Test func soundOnShowHand() async throws {
+        // Given
+        let event = GameFeature.Action.showHand("c1", player: "p1")
+
+        // When
+        let sound = try #require(sut.sfx(on: event))
+
+        // Then
+        #expect(sound == .sfxSlideClosed)
+    }
 }

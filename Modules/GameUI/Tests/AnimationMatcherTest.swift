@@ -157,4 +157,15 @@ struct AnimationMatcherTest {
         // TODO: card id = last discovered
         #expect(animation == .moveCard(.hidden, from: .deck, to: .discovered))
     }
+
+    @Test func animateShowHand() async throws {
+        // Given
+        let event = GameFeature.Action.showHand("c1", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerHand("p1"), to: .playerHand("p1")))
+    }
 }
