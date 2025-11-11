@@ -27,7 +27,7 @@ struct PanicTest {
             .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
         ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
@@ -57,7 +57,7 @@ struct PanicTest {
             .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["c21", "c22"], selectionIndex: 1)
         ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
@@ -88,7 +88,7 @@ struct PanicTest {
             .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: ["c22", "c23", "hiddenHand-0"], selectionIndex: 1)
         ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [

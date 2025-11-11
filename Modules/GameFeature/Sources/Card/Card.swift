@@ -120,6 +120,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
+        case applyIf(PlayRequirement)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
