@@ -40,6 +40,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let action: ActionName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
+        public let cardName: String?
         public let selectors: [Selector]
 
         public init(
@@ -47,12 +48,14 @@ public struct Card: Equatable, Codable, Sendable {
             action: ActionName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
+            cardName: String? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
             self.amount = amount
             self.amountPerTurn = amountPerTurn
+            self.cardName = cardName
             self.selectors = selectors
         }
     }
@@ -107,6 +110,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setHandLimit
         case setPlayLimitsPerTurn
         case setCardsPerDraw
+        case silent
         case queue
     }
 

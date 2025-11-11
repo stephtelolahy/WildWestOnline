@@ -917,7 +917,6 @@ private extension Card {
         )
     }
 
-    #warning("silent draw2CardsOnTurnStarted")
     static var blackJack: Self {
         .init(
             name: .blackJack,
@@ -925,6 +924,11 @@ private extension Card {
             description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
             effects: [
                 .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .silent,
+                    cardName: .draw2CardsOnTurnStarted
+                ),
                 .init(
                     trigger: .turnStarted,
                     action: .drawDeck,
