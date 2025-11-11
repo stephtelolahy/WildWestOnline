@@ -966,27 +966,11 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .stealHand,
                     selectors: [
-                        .chooseOne(.targetPlayer([.hasCards])),
+                        .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
-
-            ]
-            setPlayerAttribute: [.maxHealth: 4],
-            setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
-            effects: [
-                .init(
-                    name: .steal,
-                    selectors: [
-                        .chooseTarget([.havingHandCard]),
-                        .chooseCard()
-                    ],
-                    when: .turnStarted
-                ),
-                .init(
-                    name: .drawDeck,
-                    when: .turnStarted
-                )
+                // TODOS: set cardsToDrawThisTurn -=1
             ]
         )
     }

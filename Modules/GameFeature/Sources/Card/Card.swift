@@ -176,6 +176,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum PlayerFilter: Equatable, Codable, Sendable {
             case hasCards
+            case hasHandCards
             case atDistance(Int)
             case reachable
         }

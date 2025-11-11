@@ -14,6 +14,7 @@ struct PedroRamirezTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
@@ -46,11 +47,12 @@ struct PedroRamirezTests {
             .drawDeck(player: "p1")
         ])
     }
-/*
+
     @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c3"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
@@ -60,20 +62,20 @@ struct PedroRamirezTests {
             .withPlayer("p2") {
                 $0.withHand(["c2"])
             }
-            .withPlayer("p3") {
-                $0.withHand(["c3"])
-            }
-            .withDeck(["c1", "c2"])
+            .withDeck(["c1", "c3"])
             .build()
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state, choose: [.pass])
+        let choices: [Choice] = [
+            .init(options: ["p2", .choicePass], selectionIndex: 1)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
+            .choose(.choicePass, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -83,18 +85,22 @@ struct PedroRamirezTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
                     .draw2CardsOnTurnStarted
                 ])
             }
-            .withDeck(["c1", "c2"])
+            .withPlayer("p2") {
+                $0.withInPlay(["c2"])
+            }
+            .withDeck(["c1", "c3"])
             .build()
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
@@ -103,5 +109,4 @@ struct PedroRamirezTests {
             .drawDeck(player: "p1")
         ])
     }
-    */
 }
