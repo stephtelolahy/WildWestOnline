@@ -665,7 +665,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .applyIf(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -675,14 +675,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .require(.drawnCardMatches(.regex2To9Spades))
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .require(.drawnCardMatches(.regex2To9Spades)),
+                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
@@ -714,7 +714,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexHearts))
+                        .applyIf(.drawnCardDoesNotMatch(.regexHearts))
                     ]
                 ),
                 .init(
@@ -847,7 +847,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .require(.drawnCardMatches(.regexHearts))
+                        .applyIf(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -947,7 +947,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .require(.lastHandCardMatches(.regexRed))
+                        .applyIf(.lastHandCardMatches(.regexRed))
                     ]
                 )
             ]

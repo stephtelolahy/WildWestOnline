@@ -71,7 +71,7 @@ struct JailTest {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
