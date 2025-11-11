@@ -23,11 +23,11 @@ struct CardView: View {
     }
 
     var body: some View {
-        Image(cardImageName, bundle: .cardResources)
+        cardImage
             .resizable()
             .scaledToFit()
             .background(
-                Text(cardImageName.uppercased())
+                Text(cardName.uppercased())
                     .font(theme.fontTitle)
                     .multilineTextAlignment(.center)
             )
@@ -50,13 +50,23 @@ struct CardView: View {
             .opacity(disabled ? 0.5 : 1.0)
     }
 
-    private var cardImageName: String {
+    private var cardImage: Image {
+        switch content {
+        case .id(let id):
+            Image(Card.name(of: id), bundle: .cardResources)
+
+        case .hidden:
+            Image("card_back", bundle: .module)
+        }
+    }
+
+    private var cardName: String {
         switch content {
         case .id(let id):
             Card.name(of: id)
 
         case .hidden:
-            "card_back"
+            ""
         }
     }
 
