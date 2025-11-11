@@ -18,7 +18,6 @@ extension GameFeature {
     }
 
     private static func nextAction(state: State, action: Action) async -> Action? {
-        // wait some delay if dispatched action was animatable
         if action.isAnimatable {
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
         }
@@ -43,6 +42,7 @@ extension GameFeature {
             return queued
         }
 
+        #warning("Move out of game loop reducer")
         if let activate = state.activatePlayableCards() {
             return activate
         }

@@ -53,6 +53,7 @@ public enum Cards {
         .sidKetchum,
         .vultureSam,
         .luckyDuke,
+        .blackJack,
     ]
 }
 
@@ -558,6 +559,7 @@ private extension Card {
         )
     }
 
+    #warning("restore default bangPerTurn on discarded")
     static var volcanic: Self {
         .init(
             name: .volcanic,
@@ -910,6 +912,39 @@ private extension Card {
                     trigger: .permanent,
                     action: .setCardsPerDraw,
                     amount: 2
+                )
+            ]
+        )
+    }
+
+    #warning("silent draw2CardsOnTurnStarted")
+    static var blackJack: Self {
+        .init(
+            name: .blackJack,
+            type: .character,
+            description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.fixed(2))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .showHand,
+                    selectors: [
+                        .setCard(.lastHand)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .require(.lastHandCardMatches(.regexRed))
+                    ]
                 )
             ]
         )

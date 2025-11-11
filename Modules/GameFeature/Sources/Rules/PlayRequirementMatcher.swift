@@ -27,6 +27,7 @@ private extension Card.Selector.PlayRequirement {
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
+        case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
         }
     }
 
@@ -116,6 +117,19 @@ private extension Card.Selector.PlayRequirement {
 
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
+        }
+    }
+
+    struct LastHandCardMatches: Matcher {
+        let regex: String
+
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            let player = pendingAction.sourcePlayer
+            guard let card = state.players.get(player).hand.last else {
+                fatalError("Missing last card in hand")
+            }
+
+            return card.matches(regex: regex)
         }
     }
 }

@@ -140,6 +140,7 @@ public struct Card: Equatable, Codable, Sendable {
             case allInPlay
             case played
             case equippedWeapon
+            case lastHand
         }
 
         public enum PlayRequirement: Equatable, Codable, Sendable {
@@ -152,6 +153,7 @@ public struct Card: Equatable, Codable, Sendable {
             case drawnCardDoesNotMatch(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
+            case lastHandCardMatches(_ regex: String)
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
