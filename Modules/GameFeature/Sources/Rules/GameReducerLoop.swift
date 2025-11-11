@@ -18,7 +18,6 @@ extension GameFeature {
     }
 
     private static func nextAction(state: State, action: Action) async -> Action? {
-        // wait some delay if dispatched action was animatable
         if action.isAnimatable {
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
         }
@@ -43,6 +42,7 @@ extension GameFeature {
             return queued
         }
 
+        #warning("Move out of game loop reducer")
         if let activate = state.activatePlayableCards() {
             return activate
         }
@@ -76,7 +76,8 @@ private extension GameFeature.State {
         var result: [TriggerableElement] = []
 
         for player in playOrder {
-            let triggerableCards = players.get(player).inPlay + players.get(player).abilities
+            let playerObj = players.get(player)
+            let triggerableCards = playerObj.inPlay + playerObj.abilities.filter { !isSilent($0, for: playerObj) }
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
@@ -204,4 +205,14 @@ private extension GameFeature.Action {
 private struct TriggerableElement {
     let card: String
     let player: String
+}
+
+private extension GameFeature.State {
+    func isSilent(_ cardName: String, for playerObj: GameFeature.State.Player) -> Bool {
+        playerObj.abilities.contains { ability in
+            cards.get(ability).effects.contains {
+                $0.trigger == .permanent && $0.action == .silent && $0.cardName == cardName
+            }
+        }
+    }
 }

@@ -15,12 +15,12 @@ struct JourdonnaisTests {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jourdonnais])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withPlayer("p2") {
                 $0.withHand([.bang, "c2"])
                     .withWeapon(1)
-                    .withPlayLimitPerTurn([.bang: 1])
+                    .withPlayLimitsPerTurn([.bang: 1])
             }
             .withDeck(["c1-2♥️"])
             .build()

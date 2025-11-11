@@ -26,6 +26,7 @@ private extension Card.ActionName {
         case .discover: Discover()
         case .discardHand: DiscardHand()
         case .discardInPlay: DiscardInPlay()
+        case .showHand: ShowHand()
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
@@ -44,12 +45,13 @@ private extension Card.ActionName {
         case .equip: Equip()
         case .handicap: Handicap()
         case .setWeapon: SetWeapon()
-        case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
+        case .setPlayLimitsPerTurn: SetPlayLimitsPerTurn()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
-        case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
+        case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
+        case .silent: fatalError("Unexpected to dispatch silent")
         }
     }
 
@@ -278,6 +280,15 @@ private extension Card.ActionName {
         }
     }
 
+    struct ShowHand: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard action.targetedPlayer != nil else { fatalError("Missing targetedPlayer") }
+            guard action.targetedCard != nil else { fatalError("Missing targetedCard") }
+
+            return state
+        }
+    }
+
     struct Choose: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let selection = action.chosenOption else { fatalError("Missing selection") }
@@ -477,13 +488,13 @@ private extension Card.ActionName {
         }
     }
 
-    struct SetPlayLimitPerTurn: Reducer {
+    struct SetPlayLimitsPerTurn: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amountPerTurn = action.amountPerTurn else { fatalError("Missing amountPerTurn") }
 
             var state = state
-            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerTurn
+            state[keyPath: \.players[target]!.playLimitsPerTurn] = amountPerTurn
             return state
         }
     }

@@ -36,7 +36,7 @@ struct DynamiteTest {
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.draw2CardsOnTurnStarted])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withPlayer("p2")
             .withDeck(["c1-9♦️", "c2", "c3"])
@@ -44,7 +44,7 @@ struct DynamiteTest {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -64,7 +64,7 @@ struct DynamiteTest {
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.draw2CardsOnTurnStarted])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
                     .withHealth(4)
             }
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -72,7 +72,7 @@ struct DynamiteTest {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -98,7 +98,7 @@ struct DynamiteTest {
                         .discardAllCardsOnEliminated,
                         .nextTurnOnEliminated
                     ])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
                     .withHealth(3)
             }
             .withPlayer("p2") {
@@ -110,7 +110,7 @@ struct DynamiteTest {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

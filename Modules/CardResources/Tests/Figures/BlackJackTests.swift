@@ -10,12 +10,16 @@ import GameFeature
 import Testing
 
 struct BlackJackTests {
-    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
+    @Test func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withAbilities([
+                    .blackJack,
+                    .draw2CardsOnTurnStarted
+                ])
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -34,12 +38,16 @@ struct BlackJackTests {
         ])
     }
 
-    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
+    @Test func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withAbilities([
+                    .blackJack,
+                    .draw2CardsOnTurnStarted
+                ])
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()

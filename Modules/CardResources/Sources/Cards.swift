@@ -53,6 +53,7 @@ public enum Cards {
         .sidKetchum,
         .vultureSam,
         .luckyDuke,
+        .blackJack,
     ]
 }
 
@@ -351,14 +352,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .discardHand,
                     selectors: [
-                        .require(.targetedCardFromHand)
+                        .applyIf(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .discardInPlay,
                     selectors: [
-                        .require(.targetedCardFromInPlay)
+                        .applyIf(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -383,14 +384,14 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .stealHand,
                     selectors: [
-                        .require(.targetedCardFromHand)
+                        .applyIf(.targetedCardFromHand)
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
                     action: .stealInPlay,
                     selectors: [
-                        .require(.targetedCardFromInPlay)
+                        .applyIf(.targetedCardFromInPlay)
                     ]
                 )
             ]
@@ -433,7 +434,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .require(.playLimitPerTurn([.bang: 1])),
+                        .require(.playLimitsPerTurn([.bang: 1])),
                         .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
@@ -558,6 +559,7 @@ private extension Card {
         )
     }
 
+    #warning("restore player's bangPerTurn on discarded")
     static var volcanic: Self {
         .init(
             name: .volcanic,
@@ -566,12 +568,12 @@ private extension Card {
             effects: Card.EffectDefinition.weapon(range: 1) + [
                 .init(
                     trigger: .cardEquiped,
-                    action: .setPlayLimitPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 ),
                 .init(
                     trigger: .cardDiscarded,
-                    action: .setPlayLimitPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: 1]
                 )
             ]
@@ -631,14 +633,14 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .require(.drawnCardMatches(.regexHearts))
+                        .applyIf(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -656,14 +658,14 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .applyIf(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -673,14 +675,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .require(.drawnCardMatches(.regex2To9Spades))
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .require(.drawnCardMatches(.regex2To9Spades)),
+                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
@@ -705,14 +707,14 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexHearts))
+                        .applyIf(.drawnCardDoesNotMatch(.regexHearts))
                     ]
                 ),
                 .init(
@@ -735,7 +737,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setPlayLimitPerTurn,
+                    action: .setPlayLimitsPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 )
             ]
@@ -838,14 +840,14 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.drawnCardCount)
+                        .repeat(.cardsPerDraw)
                     ]
                 ),
                 .init(
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .require(.drawnCardMatches(.regexHearts))
+                        .applyIf(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -908,8 +910,45 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setDrawCards,
+                    action: .setCardsPerDraw,
                     amount: 2
+                )
+            ]
+        )
+    }
+
+    static var blackJack: Self {
+        .init(
+            name: .blackJack,
+            type: .character,
+            description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .silent,
+                    cardName: .draw2CardsOnTurnStarted
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.fixed(2))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .showHand,
+                    selectors: [
+                        .setCard(.lastHand)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .applyIf(.lastHandCardMatches(.regexRed))
+                    ]
                 )
             ]
         )

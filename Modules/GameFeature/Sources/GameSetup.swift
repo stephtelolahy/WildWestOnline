@@ -78,12 +78,12 @@ private extension GameSetup {
         }
 
         let weapon = 1
-        let drawCards = figureObj.amountOfActiveEffect(named: .setDrawCards) ?? 1
+        let cardsPerDraw = figureObj.amountOfActiveEffect(named: .setCardsPerDraw) ?? 1
         let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
         let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + playerAbilities
-        let playLimitPerTurn = figureObj.playlimitPerTurn ?? [:]
+        let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -95,17 +95,17 @@ private extension GameSetup {
 
         return .init(
             figure: figure,
+            abilities: abilities,
             health: maxHealth,
             maxHealth: maxHealth,
             hand: hand,
             inPlay: [],
+            weapon: weapon,
             magnifying: magnifying,
             remoteness: remoteness,
-            weapon: weapon,
-            abilities: abilities,
             handLimit: handLimit,
-            playLimitPerTurn: playLimitPerTurn,
-            drawCards: drawCards
+            playLimitsPerTurn: playLimitsPerTurn,
+            cardsPerDraw: cardsPerDraw
         )
     }
 }
@@ -116,6 +116,6 @@ private extension Card {
     }
 
     var playlimitPerTurn: [String: Int]? {
-        effects.first { $0.trigger == .permanent && $0.action == .setPlayLimitPerTurn }?.amountPerTurn
+        effects.first { $0.trigger == .permanent && $0.action == .setPlayLimitsPerTurn }?.amountPerTurn
     }
 }

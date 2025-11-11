@@ -19,7 +19,7 @@ struct SoundMatcher {
         case .shoot:
                 .sfxGunLoud
 
-        case .draw, .drawDeck, .drawDiscard, .discover, .drawDiscovered:
+        case .draw, .drawDeck, .drawDiscard, .discover, .drawDiscovered, .showHand:
                 .sfxSlideClosed
 
         case .discardHand, .discardInPlay:

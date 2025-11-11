@@ -52,35 +52,6 @@
      )
  }
 
- static var blackJack: Self {
-     .init(
-         name: .blackJack,
-         description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
-         effects: [
-             .init(
-                 name: .drawDeck,
-                 selectors: [
-                     .repeat(.value(2))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 name: .showLastDraw,
-                 when: .turnStarted
-             ),
-             .init(
-                 name: .drawDeck,
-                 selectors: [
-                     .require(.draw("(♥️)|(♦️)"))
-                 ],
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
  static var jesseJones: Self {
      .init(
          name: .jesseJones,

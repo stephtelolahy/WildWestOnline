@@ -64,14 +64,14 @@ struct JailTest {
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([.draw2CardsOnTurnStarted])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withDeck(["c1-2♥️", "c2", "c3"])
             .build()
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -93,7 +93,7 @@ struct JailTest {
                     .withAbilities([
                         .draw2CardsOnTurnStarted
                     ])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withPlayer("p2")
             .withDeck(["c1-A♠️", "c2", "c3"])

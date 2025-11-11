@@ -35,7 +35,7 @@ struct BarrelTest {
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -59,14 +59,14 @@ struct BarrelTest {
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
             }
             .withDeck(["c1-A♠️"])
             .build()
 
         // When
         let action = GameFeature.Action.shoot("p2")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -83,7 +83,7 @@ struct BarrelTest {
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
-                    .withDrawCards(2)
+                    .withCardsPerDraw(2)
             }
             .withDeck(["c1-2♥️", "c1-A♠️"])
             .build()
@@ -108,7 +108,7 @@ struct BarrelTest {
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
-                    .withDrawCards(2)
+                    .withCardsPerDraw(2)
             }
             .withDeck(["c1-A♠️", "c1-2♥️"])
             .build()
@@ -133,14 +133,14 @@ struct BarrelTest {
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay([.barrel])
-                    .withDrawCards(2)
+                    .withCardsPerDraw(2)
             }
             .withDeck(["c1-A♠️", "c1-2♠️"])
             .build()
 
         // When
         let action = GameFeature.Action.shoot("p2")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -159,7 +159,7 @@ struct BarrelTest {
             .withPlayer("p2") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
-                    .withDrawCards(1)
+                    .withCardsPerDraw(1)
                     .withAbilities([.discardCounterCardOnShot])
             }
             .withDeck(["c1-2♥️"])

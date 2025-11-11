@@ -116,6 +116,14 @@ public extension GameFeature.Action {
         )
     }
 
+    static func showHand(_ card: String, player: String) -> Self {
+        .init(
+            name: .showHand,
+            targetedPlayer: player,
+            targetedCard: card
+        )
+    }
+
     static func shoot(_ target: String) -> Self {
         .init(
             name: .shoot,
@@ -200,9 +208,9 @@ public extension GameFeature.Action {
         )
     }
 
-    static func setPlayLimitPerTurn(_ limit: [String: Int], player: String) -> Self {
+    static func setPlayLimitsPerTurn(_ limit: [String: Int], player: String) -> Self {
         .init(
-            name: .setPlayLimitPerTurn,
+            name: .setPlayLimitsPerTurn,
             targetedPlayer: player,
             amountPerTurn: limit
         )

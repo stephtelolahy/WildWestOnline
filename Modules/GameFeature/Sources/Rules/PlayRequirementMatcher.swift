@@ -19,14 +19,10 @@ private extension Card.Selector.PlayRequirement {
     var matcher: Matcher {
         switch self {
         case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
+        case .playLimitsPerTurn(let limits): PlayLimitsPerTurn(limits: limits)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
         case .isHealthZero: IsHealthZero()
-        case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
-        case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
-        case .targetedCardFromHand: TargetedCardFromHand()
-        case .targetedCardFromInPlay: TargetedCardFromInPlay()
         }
     }
 
@@ -38,26 +34,22 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct PlayLimitPerTurn: Matcher {
-        let limit: [String: Int]
+    struct PlayLimitsPerTurn: Matcher {
+        let limits: [String: Int]
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
-            guard let card = limit.keys.first else {
+            guard let (card, requiredLimit) = limits.first else {
                 fatalError("No card specified in limit")
             }
 
-            let playedThisTurn = state.playedThisTurn[card] ?? 0
+            let playedCount = state.playedThisTurn[card] ?? 0
 
-            if let playLimitPerTurn = state.players.get(player).playLimitPerTurn[card] {
-                return playedThisTurn < playLimitPerTurn
+            if let playerLimit = state.players.get(player).playLimitsPerTurn[card] {
+                return playedCount < playerLimit
             }
 
-            if let requiredLimit = limit[card] {
-                return playedThisTurn < requiredLimit
-            }
-
-            return false
+            return playedCount < requiredLimit
         }
     }
 
@@ -76,61 +68,6 @@ private extension Card.Selector.PlayRequirement {
     struct IsHealthZero: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.players.get(pendingAction.sourcePlayer).health <= 0
-        }
-    }
-
-    struct DrawnCardMatches: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let drawCards = state.players.get(player).drawCards
-            return state.discard
-                .prefix(drawCards)
-                .contains { $0.matches(regex: regex) }
-        }
-    }
-
-    struct DrawnCardDoesNotMatch: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let drawCards = state.players.get(player).drawCards
-            return state.discard
-                .prefix(drawCards)
-                .allSatisfy { $0.matches(regex: regex) == false }
-        }
-    }
-
-    struct TargetedCardFromHand: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return targetObj.hand.contains(card)
-        }
-    }
-
-    struct TargetedCardFromInPlay: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return targetObj.inPlay.contains(card)
-        }
-    }
-}
-
-private extension String {
-    func matches(regex pattern: String) -> Bool {
-        if let regex = try? Regex(pattern),
-           ranges(of: regex).isNotEmpty {
-            return true
-        } else {
-            return false
         }
     }
 }

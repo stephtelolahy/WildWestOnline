@@ -40,6 +40,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let action: ActionName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
+        public let cardName: String?
         public let selectors: [Selector]
 
         public init(
@@ -47,12 +48,14 @@ public struct Card: Equatable, Codable, Sendable {
             action: ActionName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
+            cardName: String? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
             self.amount = amount
             self.amountPerTurn = amountPerTurn
+            self.cardName = cardName
             self.selectors = selectors
         }
     }
@@ -89,6 +92,7 @@ public struct Card: Equatable, Codable, Sendable {
         case discardHand
         case discardInPlay
         case passInPlay
+        case showHand
         case heal
         case damage
         case shoot
@@ -104,8 +108,9 @@ public struct Card: Equatable, Codable, Sendable {
         case setWeapon
         case setMaxHealth
         case setHandLimit
-        case setPlayLimitPerTurn
-        case setDrawCards
+        case setPlayLimitsPerTurn
+        case setCardsPerDraw
+        case silent
         case queue
     }
 
@@ -115,12 +120,13 @@ public struct Card: Equatable, Codable, Sendable {
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
+        case applyIf(PlayContext)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
-            case drawnCardCount
+            case cardsPerDraw
             case receivedDamageAmount
         }
 
@@ -139,18 +145,23 @@ public struct Card: Equatable, Codable, Sendable {
             case allInPlay
             case played
             case equippedWeapon
+            case lastHand
         }
 
         public enum PlayRequirement: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
-            case playLimitPerTurn([String: Int])
+            case playLimitsPerTurn([String: Int])
             case isGameOver
             case isCurrentTurn
             case isHealthZero
+        }
+
+        public enum PlayContext: Equatable, Codable, Sendable {
             case drawnCardMatches(_ regex: String)
             case drawnCardDoesNotMatch(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
+            case lastHandCardMatches(_ regex: String)
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {

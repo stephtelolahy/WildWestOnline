@@ -103,6 +103,13 @@ struct AnimationMatcher {
                     to: .discovered
                 )
 
+        case .showHand:
+                .moveCard(
+                    .id(action.targetedCard!),
+                    from: .playerHand(action.targetedPlayer!),
+                    to: .playerHand(action.targetedPlayer!)
+                )
+
         default:
             nil
         }
