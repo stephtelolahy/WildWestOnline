@@ -120,7 +120,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
-        case applyIf(PlayRequirement)
+        case applyIf(PlayContext)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -154,6 +154,9 @@ public struct Card: Equatable, Codable, Sendable {
             case isGameOver
             case isCurrentTurn
             case isHealthZero
+        }
+
+        public enum PlayContext: Equatable, Codable, Sendable {
             case drawnCardMatches(_ regex: String)
             case drawnCardDoesNotMatch(_ regex: String)
             case targetedCardFromHand
