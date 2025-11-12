@@ -23,6 +23,7 @@ private extension Card.Selector.PlayContext {
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
+        case .previousEffectSucceed: PreviousEffectSucceed()
         }
     }
 
@@ -80,6 +81,12 @@ private extension Card.Selector.PlayContext {
             }
 
             return card.matches(regex: regex)
+        }
+    }
+
+    struct PreviousEffectSucceed: Matcher {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            state.lastSuccessfulAction != nil
         }
     }
 }

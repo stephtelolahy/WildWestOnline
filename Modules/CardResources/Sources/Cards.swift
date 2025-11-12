@@ -958,14 +958,14 @@ private extension Card {
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 ),
-//                .init(
-//                    trigger: .turnStarted,
-//                    action: .increaseCardsToDrawThisTurn,
-//                    amount: -1,
-//                    selectors: [
-//                        .applyIf(.previousEffectSucceed)
-//                    ]
-//                )
+                .init(
+                    trigger: .turnStarted,
+                    action: .increaseCardsToDrawThisTurn,
+                    amount: -1,
+                    selectors: [
+                        .applyIf(.previousEffectSucceed)
+                    ]
+                )
             ]
         )
     }

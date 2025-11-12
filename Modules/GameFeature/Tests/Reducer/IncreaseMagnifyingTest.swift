@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct IncreaseMagnifyingTest {
-    @Test func increseMagnifying_shouldUpdatePlayerAttribute() async throws {
+    @Test func increaseMagnifying_shouldUpdatePlayerAttribute() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {

@@ -106,6 +106,7 @@ public struct Card: Equatable, Codable, Sendable {
         case choose
         case increaseMagnifying
         case increaseRemoteness
+        case increaseCardsToDrawThisTurn
         case setWeapon
         case setMaxHealth
         case setHandLimit
@@ -163,6 +164,7 @@ public struct Card: Equatable, Codable, Sendable {
             case targetedCardFromHand
             case targetedCardFromInPlay
             case lastHandCardMatches(_ regex: String)
+            case previousEffectSucceed
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {

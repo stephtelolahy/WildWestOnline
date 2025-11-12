@@ -48,6 +48,7 @@ private extension Card.ActionName {
         case .setPlayLimitsPerTurn: SetPlayLimitsPerTurn()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
+        case .increaseCardsToDrawThisTurn: IncreaseCardsToDrawThisTurn()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
@@ -517,6 +518,16 @@ private extension Card.ActionName {
 
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
+            return state
+        }
+    }
+
+    struct IncreaseCardsToDrawThisTurn: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+
+            var state = state
+            state.cardsToDrawThisTurn += amount
             return state
         }
     }
