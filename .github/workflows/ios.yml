@@ -30,6 +30,9 @@ jobs:
         with:
           xcode-version: 26.0.1
 
+      - name: Clean Swift/Clang ModuleCache
+        run: rm -rf ${{ env.DERIVED_DATA_PATH }}/ModuleCache.noindex
+
       - name: Cache Derived Data
         uses: actions/cache@v4
         with:
