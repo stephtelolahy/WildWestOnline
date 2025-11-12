@@ -23,6 +23,7 @@ public enum GameFeature {
         public var lastError: GameFeature.Error?
         public var turn: String?
         public var playedThisTurn: [String: Int]
+        #warning("this attribute is used by specific card effect")
         public var cardsToDrawThisTurn: Int
         public var active: [String: [String]]
         public var isOver: Bool
