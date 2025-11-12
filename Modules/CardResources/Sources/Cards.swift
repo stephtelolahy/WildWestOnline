@@ -1009,7 +1009,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discover,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat(.cardsToDrawThisTurn)
                     ]
                 ),
                 .init(
@@ -1020,7 +1020,8 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscovered,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat(.cardsToDrawThisTurn),
+                        .chooseOne(.discoverCard)
                     ]
                 ),
                 .init(
