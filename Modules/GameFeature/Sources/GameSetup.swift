@@ -74,17 +74,19 @@ private extension GameSetup {
             fatalError("Missing figure named \(figure)")
         }
 
-        guard let maxHealth = figureObj.amountOfActiveEffect(named: .setMaxHealth) else {
+        guard let maxHealth = figureObj.amountOfPermanentEffect(named: .setMaxHealth) else {
             fatalError("Missing maxHealth for \(figure)")
         }
 
         let weapon = 1
-        let cardsPerDraw = figureObj.amountOfActiveEffect(named: .setCardsPerDraw) ?? 1
-        let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
-        let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
-        let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
+        let cardsPerDraw = figureObj.amountOfPermanentEffect(named: .setCardsPerDraw) ?? 1
+        let magnifying = figureObj.amountOfPermanentEffect(named: .increaseMagnifying) ?? 0
+        let remoteness = figureObj.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
+        let handLimit = figureObj.amountOfPermanentEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + playerAbilities
         let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
+        let cardsPerTurn = 2
+        let missesRequired = 1
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -106,13 +108,15 @@ private extension GameSetup {
             remoteness: remoteness,
             handLimit: handLimit,
             playLimitsPerTurn: playLimitsPerTurn,
-            cardsPerDraw: cardsPerDraw
+            cardsPerDraw: cardsPerDraw,
+            cardsPerTurn: cardsPerTurn,
+            missesRequired: missesRequired
         )
     }
 }
 
 private extension Card {
-    func amountOfActiveEffect(named action: Card.ActionName) -> Int? {
+    func amountOfPermanentEffect(named action: Card.ActionName) -> Int? {
         effects.first { $0.trigger == .permanent && $0.action == action }?.amount
     }
 

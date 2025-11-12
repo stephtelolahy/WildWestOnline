@@ -445,6 +445,7 @@ private extension Card.ActionName {
 
             var state = state
             state.turn = target
+            #warning("Use player's cardsPerTurn")
             state.cardsToDrawThisTurn = 2
             state.playedThisTurn = [:]
             return state
