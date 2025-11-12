@@ -46,7 +46,7 @@ struct JourdonnaisTests {
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
-            .withDeck(["c1-2♥️"])
+            .withDeck(["c1-2♥️", "c3"])
             .build()
 
         // When
