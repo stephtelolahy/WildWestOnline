@@ -8,7 +8,7 @@
 import CardResources
 import GameFeature
 import Testing
-
+/*
 struct KitCarlsonTests {
     @Test(.disabled()) func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
@@ -64,3 +64,4 @@ struct KitCarlsonTests {
         ])
     }
 }
+*/

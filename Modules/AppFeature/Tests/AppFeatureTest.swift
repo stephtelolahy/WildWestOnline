@@ -28,7 +28,7 @@ struct AppFeatureTest {
         let cards = (1...100).map {
             Card(
                 name: "c\($0)",
-                type: .character,
+                type: .figure,
                 effects: [
                     .init(
                         trigger: .permanent,

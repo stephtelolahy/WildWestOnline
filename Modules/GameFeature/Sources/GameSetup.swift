@@ -12,7 +12,7 @@ public enum GameSetup {
         deck: [String: [String]],
         preferredFigure: String? = nil
     ) -> GameFeature.State {
-        let figures = cards.names(for: .character)
+        let figures = cards.names(for: .figure)
             .shuffled()
             .starting(with: preferredFigure)
         return buildGame(
