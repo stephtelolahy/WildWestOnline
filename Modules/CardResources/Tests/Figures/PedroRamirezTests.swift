@@ -49,7 +49,7 @@ struct PedroRamirezTests {
         ])
     }
 
-    @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() async throws {
+    @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenPass() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

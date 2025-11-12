@@ -980,8 +980,10 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .turnStarted,
-                    action: .drawDiscard
-                    // TODOs:selector chooseOne(.topDiscard)
+                    action: .drawDiscard,
+                    selectors: [
+                        .chooseOne(.discardedCard)
+                    ]
                 ),
                 .init(
                     trigger: .turnStarted,
