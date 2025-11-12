@@ -70,7 +70,7 @@ struct GameViewTest {
         #expect(player1.health == 1)
         #expect(player1.maxHealth == 3)
         #expect(player1.handCount == 0)
-        #expect(player1.inPlay == [])
+        #expect(player1.inPlay.isEmpty)
         #expect(player1.isTurn)
         #expect(!player1.isEliminated)
 
@@ -81,7 +81,7 @@ struct GameViewTest {
         #expect(player2.health == 3)
         #expect(player2.maxHealth == 4)
         #expect(player2.handCount == 0)
-        #expect(player2.inPlay == [])
+        #expect(player2.inPlay.isEmpty)
         #expect(!player2.isTurn)
         #expect(!player2.isEliminated)
     }

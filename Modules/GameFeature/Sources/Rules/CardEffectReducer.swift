@@ -24,6 +24,7 @@ private extension Card.ActionName {
         case .drawDiscard: DrawDiscard()
         case .drawDiscovered: DrawDiscovered()
         case .discover: Discover()
+        case .undiscover: Undiscover()
         case .discardHand: DiscardHand()
         case .discardInPlay: DiscardInPlay()
         case .showHand: ShowHand()
@@ -116,6 +117,14 @@ private extension Card.ActionName {
             }
 
             state.discovered.append(state.deck[discoveredAmount])
+            return state
+        }
+    }
+
+    struct Undiscover: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            var state = state
+            state.discovered = []
             return state
         }
     }

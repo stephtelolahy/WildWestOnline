@@ -85,6 +85,7 @@ public struct Card: Equatable, Codable, Sendable {
         case handicap
         case draw
         case discover
+        case undiscover
         case drawDeck
         case drawDiscard
         case drawDiscovered
