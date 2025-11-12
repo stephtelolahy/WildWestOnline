@@ -56,6 +56,7 @@ public enum Cards {
         .blackJack,
         .pedroRamirez,
         .jesseJones,
+        .kitCarlson,
     ]
 }
 
@@ -992,6 +993,44 @@ private extension Card {
                     selectors: [
                         .applyIf(.previousEffectSucceed)
                     ]
+                )
+            ]
+        )
+    }
+
+    static var kitCarlson: Self {
+        .init(
+            name: .kitCarlson,
+            type: .figure,
+            description: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discover,
+                    selectors: [
+                        .repeat(.cardsPerDraw)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discover
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDiscovered,
+                    selectors: [
+                        .repeat(.cardsPerDraw)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .undiscover
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .increaseCardsToDrawThisTurn,
+                    amount: -2
                 )
             ]
         )

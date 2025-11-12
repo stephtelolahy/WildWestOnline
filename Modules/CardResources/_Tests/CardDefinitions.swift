@@ -27,31 +27,6 @@
      )
  }
 
- static var kitCarlson: Self {
-     .init(
-         name: .kitCarlson,
-         description: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
-         effects: [
-             .init(
-                 name: .discover,
-                 selectors: [
-                     .setAttribute(.discoverAmount, value: .value(3))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 name: .drawDeck,
-                 selectors: [
-                     .repeat(.value(3))
-                 ],
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
  // MARK: - Dodge city
 
  static var punch: Self {

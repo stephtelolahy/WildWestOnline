@@ -8,9 +8,10 @@
 enum NonStandardLogic {
     static func targetedPlayerForChildEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {
         switch name {
-        case .draw,
-                .increaseCardsToDrawThisTurn,
-                .endGame:
+        case .endGame,
+                .draw,
+                .undiscover,
+                .increaseCardsToDrawThisTurn:
             return nil
 
         case .drawDeck,

@@ -10,10 +10,11 @@ import GameFeature
 import Testing
 
 struct KitCarlsonTests {
-    @Test(.disabled()) func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
+    @Test func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c0", "c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .kitCarlson,
