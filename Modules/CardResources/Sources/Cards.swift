@@ -56,6 +56,7 @@ public enum Cards {
         .blackJack,
         .pedroRamirez,
         .jesseJones,
+        .kitCarlson,
     ]
 }
 
@@ -733,7 +734,7 @@ private extension Card {
     static var willyTheKid: Self {
         .init(
             name: .willyTheKid,
-            type: .character,
+            type: .figure,
             description: "he can play any number of BANG! cards during his turn.",
             effects: [
                 .maxHealth(4),
@@ -749,7 +750,7 @@ private extension Card {
     static var roseDoolan: Self {
         .init(
             name: .roseDoolan,
-            type: .character,
+            type: .figure,
             description: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             effects: [
                 .maxHealth(4),
@@ -765,7 +766,7 @@ private extension Card {
     static var paulRegret: Self {
         .init(
             name: .paulRegret,
-            type: .character,
+            type: .figure,
             description: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             effects: [
                 .maxHealth(3),
@@ -781,7 +782,7 @@ private extension Card {
     static var bartCassidy: Self {
         .init(
             name: .bartCassidy,
-            type: .character,
+            type: .figure,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
             effects: [
                 .maxHealth(4),
@@ -799,7 +800,7 @@ private extension Card {
     static var elGringo: Self {
         .init(
             name: .elGringo,
-            type: .character,
+            type: .figure,
             description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
             effects: [
                 .maxHealth(3),
@@ -819,7 +820,7 @@ private extension Card {
     static var suzyLafayette: Self {
         .init(
             name: .suzyLafayette,
-            type: .character,
+            type: .figure,
             description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
             effects: [
                 .maxHealth(4),
@@ -834,7 +835,7 @@ private extension Card {
     static var jourdonnais: Self {
         .init(
             name: .jourdonnais,
-            type: .character,
+            type: .figure,
             description: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
             effects: [
                 .maxHealth(4),
@@ -859,7 +860,7 @@ private extension Card {
     static var sidKetchum: Self {
         .init(
             name: .sidKetchum,
-            type: .character,
+            type: .figure,
             description: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
             effects: [
                 .maxHealth(4),
@@ -879,7 +880,7 @@ private extension Card {
     static var vultureSam: Self {
         .init(
             name: .vultureSam,
-            type: .character,
+            type: .figure,
             description: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
             effects: [
                 .maxHealth(4),
@@ -906,7 +907,7 @@ private extension Card {
     static var luckyDuke: Self {
         .init(
             name: .luckyDuke,
-            type: .character,
+            type: .figure,
             description: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
             effects: [
                 .maxHealth(4),
@@ -922,7 +923,7 @@ private extension Card {
     static var blackJack: Self {
         .init(
             name: .blackJack,
-            type: .character,
+            type: .figure,
             description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
             effects: [
                 .maxHealth(4),
@@ -947,7 +948,7 @@ private extension Card {
     static var pedroRamirez: Self {
         .init(
             name: .pedroRamirez,
-            type: .character,
+            type: .figure,
             description: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
             effects: [
                 .maxHealth(4),
@@ -974,7 +975,7 @@ private extension Card {
     static var jesseJones: Self {
         .init(
             name: .jesseJones,
-            type: .character,
+            type: .figure,
             description: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
             effects: [
                 .maxHealth(4),
@@ -992,6 +993,45 @@ private extension Card {
                     selectors: [
                         .applyIf(.previousEffectSucceed)
                     ]
+                )
+            ]
+        )
+    }
+
+    static var kitCarlson: Self {
+        .init(
+            name: .kitCarlson,
+            type: .figure,
+            description: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discover,
+                    selectors: [
+                        .repeat(.cardsToDrawThisTurn)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discover
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDiscovered,
+                    selectors: [
+                        .repeat(.cardsToDrawThisTurn),
+                        .chooseOne(.discoverCard)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .undiscover
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .increaseCardsToDrawThisTurn,
+                    amount: -2
                 )
             ]
         )

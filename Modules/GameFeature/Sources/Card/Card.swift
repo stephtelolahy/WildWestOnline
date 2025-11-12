@@ -31,7 +31,7 @@ public struct Card: Equatable, Codable, Sendable {
 
     public enum CardType: String, Codable, Sendable {
         case playable
-        case character
+        case figure
         case ability
     }
 
@@ -85,6 +85,7 @@ public struct Card: Equatable, Codable, Sendable {
         case handicap
         case draw
         case discover
+        case undiscover
         case drawDeck
         case drawDiscard
         case drawDiscovered

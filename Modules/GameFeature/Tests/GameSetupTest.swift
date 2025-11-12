@@ -33,7 +33,7 @@ struct GameSetupTest {
         let cards: [String: Card] = [
             "p1": .init(
                 name: "p1",
-                type: .character,
+                type: .figure,
                 effects: [
                     .init(trigger: .permanent, action: .setMaxHealth, amount: 4),
                     .init(trigger: .permanent, action: .increaseMagnifying, amount: 1),
@@ -42,7 +42,7 @@ struct GameSetupTest {
             ),
             "p2": .init(
                 name: "p2",
-                type: .character,
+                type: .figure,
                 effects: [
                     .init(trigger: .permanent, action: .setMaxHealth, amount: 3),
                     .init(trigger: .permanent, action: .increaseRemoteness, amount: 1)

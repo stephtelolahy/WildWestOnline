@@ -56,6 +56,12 @@ public extension GameFeature.Action {
         )
     }
 
+    static func undiscover() -> Self {
+        .init(
+            name: .undiscover
+        )
+    }
+
     static func heal(_ amount: Int, player: String) -> Self {
         .init(
             name: .heal,
