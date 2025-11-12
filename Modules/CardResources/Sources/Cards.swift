@@ -14,7 +14,7 @@ public enum Cards {
         .discardCounterCardOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
-        .draw2CardsOnTurnStarted,
+        .drawCardsOnTurnStarted,
         .nextTurnOnTurnEnded,
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
@@ -144,9 +144,9 @@ private extension Card {
         )
     }
 
-    static var draw2CardsOnTurnStarted: Self {
+    static var drawCardsOnTurnStarted: Self {
         .init(
-            name: .draw2CardsOnTurnStarted,
+            name: .drawCardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
             effects: [
@@ -928,7 +928,7 @@ private extension Card {
                 .init(
                     trigger: .permanent,
                     action: .silent,
-                    cardName: .draw2CardsOnTurnStarted
+                    cardName: .drawCardsOnTurnStarted
                 ),
                 .init(
                     trigger: .turnStarted,

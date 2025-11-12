@@ -18,7 +18,7 @@ struct PedroRamirezTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
-                    .draw2CardsOnTurnStarted
+                    .drawCardsOnTurnStarted
                 ])
             }
             .withPlayer("p2") {
@@ -56,7 +56,7 @@ struct PedroRamirezTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
-                    .draw2CardsOnTurnStarted
+                    .drawCardsOnTurnStarted
                 ])
             }
             .withPlayer("p2") {
@@ -89,7 +89,7 @@ struct PedroRamirezTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
-                    .draw2CardsOnTurnStarted
+                    .drawCardsOnTurnStarted
                 ])
             }
             .withPlayer("p2") {

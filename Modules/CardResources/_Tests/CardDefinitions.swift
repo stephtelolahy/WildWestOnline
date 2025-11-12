@@ -32,7 +32,7 @@
          name: .kitCarlson,
          description: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .discover,
@@ -57,7 +57,7 @@
          name: .jesseJones,
          description: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .drawDiscard,
@@ -241,7 +241,7 @@
          name: .pixiePete,
          description: "During phase 1 of his turn, he draws 3 cards instead of 2.",
          setPlayerAttribute: [.maxHealth: 3],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -259,7 +259,7 @@
          name: .billNoface,
          description: "He draws 1 card, plus 1 card for each wound he has.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -405,7 +405,7 @@
          name: .patBrennan,
          description: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .steal,
@@ -709,7 +709,7 @@
      .init(
          name: .evelynShebang,
          description: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
-         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .shoot,

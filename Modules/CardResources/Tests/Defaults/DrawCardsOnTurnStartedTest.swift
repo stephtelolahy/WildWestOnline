@@ -1,5 +1,5 @@
 //
-//  Draw2CardsOnTurnStartedTest.swift
+//  DrawCardsOnTurnStartedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,14 +8,14 @@
 import Testing
 import GameFeature
 
-struct Draw2CardsOnTurnStartedTest {
+struct DrawCardsOnTurnStartedTest {
     @Test func startTurn_shouldDraw2Cards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
-                $0.withAbilities([.draw2CardsOnTurnStarted])
+                $0.withAbilities([.drawCardsOnTurnStarted])
             }
             .withDeck(["c1", "c2"])
             .build()
