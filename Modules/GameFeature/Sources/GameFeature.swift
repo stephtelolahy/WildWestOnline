@@ -28,6 +28,7 @@ public enum GameFeature {
         public var isOver: Bool
         public var playMode: [String: PlayMode]
         public var actionDelayMilliSeconds: Int
+        public var autoActivatePlayableCardsOnIdle: Bool
 
         public struct Player: Equatable, Codable, Sendable {
             public var figure: String

@@ -52,7 +52,8 @@ public enum GameSetup {
             active: [:],
             isOver: false,
             playMode: [:],
-            actionDelayMilliSeconds: 0
+            actionDelayMilliSeconds: 0,
+            autoActivatePlayableCardsOnIdle: true
         )
     }
 

@@ -42,8 +42,8 @@ extension GameFeature {
             return queued
         }
 
-        #warning("Move out of game loop reducer")
-        if let activate = state.activatePlayableCards() {
+        if state.autoActivatePlayableCardsOnIdle,
+           let activate = state.activatePlayableCards() {
             return activate
         }
 
