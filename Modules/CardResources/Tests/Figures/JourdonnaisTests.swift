@@ -33,7 +33,7 @@ struct JourdonnaisTests {
         ])
     }
 
-    @Test func beingShot_flippedCardIsHearts_shouldOnlyTriggerBarrel() async throws {
+    @Test func beingShot_firstFlippedCardIsHearts_shouldOnlyTriggerBarrel() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -56,6 +56,35 @@ struct JourdonnaisTests {
         // Then
         #expect(result == [
             .shoot("p1"),
+            .draw(),
+            .counterShoot(player: "p1")
+        ])
+    }
+
+    @Test func beingShot_secondFlippedCardIsHearts_shouldTriggerBarrelAndAbility() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withAbilities([
+                    .jourdonnais,
+                    .discardMissedOnShot
+                ])
+                .withCardsPerDraw(1)
+                .withInPlay([.barrel])
+                .withHand([.missed])
+            }
+            .withDeck(["c1-2♠️", "c1-3♥️"])
+            .build()
+
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .shoot("p1"),
+            .draw(),
             .draw(),
             .counterShoot(player: "p1")
         ])
