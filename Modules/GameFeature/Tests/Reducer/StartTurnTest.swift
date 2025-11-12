@@ -35,4 +35,18 @@ struct StartTurnTest {
         // Then
         #expect(result.playedThisTurn.isEmpty)
     }
+
+    @Test func startTurn_shouldSetCardsToDraw() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withCardsToDrawThisTurn(0)
+            .build()
+
+        // When
+        let action = GameFeature.Action.startTurn(player: "p1")
+        let result = try await dispatch(action, state: state)
+
+        // Then
+        #expect(result.cardsToDrawThisTurn == 2)
+    }
 }

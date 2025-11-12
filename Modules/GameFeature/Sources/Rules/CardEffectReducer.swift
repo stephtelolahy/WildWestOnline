@@ -432,6 +432,7 @@ private extension Card.ActionName {
 
             var state = state
             state.turn = target
+            state.cardsToDrawThisTurn = 2
             state.playedThisTurn = [:]
             return state
         }
