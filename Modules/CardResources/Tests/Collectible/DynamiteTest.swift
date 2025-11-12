@@ -32,7 +32,6 @@ struct DynamiteTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawCardsOnTurnStarted])
@@ -60,7 +59,6 @@ struct DynamiteTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawCardsOnTurnStarted])
@@ -89,7 +87,7 @@ struct DynamiteTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c2", "c3", "c4"])
+            .withDummyCards(["c4"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
                     .withAbilities([

@@ -14,7 +14,6 @@ struct BlackJackTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .blackJack,
@@ -42,7 +41,6 @@ struct BlackJackTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .blackJack,

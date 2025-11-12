@@ -13,6 +13,7 @@ struct DiscardAllCardsOnEliminatedTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withDummyCards(["c2"])
             .withPlayer("p1") {
                 $0.withHand(["c1"])
                     .withInPlay(["c2"])
@@ -20,7 +21,6 @@ struct DiscardAllCardsOnEliminatedTest {
             }
             .withPlayer("p2")
             .withPlayer("p3")
-            .withDummyCards(["c2"])
             .build()
 
         // When

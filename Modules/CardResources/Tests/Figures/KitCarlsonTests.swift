@@ -14,13 +14,11 @@ struct KitCarlsonTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c0", "c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .kitCarlson,
                     .drawCardsOnTurnStarted
                 ])
-                .withHand(["c0"])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()
