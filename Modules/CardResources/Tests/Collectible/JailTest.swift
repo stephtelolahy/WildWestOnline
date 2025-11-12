@@ -60,7 +60,6 @@ struct JailTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([.drawCardsOnTurnStarted])
@@ -87,7 +86,6 @@ struct JailTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([

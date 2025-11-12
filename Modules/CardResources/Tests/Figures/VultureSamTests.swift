@@ -13,7 +13,7 @@ struct VultureSamTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2"])
+            .withDummyCards(["c2"])
             .withPlayer("p1") {
                 $0.withAbilities([.vultureSam])
             }

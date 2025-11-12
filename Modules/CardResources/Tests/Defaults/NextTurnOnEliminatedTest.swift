@@ -36,7 +36,7 @@ struct NextTurnOnEliminatedTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c11", "c12", "c1", "c2"])
+            .withDummyCards(["c12"])
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])
