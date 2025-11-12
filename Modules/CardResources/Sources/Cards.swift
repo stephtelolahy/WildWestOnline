@@ -154,7 +154,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(2))
+                        .repeat(.cardsToDrawThisTurn)
                     ]
                 )
             ]

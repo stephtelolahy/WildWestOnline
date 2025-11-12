@@ -128,6 +128,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case cardsPerDraw
+            case cardsToDrawThisTurn
             case receivedDamageAmount
         }
 
