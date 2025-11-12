@@ -42,4 +42,6 @@ struct JourdonnaisTests {
             .counterShoot(player: "p1")
         ])
     }
+    
+    // TODO: jourdonais when succesfull should not use inplay barrel or inHand missed
 }
