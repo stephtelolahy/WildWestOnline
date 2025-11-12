@@ -29,9 +29,6 @@ extension GameFeature {
             state.active.removeValue(forKey: action.sourcePlayer)
         }
 
-        state.lastSuccessfulAction = nil
-        state.lastError = nil
-
         do {
             if action.selectors.isNotEmpty {
                 if state.pendingChoice != nil {
@@ -48,9 +45,13 @@ extension GameFeature {
 
             if action.isResolved {
                 state.lastSuccessfulAction = action
+            } else {
+                state.lastSuccessfulAction = nil
             }
+            state.lastError = nil
         } catch {
             state.lastError = error
+            state.lastSuccessfulAction = nil
         }
 
         return .none

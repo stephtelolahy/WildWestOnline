@@ -21,8 +21,9 @@ public enum GameFeature {
         public var queue: [Action]
         public var lastSuccessfulAction: Action?
         public var lastError: GameFeature.Error?
-        public var playedThisTurn: [String: Int]
         public var turn: String?
+        public var playedThisTurn: [String: Int]
+        public var cardsToDrawThisTurn: Int
         public var active: [String: [String]]
         public var isOver: Bool
         public var playMode: [String: PlayMode]

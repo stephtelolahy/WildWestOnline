@@ -67,7 +67,7 @@ struct ActivatePlayableCardsTest {
             }
             .withPlayer("p2") {
                 $0.withMaxHealth(2)
-                    .withAbilities([.draw2CardsOnTurnStarted])
+                    .withAbilities([.drawCardsOnTurnStarted])
             }
             .withTurn("p1")
             .build()

@@ -32,6 +32,7 @@ private extension Card.Trigger {
         case .cardPlayed: NeverMatch()
         case .eliminating: Eliminating()
         case .otherEliminated: OtherEliminated()
+        case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
         }
     }
 
@@ -187,6 +188,20 @@ private extension Card.Trigger {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .eliminate = action.name,
                   action.targetedPlayer != player else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct DrawLastCardOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .drawDeck = action.name,
+                  action.targetedPlayer == player,
+                  state.queue.isEmpty,
+                  let parentAction = action.triggeredBy.first,
+                  parentAction.name == .startTurn else {
                 return false
             }
 

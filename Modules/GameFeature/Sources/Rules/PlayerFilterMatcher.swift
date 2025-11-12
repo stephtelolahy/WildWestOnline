@@ -19,6 +19,7 @@ private extension Card.Selector.PlayerFilter {
     var matcher: Matcher {
         switch self {
         case .hasCards: HasCards()
+        case .hasHandCards: HasHandCards()
         case .atDistance(let distance): AtDistance(distance: distance)
         case .reachable: Reachable()
         }
@@ -32,6 +33,13 @@ private extension Card.Selector.PlayerFilter {
             } else {
                 return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty
             }
+        }
+    }
+
+    struct HasHandCards: Matcher {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            let playerObj = state.players.get(player)
+            return playerObj.hand.isNotEmpty
         }
     }
 

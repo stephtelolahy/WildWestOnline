@@ -14,7 +14,7 @@ public enum Cards {
         .discardCounterCardOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
-        .draw2CardsOnTurnStarted,
+        .drawCardsOnTurnStarted,
         .nextTurnOnTurnEnded,
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
@@ -54,6 +54,7 @@ public enum Cards {
         .vultureSam,
         .luckyDuke,
         .blackJack,
+        .pedroRamirez,
     ]
 }
 
@@ -143,9 +144,9 @@ private extension Card {
         )
     }
 
-    static var draw2CardsOnTurnStarted: Self {
+    static var drawCardsOnTurnStarted: Self {
         .init(
-            name: .draw2CardsOnTurnStarted,
+            name: .drawCardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
             effects: [
@@ -153,7 +154,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(2))
+                        .repeat(.cardsToDrawThisTurn)
                     ]
                 )
             ]
@@ -925,29 +926,44 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .permanent,
-                    action: .silent,
-                    cardName: .draw2CardsOnTurnStarted
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .drawDeck,
-                    selectors: [
-                        .repeat(.fixed(2))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
                         .setCard(.lastHand)
                     ]
                 ),
                 .init(
-                    trigger: .turnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .drawDeck,
                     selectors: [
                         .applyIf(.lastHandCardMatches(.regexRed))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var pedroRamirez: Self {
+        .init(
+            name: .pedroRamirez,
+            type: .character,
+            description: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .stealHand,
+                    selectors: [
+                        .chooseOne(.targetPlayer([.hasHandCards])),
+                        .chooseOne(.targetCard([.isFromHand]))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .increaseCardsToDrawThisTurn,
+                    amount: -1,
+                    selectors: [
+                        .applyIf(.previousEffectSucceed)
                     ]
                 )
             ]

@@ -75,6 +75,7 @@ public struct Card: Equatable, Codable, Sendable {
         case shot
         case eliminating
         case otherEliminated
+        case drawLastCardOnTurnStarted
     }
 
     public enum ActionName: String, Codable, Sendable {
@@ -105,12 +106,12 @@ public struct Card: Equatable, Codable, Sendable {
         case choose
         case increaseMagnifying
         case increaseRemoteness
+        case increaseCardsToDrawThisTurn
         case setWeapon
         case setMaxHealth
         case setHandLimit
         case setPlayLimitsPerTurn
         case setCardsPerDraw
-        case silent
         case queue
     }
 
@@ -127,6 +128,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case cardsPerDraw
+            case cardsToDrawThisTurn
             case receivedDamageAmount
         }
 
@@ -162,6 +164,7 @@ public struct Card: Equatable, Codable, Sendable {
             case targetedCardFromHand
             case targetedCardFromInPlay
             case lastHandCardMatches(_ regex: String)
+            case previousEffectSucceed
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
@@ -175,6 +178,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum PlayerFilter: Equatable, Codable, Sendable {
             case hasCards
+            case hasHandCards
             case atDistance(Int)
             case reachable
         }
