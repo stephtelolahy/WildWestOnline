@@ -926,26 +926,14 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .permanent,
-                    action: .silent,
-                    cardName: .drawCardsOnTurnStarted
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .drawDeck,
-                    selectors: [
-                        .repeat(.fixed(2))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
                         .setCard(.lastHand)
                     ]
                 ),
                 .init(
-                    trigger: .turnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .drawDeck,
                     selectors: [
                         .applyIf(.lastHandCardMatches(.regexRed))

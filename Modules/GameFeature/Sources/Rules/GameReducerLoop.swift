@@ -77,7 +77,7 @@ private extension GameFeature.State {
 
         for player in playOrder {
             let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities.filter { !isSilent($0, for: playerObj) }
+            let triggerableCards = playerObj.inPlay + playerObj.abilities
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
@@ -205,14 +205,4 @@ private extension GameFeature.Action {
 private struct TriggerableElement {
     let card: String
     let player: String
-}
-
-private extension GameFeature.State {
-    func isSilent(_ cardName: String, for playerObj: GameFeature.State.Player) -> Bool {
-        playerObj.abilities.contains { ability in
-            cards.get(ability).effects.contains {
-                $0.trigger == .permanent && $0.action == .silent && $0.cardName == cardName
-            }
-        }
-    }
 }
