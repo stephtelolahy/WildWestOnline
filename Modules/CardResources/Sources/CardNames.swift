@@ -7,7 +7,7 @@
 
 public extension String {
     static let endTurn = "endTurn"
-    static let discardCounterCardOnShot = "discardCounterCardOnShot"
+    static let discardMissedOnShot = "discardMissedOnShot"
     static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
     static let drawCardsOnTurnStarted = "drawCardsOnTurnStarted"
     static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"

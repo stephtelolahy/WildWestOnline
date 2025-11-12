@@ -160,7 +160,7 @@ struct BarrelTest {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
                     .withCardsPerDraw(1)
-                    .withAbilities([.discardCounterCardOnShot])
+                    .withAbilities([.discardMissedOnShot])
             }
             .withDeck(["c1-2♥️"])
             .build()
