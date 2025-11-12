@@ -399,15 +399,19 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
 
-            guard let damageIndex = state.queue.firstIndex(where: {
-                $0.triggeredBy.first?.name == .shoot && $0.name == .damage && $0.targetedPlayer == action.targetedPlayer
+            guard state.queue.contains(where: {
+                $0.triggeredBy.first?.name == .shoot
+                && $0.name == .damage
+                && $0.targetedPlayer == action.targetedPlayer
             }) else {
-                fatalError("No pending shoot effect found")
+                fatalError("Missing .shoot effect on targetedPlayer")
             }
 
-            state.queue.remove(at: damageIndex)
-
-            state.queue.removeAll { $0.triggeredBy.first?.name == .shoot && $0.name == .counterShot && $0.targetedPlayer == action.targetedPlayer }
+            // remove all effects triggered by shoot on targetedPlayer
+            state.queue.removeAll {
+                $0.triggeredBy.first?.name == .shoot
+                && $0.triggeredBy.first?.targetedPlayer == action.targetedPlayer
+            }
 
             return state
         }

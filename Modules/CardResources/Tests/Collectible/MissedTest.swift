@@ -14,31 +14,24 @@ struct MissedTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.bang])
-                    .withWeapon(1)
-            }
-            .withPlayer("p2") {
-                $0.withHand([.missed1, .missed2, .beer])
-                    .withAbilities([.discardCounterCardOnShot])
+                $0.withHand([.missed1, .missed2])
+                    .withAbilities([.discardMissedOnShot])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.shoot("p1")
         let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: [.missed1, .missed2, .choicePass], selectionIndex: 1)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .choose("p2", player: "p1"),
-            .play(.bang, player: "p1", target: "p2"),
-            .shoot("p2"),
-            .choose(.missed2, player: "p2"),
-            .discardHand(.missed2, player: "p2"),
-            .counterShoot(player: "p2")
+            .shoot("p1"),
+            .choose(.missed2, player: "p1"),
+            .discardHand(.missed2, player: "p1"),
+            .counterShoot(player: "p1")
         ])
     }
 
@@ -47,30 +40,23 @@ struct MissedTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.bang])
-                    .withWeapon(1)
-            }
-            .withPlayer("p2") {
                 $0.withHand([.missed])
-                    .withAbilities([.discardCounterCardOnShot])
+                    .withAbilities([.discardMissedOnShot])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.shoot("p1")
         let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
             .init(options: [.missed, .choicePass], selectionIndex: 1)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .choose("p2", player: "p1"),
-            .play(.bang, player: "p1", target: "p2"),
-            .shoot("p2"),
-            .choose(.choicePass, player: "p2"),
-            .damage(1, player: "p2")
+            .shoot("p1"),
+            .choose(.choicePass, player: "p1"),
+            .damage(1, player: "p1")
         ])
     }
 
@@ -79,27 +65,18 @@ struct MissedTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.bang])
-                    .withWeapon(1)
-            }
-            .withPlayer("p2") {
-                $0.withAbilities([.discardCounterCardOnShot])
+                $0.withAbilities([.discardMissedOnShot])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
-            .choose("p2", player: "p1"),
-            .play(.bang, player: "p1", target: "p2"),
-            .shoot("p2"),
-            .damage(1, player: "p2")
+            .shoot("p1"),
+            .damage(1, player: "p1")
         ])
     }
 }

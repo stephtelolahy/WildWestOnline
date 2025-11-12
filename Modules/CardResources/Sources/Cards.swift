@@ -11,7 +11,7 @@ import GameFeature
 public enum Cards {
     public static let all: [Card] = [
         .endTurn,
-        .discardCounterCardOnShot,
+        .discardMissedOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
         .drawCardsOnTurnStarted,
@@ -75,9 +75,9 @@ private extension Card {
         )
     }
 
-    static var discardCounterCardOnShot: Self {
+    static var discardMissedOnShot: Self {
         .init(
-            name: .discardCounterCardOnShot,
+            name: .discardMissedOnShot,
             type: .ability,
             description: "Discard counter card on shot",
             effects: [

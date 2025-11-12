@@ -83,7 +83,7 @@ struct JailTest {
         ])
     }
 
-    @Test func triggeringJail_flippedCardIsSpades_shouldSkipTurn() async throws {
+    @Test func triggeringJail_flippedCardIsNotHearts_shouldSkipTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
