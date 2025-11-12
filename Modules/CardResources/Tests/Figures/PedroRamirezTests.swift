@@ -14,7 +14,6 @@ struct PedroRamirezTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
@@ -53,7 +52,6 @@ struct PedroRamirezTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c3"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,
@@ -86,7 +84,7 @@ struct PedroRamirezTests {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2", "c3"])
+            .withDummyCards(["c2"])
             .withPlayer("p1") {
                 $0.withAbilities([
                     .pedroRamirez,

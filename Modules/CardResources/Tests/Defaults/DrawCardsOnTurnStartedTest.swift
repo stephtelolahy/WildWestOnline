@@ -13,7 +13,6 @@ struct DrawCardsOnTurnStartedTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([.drawCardsOnTurnStarted])
             }
