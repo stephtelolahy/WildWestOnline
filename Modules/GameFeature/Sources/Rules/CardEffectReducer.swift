@@ -407,6 +407,7 @@ private extension Card.ActionName {
 
             state.queue.remove(at: damageIndex)
 
+            #warning("only remove damage efects")
             state.queue.removeAll { $0.triggeredBy.first?.name == .shoot && $0.name == .counterShot && $0.targetedPlayer == action.targetedPlayer }
 
             return state

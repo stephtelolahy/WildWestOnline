@@ -8,6 +8,7 @@
 import Testing
 import GameFeature
 
+#warning("use .shoot() action instead")
 struct MissedTest {
     @Test func beingShot_discardingMissed_shouldCounter() async throws {
         // Given
