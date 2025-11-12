@@ -10,6 +10,7 @@ enum NonStandardLogic {
         switch name {
         case .endGame,
                 .draw,
+                .discover,
                 .undiscover,
                 .increaseCardsToDrawThisTurn:
             return nil
