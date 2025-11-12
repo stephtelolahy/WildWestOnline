@@ -171,6 +171,7 @@ public struct Card: Equatable, Codable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
+            case discardedCard
             case costCard([CardFilter] = [])
             case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])

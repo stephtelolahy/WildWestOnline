@@ -55,6 +55,7 @@ public enum Cards {
         .luckyDuke,
         .blackJack,
         .pedroRamirez,
+        .jesseJones,
     ]
 }
 
@@ -956,6 +957,32 @@ private extension Card {
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .increaseCardsToDrawThisTurn,
+                    amount: -1,
+                    selectors: [
+                        .applyIf(.previousEffectSucceed)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var jesseJones: Self {
+        .init(
+            name: .jesseJones,
+            type: .character,
+            description: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDiscard,
+                    selectors: [
+                        .chooseOne(.discardedCard)
                     ]
                 ),
                 .init(

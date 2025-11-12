@@ -52,25 +52,6 @@
      )
  }
 
- static var jesseJones: Self {
-     .init(
-         name: .jesseJones,
-         description: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
-         effects: [
-             .init(
-                 name: .drawDiscard,
-                 when: .turnStarted
-             ),
-             .init(
-                 name: .drawDeck,
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
  // MARK: - Dodge city
 
  static var punch: Self {
