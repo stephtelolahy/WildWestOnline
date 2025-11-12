@@ -969,8 +969,15 @@ private extension Card {
                         .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
-                )
-                // TODOS: set cardsToDrawThisTurn -=1
+                ),
+//                .init(
+//                    trigger: .turnStarted,
+//                    action: .increaseCardsToDrawThisTurn,
+//                    amount: -1,
+//                    selectors: [
+//                        .applyIf(.previousEffectSucceed)
+//                    ]
+//                )
             ]
         )
     }

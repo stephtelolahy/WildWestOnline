@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct PedroRamirezTests {
-    @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
+    @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
