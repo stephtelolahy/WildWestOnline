@@ -48,7 +48,6 @@ public enum GameSetup {
             startOrder: figures,
             queue: [],
             playedThisTurn: [:],
-            cardsToDrawThisTurn: 0,
             active: [:],
             isOver: false,
             playMode: [:],

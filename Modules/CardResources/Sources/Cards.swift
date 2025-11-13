@@ -156,7 +156,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn)
+                        .repeat(.cardsPerTurn)
                     ]
                 )
             ]
@@ -958,14 +958,7 @@ private extension Card {
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        // TODOs: + increaseCardsToDrawThisTurn: -1
                     ]
                 )
             ]
@@ -984,14 +977,7 @@ private extension Card {
                     action: .drawDiscard,
                     selectors: [
                         .chooseOne(.discardedCard)
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        // TODOs: + increaseCardsToDrawThisTurn: -1
                     ]
                 )
             ]
@@ -1009,7 +995,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discover,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn)
+                        .repeat(.cardsPerTurn)
                     ]
                 ),
                 .init(
@@ -1020,18 +1006,14 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscovered,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn),
+                        .repeat(.cardsPerTurn),
                         .chooseOne(.discoverCard)
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .undiscover
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -2
+                    // TODOs: + increaseCardsToDrawThisTurn: -2
                 )
             ]
         )

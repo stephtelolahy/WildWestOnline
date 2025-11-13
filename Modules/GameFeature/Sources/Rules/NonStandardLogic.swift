@@ -11,8 +11,7 @@ enum NonStandardLogic {
         case .endGame,
                 .draw,
                 .discover,
-                .undiscover,
-                .increaseCardsToDrawThisTurn:
+                .undiscover:
             return nil
 
         case .drawDeck,

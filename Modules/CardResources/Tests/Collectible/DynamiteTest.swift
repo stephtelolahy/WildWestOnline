@@ -35,6 +35,7 @@ struct DynamiteTest {
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawCardsOnTurnStarted])
+                    .withCardsPerTurn(2)
                     .withCardsPerDraw(1)
             }
             .withPlayer("p2")
@@ -63,6 +64,7 @@ struct DynamiteTest {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawCardsOnTurnStarted])
                     .withCardsPerDraw(1)
+                    .withCardsPerTurn(2)
                     .withHealth(4)
             }
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -101,6 +103,7 @@ struct DynamiteTest {
             }
             .withPlayer("p2") {
                 $0.withAbilities([.drawCardsOnTurnStarted])
+                    .withCardsPerTurn(2)
             }
             .withPlayer("p3")
             .withDeck(["c1-8♠️", "c2", "c3"])

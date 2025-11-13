@@ -15,6 +15,7 @@ struct DrawCardsOnTurnStartedTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.drawCardsOnTurnStarted])
+                    .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2"])
             .build()

@@ -19,6 +19,7 @@ struct JesseJonesTests {
                     .jesseJones,
                     .drawCardsOnTurnStarted
                 ])
+                .withCardsPerTurn(2)
             }
             .withDiscard(["c1"])
             .withDeck(["c2"])
@@ -36,7 +37,6 @@ struct JesseJonesTests {
             .startTurn(player: "p1"),
             .choose("c1", player: "p1"),
             .drawDiscard(player: "p1"),
-            .increaseCardsToDrawThisTurn(-1),
             .drawDeck(player: "p1")
         ])
     }
@@ -50,6 +50,7 @@ struct JesseJonesTests {
                     .jesseJones,
                     .drawCardsOnTurnStarted
                 ])
+                .withCardsPerTurn(2)
             }
             .withDiscard(["c1"])
             .withDeck(["c2", "c3"])
@@ -80,6 +81,7 @@ struct JesseJonesTests {
                     .jesseJones,
                     .drawCardsOnTurnStarted
                 ])
+                .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2"])
             .build()

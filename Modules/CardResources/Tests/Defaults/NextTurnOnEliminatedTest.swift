@@ -44,6 +44,7 @@ struct NextTurnOnEliminatedTest {
             }
             .withPlayer("p2") {
                 $0.withAbilities([.drawCardsOnTurnStarted])
+                    .withCardsPerTurn(2)
             }
             .withPlayer("p3")
             .withDeck(["c1", "c2"])

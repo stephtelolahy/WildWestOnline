@@ -19,6 +19,7 @@ struct BlackJackTests {
                     .blackJack,
                     .drawCardsOnTurnStarted
                 ])
+                .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -46,6 +47,7 @@ struct BlackJackTests {
                     .blackJack,
                     .drawCardsOnTurnStarted
                 ])
+                .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()

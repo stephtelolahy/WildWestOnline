@@ -107,7 +107,6 @@ public struct Card: Equatable, Codable, Sendable {
         case choose
         case increaseMagnifying
         case increaseRemoteness
-        case increaseCardsToDrawThisTurn
         case setWeapon
         case setMaxHealth
         case setHandLimit
@@ -129,7 +128,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case cardsPerDraw
-            case cardsToDrawThisTurn
+            case cardsPerTurn
             case receivedDamageAmount
         }
 

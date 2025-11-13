@@ -238,13 +238,6 @@ public extension GameFeature.Action {
         )
     }
 
-    static func increaseCardsToDrawThisTurn(_ amount: Int) -> Self {
-        .init(
-            name: .increaseCardsToDrawThisTurn,
-            amount: amount
-        )
-    }
-
     static var dummy: Self {
         .init(
             name: .queue,
