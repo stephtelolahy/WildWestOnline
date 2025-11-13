@@ -153,8 +153,8 @@ public extension GameFeature.State.Player {
                 magnifying: magnifying,
                 remoteness: remoteness,
                 handLimit: handLimit,
-                playLimitsPerTurn: playLimitsPerTurn,
                 cardsPerDraw: cardsPerDraw,
+                playLimitsPerTurn: playLimitsPerTurn,
                 cardsPerTurn: cardsPerTurn,
                 missesRequired: missesRequired
             )

@@ -40,8 +40,8 @@ public enum GameFeature {
             public var magnifying: Int
             public var remoteness: Int
             public var handLimit: Int
-            public var playLimitsPerTurn: [String: Int]
             public var cardsPerDraw: Int
+            public var playLimitsPerTurn: [String: Int]
             public var cardsPerTurn: Int
             public var missesRequired: Int
         }
