@@ -86,7 +86,6 @@ private extension GameSetup {
         let abilities = [figure] + playerAbilities
         let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
         let cardsPerTurn = 2
-        let missesRequired = 1
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -109,8 +108,7 @@ private extension GameSetup {
             handLimit: handLimit,
             cardsPerDraw: cardsPerDraw,
             playLimitsPerTurn: playLimitsPerTurn,
-            cardsPerTurn: cardsPerTurn,
-            missesRequired: missesRequired
+            cardsPerTurn: cardsPerTurn
         )
     }
 }

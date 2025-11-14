@@ -43,7 +43,6 @@ public enum GameFeature {
             public var cardsPerDraw: Int
             public var playLimitsPerTurn: [String: Int]
             public var cardsPerTurn: Int
-            public var missesRequired: Int
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
