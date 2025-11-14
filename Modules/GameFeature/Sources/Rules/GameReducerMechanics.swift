@@ -65,7 +65,9 @@ private extension GameFeature.Action {
         }
 
         switch name {
-        case .queue, .preparePlay:
+        case .queue,
+                .addContextCardsPerTurn,
+                .preparePlay:
             return false
 
         default:

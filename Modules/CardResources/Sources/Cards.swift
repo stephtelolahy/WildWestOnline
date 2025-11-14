@@ -957,8 +957,8 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
-                        // TODOs: + increaseCardsToDrawThisTurn: -1
+                        .chooseOne(.targetCard([.isFromHand])),
+                        .addContextCardsPerTurn(-1)
                     ]
                 )
             ]
@@ -976,8 +976,8 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard)
-                        // TODOs: + increaseCardsToDrawThisTurn: -1
+                        .chooseOne(.discardedCard),
+                        .addContextCardsPerTurn(-1)
                     ]
                 )
             ]
@@ -1012,8 +1012,10 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .undiscover
-                    // TODOs: + increaseCardsToDrawThisTurn: -2
+                    action: .undiscover,
+                    selectors: [
+                        .addContextCardsPerTurn(-2)
+                    ]
                 )
             ]
         )

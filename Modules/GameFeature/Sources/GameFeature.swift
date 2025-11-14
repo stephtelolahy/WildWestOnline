@@ -64,6 +64,7 @@ public enum GameFeature {
         public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
+        public var contextCardsPerTurn: Int?
         public var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {

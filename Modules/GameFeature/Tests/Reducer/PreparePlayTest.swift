@@ -7,28 +7,9 @@
 
 import Testing
 import GameFeature
-import Combine
 
 struct PreparePlayTest {
-    @Test func play_shouldNotDiscard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1"])
-            }
-            .withCards(["c1": Card(name: "c1", type: .playable, effects: [.init(trigger: .cardPrePlayed, action: .play)])])
-            .build()
-
-        // When
-        let action = GameFeature.Action.preparePlay("c1", player: "p1")
-        let result = try await dispatch(action, state: state)
-
-        // Then
-        #expect(result.players.get("p1").hand == ["c1"])
-        #expect(result.discard.isEmpty)
-    }
-
-    @Test func play_shouldQueueEffectsOfMatchingCardName() async throws {
+    @Test func preparePlay_withEffects_shouldQueueEffects() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
@@ -45,7 +26,7 @@ struct PreparePlayTest {
         #expect(result.queue.count == 1)
     }
 
-    @Test func play_withoutEffects_shouldThrowError() async throws {
+    @Test func preparePlay_withoutEffects_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {

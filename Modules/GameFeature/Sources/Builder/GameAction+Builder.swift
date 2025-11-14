@@ -238,6 +238,13 @@ public extension GameFeature.Action {
         )
     }
 
+    static func addContextCardsPerTurn(_ value: Int) -> Self {
+        .init(
+            name: .addContextCardsPerTurn,
+            amount: value
+        )
+    }
+
     static var dummy: Self {
         .init(
             name: .queue,

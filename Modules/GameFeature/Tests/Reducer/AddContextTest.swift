@@ -1,0 +1,26 @@
+//
+//  AddContextTest.swift
+//  WildWestOnline
+//
+//  Created by Hugues Stéphano TELOLAHY on 14/11/2025.
+//
+
+import Testing
+import GameFeature
+
+struct AddContextTest {
+    @Test func addContext_shouldUpdateState() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withQueue([.draw()])
+            .build()
+
+        // When
+        let action = GameFeature.Action.addContextCardsPerTurn(1)
+        let result = try await dispatch(action, state: state)
+
+        // Then
+        #expect(result.queue[0].contextCardsPerTurn == 1)
+    }
+
+}

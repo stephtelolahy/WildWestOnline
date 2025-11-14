@@ -7,7 +7,6 @@
 
 import Testing
 import GameFeature
-import Combine
 
 struct HealTest {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
