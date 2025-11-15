@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct SlabTheKillerTests {
-    @Test func playingBang_shouldRequiresTwoMisses() async throws {
+    @Test func playingBang_shouldRequiresTwoMissed() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
