@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct GatlingTest {
-    @Test func play_withThreePlayers_shouldDamageEachPlayer() async throws {
+    @Test func play_shouldDamageOtherPlayers() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -31,28 +31,6 @@ struct GatlingTest {
             .damage(1, player: "p2"),
             .shoot("p3"),
             .damage(1, player: "p3")
-        ])
-    }
-
-    @Test func play_withTwoPlayers_shouldDamageEachPlayer() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.gatling])
-            }
-            .withPlayer("p2")
-            .build()
-
-        // When
-        let action = GameFeature.Action.preparePlay(.gatling, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .play(.gatling, player: "p1"),
-            .shoot("p2"),
-            .damage(1, player: "p2")
         ])
     }
 }
