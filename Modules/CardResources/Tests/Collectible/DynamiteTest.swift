@@ -102,7 +102,6 @@ struct DynamiteTest {
             .withPlayer("p2") {
                 $0.withAbilities([.draw2CardsOnTurnStarted])
             }
-            .withPlayer("p3")
             .withDeck(["c1-8♠️", "c2", "c3"])
             .build()
 
