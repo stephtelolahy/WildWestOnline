@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct GeneralStoreTests {
-    @Test func play_threePlayers_shouldAllowEachPlayerToChooseACard() async throws {
+    @Test func play_shouldAllowEachPlayerToChooseACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
