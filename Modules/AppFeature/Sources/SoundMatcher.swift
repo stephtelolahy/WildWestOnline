@@ -53,7 +53,7 @@ struct SoundMatcher {
                 .sfxTaDa
 
         case .play:
-        // TODO: define soundOnPlay in CardResources
+        // TODO: define soundOnPlay in CardResources, add in AppState.cardLibrary
             #warning("Set sound effects for playing card")
             switch Card.name(of: action.playedCard) {
             case "stagecoach", "wellsFargo":
