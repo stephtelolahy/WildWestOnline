@@ -563,7 +563,6 @@ private extension Card {
         )
     }
 
-    #warning("restore player's bangPerTurn on discarded")
     static var volcanic: Self {
         .init(
             name: .volcanic,
