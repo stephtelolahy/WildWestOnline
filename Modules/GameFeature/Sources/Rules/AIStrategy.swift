@@ -1,4 +1,3 @@
-// swiftlint:disable force_unwrapping
 //
 //  AIStrategy.swift
 //  WildWestOnline
@@ -9,10 +8,23 @@
 public struct AIStrategy {
     public init() {}
 
-    public func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
-        actions
-            .shuffled()
-            .min { evaluate($0, state: state) > evaluate($1, state: state) }!
+    public func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action? {
+        guard !actions.isEmpty else {
+            return nil
+        }
+
+        var bestAction: GameFeature.Action?
+        var bestScore: Int = .min
+
+        for action in actions.shuffled() {
+            let score = evaluate(action, state: state)
+            if score > bestScore {
+                bestScore = score
+                bestAction = action
+            }
+        }
+
+        return bestAction
     }
 
     public func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
@@ -20,33 +32,29 @@ public struct AIStrategy {
         case .preparePlay:
             let cardName = Card.name(of: action.playedCard)
             let cardObj = state.cards.get(cardName)
-            if let mainEffect = cardObj.mainEffect() {
-                let actionValue: [Card.ActionName: Int] = [
-                    .shoot: 3,
-                    .damage: 3,
-                    .handicap: 3,
-                    .discardHand: 1,
-                    .discardInPlay: 1,
-                    .stealHand: 1,
-                    .stealInPlay: 1,
-                    .endTurn: -1,
-                ]
 
-                return actionValue[mainEffect] ?? 0
+            guard let mainEffect = cardObj.mainEffect() else {
+                fatalError("Missing main effect for card \(cardName)")
             }
 
-            return 0
+            let actionValue: [Card.ActionName: Int] = [
+                .shoot: 3,
+                .damage: 3,
+                .handicap: 3,
+                .discardHand: 1,
+                .discardInPlay: 1,
+                .stealHand: 1,
+                .stealInPlay: 1,
+                .endTurn: -1,
+            ]
+            return actionValue[mainEffect] ?? 0
 
         case .choose:
             guard let selection = action.chosenOption else {
-                fatalError("Missing selection for choose action")
+                fatalError("Missing selection for action choose")
             }
 
-            if selection == .choicePass {
-                return -1
-            } else {
-                return 0
-            }
+            return selection == .choicePass ? -1 : 0
 
         default:
             fatalError("Unexpected action \(action.name)")
@@ -59,11 +67,9 @@ private extension Card {
         if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
             return playEffect.action
         }
-
         if let preparePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
             return preparePlayEffect.action
         }
-
         return nil
     }
 }
