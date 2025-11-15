@@ -18,25 +18,19 @@ struct ElGringoTests {
                     .withHealth(3)
             }
             .withPlayer("p2") {
-                $0.withHand([.bang, "c2"])
-                    .withWeapon(1)
-                    .withPlayLimitsPerTurn([.bang: 1])
+                $0.withHand(["c2"])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
+        let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p2")
         let choices: [Choice] = [
-            .init(options: ["p1", .choicePass], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .choose("p1", player: "p2"),
-            .play(.bang, player: "p2", target: "p1"),
-            .shoot("p1"),
             .damage(1, player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .stealHand("c2", target: "p2", player: "p1")
@@ -51,25 +45,15 @@ struct ElGringoTests {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
             }
-            .withPlayer("p2") {
-                $0.withHand([.bang])
-                    .withWeapon(1)
-                    .withPlayLimitsPerTurn([.bang: 1])
-            }
+            .withPlayer("p2")
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
-        let choices: [Choice] = [
-            .init(options: ["p1", .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p2")
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
-            .choose("p1", player: "p2"),
-            .play(.bang, player: "p2", target: "p1"),
-            .shoot("p1"),
             .damage(1, player: "p1")
         ])
     }
