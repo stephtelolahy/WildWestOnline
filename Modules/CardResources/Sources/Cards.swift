@@ -157,7 +157,7 @@ private extension Card {
                     action: .drawDeck,
                     selectors: [
                         .addContextCardsPerTurn(2),
-                        .repeat(.cardsPerTurn)
+                        .repeat(.contextCardsPerTurn)
                     ]
                 )
             ]
