@@ -15,7 +15,6 @@ struct BangTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withWeapon(1)
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -43,7 +42,6 @@ struct BangTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withWeapon(1)
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])
@@ -63,7 +61,6 @@ struct BangTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withWeapon(1)
             }
             .withPlayer("p2") {
                 $0.withRemoteness(1)
