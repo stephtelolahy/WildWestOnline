@@ -31,7 +31,8 @@ public enum AppBuilder {
 
         let cardLibrary = AppFeature.State.CardLibrary(
             cards: Cards.all,
-            deck: Deck.bang
+            deck: Deck.bang,
+            onPlaySound: SFX.onPlaySound
         )
 
         let appState = AppFeature.State(

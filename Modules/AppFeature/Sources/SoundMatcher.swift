@@ -9,71 +9,40 @@ import GameFeature
 import AudioClient
 
 struct SoundMatcher {
-    // swiftlint:disable:next cyclomatic_complexity
+    let onPlaySound: [String: AudioClient.Sound]
+
+    static let soundPerAction: [Card.ActionName: AudioClient.Sound] = [
+        .shoot: .sfxGunLoud,
+        .draw: .sfxSlideClosed,
+        .drawDeck: .sfxSlideClosed,
+        .drawDiscard: .sfxSlideClosed,
+        .discover: .sfxSlideClosed,
+        .drawDiscovered: .sfxSlideClosed,
+        .showHand: .sfxSlideClosed,
+        .discardHand: .sfxFly,
+        .discardInPlay: .sfxFly,
+        .stealHand: .sfxSlap,
+        .stealInPlay: .sfxSlap,
+        .counterShot: .sfxWesternRicochet,
+        .equip: .sfxShotGun,
+        .handicap: .sfxMetalLatch,
+        .passInPlay: .sfxFuseBurning,
+        .heal: .sfxSlurping2,
+        .damage: .sfxHurt,
+        .eliminate: .sfxPain,
+        .endGame: .sfxTaDa
+    ]
+
     func sfx(on action: GameFeature.Action) -> AudioClient.Sound? {
         guard action.selectors.isEmpty else {
             return nil
         }
 
-        return switch action.name {
-        case .shoot:
-                .sfxGunLoud
-
-        case .draw, .drawDeck, .drawDiscard, .discover, .drawDiscovered, .showHand:
-                .sfxSlideClosed
-
-        case .discardHand, .discardInPlay:
-                .sfxFly
-
-        case .stealHand, .stealInPlay:
-                .sfxSlap
-
-        case .counterShot:
-                .sfxWesternRicochet
-
-        case .equip:
-                .sfxShotGun
-
-        case .handicap:
-                .sfxMetalLatch
-
-        case .passInPlay:
-                .sfxFuseBurning
-
-        case .heal:
-                .sfxSlurping2
-
-        case .damage:
-                .sfxHurt
-
-        case .eliminate:
-                .sfxPain
-
-        case .endGame:
-                .sfxTaDa
-
-        case .play:
-        // TODO: define soundOnPlay in CardResources, add in AppState.cardLibrary
-            #warning("Set sound effects for playing card")
-            switch Card.name(of: action.playedCard) {
-            case "stagecoach", "wellsFargo":
-                    .sfxHorseGalloping
-
-            case "duel":
-                    .sfxShotgunOldSchool
-
-            case "gatling":
-                    .sfxAutomaticMachineGun
-
-            case "indians", "brawl":
-                    .sfxPeacock
-
-            default:
-                nil
-            }
-
-        default:
-            nil
+        if action.name == .play {
+            let cardName = Card.name(of: action.playedCard)
+            return onPlaySound[cardName]
+        } else {
+            return Self.soundPerAction[action.name]
         }
     }
 }

@@ -10,74 +10,7 @@ import Testing
 import GameFeature
 
 struct SoundMatcherTest {
-
-    private let sut = SoundMatcher()
-
-    @Test func soundOnPlayStagecoach() async throws {
-        // Given
-        let event = GameFeature.Action.play("stagecoach", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxHorseGalloping)
-    }
-
-    @Test func soundOnPlayWellsFargo() async throws {
-        // Given
-        let event = GameFeature.Action.play("wellsFargo", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxHorseGalloping)
-    }
-
-    @Test func soundOnPlayDuel() async throws {
-        // Given
-        let event = GameFeature.Action.play("duel", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxShotgunOldSchool)
-    }
-
-    @Test func soundOnPlayGatling() async throws {
-        // Given
-        let event = GameFeature.Action.play("gatling", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxAutomaticMachineGun)
-    }
-
-    @Test func soundOnPlayIndians() async throws {
-        // Given
-        let event = GameFeature.Action.play("indians", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxPeacock)
-    }
-
-    @Test func soundOnPlayBrawl() async throws {
-        // Given
-        let event = GameFeature.Action.play("brawl", player: "p1")
-
-        // When
-        let sound = try #require(sut.sfx(on: event))
-
-        // Then
-        #expect(sound == .sfxPeacock)
-    }
+    private let sut = SoundMatcher(onPlaySound: [:])
 
     @Test func soundOnEquip() async throws {
         // Given
