@@ -26,8 +26,21 @@ public struct AIStrategy {
 
         return bestAction
     }
+}
 
-    public func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
+private extension AIStrategy {
+    static let actionValue: [Card.ActionName: Int] = [
+        .shoot: 3,
+        .damage: 3,
+        .handicap: 3,
+        .discardHand: 1,
+        .discardInPlay: 1,
+        .stealHand: 1,
+        .stealInPlay: 1,
+        .endTurn: -1,
+    ]
+
+    func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
         switch action.name {
         case .preparePlay:
             let cardName = Card.name(of: action.playedCard)
@@ -37,17 +50,7 @@ public struct AIStrategy {
                 fatalError("Missing main effect for card \(cardName)")
             }
 
-            let actionValue: [Card.ActionName: Int] = [
-                .shoot: 3,
-                .damage: 3,
-                .handicap: 3,
-                .discardHand: 1,
-                .discardInPlay: 1,
-                .stealHand: 1,
-                .stealInPlay: 1,
-                .endTurn: -1,
-            ]
-            return actionValue[mainEffect] ?? 0
+            return Self.actionValue[mainEffect] ?? 0
 
         case .choose:
             guard let selection = action.chosenOption else {

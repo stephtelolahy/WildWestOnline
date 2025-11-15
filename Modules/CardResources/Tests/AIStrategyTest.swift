@@ -10,22 +10,6 @@ import GameFeature
 import CardResources
 
 struct AIStrategyTest {
-    @Test func evaluateIndividualMoves() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .build()
-        let sut = AIStrategy()
-
-        // When
-        // Then
-        #expect(sut.evaluate(.preparePlay(.bang, player: "p1"), state: state) == 3)
-        #expect(sut.evaluate(.preparePlay(.jail, player: "p1"), state: state) == 3)
-        #expect(sut.evaluate(.preparePlay(.panic, player: "p1"), state: state) == 1)
-        #expect(sut.evaluate(.preparePlay(.endTurn, player: "p1"), state: state) == -1)
-
-    }
-
     @Test func evaluateBestMove_amongPlayingCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
