@@ -1,4 +1,3 @@
-// swiftlint:disable force_unwrapping
 //
 //  AIStrategy.swift
 //  WildWestOnline
@@ -6,50 +5,74 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 
-protocol AIStrategy {
-    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action
-}
+public struct AIStrategy {
+    public init() {}
 
-struct RandomStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
-        actions.randomElement()!
+    public func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action? {
+        guard !actions.isEmpty else {
+            return nil
+        }
+
+        var bestAction: GameFeature.Action?
+        var bestScore: Int = .min
+
+        for action in actions.shuffled() {
+            let score = evaluate(action, state: state)
+            if score > bestScore {
+                bestScore = score
+                bestAction = action
+            }
+        }
+
+        return bestAction
     }
 }
 
-struct AgressiveStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
-        #warning("Set AI value for playing card")
-        // swiftlint:disable no_magic_numbers
-        let itemValue: [String: Int] = [
-            "bang": 3,
-            "duel": 3,
-            "gatling": 3,
-            "panic": 1,
-            "catBalou": 1,
-            "endTurn": -1,
-            "pass": -1
-        ]
+private extension AIStrategy {
+    static let actionValue: [Card.ActionName: Int] = [
+        .shoot: 3,
+        .damage: 3,
+        .handicap: 3,
+        .discardHand: 1,
+        .discardInPlay: 1,
+        .stealHand: 1,
+        .stealInPlay: 1,
+        .endTurn: -1,
+    ]
 
-        return actions.shuffled().min { action1, action2 in
-            let value1 = itemValue[action1.selectedItem] ?? 0
-            let value2 = itemValue[action2.selectedItem] ?? 0
-            return value1 > value2
-        }!
-    }
-}
-
-private extension GameFeature.Action {
-    var selectedItem: String {
-        switch name {
+    func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
+        switch action.name {
         case .preparePlay:
-            return Card.name(of: playedCard)
+            let cardName = Card.name(of: action.playedCard)
+            let cardObj = state.cards.get(cardName)
+
+            guard let mainEffect = cardObj.mainEffect() else {
+                fatalError("Missing main effect for card \(cardName)")
+            }
+
+            return Self.actionValue[mainEffect] ?? 0
 
         case .choose:
-            let selection = chosenOption!
-            return Card.name(of: selection)
+            guard let selection = action.chosenOption else {
+                fatalError("Missing selection for action choose")
+            }
+
+            return selection == .choicePass ? -1 : 0
 
         default:
-            fatalError("unexpected action \(name)")
+            fatalError("Unexpected action \(action.name)")
         }
+    }
+}
+
+private extension Card {
+    func mainEffect() -> Card.ActionName? {
+        if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
+            return playEffect.action
+        }
+        if let preparePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
+            return preparePlayEffect.action
+        }
+        return nil
     }
 }

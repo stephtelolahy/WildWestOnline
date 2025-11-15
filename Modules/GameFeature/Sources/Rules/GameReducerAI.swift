@@ -21,7 +21,7 @@ extension GameFeature {
         if let pendingChoice = state.pendingChoice,
            state.playMode[pendingChoice.chooser] == .auto {
             let actions = pendingChoice.options.map { GameFeature.Action.choose($0.label, player: pendingChoice.chooser) }
-            let strategy: AIStrategy = AgressiveStrategy()
+            let strategy: AIStrategy = AIStrategy()
             let bestMove = strategy.evaluateBestMove(actions, state: state)
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
             return bestMove
@@ -31,7 +31,7 @@ extension GameFeature {
            let choice = state.active.first,
            state.playMode[choice.key] == .auto {
             let actions = choice.value.map { GameFeature.Action.preparePlay($0, player: choice.key) }
-            let strategy: AIStrategy = AgressiveStrategy()
+            let strategy: AIStrategy = AIStrategy()
             let bestMove = strategy.evaluateBestMove(actions, state: state)
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
             return bestMove
