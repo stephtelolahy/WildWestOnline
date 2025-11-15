@@ -9,7 +9,7 @@ import Testing
 @testable import GameFeature
 
 struct AddContextTest {
-    @Test func addContext_shouldUpdateState() async throws {
+    @Test func addContext_shouldUpdateQueuedEffects() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withQueue([.init(name: .draw, contextCardsPerTurn: 2)])
