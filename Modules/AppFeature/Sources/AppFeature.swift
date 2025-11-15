@@ -39,16 +39,16 @@ public enum AppFeature {
         public struct CardLibrary: Codable, Equatable, Sendable {
             public let cards: [Card]
             public let deck: [String: [String]]
-            public let onPlaySound: [String: AudioClient.Sound]
+            public let specialSounds: [Card.ActionName: [String: AudioClient.Sound]]
 
             public init(
                 cards: [Card] = [],
                 deck: [String: [String]] = [:],
-                onPlaySound: [String: AudioClient.Sound] = [:]
+                specialSounds: [Card.ActionName: [String: AudioClient.Sound]] = [:]
             ) {
                 self.cards = cards
                 self.deck = deck
-                self.onPlaySound = onPlaySound
+                self.specialSounds = specialSounds
             }
         }
     }

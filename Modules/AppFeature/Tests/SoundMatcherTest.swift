@@ -10,7 +10,7 @@ import Testing
 import GameFeature
 
 struct SoundMatcherTest {
-    private let sut = SoundMatcher(onPlaySound: [:])
+    private let sut = SoundMatcher(specialSounds: [:])
 
     @Test func soundOnEquip() async throws {
         // Given

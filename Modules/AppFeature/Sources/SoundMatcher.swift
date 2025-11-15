@@ -9,9 +9,9 @@ import GameFeature
 import AudioClient
 
 struct SoundMatcher {
-    let onPlaySound: [String: AudioClient.Sound]
+    let specialSounds: [Card.ActionName: [String: AudioClient.Sound]]
 
-    static let soundPerAction: [Card.ActionName: AudioClient.Sound] = [
+    static let defaultSounds: [Card.ActionName: AudioClient.Sound] = [
         .shoot: .sfxGunLoud,
         .draw: .sfxSlideClosed,
         .drawDeck: .sfxSlideClosed,
@@ -38,11 +38,13 @@ struct SoundMatcher {
             return nil
         }
 
-        if action.name == .play {
+        if let special = specialSounds[action.name] {
             let cardName = Card.name(of: action.playedCard)
-            return onPlaySound[cardName]
-        } else {
-            return Self.soundPerAction[action.name]
+            if let sound = special[cardName] {
+                return sound
+            }
         }
+
+        return Self.defaultSounds[action.name]
     }
 }
