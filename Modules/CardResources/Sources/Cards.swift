@@ -550,7 +550,7 @@ private extension Card {
             name: .schofield,
             type: .playable,
             description: "can hit targets at a distance of 2.",
-            effects: Card.EffectDefinition.weapon(range: 2)
+            effects: .weapon(range: 2)
         )
     }
 
@@ -559,7 +559,7 @@ private extension Card {
             name: .remington,
             type: .playable,
             description: "can hit targets at a distance of 3.",
-            effects: Card.EffectDefinition.weapon(range: 3)
+            effects: .weapon(range: 3)
         )
     }
 
@@ -568,7 +568,7 @@ private extension Card {
             name: .revCarabine,
             type: .playable,
             description: "can hit targets at a distance of 4.",
-            effects: Card.EffectDefinition.weapon(range: 4)
+            effects: .weapon(range: 4)
         )
     }
 
@@ -577,17 +577,16 @@ private extension Card {
             name: .winchester,
             type: .playable,
             description: "can hit targets at a distance of 5.",
-            effects: Card.EffectDefinition.weapon(range: 5)
+            effects: .weapon(range: 5)
         )
     }
 
-    #warning("restore player's bangPerTurn on discarded")
     static var volcanic: Self {
         .init(
             name: .volcanic,
             type: .playable,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            effects: Card.EffectDefinition.weapon(range: 1) + [
+            effects: .weapon(range: 1) + [
                 .init(
                     trigger: .cardEquiped,
                     action: .setPlayLimitsPerTurn,
@@ -1060,7 +1059,17 @@ private extension Card.EffectDefinition {
         )
     }
 
-    static func weapon(range: Int) -> [Self] {
+    static func maxHealth(_ value: Int) -> Self {
+        .init(
+            trigger: .permanent,
+            action: .setMaxHealth,
+            amount: value
+        )
+    }
+}
+
+private extension Array where Element == Card.EffectDefinition {
+    static func weapon(range: Int) -> Self {
         [
             .equipOnPrePlayed,
             .init(
@@ -1074,13 +1083,5 @@ private extension Card.EffectDefinition {
                 amount: 1
             )
         ]
-    }
-
-    static func maxHealth(_ value: Int) -> Self {
-        .init(
-            trigger: .permanent,
-            action: .setMaxHealth,
-            amount: value
-        )
     }
 }
