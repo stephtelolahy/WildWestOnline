@@ -243,7 +243,8 @@ let package = Package(
         .target(
             name: "CardResources",
             dependencies: [
-                "GameFeature"
+                "GameFeature",
+                "AudioClient"
             ],
             path: "CardResources/Sources",
             resources: [

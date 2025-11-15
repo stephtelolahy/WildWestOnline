@@ -15,7 +15,8 @@ extension AppFeature {
     ) -> Effect<Action> {
         switch action {
         case .game(let gameAction):
-            if let sfx = SoundMatcher().sfx(on: gameAction) {
+            let soundMatcher = SoundMatcher(specialSounds: state.cardLibrary.specialSounds)
+            if let sfx = soundMatcher.sfx(on: gameAction) {
                 let playFunc = dependencies.play
                 Task {
                     await playFunc(sfx)
