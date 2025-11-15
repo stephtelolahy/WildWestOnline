@@ -93,7 +93,10 @@ struct GameViewTest {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
                     .withMaxHealth(4)
-                    .withAbilities([.endTurn, .willyTheKid])
+                    .withAbilities([
+                        .endTurn,
+                        .willyTheKid
+                    ])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])
             }

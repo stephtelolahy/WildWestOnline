@@ -40,7 +40,10 @@ struct NextTurnOnEliminatedTest {
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])
-                    .withAbilities([.discardAllCardsOnEliminated, .nextTurnOnEliminated])
+                    .withAbilities([
+                        .discardAllCardsOnEliminated,
+                        .nextTurnOnEliminated
+                    ])
             }
             .withPlayer("p2") {
                 $0.withAbilities([.draw2CardsOnTurnStarted])
