@@ -10,6 +10,22 @@ import GameFeature
 import CardResources
 
 struct AgressiveStrategyTest {
+    @Test func evaluateIndividualMoves() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .build()
+        let sut = AgressiveStrategy()
+
+        // When
+        // Then
+        #expect(sut.evaluate(.preparePlay(.bang, player: "p1"), state: state) == 3)
+        #expect(sut.evaluate(.preparePlay(.jail, player: "p1"), state: state) == 3)
+        #expect(sut.evaluate(.preparePlay(.panic, player: "p1"), state: state) == 1)
+        #expect(sut.evaluate(.preparePlay(.endTurn, player: "p1"), state: state) == -1)
+
+    }
+
     @Test func evaluateBestMove_amongPlayingCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
@@ -29,14 +45,14 @@ struct AgressiveStrategyTest {
         #expect(bestMove == .preparePlay(.bang, player: "p1"))
     }
 
-    @Test func evaluateBestMove_amongChoosenItem() async throws {
+    @Test func evaluateBestMove_amongChoosingAnItem() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .build()
         let possibleMoves: [GameFeature.Action] = [
             .choose(.choicePass, player: "p1"),
-            .choose(.bang, player: "p1")
+            .choose(.missed, player: "p1")
         ]
         let sut = AgressiveStrategy()
 
@@ -44,6 +60,6 @@ struct AgressiveStrategyTest {
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
         // Then
-        #expect(bestMove == .choose(.bang, player: "p1"))
+        #expect(bestMove == .choose(.missed, player: "p1"))
     }
 }

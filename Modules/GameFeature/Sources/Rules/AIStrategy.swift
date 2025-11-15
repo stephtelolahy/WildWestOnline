@@ -25,7 +25,7 @@ public struct AgressiveStrategy: AIStrategy {
             .min { evaluate($0, state: state) > evaluate($1, state: state) }!
     }
 
-    private func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
+    public func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
         switch action.name {
         case .preparePlay:
             let cardName = Card.name(of: action.playedCard)
