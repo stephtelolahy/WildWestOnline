@@ -277,8 +277,17 @@ let package = Package(
                 "AudioClientLive"
             ],
             path: "AppBootstrap/Sources",
-            plugins: lintPlugin
+            plugins: lintPlugin,
         ),
     ]
 )
+
+for target in package.targets {
+  var settings = target.swiftSettings ?? []
+  settings.append(contentsOf: [
+    .treatAllWarnings(as: .error),
+    .treatWarning("DeprecatedDeclaration", as: .warning)
+  ])
+  target.swiftSettings = settings
+}
 
