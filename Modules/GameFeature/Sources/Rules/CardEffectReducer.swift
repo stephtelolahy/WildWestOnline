@@ -408,6 +408,11 @@ private extension Card.ActionName {
                 fatalError("Missing .shoot effect on targetedPlayer")
             }
 
+            if action.contextAdditionalMissed > 0 {
+                state.queue = state.queue.map { $0.copy(contextAdditionalMissed: -1) }
+                return state
+            }
+
             // remove all effects triggered by shoot on targetedPlayer
             state.queue.removeAll {
                 $0.triggeredBy.first?.name == .shoot
