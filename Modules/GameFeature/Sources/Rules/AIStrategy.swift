@@ -6,17 +6,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 
-public protocol AIStrategy {
-    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action
-}
-
-public struct RandomStrategy: AIStrategy {
-    public func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
-        actions.randomElement()!
-    }
-}
-
-public struct AgressiveStrategy: AIStrategy {
+public struct AIStrategy {
     public init() {}
 
     public func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {

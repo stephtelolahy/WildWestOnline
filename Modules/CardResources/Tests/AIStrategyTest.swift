@@ -1,5 +1,5 @@
 //
-//  AgressiveStrategyTest.swift
+//  AIStrategyTest.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 27/12/2024.
@@ -9,13 +9,13 @@ import Testing
 import GameFeature
 import CardResources
 
-struct AgressiveStrategyTest {
+struct AIStrategyTest {
     @Test func evaluateIndividualMoves() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .build()
-        let sut = AgressiveStrategy()
+        let sut = AIStrategy()
 
         // When
         // Then
@@ -36,7 +36,7 @@ struct AgressiveStrategyTest {
             .preparePlay(.panic, player: "p1"),
             .preparePlay(.bang, player: "p1")
         ]
-        let sut = AgressiveStrategy()
+        let sut = AIStrategy()
 
         // When
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
@@ -54,7 +54,7 @@ struct AgressiveStrategyTest {
             .choose(.choicePass, player: "p1"),
             .choose(.missed, player: "p1")
         ]
-        let sut = AgressiveStrategy()
+        let sut = AIStrategy()
 
         // When
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
