@@ -56,12 +56,14 @@ public struct AIStrategy {
 
 private extension Card {
     func mainEffect() -> Card.ActionName? {
+        if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
+            return playEffect.action
+        }
+
         if let preparePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
-            if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
-                return playEffect.action
-            }
             return preparePlayEffect.action
         }
+
         return nil
     }
 }
