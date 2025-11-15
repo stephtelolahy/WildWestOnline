@@ -32,8 +32,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withInPlay([.barrel])
                     .withCardsPerDraw(1)
             }
@@ -41,14 +40,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
-            .counterShoot(player: "p2")
+            .counterShoot(player: "p1")
         ])
     }
 
@@ -56,8 +55,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withInPlay([.barrel])
                     .withCardsPerDraw(1)
             }
@@ -65,14 +63,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
-            .damage(1, player: "p2")
+            .damage(1, player: "p1")
         ])
     }
 
@@ -80,8 +78,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withInPlay([.barrel])
                     .withCardsPerDraw(2)
             }
@@ -89,15 +86,15 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
             .draw(),
-            .counterShoot(player: "p2")
+            .counterShoot(player: "p1")
         ])
     }
 
@@ -105,8 +102,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withInPlay([.barrel])
                     .withCardsPerDraw(2)
             }
@@ -114,15 +110,15 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
             .draw(),
-            .counterShoot(player: "p2")
+            .counterShoot(player: "p1")
         ])
     }
 
@@ -130,8 +126,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withInPlay([.barrel])
                     .withCardsPerDraw(2)
             }
@@ -139,15 +134,15 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
             .draw(),
-            .damage(1, player: "p2")
+            .damage(1, player: "p1")
         ])
     }
 
@@ -155,8 +150,7 @@ struct BarrelTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
-            .withPlayer("p1")
-            .withPlayer("p2") {
+            .withPlayer("p1") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
                     .withCardsPerDraw(1)
@@ -166,14 +160,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameFeature.Action.shoot("p2")
+        let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2"),
+            .shoot("p1"),
             .draw(),
-            .counterShoot(player: "p2")
+            .counterShoot(player: "p1")
         ])
     }
 }
