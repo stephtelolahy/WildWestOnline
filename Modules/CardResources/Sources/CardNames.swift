@@ -17,6 +17,7 @@ public extension String {
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
     static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
+    static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
 
     static let bang = "bang"
     static let missed = "missed"
