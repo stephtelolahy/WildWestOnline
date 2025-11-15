@@ -245,6 +245,13 @@ public extension GameFeature.Action {
         )
     }
 
+    static func addContextAdditionalMissed(_ value: Int) -> Self {
+        .init(
+            name: .addContextAdditionalMissed,
+            amount: value
+        )
+    }
+
     static var dummy: Self {
         .init(
             name: .queue,

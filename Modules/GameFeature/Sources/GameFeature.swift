@@ -63,6 +63,7 @@ public enum GameFeature {
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
         public var contextCardsPerTurn: Int = 0
+        public var contextAdditionalMissed: Int = 0
         public var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {

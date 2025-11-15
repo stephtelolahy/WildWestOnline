@@ -67,6 +67,7 @@ private extension GameFeature.Action {
         switch name {
         case .queue,
                 .addContextCardsPerTurn,
+                .addContextAdditionalMissed,
                 .preparePlay:
             return false
 

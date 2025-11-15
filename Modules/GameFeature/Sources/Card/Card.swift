@@ -60,7 +60,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    public enum Trigger: String, Codable, Sendable {
+    public enum Trigger: Equatable, Codable, Sendable {
         case cardPrePlayed
         case cardPlayed
         case cardEquiped
@@ -77,6 +77,7 @@ public struct Card: Equatable, Codable, Sendable {
         case otherEliminated
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
+        case shootingWithCard(named: String)
     }
 
     public enum ActionName: String, Codable, Sendable {
@@ -115,6 +116,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setCardsPerDraw
         case queue
         case addContextCardsPerTurn
+        case addContextAdditionalMissed
     }
 
     public enum Selector: Equatable, Codable, Sendable {
