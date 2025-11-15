@@ -76,6 +76,7 @@ public struct Card: Equatable, Codable, Sendable {
         case eliminating
         case otherEliminated
         case drawLastCardOnTurnStarted
+        case weaponPrePlayed
     }
 
     public enum ActionName: String, Codable, Sendable {

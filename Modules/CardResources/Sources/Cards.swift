@@ -21,6 +21,7 @@ public enum Cards {
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
         .draw3CardsOnEliminating,
+        .discardEquipedWeaponOnPrePlayed,
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -254,6 +255,23 @@ private extension Card {
                         .repeat(.fixed(3))
                     ]
                 )
+            ]
+        )
+    }
+
+    static var discardEquipedWeaponOnPrePlayed: Self {
+        .init(
+            name: .discardEquipedWeaponOnPrePlayed,
+            type: .ability,
+            description: "Discard your currently equipped weapon before equipping another one.",
+            effects: [
+                .init(
+                    trigger: .weaponPrePlayed,
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.equippedWeapon)
+                    ]
+                ),
             ]
         )
     }
@@ -1044,17 +1062,7 @@ private extension Card.EffectDefinition {
 
     static func weapon(range: Int) -> [Self] {
         [
-            .init(
-                trigger: .cardPrePlayed,
-                action: .discardInPlay,
-                selectors: [
-                    .setCard(.equippedWeapon)
-                ]
-            ),
-            .init(
-                trigger: .cardPrePlayed,
-                action: .equip
-            ),
+            .equipOnPrePlayed,
             .init(
                 trigger: .cardEquiped,
                 action: .setWeapon,
