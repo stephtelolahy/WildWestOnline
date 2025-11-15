@@ -14,7 +14,7 @@ public enum Cards {
         .discardMissedOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
-        .drawCardsOnTurnStarted,
+        .draw2CardsOnTurnStarted,
         .nextTurnOnTurnEnded,
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
@@ -146,9 +146,9 @@ private extension Card {
         )
     }
 
-    static var drawCardsOnTurnStarted: Self {
+    static var draw2CardsOnTurnStarted: Self {
         .init(
-            name: .drawCardsOnTurnStarted,
+            name: .draw2CardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
             effects: [
@@ -156,7 +156,8 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn)
+                        .addContextCardsPerTurn(2),
+                        .repeat(.contextCardsPerTurn)
                     ]
                 )
             ]
@@ -957,15 +958,8 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .chooseOne(.targetCard([.isFromHand])),
+                        .addContextCardsPerTurn(-1)
                     ]
                 )
             ]
@@ -983,15 +977,8 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard)
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .chooseOne(.discardedCard),
+                        .addContextCardsPerTurn(-1)
                     ]
                 )
             ]
@@ -1009,29 +996,23 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discover,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn)
+                        .repeat(.fixed(3))
                     ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .discover
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .drawDiscovered,
                     selectors: [
-                        .repeat(.cardsToDrawThisTurn),
+                        .repeat(.fixed(2)),
                         .chooseOne(.discoverCard)
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .undiscover
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .increaseCardsToDrawThisTurn,
-                    amount: -2
+                    action: .undiscover,
+                    selectors: [
+                        .addContextCardsPerTurn(-2)
+                    ]
                 )
             ]
         )

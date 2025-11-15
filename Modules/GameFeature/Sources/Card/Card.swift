@@ -107,13 +107,13 @@ public struct Card: Equatable, Codable, Sendable {
         case choose
         case increaseMagnifying
         case increaseRemoteness
-        case increaseCardsToDrawThisTurn
         case setWeapon
         case setMaxHealth
         case setHandLimit
         case setPlayLimitsPerTurn
         case setCardsPerDraw
         case queue
+        case addContextCardsPerTurn
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -123,13 +123,14 @@ public struct Card: Equatable, Codable, Sendable {
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayContext)
+        case addContextCardsPerTurn(Int)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
             case cardsPerDraw
-            case cardsToDrawThisTurn
+            case contextCardsPerTurn
             case receivedDamageAmount
         }
 

@@ -238,10 +238,10 @@ public extension GameFeature.Action {
         )
     }
 
-    static func increaseCardsToDrawThisTurn(_ amount: Int) -> Self {
+    static func addContextCardsPerTurn(_ value: Int) -> Self {
         .init(
-            name: .increaseCardsToDrawThisTurn,
-            amount: amount
+            name: .addContextCardsPerTurn,
+            amount: value
         )
     }
 

@@ -22,7 +22,7 @@ private extension Card.Selector.RepeatCount {
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .cardsPerDraw: CardsPerDraw()
-        case .cardsToDrawThisTurn: CardsToDrawThisTurn()
+        case .contextCardsPerTurn: ContextCardsPerTurn()
         case .receivedDamageAmount: ReceivedDamageAmount()
         }
     }
@@ -64,9 +64,9 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct CardsToDrawThisTurn: Resolver {
+    struct ContextCardsPerTurn: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            state.cardsToDrawThisTurn
+            pendingAction.contextCardsPerTurn
         }
     }
 

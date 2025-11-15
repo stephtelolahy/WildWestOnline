@@ -17,7 +17,6 @@ public extension GameFeature.State {
         private var queue: [GameFeature.Action] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
-        private var cardsToDrawThisTurn: Int = 0
         private var active: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
@@ -36,7 +35,6 @@ public extension GameFeature.State {
                 queue: queue,
                 turn: turn,
                 playedThisTurn: playedThisTurn,
-                cardsToDrawThisTurn: cardsToDrawThisTurn,
                 active: active,
                 isOver: isOver,
                 playMode: playMode,
@@ -78,11 +76,6 @@ public extension GameFeature.State {
 
         public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
             playedThisTurn = value
-            return self
-        }
-
-        public func withCardsToDrawThisTurn(_ value: Int) -> Self {
-            cardsToDrawThisTurn = value
             return self
         }
 
@@ -158,8 +151,8 @@ public extension GameFeature.State.Player {
                 magnifying: magnifying,
                 remoteness: remoteness,
                 handLimit: handLimit,
-                playLimitsPerTurn: playLimitsPerTurn,
-                cardsPerDraw: cardsPerDraw
+                cardsPerDraw: cardsPerDraw,
+                playLimitsPerTurn: playLimitsPerTurn
             )
         }
 

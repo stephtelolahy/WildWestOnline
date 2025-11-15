@@ -17,7 +17,7 @@ struct JesseJonesTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .jesseJones,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
             }
             .withDiscard(["c1"])
@@ -36,7 +36,6 @@ struct JesseJonesTests {
             .startTurn(player: "p1"),
             .choose("c1", player: "p1"),
             .drawDiscard(player: "p1"),
-            .increaseCardsToDrawThisTurn(-1),
             .drawDeck(player: "p1")
         ])
     }
@@ -48,7 +47,7 @@ struct JesseJonesTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .jesseJones,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
             }
             .withDiscard(["c1"])
@@ -78,7 +77,7 @@ struct JesseJonesTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .jesseJones,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
             }
             .withDeck(["c1", "c2"])

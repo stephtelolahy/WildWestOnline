@@ -7,7 +7,6 @@
 
 import Testing
 import GameFeature
-import Combine
 
 struct DrawDeckTest {
     @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {

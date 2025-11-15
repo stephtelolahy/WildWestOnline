@@ -23,7 +23,6 @@ public enum GameFeature {
         public var lastError: GameFeature.Error?
         public var turn: String?
         public var playedThisTurn: [String: Int]
-        public var cardsToDrawThisTurn: Int
         public var active: [String: [String]]
         public var isOver: Bool
         public var playMode: [String: PlayMode]
@@ -41,8 +40,8 @@ public enum GameFeature {
             public var magnifying: Int
             public var remoteness: Int
             public var handLimit: Int
-            public var playLimitsPerTurn: [String: Int]
             public var cardsPerDraw: Int
+            public var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
@@ -63,6 +62,7 @@ public enum GameFeature {
         public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
+        public var contextCardsPerTurn: Int = 0
         public var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {

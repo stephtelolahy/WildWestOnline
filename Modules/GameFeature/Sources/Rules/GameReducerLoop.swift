@@ -72,6 +72,11 @@ private extension GameFeature.State {
         }
     }
 
+    struct TriggerableElement {
+        let card: String
+        let player: String
+    }
+
     func triggerableElements(on action: GameFeature.Action) -> [TriggerableElement] {
         var result: [TriggerableElement] = []
 
@@ -200,9 +205,4 @@ private extension GameFeature.Action {
             return false
         }
     }
-}
-
-private struct TriggerableElement {
-    let card: String
-    let player: String
 }

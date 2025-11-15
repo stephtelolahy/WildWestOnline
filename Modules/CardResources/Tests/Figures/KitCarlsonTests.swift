@@ -17,7 +17,7 @@ struct KitCarlsonTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .kitCarlson,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
             }
             .withDeck(["c1", "c2", "c3"])
@@ -41,8 +41,7 @@ struct KitCarlsonTests {
             .drawDiscovered("c1", player: "p1"),
             .choose("c2", player: "p1"),
             .drawDiscovered("c2", player: "p1"),
-            .undiscover(),
-            .increaseCardsToDrawThisTurn(-2)
+            .undiscover()
         ])
     }
 }
