@@ -107,8 +107,7 @@ private extension GameSetup {
             remoteness: remoteness,
             handLimit: handLimit,
             cardsPerDraw: cardsPerDraw,
-            playLimitsPerTurn: playLimitsPerTurn,
-            cardsPerTurn: cardsPerTurn
+            playLimitsPerTurn: playLimitsPerTurn
         )
     }
 }

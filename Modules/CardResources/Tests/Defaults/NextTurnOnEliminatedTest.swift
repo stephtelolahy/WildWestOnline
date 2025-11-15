@@ -43,8 +43,7 @@ struct NextTurnOnEliminatedTest {
                     .withAbilities([.discardAllCardsOnEliminated, .nextTurnOnEliminated])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.drawCardsOnTurnStarted])
-                    .withCardsPerTurn(2)
+                $0.withAbilities([.draw2CardsOnTurnStarted])
             }
             .withPlayer("p3")
             .withDeck(["c1", "c2"])

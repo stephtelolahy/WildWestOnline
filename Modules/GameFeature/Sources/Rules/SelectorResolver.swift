@@ -105,7 +105,10 @@ private extension Card.Selector {
         let value: Int
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            [pendingAction, .addContextCardsPerTurn(value)]
+            [
+                .addContextCardsPerTurn(value),
+                pendingAction
+            ]
         }
     }
 }

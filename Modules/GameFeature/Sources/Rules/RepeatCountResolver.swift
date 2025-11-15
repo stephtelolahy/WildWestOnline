@@ -66,9 +66,7 @@ private extension Card.Selector.RepeatCount {
 
     struct CardsPerTurn: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(player)
-            return playerObj.cardsPerTurn + (pendingAction.contextCardsPerTurn ?? 0)
+            pendingAction.contextCardsPerTurn
         }
     }
 

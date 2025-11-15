@@ -197,7 +197,7 @@
          name: .pixiePete,
          description: "During phase 1 of his turn, he draws 3 cards instead of 2.",
          setPlayerAttribute: [.maxHealth: 3],
-         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -215,7 +215,7 @@
          name: .billNoface,
          description: "He draws 1 card, plus 1 card for each wound he has.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.drawCardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -361,7 +361,7 @@
          name: .patBrennan,
          description: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .steal,
@@ -665,7 +665,7 @@
      .init(
          name: .evelynShebang,
          description: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
-         setActionAttribute: [.drawCardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .shoot,

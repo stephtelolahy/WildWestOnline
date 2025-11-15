@@ -17,9 +17,8 @@ struct BlackJackTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .blackJack,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
-                .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -45,9 +44,8 @@ struct BlackJackTests {
             .withPlayer("p1") {
                 $0.withAbilities([
                     .blackJack,
-                    .drawCardsOnTurnStarted
+                    .draw2CardsOnTurnStarted
                 ])
-                .withCardsPerTurn(2)
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()

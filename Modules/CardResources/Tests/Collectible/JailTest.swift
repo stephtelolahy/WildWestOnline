@@ -62,8 +62,7 @@ struct JailTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.drawCardsOnTurnStarted])
-                    .withCardsPerTurn(2)
+                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
             }
             .withDeck(["c1-2♥️", "c2", "c3"])
@@ -89,8 +88,7 @@ struct JailTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.drawCardsOnTurnStarted])
-                    .withCardsPerTurn(2)
+                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
             }
             .withPlayer("p2")
