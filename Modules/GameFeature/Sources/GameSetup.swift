@@ -85,7 +85,6 @@ private extension GameSetup {
         let handLimit = figureObj.amountOfPermanentEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + playerAbilities
         let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
-        let cardsPerTurn = 2
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
