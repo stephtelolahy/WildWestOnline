@@ -6,17 +6,17 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct AddContextTest {
     @Test func addContext_shouldUpdateState() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withQueue([.draw()])
+            .withQueue([.init(name: .draw, contextCardsPerTurn: 2)])
             .build()
 
         // When
-        let action = GameFeature.Action.addContextCardsPerTurn(1)
+        let action = GameFeature.Action.addContextCardsPerTurn(-1)
         let result = try await dispatch(action, state: state)
 
         // Then
