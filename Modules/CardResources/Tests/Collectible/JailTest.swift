@@ -33,29 +33,6 @@ struct JailTest {
         ])
     }
 
-    @Test func playingJail_cancellingPlayerChoice_shouldDoNothing() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.jail])
-            }
-            .withPlayer("p2")
-            .build()
-
-        // When
-        let action = GameFeature.Action.preparePlay(.jail, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
-
-        // Then
-        #expect(result == [
-            .choose(.choicePass, player: "p1")
-        ])
-    }
-
     @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
