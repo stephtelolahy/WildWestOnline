@@ -42,6 +42,7 @@ struct SlabTheKillerTests {
                 .shoot("p2"),
                 .choose(.missed1, player: "p2"),
                 .discardHand(.missed1, player: "p2"),
+                .counterShoot(player: "p2"),
                 .choose(.missed2, player: "p2"),
                 .discardHand(.missed2, player: "p2"),
                 .counterShoot(player: "p2")
@@ -79,6 +80,7 @@ struct SlabTheKillerTests {
                 .shoot("p2"),
                 .choose(.missed, player: "p2"),
                 .discardHand(.missed, player: "p2"),
+                .counterShoot(player: "p2"),
                 .damage(1, player: "p2")
             ])
     }
