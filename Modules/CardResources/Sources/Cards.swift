@@ -57,6 +57,7 @@ public enum Cards {
         .pedroRamirez,
         .jesseJones,
         .kitCarlson,
+        .slabTheKiller,
     ]
 }
 
@@ -1014,6 +1015,17 @@ private extension Card {
                         .addContextCardsPerTurn(-2)
                     ]
                 )
+            ]
+        )
+    }
+
+    static var slabTheKiller: Self {
+        .init(
+            name: .slabTheKiller,
+            type: .figure,
+            description: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
+            effects: [
+                .maxHealth(4)
             ]
         )
     }

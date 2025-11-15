@@ -8,7 +8,7 @@ import Testing
 import GameFeature
 
 struct VolcanicTest {
-    @Test func playVolcanic_shouldSetUnlimitedBangsPerTurn() async throws {
+    @Test func play_shouldSetUnlimitedBangsPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -29,7 +29,7 @@ struct VolcanicTest {
         ])
     }
 
-    @Test func discardVolcanicFromInPlay_shouldResetBangsPerTurn() async throws {
+    @Test func discardFromInPlay_shouldResetBangsPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

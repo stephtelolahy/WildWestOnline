@@ -6,15 +6,6 @@
 //
 
 /*
- static var slabTheKiller: Self {
-     .init(
-         name: .slabTheKiller,
-         description: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.bang: [.shootRequiredMisses: 2]]
-     )
- }
-
  static var calamityJanet: Self {
      .init(
          name: .calamityJanet,

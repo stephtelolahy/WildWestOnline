@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct DynamiteTest {
-    @Test func playDynamite_shouldEquip() async throws {
+    @Test func play_shouldEquip() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -28,7 +28,7 @@ struct DynamiteTest {
         ])
     }
 
-    @Test func triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() async throws {
+    @Test func triggering_withFlippedCardIsHearts_shouldPassInPlay() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

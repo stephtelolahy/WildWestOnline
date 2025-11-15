@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct PedroRamirezTests {
-    @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
+    @Test func startTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -47,7 +47,7 @@ struct PedroRamirezTests {
         ])
     }
 
-    @Test func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenPass() async throws {
+    @Test func startTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenPass() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -79,7 +79,7 @@ struct PedroRamirezTests {
         ])
     }
 
-    @Test func pedroRamirezStartTurn_withoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
+    @Test func startTurn_withoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

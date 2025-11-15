@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct JailTest {
-    @Test func playingJail_againstAnyPlayer_shouldHandicap() async throws {
+    @Test func playAgainstAnyPlayer_shouldHandicap() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
