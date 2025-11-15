@@ -21,7 +21,7 @@ public enum Cards {
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
         .draw3CardsOnEliminating,
-        .discardEquipedWeaponOnEquipWeapon,
+        .discardEquipedWeaponOnPrePlayed,
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -259,9 +259,9 @@ private extension Card {
         )
     }
 
-    static var discardEquipedWeaponOnEquipWeapon: Self {
+    static var discardEquipedWeaponOnPrePlayed: Self {
         .init(
-            name: .discardEquipedWeaponOnEquipWeapon,
+            name: .discardEquipedWeaponOnPrePlayed,
             type: .ability,
             description: "Discard your currently equipped weapon when equipping another one.",
             effects: [

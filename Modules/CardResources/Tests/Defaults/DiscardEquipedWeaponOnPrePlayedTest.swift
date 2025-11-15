@@ -1,5 +1,5 @@
 //
-//  DiscardEquipedWeaponOnEquipWeaponTest.swift
+//  DiscardEquipedWeaponOnPrePlayedTest.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 15/11/2025.
@@ -8,13 +8,13 @@
 import GameFeature
 import Testing
 
-struct DiscardEquipedWeaponOnEquipWeaponTest {
+struct DiscardEquipedWeaponOnPrePlayedTest {
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.discardEquipedWeaponOnEquipWeapon])
+                $0.withAbilities([.discardEquipedWeaponOnPrePlayed])
                     .withHand([.schofield])
                     .withInPlay([.remington])
                     .withWeapon(3)
