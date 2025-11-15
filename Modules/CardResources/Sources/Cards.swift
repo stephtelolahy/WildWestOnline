@@ -263,7 +263,7 @@ private extension Card {
         .init(
             name: .discardEquipedWeaponOnPrePlayed,
             type: .ability,
-            description: "Discard your currently equipped weapon when equipping another one.",
+            description: "Discard your currently equipped weapon before equipping another one.",
             effects: [
                 .init(
                     trigger: .weaponPrePlayed,
