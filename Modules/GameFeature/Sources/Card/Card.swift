@@ -126,7 +126,6 @@ public struct Card: Equatable, Codable, Sendable {
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayContext)
-        case addContextCardsPerTurn(Int)
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -135,7 +134,7 @@ public struct Card: Equatable, Codable, Sendable {
             case cardsPerDraw
             case contextCardsPerTurn
             case receivedDamageAmount
-            case requiredMissed
+            case missedPerShoot
         }
 
         public enum PlayerGroup: String, Codable, Sendable {

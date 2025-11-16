@@ -87,7 +87,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .repeat(.requiredMissed),
+                        .repeat(.missedPerShoot),
                         .chooseOne(.costCard([.canCounterShot]))
                     ]
                 )
@@ -157,9 +157,13 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .turnStarted,
+                    action: .addContextCardsPerTurn,
+                    amount: 2
+                ),
+                .init(
+                    trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .addContextCardsPerTurn(2),
                         .repeat(.contextCardsPerTurn)
                     ]
                 )
@@ -977,8 +981,15 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand])),
-                        .addContextCardsPerTurn(-1)
+                        .chooseOne(.targetCard([.isFromHand]))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .addContextCardsPerTurn,
+                    amount: -1,
+                    selectors: [
+                        .applyIf(.previousEffectSucceed)
                     ]
                 )
             ]
@@ -996,8 +1007,15 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard),
-                        .addContextCardsPerTurn(-1)
+                        .chooseOne(.discardedCard)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .addContextCardsPerTurn,
+                    amount: -1,
+                    selectors: [
+                        .applyIf(.previousEffectSucceed)
                     ]
                 )
             ]
@@ -1028,10 +1046,12 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .undiscover,
-                    selectors: [
-                        .addContextCardsPerTurn(-2)
-                    ]
+                    action: .undiscover
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .addContextCardsPerTurn,
+                    amount: -2
                 )
             ]
         )
