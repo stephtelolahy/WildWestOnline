@@ -135,6 +135,7 @@ public struct Card: Equatable, Codable, Sendable {
             case cardsPerDraw
             case contextCardsPerTurn
             case receivedDamageAmount
+            case requiredMissed
         }
 
         public enum PlayerGroup: String, Codable, Sendable {
