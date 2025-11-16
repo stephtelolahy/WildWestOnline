@@ -9,7 +9,7 @@ import GameFeature
 import Testing
 
 struct VultureSamTests {
-    @Test func VultureSam_anotherPlayerEliminated_shouldDrawItsCard() async throws {
+    @Test func anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

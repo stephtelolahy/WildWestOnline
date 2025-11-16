@@ -23,7 +23,6 @@ private extension Card.Selector {
         case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let context): ApplyIf(context: context)
-        case .addContextCardsPerTurn(let value): AddContextCardsPerTurn(value: value)
         }
     }
 
@@ -98,17 +97,6 @@ private extension Card.Selector {
             }
 
             return [pendingAction]
-        }
-    }
-
-    struct AddContextCardsPerTurn: Resolver {
-        let value: Int
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            [
-                .addContextCardsPerTurn(value),
-                pendingAction
-            ]
         }
     }
 }

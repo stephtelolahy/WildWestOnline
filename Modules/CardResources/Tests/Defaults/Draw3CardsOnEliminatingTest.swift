@@ -43,7 +43,10 @@ struct Draw3CardsOnEliminatingTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([.draw3CardsOnEliminating, .eliminateOnDamagedLethal])
+                    .withAbilities([
+                        .draw3CardsOnEliminating,
+                        .eliminateOnDamagedLethal
+                    ])
             }
             .build()
 

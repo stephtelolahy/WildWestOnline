@@ -14,6 +14,7 @@ extension GameFeature.Action {
         targetedCard: String? = nil,
         amount: Int? = nil,
         contextCardsPerTurn: Int = 0,
+        contextAdditionalMissed: Int = 0,
         selectors: [Card.Selector]? = nil,
     ) -> Self {
         .init(
@@ -29,6 +30,7 @@ extension GameFeature.Action {
             affectedCards: self.affectedCards,
             amountPerTurn: self.amountPerTurn,
             contextCardsPerTurn: self.contextCardsPerTurn + contextCardsPerTurn,
+            contextAdditionalMissed: self.contextAdditionalMissed + contextAdditionalMissed,
             selectors: selectors ?? self.selectors
         )
     }

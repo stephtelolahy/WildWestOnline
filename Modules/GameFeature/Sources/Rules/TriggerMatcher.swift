@@ -34,6 +34,7 @@ private extension Card.Trigger {
         case .otherEliminated: OtherEliminated()
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
         case .weaponPrePlayed: WeaponPrePlayed()
+        case .shootingWithCard(let name): ShootingWithCard(name: name)
         }
     }
 
@@ -220,6 +221,22 @@ private extension Card.Trigger {
             let cardName = Card.name(of: action.playedCard)
             let cardObj = state.cards.get(cardName)
             return cardObj.effects.contains { $0.action == .setWeapon }
+        }
+    }
+
+    struct ShootingWithCard: Matcher {
+        let name: String
+
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .shoot = action.name,
+                  action.sourcePlayer == player,
+                  let parent = action.triggeredBy.first,
+                  parent.name == .play else {
+                return false
+            }
+
+            let cardName = Card.name(of: parent.playedCard)
+            return cardName == name
         }
     }
 }

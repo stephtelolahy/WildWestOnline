@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct SchofieldTest {
-    @Test func playSchofield_shouldSetWeapon() async throws {
+    @Test func play_shouldSetWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -29,7 +29,7 @@ struct SchofieldTest {
         ])
     }
 
-    @Test func discardSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
+    @Test func discardFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -50,7 +50,7 @@ struct SchofieldTest {
         ])
     }
 
-    @Test func stealSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
+    @Test func stealFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

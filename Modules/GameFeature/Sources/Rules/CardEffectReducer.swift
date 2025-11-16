@@ -50,6 +50,7 @@ private extension Card.ActionName {
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
         case .addContextCardsPerTurn: AddContextCardsPerTurn()
+        case .addContextAdditionalMissed: AddContextAdditionalMissed()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
@@ -407,6 +408,11 @@ private extension Card.ActionName {
                 fatalError("Missing .shoot effect on targetedPlayer")
             }
 
+            if action.contextAdditionalMissed > 0 {
+                state.queue = state.queue.map { $0.copy(contextAdditionalMissed: -1) }
+                return state
+            }
+
             // remove all effects triggered by shoot on targetedPlayer
             state.queue.removeAll {
                 $0.triggeredBy.first?.name == .shoot
@@ -466,6 +472,16 @@ private extension Card.ActionName {
 
             var state = state
             state.queue = state.queue.map { $0.copy(contextCardsPerTurn: amount) }
+            return state
+        }
+    }
+
+    struct AddContextAdditionalMissed: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+
+            var state = state
+            state.queue = state.queue.map { $0.copy(contextAdditionalMissed: amount) }
             return state
         }
     }
