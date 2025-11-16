@@ -22,9 +22,9 @@ private extension Card.Selector.RepeatCount {
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .cardsPerDraw: CardsPerDraw()
-        case .contextCardsPerTurn: ContextCardsPerTurn()
         case .receivedDamageAmount: ReceivedDamageAmount()
-        case .missedPerShoot: MissedPerShoot()
+        case .contextCardsPerTurn: ContextCardsPerTurn()
+        case .contextMissedPerShoot: ContextMissedPerShoot()
         }
     }
 
@@ -65,12 +65,6 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct ContextCardsPerTurn: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            pendingAction.contextCardsPerTurn
-        }
-    }
-
     struct ReceivedDamageAmount: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             guard let parentAction = pendingAction.triggeredBy.first,
@@ -83,7 +77,13 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct MissedPerShoot: Resolver {
+    struct ContextCardsPerTurn: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
+            pendingAction.contextCardsPerTurn
+        }
+    }
+
+    struct ContextMissedPerShoot: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             1 + pendingAction.contextAdditionalMissed
         }

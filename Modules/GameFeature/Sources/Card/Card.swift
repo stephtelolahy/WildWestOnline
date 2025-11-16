@@ -132,9 +132,9 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case cardsPerDraw
-            case contextCardsPerTurn
             case receivedDamageAmount
-            case missedPerShoot
+            case contextCardsPerTurn
+            case contextMissedPerShoot
         }
 
         public enum PlayerGroup: String, Codable, Sendable {
