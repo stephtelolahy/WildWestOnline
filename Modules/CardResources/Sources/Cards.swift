@@ -59,6 +59,7 @@ public enum Cards {
         .jesseJones,
         .kitCarlson,
         .slabTheKiller,
+        .superPlayer,
     ]
 }
 
@@ -1070,6 +1071,29 @@ private extension Card {
                     amount: 1
                 )
             ]
+        )
+    }
+
+    static var superPlayer: Self {
+        .init(
+            name: "superPlayer",
+            type: .figure,
+            description: "Super Player",
+            effects: [
+                Card.willyTheKid,
+                Card.roseDoolan,
+                Card.paulRegret,
+                Card.bartCassidy,
+                Card.elGringo,
+                Card.suzyLafayette,
+                Card.jourdonnais,
+                Card.sidKetchum,
+                Card.vultureSam,
+                Card.luckyDuke,
+                Card.blackJack,
+                Card.kitCarlson,
+                Card.slabTheKiller,
+            ].flatMap { $0.effects }
         )
     }
 }
