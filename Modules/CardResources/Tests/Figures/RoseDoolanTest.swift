@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 @testable import CardResources
 
 struct RoseDoolanTest {

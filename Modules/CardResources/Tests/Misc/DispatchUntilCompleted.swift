@@ -7,7 +7,7 @@
 import Testing
 import Redux
 import Combine
-import GameFeature
+@testable import GameFeature
 
 typealias ChoiceHandler = ([String]) -> String
 

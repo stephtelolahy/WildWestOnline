@@ -19,14 +19,15 @@ public enum GameFeature {
         public var playOrder: [String]
         public let startOrder: [String]
         public var queue: [Action]
-        public var lastSuccessfulAction: Action?
-        public var lastError: GameFeature.Error?
         public var turn: String?
-
-        // Modifiers
-        var playedThisTurn: [String: Int]
         public var active: [String: [String]]
+        public var lastSuccessfulAction: Action?
+
+        var lastError: GameFeature.Error?
+        var playedThisTurn: [String: Int]
         var isOver: Bool
+
+        // Configuration
         public var playMode: [String: PlayMode]
         public var actionDelayMilliSeconds: Int
         let autoActivatePlayableCardsOnIdle: Bool

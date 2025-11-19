@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct PlayTest {
     @Test func play_shouldRemoveCardFromHand() async throws {

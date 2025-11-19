@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 import Testing
-import GameFeature
+@testable import GameFeature
 @testable import CardResources
 
 struct LuckyDukeTests {
