@@ -129,14 +129,14 @@ private extension GameFeature.State {
     }
 
     var handCards: [GameView.ViewState.HandCard] {
-        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
-              let playerObj = players[playerId] else {
+        guard let controlledPlayer = controlledPlayerId else {
             return []
         }
 
-        let activeCards = active[playerId] ?? []
+        let activeCards = active[controlledPlayer] ?? []
+        let handCards = players.get(controlledPlayer).hand
 
-        let hand = players.get(playerId).hand.map { card in
+        let hand = handCards.map { card in
             GameView.ViewState.HandCard(
                 card: card,
                 active: activeCards.contains(card)
@@ -144,7 +144,7 @@ private extension GameFeature.State {
         }
 
         let abilities = activeCards.compactMap { card in
-            if !players.get(playerId).hand.contains(card) {
+            if !handCards.contains(card) {
                 GameView.ViewState.HandCard(
                     card: card,
                     active: true

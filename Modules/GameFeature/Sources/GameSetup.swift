@@ -5,22 +5,47 @@
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
+public enum PlayModeSetup {
+    case oneManual
+    case allAuto
+}
+
 public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
         cards: [Card],
         deck: [String: [String]],
         actionDelayMilliSeconds: Int,
-        preferredFigure: String? = nil
+        preferredFigure: String? = nil,
+        playModeSetup: PlayModeSetup? = nil
     ) -> GameFeature.State {
-        let figures = cards.names(for: .figure)
+        var figures = cards.names(for: .figure)
             .shuffled()
             .starting(with: preferredFigure)
+        figures = Array(figures.prefix(playersCount))
+
+        let playMode: [String: GameFeature.State.PlayMode] =
+        switch playModeSetup {
+        case .oneManual:
+            figures.reduce(into: [:]) {
+                $0[$1] = $1 == figures[0] ? .manual : .auto
+            }
+
+        case .allAuto:
+            figures.reduce(into: [:]) {
+                $0[$1] = .auto
+            }
+
+        case .none:
+            [:]
+        }
+
         return buildGame(
-            figures: Array(figures.prefix(playersCount)),
+            figures: figures,
             deck: buildDeck(deck: deck).shuffled(),
             cards: cards.toDictionary,
             playerAbilities: cards.names(for: .ability),
+            playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds
         )
     }
@@ -30,6 +55,7 @@ public enum GameSetup {
         deck: [String],
         cards: [String: Card],
         playerAbilities: [String],
+        playMode: [String: GameFeature.State.PlayMode] = [:],
         actionDelayMilliSeconds: Int = 0
     ) -> GameFeature.State {
         var deck = deck
@@ -53,7 +79,7 @@ public enum GameSetup {
             active: [:],
             playedThisTurn: [:],
             isOver: false,
-            playMode: [:],
+            playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,
             autoActivatePlayableCardsOnIdle: true
         )

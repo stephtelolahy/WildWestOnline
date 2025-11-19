@@ -19,15 +19,13 @@ struct SimulationTest {
     @MainActor
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        var state = GameSetup.buildGame(
+        let state = GameSetup.buildGame(
             playersCount: playersCount,
             cards: Cards.all,
             deck: Deck.bang,
-            actionDelayMilliSeconds: 0
+            actionDelayMilliSeconds: 0,
+            playModeSetup: .allAuto
         )
-        for player in state.playOrder {
-            state.playMode[player] = .auto
-        }
 
         let store = Store(
             initialState: state,
