@@ -108,10 +108,7 @@ struct JourdonnaisTests {
 
         // When
         let action = GameFeature.Action.shoot("p1")
-        let choices: [Choice] = [
-            .init(options: [.missed, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

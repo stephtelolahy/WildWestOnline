@@ -27,11 +27,11 @@ struct DuelTests {
     @Test func play_withTargetPassing_shouldDamage() async throws {
         // When
         let action = GameFeature.Action.preparePlay(.duel, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", "p3", "p4", .choicePass], selectionIndex: 0),
-            .init(options: [.bang2, .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["p2", "p3", "p4", .choicePass], selection: "p2"),
+            .init(options: [.bang2, .choicePass], selection: .choicePass)
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [
@@ -45,12 +45,7 @@ struct DuelTests {
     @Test func play_withTargetDiscardingBang_shouldDamageOffender() async throws {
         // When
         let action = GameFeature.Action.preparePlay(.duel, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", "p3", "p4", .choicePass], selectionIndex: 0),
-            .init(options: [.bang2, .choicePass], selectionIndex: 0),
-            .init(options: [.bang1, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

@@ -28,10 +28,7 @@ struct DiscardBeerOnDamagedLethalTest {
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1")
-        let choices: [Choice] = [
-            .init(options: [.beer, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
@@ -60,10 +57,10 @@ struct DiscardBeerOnDamagedLethalTest {
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1")
-        let choices: [Choice] = [
-            .init(options: [.beer, .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: [.beer, .choicePass], selection: .choicePass)
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [
