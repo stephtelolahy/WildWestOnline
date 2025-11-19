@@ -52,9 +52,14 @@ private extension Card.Selector.PlayerGroup {
     struct NextPlayer: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             let current = pendingAction.sourcePlayer
-            let next = state.startOrder
+            let orderedPlayers = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
-                .starting(with: current)[1]
+                .starting(with: current)
+            guard orderedPlayers.count >= 2 else {
+                return []
+            }
+
+            let next = orderedPlayers[1]
             return [next]
         }
     }

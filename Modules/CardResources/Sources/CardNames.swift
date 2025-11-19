@@ -6,10 +6,13 @@
 //
 
 // MARK: - Auras
+extension String {
+    static let discardMissedOnShot = "discardMissedOnShot"
+}
 
 public extension String {
     static let endTurn = "endTurn"
-    static let discardMissedOnShot = "discardMissedOnShot"
+
     static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
     static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
     static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
@@ -22,8 +25,7 @@ public extension String {
     static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
 }
 
-// MARK: - Cards
-
+// MARK: - Collectible
 public extension String {
     static let bang = "bang"
     static let missed = "missed"
@@ -71,7 +73,10 @@ public extension String {
     static let rattlesnake = "rattlesnake"
     static let escape = "escape"
     static let ghost = "ghost"
+}
 
+// MARK: - Figures
+public extension String {
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"
     static let paulRegret = "paulRegret"
