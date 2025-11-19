@@ -286,7 +286,7 @@ private extension Card {
     static var stagecoach: Self {
         .init(
             name: .stagecoach,
-            type: .playable,
+            type: .collectible,
             description: "Draw two cards from the top of the deck.",
             effects: [
                 .playOnPrePlayed,
@@ -304,7 +304,7 @@ private extension Card {
     static var wellsFargo: Self {
         .init(
             name: .wellsFargo,
-            type: .playable,
+            type: .collectible,
             description: "Draw three cards from the top of the deck.",
             effects: [
                 .playOnPrePlayed,
@@ -322,7 +322,7 @@ private extension Card {
     static var beer: Self {
         .init(
             name: .beer,
-            type: .playable,
+            type: .collectible,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             effects: [
                 .init(
@@ -344,7 +344,7 @@ private extension Card {
     static var saloon: Self {
         .init(
             name: .saloon,
-            type: .playable,
+            type: .collectible,
             description: "All players in play regain one life point.",
             effects: [
                 .init(
@@ -366,7 +366,7 @@ private extension Card {
     static var catBalou: Self {
         .init(
             name: .catBalou,
-            type: .playable,
+            type: .collectible,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
             effects: [
                 .init(
@@ -398,7 +398,7 @@ private extension Card {
     static var panic: Self {
         .init(
             name: .panic,
-            type: .playable,
+            type: .collectible,
             description: "Draw a card from a player at distance 1",
             effects: [
                 .init(
@@ -430,7 +430,7 @@ private extension Card {
     static var generalStore: Self {
         .init(
             name: .generalStore,
-            type: .playable,
+            type: .collectible,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
             effects: [
                 .playOnPrePlayed,
@@ -456,7 +456,7 @@ private extension Card {
     static var bang: Self {
         .init(
             name: .bang,
-            type: .playable,
+            type: .collectible,
             description: "reduce other players’s life points",
             effects: [
                 .init(
@@ -478,7 +478,7 @@ private extension Card {
     static var missed: Self {
         .init(
             name: .missed,
-            type: .playable,
+            type: .collectible,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .init(
@@ -492,7 +492,7 @@ private extension Card {
     static var gatling: Self {
         .init(
             name: .gatling,
-            type: .playable,
+            type: .collectible,
             description: "shoots to all the other players, regardless of the distance",
             effects: [
                 .playOnPrePlayed,
@@ -510,7 +510,7 @@ private extension Card {
     static var indians: Self {
         .init(
             name: .indians,
-            type: .playable,
+            type: .collectible,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
             effects: [
                 .playOnPrePlayed,
@@ -530,7 +530,7 @@ private extension Card {
     static var duel: Self {
         .init(
             name: .duel,
-            type: .playable,
+            type: .collectible,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             effects: [
                 .init(
@@ -555,7 +555,7 @@ private extension Card {
     static var schofield: Self {
         .init(
             name: .schofield,
-            type: .playable,
+            type: .collectible,
             description: "can hit targets at a distance of 2.",
             effects: .weapon(range: 2)
         )
@@ -564,7 +564,7 @@ private extension Card {
     static var remington: Self {
         .init(
             name: .remington,
-            type: .playable,
+            type: .collectible,
             description: "can hit targets at a distance of 3.",
             effects: .weapon(range: 3)
         )
@@ -573,7 +573,7 @@ private extension Card {
     static var revCarabine: Self {
         .init(
             name: .revCarabine,
-            type: .playable,
+            type: .collectible,
             description: "can hit targets at a distance of 4.",
             effects: .weapon(range: 4)
         )
@@ -582,7 +582,7 @@ private extension Card {
     static var winchester: Self {
         .init(
             name: .winchester,
-            type: .playable,
+            type: .collectible,
             description: "can hit targets at a distance of 5.",
             effects: .weapon(range: 5)
         )
@@ -591,7 +591,7 @@ private extension Card {
     static var volcanic: Self {
         .init(
             name: .volcanic,
-            type: .playable,
+            type: .collectible,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
                 .init(
@@ -611,7 +611,7 @@ private extension Card {
     static var scope: Self {
         .init(
             name: .scope,
-            type: .playable,
+            type: .collectible,
             description: "you see all the other players at a distance decreased by 1",
             effects: [
                 .equipOnPrePlayed,
@@ -632,7 +632,7 @@ private extension Card {
     static var mustang: Self {
         .init(
             name: .mustang,
-            type: .playable,
+            type: .collectible,
             description: "the distance between other players and you is increased by 1",
             effects: [
                 .equipOnPrePlayed,
@@ -653,7 +653,7 @@ private extension Card {
     static var barrel: Self {
         .init(
             name: .barrel,
-            type: .playable,
+            type: .collectible,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
             effects: [
                 .equipOnPrePlayed,
@@ -678,7 +678,7 @@ private extension Card {
     static var dynamite: Self {
         .init(
             name: .dynamite,
-            type: .playable,
+            type: .collectible,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
             effects: [
                 .equipOnPrePlayed,
@@ -721,7 +721,7 @@ private extension Card {
     static var jail: Self {
         .init(
             name: .jail,
-            type: .playable,
+            type: .collectible,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
             effects: [
                 .init(
@@ -1102,7 +1102,7 @@ private extension Card {
             name: .punch,
             description: "Acts as a Bang! with a range of one.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .shoot,
                     selectors: [
@@ -1119,7 +1119,7 @@ private extension Card {
             description: "Acts as a Missed!, but allows the player to draw a card.",
             canPlay: .shot,
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .missed
                 ),
@@ -1135,7 +1135,7 @@ private extension Card {
             name: .springfield,
             description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .shoot,
                     selectors: [
@@ -1168,7 +1168,7 @@ private extension Card {
             name: .whisky,
             description: "The player must discard one additional card, to heal two health.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .heal,
                     selectors: [
@@ -1186,7 +1186,7 @@ private extension Card {
             description: "The player must discard one additional card, to heal any player one health.",
             setPlayerAttribute: [.maxHealth: 4],
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .heal,
                     selectors: [
@@ -1203,7 +1203,7 @@ private extension Card {
             name: .ragTime,
             description: "The player must discard one additional card to steal a card from any other player.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .steal,
                     selectors: [
@@ -1221,7 +1221,7 @@ private extension Card {
             name: .brawl,
             description: "The player must discard one additional card to cause all other players to discard one card.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .discard,
                     selectors: [
@@ -1458,7 +1458,7 @@ private extension Card {
             name: .lastCall,
             description: "Refill 1 life point even in game last 2 players.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .heal
                 )
@@ -1471,7 +1471,7 @@ private extension Card {
             name: .tornado,
             description: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .drawDeck,
                     selectors: [
@@ -1489,7 +1489,7 @@ private extension Card {
             name: .backfire,
             description: "Count as MISSED!. Player who shot you, is now target of BANG!.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .missed
                 ),
@@ -1508,7 +1508,7 @@ private extension Card {
             name: .tomahawk,
             description: "Bang at distance 2. But it can be used at distance 1",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .shoot,
                     selectors: [
@@ -1537,7 +1537,7 @@ private extension Card {
             description: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
             setActionAttribute: ["faning": [.labeledAsBang: 0]],
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .shoot,
                     selectors: [
@@ -1561,7 +1561,7 @@ private extension Card {
             description: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
             canPlay: .otherDamaged,
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .heal,
                     selectors: [
@@ -1584,7 +1584,7 @@ private extension Card {
             name: .bandidos,
             description: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .damage,
                     selectors: [
@@ -1601,7 +1601,7 @@ private extension Card {
             name: .poker,
             description: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
             effects: [
-                .playable,
+                .collectible,
                 .init(
                     name: .discard,
                     selectors: [

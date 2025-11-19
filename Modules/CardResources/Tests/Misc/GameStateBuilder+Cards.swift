@@ -14,7 +14,7 @@ extension GameFeature.State.Builder {
 
     func withDummyCards(_ names: [String]) -> Self {
         let dummyCards = names.reduce(into: [String: Card]()) { partialResult, element in
-            partialResult[element] = .init(name: element, type: .playable)
+            partialResult[element] = .init(name: element, type: .collectible)
         }
         return withCards(dummyCards)
     }

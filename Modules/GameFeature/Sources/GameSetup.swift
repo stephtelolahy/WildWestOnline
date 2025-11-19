@@ -81,7 +81,7 @@ public enum GameSetup {
             isOver: false,
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,
-            showPlayableCards: true
+            showActiveCards: true
         )
     }
 

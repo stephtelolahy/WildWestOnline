@@ -42,7 +42,7 @@ extension GameFeature {
             return queued
         }
 
-        if state.showPlayableCards,
+        if state.showActiveCards,
            let activate = state.activatePlayableCards() {
             return activate
         }
