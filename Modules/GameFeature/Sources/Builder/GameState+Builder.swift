@@ -21,7 +21,7 @@ public extension GameFeature.State {
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
-        private var autoActivatePlayableCardsOnIdle: Bool = false
+        private var showPlayableCards: Bool = false
 
         public func build() -> GameFeature.State {
             .init(
@@ -39,7 +39,7 @@ public extension GameFeature.State {
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
-                autoActivatePlayableCardsOnIdle: autoActivatePlayableCardsOnIdle
+                showPlayableCards: showPlayableCards
             )
         }
 
@@ -100,7 +100,7 @@ public extension GameFeature.State {
         }
 
         public func withAutoActivatePlayableCardsOnIdle(_ value: Bool) -> Self {
-            autoActivatePlayableCardsOnIdle = value
+            showPlayableCards = value
             return self
         }
 

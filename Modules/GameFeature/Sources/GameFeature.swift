@@ -31,7 +31,7 @@ public enum GameFeature {
         // Configuration
         public let playMode: [String: PlayMode]
         public let actionDelayMilliSeconds: Int
-        let autoActivatePlayableCardsOnIdle: Bool
+        let showPlayableCards: Bool
 
         public struct Player: Equatable, Codable, Sendable {
             public let figure: String
