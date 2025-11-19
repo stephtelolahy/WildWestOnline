@@ -63,14 +63,16 @@ public enum GameFeature {
         public var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
-        public var amount: Int?
-        public var chosenOption: String?
-        public var nestedEffects: [Self]?
-        public var affectedCards: [String]?
-        public var amountPerTurn: [String: Int]?
-        public var contextCardsPerTurn: Int = 0
-        public var contextAdditionalMissed: Int = 0
-        public var selectors: [Card.Selector] = []
+
+        // Context
+        var amount: Int?
+        var chosenOption: String?
+        var nestedEffects: [Self]?
+        var affectedCards: [String]?
+        var amountPerTurn: [String: Int]?
+        var contextCardsPerTurn: Int = 0
+        var contextAdditionalMissed: Int = 0
+        var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)

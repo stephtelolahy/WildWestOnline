@@ -57,22 +57,3 @@ extension GameFeature {
         return .none
     }
 }
-
-private extension GameFeature.Action {
-    var isResolved: Bool {
-        guard selectors.isEmpty else {
-            return false
-        }
-
-        switch name {
-        case .queue,
-                .addContextCardsPerTurn,
-                .addContextAdditionalMissed,
-                .preparePlay:
-            return false
-
-        default:
-            return true
-        }
-    }
-}
