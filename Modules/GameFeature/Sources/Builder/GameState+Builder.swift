@@ -99,7 +99,7 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withAutoActivatePlayableCardsOnIdle(_ value: Bool) -> Self {
+        public func withShowActiveCards(_ value: Bool) -> Self {
             showActiveCards = value
             return self
         }
