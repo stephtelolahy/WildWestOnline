@@ -30,8 +30,12 @@ jobs:
         with:
           xcode-version: 26.0.1
 
-      - name: Clean Swift/Clang ModuleCache
-        run: rm -rf ${{ env.DERIVED_DATA_PATH }}/ModuleCache.noindex
+      - name: Clean DerivedData, ModuleCache and SwiftLint caches
+        run: |
+          rm -rf ${{ github.workspace }}/${{ env.DERIVED_DATA_PATH }}
+          rm -rf ${{ github.workspace }}/${{ env.DERIVED_DATA_PATH }}/ModuleCache.noindex
+          rm -rf ${{ github.workspace }}/.build/DerivedData/SourcePackages/artifacts/swiftlintplugins/
+          mkdir -p ${{ github.workspace }}/${{ env.DERIVED_DATA_PATH }}
 
       - name: Cache Derived Data
         uses: actions/cache@v4
