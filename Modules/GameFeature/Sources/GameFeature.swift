@@ -31,17 +31,19 @@ public enum GameFeature {
 
         public struct Player: Equatable, Codable, Sendable {
             public var figure: String
-            public var abilities: [String]
             public var health: Int
-            public var maxHealth: Int
             public var hand: [String]
             public var inPlay: [String]
-            public var weapon: Int
-            public var magnifying: Int
-            public var remoteness: Int
-            public var handLimit: Int
-            public var cardsPerDraw: Int
-            public var playLimitsPerTurn: [String: Int]
+
+            // Modifiers
+            var abilities: [String]
+            var maxHealth: Int
+            var weapon: Int
+            var magnifying: Int
+            var remoteness: Int
+            var handLimit: Int
+            var cardsPerDraw: Int
+            var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {

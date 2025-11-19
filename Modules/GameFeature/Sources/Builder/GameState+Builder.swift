@@ -142,11 +142,11 @@ public extension GameFeature.State.Player {
         public func build() -> GameFeature.State.Player {
             .init(
                 figure: figure,
-                abilities: abilities,
                 health: health,
-                maxHealth: maxHealth,
                 hand: hand,
                 inPlay: inPlay,
+                abilities: abilities,
+                maxHealth: maxHealth,
                 weapon: weapon,
                 magnifying: magnifying,
                 remoteness: remoteness,

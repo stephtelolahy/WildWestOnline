@@ -33,7 +33,6 @@ public extension GameView {
             let imageName: String
             let displayName: String
             let health: Int
-            let maxHealth: Int
             let handCount: Int
             let inPlay: [String]
             let isTurn: Bool
@@ -85,7 +84,6 @@ private extension GameFeature.State {
         self.startOrder.map { playerId in
             let playerObj = players.get(playerId)
             let health = max(0, playerObj.health)
-            let maxHealth = playerObj.maxHealth
             let handCount = playerObj.hand.count
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
@@ -97,7 +95,6 @@ private extension GameFeature.State {
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
                 health: health,
-                maxHealth: maxHealth,
                 handCount: handCount,
                 inPlay: equipment,
                 isTurn: isTurn,
@@ -146,8 +143,8 @@ private extension GameFeature.State {
             )
         }
 
-        let abilities = playerObj.abilities.compactMap { card in
-            if activeCards.contains(card) {
+        let abilities = activeCards.compactMap { card in
+            if !players.get(playerId).hand.contains(card) {
                 GameView.ViewState.HandCard(
                     card: card,
                     active: true

@@ -77,7 +77,6 @@ private extension GameView.ViewState.PlayerItem {
             imageName: "willyTheKid",
             displayName: "willyTheKid",
             health: 2,
-            maxHealth: 4,
             handCount: 5,
             inPlay: ["scope", "jail"],
             isTurn: false,
