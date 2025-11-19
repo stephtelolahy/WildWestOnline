@@ -64,7 +64,7 @@ private extension GameFeature.State {
             deck: cardLibrary.deck,
             actionDelayMilliSeconds: settings.actionDelayMilliSeconds,
             preferredFigure: settings.preferredFigure,
-            playModeSetup: .oneManual
+            playModeSetup: settings.simulation ? .allAuto : .oneManual
         )
     }
 }
