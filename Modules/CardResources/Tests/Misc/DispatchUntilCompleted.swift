@@ -15,7 +15,7 @@ typealias ChoiceHandler = ([String]) -> String
 func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
-    choiceHandler: @escaping ChoiceHandler = { options in options[0] },
+    choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let sut = Store(
@@ -86,9 +86,8 @@ private extension GameFeature {
     }
 }
 
-struct ChoiceResponse {
-    let options: [String]
-    let selection: String
+func choiceHandlerFirstOption() -> ChoiceHandler {
+    return { $0[0] }
 }
 
 func choiceHandlerWithResponses(_ responses: [ChoiceResponse]) -> ChoiceHandler {
@@ -98,4 +97,9 @@ func choiceHandlerWithResponses(_ responses: [ChoiceResponse]) -> ChoiceHandler 
         }
         return matchingResponse.selection
     }
+}
+
+struct ChoiceResponse {
+    let options: [String]
+    let selection: String
 }
