@@ -10,6 +10,7 @@ public enum GameSetup {
         playersCount: Int,
         cards: [Card],
         deck: [String: [String]],
+        actionDelayMilliSeconds: Int,
         preferredFigure: String? = nil
     ) -> GameFeature.State {
         let figures = cards.names(for: .figure)
@@ -19,7 +20,8 @@ public enum GameSetup {
             figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(deck: deck).shuffled(),
             cards: cards.toDictionary,
-            playerAbilities: cards.names(for: .ability)
+            playerAbilities: cards.names(for: .ability),
+            actionDelayMilliSeconds: actionDelayMilliSeconds
         )
     }
 
@@ -27,7 +29,8 @@ public enum GameSetup {
         figures: [String],
         deck: [String],
         cards: [String: Card],
-        playerAbilities: [String]
+        playerAbilities: [String],
+        actionDelayMilliSeconds: Int = 0
     ) -> GameFeature.State {
         var deck = deck
         let players = figures.reduce(into: [String: GameFeature.State.Player]()) { result, figure in
@@ -51,7 +54,7 @@ public enum GameSetup {
             playedThisTurn: [:],
             isOver: false,
             playMode: [:],
-            actionDelayMilliSeconds: 0,
+            actionDelayMilliSeconds: actionDelayMilliSeconds,
             autoActivatePlayableCardsOnIdle: true
         )
     }

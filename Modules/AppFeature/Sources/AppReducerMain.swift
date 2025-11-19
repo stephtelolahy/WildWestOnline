@@ -62,6 +62,7 @@ private extension GameFeature.State {
             playersCount: settings.playersCount,
             cards: cardLibrary.cards,
             deck: cardLibrary.deck,
+            actionDelayMilliSeconds: settings.actionDelayMilliSeconds,
             preferredFigure: settings.preferredFigure
         )
 
@@ -69,8 +70,6 @@ private extension GameFeature.State {
         game.playMode = game.playOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
-
-        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
 
         return game
     }

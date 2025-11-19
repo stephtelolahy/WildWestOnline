@@ -23,13 +23,14 @@ public enum GameFeature {
         public var active: [String: [String]]
         public var lastSuccessfulAction: Action?
 
+        // global modifiers
         var lastError: GameFeature.Error?
         var playedThisTurn: [String: Int]
         var isOver: Bool
 
         // Configuration
         public var playMode: [String: PlayMode]
-        public var actionDelayMilliSeconds: Int
+        public let actionDelayMilliSeconds: Int
         let autoActivatePlayableCardsOnIdle: Bool
 
         public struct Player: Equatable, Codable, Sendable {

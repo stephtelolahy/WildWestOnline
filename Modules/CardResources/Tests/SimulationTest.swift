@@ -22,7 +22,8 @@ struct SimulationTest {
         var state = GameSetup.buildGame(
             playersCount: playersCount,
             cards: Cards.all,
-            deck: Deck.bang
+            deck: Deck.bang,
+            actionDelayMilliSeconds: 0
         )
         for player in state.playOrder {
             state.playMode[player] = .auto
