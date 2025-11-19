@@ -70,8 +70,8 @@ private extension Card {
         if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
             return playEffect.action
         }
-        if let preparePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
-            return preparePlayEffect.action
+        if let prePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
+            return prePlayEffect.action
         }
         return nil
     }
