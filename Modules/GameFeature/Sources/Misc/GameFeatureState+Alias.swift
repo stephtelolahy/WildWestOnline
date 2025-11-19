@@ -15,11 +15,7 @@ extension GameFeature.State {
                    effect.action == .setPlayAlias,
                    let playAlias = effect.playAlias {
                     if let aliasName = playAlias[card] {
-                        let cardObj = cards.get(aliasName)
-                        let onPreparePlay = cardObj.effects.filter { $0.trigger == .cardPrePlayed }
-                        if onPreparePlay.isNotEmpty {
-                            return aliasName
-                        }
+                        return aliasName
                     }
                 }
             }
