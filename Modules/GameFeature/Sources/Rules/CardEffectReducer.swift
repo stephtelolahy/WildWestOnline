@@ -134,7 +134,10 @@ private extension Card.ActionName {
     struct PreparePlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
-            let cardName = Card.name(of: card)
+            var cardName = Card.name(of: card)
+            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+                cardName = alias
+            }
             let cardObj = state.cards.get(cardName)
 
             let onPreparePlay = cardObj.effects.filter { $0.trigger == .cardPrePlayed }
@@ -167,7 +170,10 @@ private extension Card.ActionName {
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
-            let cardName = Card.name(of: card)
+            var cardName = Card.name(of: card)
+            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+                cardName = alias
+            }
             let cardObj = state.cards.get(cardName)
             let effects = cardObj.effects
                 .filter { $0.trigger == .cardPlayed }
@@ -591,5 +597,36 @@ private extension GameFeature.State {
         }
 
         return discard.remove(at: 0)
+    }
+}
+
+private extension GameFeature.State {
+    func playCardAlias(for card: String, player: String) -> String? {
+        let playerObj = players.get(player)
+        var cardAliases: [String: String] = [:]
+        for ability in playerObj.abilities {
+            let abilityCard = cards.get(ability)
+            for effect in abilityCard.effects {
+                if effect.trigger == .permanent,
+                   effect.action == .setCardAlias,
+                   let cardAlias = effect.cardAlias {
+                    cardAliases.merge(cardAlias) { _, new in new }
+                }
+            }
+        }
+
+        if let aliasCardName = cardAliases[card] {
+            let aliasCardObj = cards.get(aliasCardName)
+            let aliasOnPreparePlay = aliasCardObj.effects.filter { $0.trigger == .cardPrePlayed }
+            if aliasOnPreparePlay.isNotEmpty {
+                return aliasCardName
+            }
+        }
+
+        return nil
+    }
+
+    func counterCardAlias(for card: String, player: String) -> String? {
+        nil
     }
 }
