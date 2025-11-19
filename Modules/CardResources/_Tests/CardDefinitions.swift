@@ -6,18 +6,6 @@
 //
 
 /*
- static var calamityJanet: Self {
-     .init(
-         name: .calamityJanet,
-         description: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [
-             "missed": [.playableAsBang: 0],
-             "bang": [.playableAsMissed: 0]
-         ]
-     )
- }
-
  // MARK: - Dodge city
 
  static var punch: Self {
