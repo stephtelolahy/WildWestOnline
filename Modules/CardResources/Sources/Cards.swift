@@ -1080,7 +1080,15 @@ private extension Card {
             type: .figure,
             description: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
             effects: [
-                .maxHealth(4)
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .setCardAlias,
+                    cardAlias: [
+                        .missed: .bang,
+                        .bang: .missed
+                    ],
+                )
             ]
         )
     }
