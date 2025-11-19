@@ -12,25 +12,27 @@ public enum GameFeature {
     /// and maintained on both client and server seamlessly
     public struct State: Equatable, Codable, Sendable {
         public var players: [String: Player]
-        public var cards: [String: Card]
+        public let cards: [String: Card]
         public var deck: [String]
         public var discard: [String]
         public var discovered: [String]
         public var playOrder: [String]
-        public var startOrder: [String]
+        public let startOrder: [String]
         public var queue: [Action]
         public var lastSuccessfulAction: Action?
         public var lastError: GameFeature.Error?
         public var turn: String?
-        public var playedThisTurn: [String: Int]
+
+        // Modifiers
+        var playedThisTurn: [String: Int]
         public var active: [String: [String]]
-        public var isOver: Bool
+        var isOver: Bool
         public var playMode: [String: PlayMode]
         public var actionDelayMilliSeconds: Int
-        public var autoActivatePlayableCardsOnIdle: Bool
+        let autoActivatePlayableCardsOnIdle: Bool
 
         public struct Player: Equatable, Codable, Sendable {
-            public var figure: String
+            public let figure: String
             public var health: Int
             public var hand: [String]
             public var inPlay: [String]
