@@ -8,13 +8,13 @@
 // MARK: - Auras
 extension String {
     static let discardMissedOnShot = "discardMissedOnShot"
+    static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
+    static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
 }
 
 public extension String {
     static let endTurn = "endTurn"
 
-    static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
-    static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
     static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
     static let eliminateOnDamagedLethal = "eliminateOnDamagedLethal"
     static let endGameOnEliminated = "endGameOnEliminated"

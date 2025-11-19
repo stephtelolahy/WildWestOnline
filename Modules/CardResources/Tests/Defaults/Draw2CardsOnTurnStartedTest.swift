@@ -12,10 +12,8 @@ struct Draw2CardsOnTurnStartedTest {
     @Test func startTurn_shouldDraw2Cards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withAbilities([.draw2CardsOnTurnStarted])
-            }
+            .withAllCardsAndAuras()
+            .withPlayer("p1")
             .withDeck(["c1", "c2"])
             .build()
 
