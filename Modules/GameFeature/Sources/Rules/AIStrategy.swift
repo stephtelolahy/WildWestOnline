@@ -44,7 +44,7 @@ private extension AIStrategy {
         switch action.name {
         case .preparePlay:
             var cardName = Card.name(of: action.playedCard)
-            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)

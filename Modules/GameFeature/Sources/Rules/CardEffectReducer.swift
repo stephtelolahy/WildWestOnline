@@ -54,7 +54,7 @@ private extension Card.ActionName {
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
-        case .setCardAlias: fatalError("Unexpected to dispatch setCardAlias")
+        case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
         }
     }
 
@@ -135,7 +135,7 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
             var cardName = Card.name(of: card)
-            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)
@@ -171,7 +171,7 @@ private extension Card.ActionName {
             state.discard.insert(card, at: 0)
 
             var cardName = Card.name(of: card)
-            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)

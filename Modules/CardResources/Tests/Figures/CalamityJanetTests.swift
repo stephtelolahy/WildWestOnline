@@ -59,7 +59,7 @@ struct CalamityJanetTests {
         ])
     }
 
-    @Test func beingShot_holdingBang_shouldAskToCounter() async throws {
+    @Test func beingShot_holdingMissed_shouldAskToCounter() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -83,7 +83,7 @@ struct CalamityJanetTests {
         ])
     }
 
-    @Test func beingShot_holdingMissed_shouldAskToCounter() async throws {
+    @Test func beingShot_holdingBang_shouldAskToCounter() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
