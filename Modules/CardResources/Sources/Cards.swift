@@ -1085,6 +1085,11 @@ private extension Card {
                     trigger: .permanent,
                     action: .setPlayAlias,
                     playAlias: [.missed: .bang]
+                ),
+                .init(
+                    trigger: .permanent,
+                    action: .setEffectAlias,
+                    effectAlias: [.bang: .missed]
                 )
             ]
         )

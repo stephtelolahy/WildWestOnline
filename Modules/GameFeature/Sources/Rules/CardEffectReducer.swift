@@ -55,6 +55,7 @@ private extension Card.ActionName {
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
+        case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
         }
     }
 
