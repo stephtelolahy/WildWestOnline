@@ -44,7 +44,7 @@ public enum GameSetup {
             figures: figures,
             deck: buildDeck(deck: deck).shuffled(),
             cards: cards.toDictionary,
-            playerAbilities: cards.names(for: .ability),
+            auras: cards.names(for: .ability),
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds
         )
@@ -54,7 +54,7 @@ public enum GameSetup {
         figures: [String],
         deck: [String],
         cards: [String: Card],
-        playerAbilities: [String],
+        auras: [String],
         playMode: [String: GameFeature.State.PlayMode] = [:],
         actionDelayMilliSeconds: Int = 0
     ) -> GameFeature.State {
@@ -63,8 +63,7 @@ public enum GameSetup {
             result[figure] = buildPlayer(
                 figure: figure,
                 cards: cards,
-                deck: &deck,
-                playerAbilities: playerAbilities
+                deck: &deck
             )
         }
         return .init(
@@ -77,6 +76,7 @@ public enum GameSetup {
             startOrder: figures,
             queue: [],
             active: [:],
+            auras: auras,
             playedThisTurn: [:],
             isOver: false,
             playMode: playMode,
@@ -96,8 +96,7 @@ private extension GameSetup {
     static func buildPlayer(
         figure: String,
         cards: [String: Card],
-        deck: inout [String],
-        playerAbilities: [String]
+        deck: inout [String]
     ) -> GameFeature.State.Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
@@ -112,7 +111,6 @@ private extension GameSetup {
         let magnifying = figureObj.amountOfPermanentEffect(named: .increaseMagnifying) ?? 0
         let remoteness = figureObj.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfPermanentEffect(named: .setHandLimit) ?? 0
-        let abilities = [figure] + playerAbilities
         let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
@@ -128,7 +126,7 @@ private extension GameSetup {
             health: maxHealth,
             hand: hand,
             inPlay: [],
-            abilities: abilities,
+            abilities: [figure],
             maxHealth: maxHealth,
             weapon: weapon,
             magnifying: magnifying,

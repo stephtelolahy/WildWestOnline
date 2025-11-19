@@ -12,13 +12,12 @@ struct NextTurnOnEliminatedTest {
     @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withPlayer("p3") {
-                $0.withAbilities([.nextTurnOnEliminated])
-            }
+            .withPlayer("p3")
             .withTurn("p3")
+            .withDeck(["c1", "c2"])
             .build()
 
         // When
@@ -28,26 +27,22 @@ struct NextTurnOnEliminatedTest {
         // Then
         #expect(result == [
             .eliminate(player: "p3"),
-            .startTurn(player: "p1")
+            .startTurn(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1")
         ])
     }
 
     @Test func beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withDummyCards(["c12"])
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])
-                    .withAbilities([
-                        .discardAllCardsOnEliminated,
-                        .nextTurnOnEliminated
-                    ])
             }
-            .withPlayer("p2") {
-                $0.withAbilities([.draw2CardsOnTurnStarted])
-            }
+            .withPlayer("p2")
             .withPlayer("p3")
             .withDeck(["c1", "c2"])
             .withTurn("p1")

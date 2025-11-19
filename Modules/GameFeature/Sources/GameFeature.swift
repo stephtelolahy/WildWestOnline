@@ -25,6 +25,7 @@ public enum GameFeature {
         public var lastError: Error?
 
         // Modifiers
+        var auras: [String]
         var playedThisTurn: [String: Int]
         var isOver: Bool
 

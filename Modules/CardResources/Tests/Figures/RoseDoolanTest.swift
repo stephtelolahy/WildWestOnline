@@ -16,7 +16,7 @@ struct RoseDoolanTest {
             figures: [.roseDoolan],
             deck: [],
             cards: Cards.all.toDictionary,
-            playerAbilities: []
+            auras: []
         )
 
         // When

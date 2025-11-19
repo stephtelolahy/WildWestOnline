@@ -15,7 +15,7 @@ struct LuckyDukeTests {
             figures: [.luckyDuke],
             deck: [],
             cards: Cards.all.toDictionary,
-            playerAbilities: []
+            auras: []
         )
 
         // When

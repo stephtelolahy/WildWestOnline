@@ -12,12 +12,11 @@ struct DiscardAllCardsOnEliminatedTest {
     @Test func beingEliminated_havingCards_shouldDiscardAllCards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withDummyCards(["c2"])
             .withPlayer("p1") {
                 $0.withHand(["c1"])
                     .withInPlay(["c2"])
-                    .withAbilities([.discardAllCardsOnEliminated])
             }
             .withPlayer("p2")
             .withPlayer("p3")

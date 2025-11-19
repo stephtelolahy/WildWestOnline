@@ -5,6 +5,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 14/07/2025.
 //
 
+// MARK: - Auras
+
 public extension String {
     static let endTurn = "endTurn"
     static let discardMissedOnShot = "discardMissedOnShot"
@@ -18,7 +20,11 @@ public extension String {
     static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
     static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
     static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
+}
 
+// MARK: - Cards
+
+public extension String {
     static let bang = "bang"
     static let missed = "missed"
     static let beer = "beer"

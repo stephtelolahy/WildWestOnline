@@ -107,7 +107,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .require(.minimumPlayers(3)),
+                        .applyIf(.minimumPlayers(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
                 )
@@ -199,7 +199,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .endGame,
                     selectors: [
-                        .require(.isGameOver)
+                        .applyIf(.isGameOver)
                     ]
                 )
             ]
@@ -240,7 +240,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .startTurn,
                     selectors: [
-                        .require(.isCurrentTurn),
+                        .applyIf(.isCurrentTurn),
                         .setTarget(.nextPlayer)
                     ]
                 )
