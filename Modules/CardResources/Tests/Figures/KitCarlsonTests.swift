@@ -25,11 +25,7 @@ struct KitCarlsonTests {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
-            .init(options: ["c2", "c3"], selectionIndex: 0),
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

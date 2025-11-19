@@ -9,22 +9,19 @@ import Redux
 import Combine
 import GameFeature
 
-struct Choice {
-    let options: [String]
-    let selectionIndex: Int
-}
+typealias ChoiceHandler = ([String]) -> String
 
 @MainActor
 func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
-    expectedChoices: [Choice] = [],
+    choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let sut = Store(
         initialState: state,
-        reducer: GameFeature.reducerTest,
-        dependencies: GameFeature.TestDependencies(choicesHolder: .init(choices: expectedChoices))
+        reducer: GameFeature.reducerCustom,
+        dependencies: GameFeature.CustomDependencies(choiceHandler: choiceHandler)
     )
     var receivedActions: [GameFeature.Action] = []
     var receivedErrors: [GameFeature.Error] = []
@@ -54,19 +51,11 @@ func dispatchUntilCompleted(
 
 private extension GameFeature {
 
-    struct TestDependencies {
-        let choicesHolder: ChoicesHolder
+    struct CustomDependencies {
+        let choiceHandler: ChoiceHandler
     }
 
-    class ChoicesHolder {
-        var choices: [Choice]
-
-        init(choices: [Choice]) {
-            self.choices = choices
-        }
-    }
-
-    static var reducerTest: Reducer<State, Action, TestDependencies> {
+    static var reducerCustom: Reducer<State, Action, CustomDependencies> {
         { state, action, dependencies in
             let mainEffect = reducer(&state, action, ())
             let choiceEffect = reducerChoice(&state, action, dependencies)
@@ -74,11 +63,11 @@ private extension GameFeature {
         }
     }
 
-    static var reducerChoice: Reducer<State, Action, TestDependencies> {
+    static var reducerChoice: Reducer<State, Action, CustomDependencies> {
         { state, action, dependencies in
             let state = state
             return .run {
-                await performChoice(state: state, action: action, choicesHolder: dependencies.choicesHolder)
+                await performChoice(state: state, action: action, choiceHandler: dependencies.choiceHandler)
             }
         }
     }
@@ -86,22 +75,31 @@ private extension GameFeature {
     static func performChoice(
         state: State,
         action: Action,
-        choicesHolder: ChoicesHolder
+        choiceHandler: ChoiceHandler
     ) async -> Action? {
         guard let pendingChoice = state.pendingChoice else {
             return nil
         }
 
-        guard choicesHolder.choices.isNotEmpty else {
-            fatalError("Unexpected choice: \(pendingChoice)")
-        }
-
-        guard pendingChoice.options.map(\.label) == choicesHolder.choices[0].options else {
-            fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesHolder.choices[0].options)")
-        }
-
-        let expectedChoice = choicesHolder.choices.remove(at: 0)
-        let selection = pendingChoice.options[expectedChoice.selectionIndex]
-        return GameFeature.Action.choose(selection.label, player: pendingChoice.chooser)
+        let selection = choiceHandler(pendingChoice.options.map(\.label))
+        return GameFeature.Action.choose(selection, player: pendingChoice.chooser)
     }
+}
+
+func choiceHandlerFirstOption() -> ChoiceHandler {
+    return { $0[0] }
+}
+
+func choiceHandlerWithResponses(_ responses: [ChoiceResponse]) -> ChoiceHandler {
+    return { options in
+        guard let matchingResponse = responses.first(where: { $0.options == options }) else {
+            fatalError("Unexpected options: \(options)")
+        }
+        return matchingResponse.selection
+    }
+}
+
+struct ChoiceResponse {
+    let options: [String]
+    let selection: String
 }

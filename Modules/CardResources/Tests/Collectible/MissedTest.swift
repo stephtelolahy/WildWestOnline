@@ -21,10 +21,10 @@ struct MissedTest {
 
         // When
         let action = GameFeature.Action.shoot("p1")
-        let choices: [Choice] = [
-            .init(options: [.missed1, .missed2, .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: [.missed1, .missed2, .choicePass], selection: .missed2)
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [
@@ -47,10 +47,10 @@ struct MissedTest {
 
         // When
         let action = GameFeature.Action.shoot("p1")
-        let choices: [Choice] = [
-            .init(options: [.missed, .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: [.missed, .choicePass], selection: .choicePass)
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [

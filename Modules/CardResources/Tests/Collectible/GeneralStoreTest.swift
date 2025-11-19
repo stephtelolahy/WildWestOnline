@@ -23,12 +23,12 @@ struct GeneralStoreTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.generalStore, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
-            .init(options: ["c2", "c3"], selectionIndex: 1),
-            .init(options: ["c2"], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["c1", "c2", "c3"], selection: "c1"),
+            .init(options: ["c2", "c3"], selection: "c3"),
+            .init(options: ["c2"], selection: "c2")
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [

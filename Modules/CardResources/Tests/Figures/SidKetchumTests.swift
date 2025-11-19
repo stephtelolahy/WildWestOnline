@@ -23,11 +23,7 @@ struct SidKetchumTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", "c2", .choicePass], selectionIndex: 0),
-            .init(options: ["c2", .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -53,11 +49,7 @@ struct SidKetchumTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", "c2", "c3", .choicePass], selectionIndex: 0),
-            .init(options: ["c2", "c3", .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -104,12 +96,8 @@ struct SidKetchumTests {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", "c2", .choicePass], selectionIndex: 0),
-            .init(options: ["c2", .choicePass], selectionIndex: 0)
-        ]
         await #expect(throws: GameFeature.Error.playerAlreadyMaxHealth("p1")) {
-            try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }
