@@ -27,12 +27,7 @@ struct SlabTheKillerTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: [.missed1, .missed2, .choicePass], selectionIndex: 0),
-            .init(options: [.missed2, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(
@@ -69,11 +64,7 @@ struct SlabTheKillerTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: [.missed, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(
@@ -106,11 +97,7 @@ struct SlabTheKillerTests {
 
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: [.missed, .choicePass], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices, ignoreError: true)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(

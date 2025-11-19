@@ -26,10 +26,7 @@ struct JesseJonesTests {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", .choicePass], selectionIndex: 0),
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -56,10 +53,10 @@ struct JesseJonesTests {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["c1", .choicePass], selectionIndex: 1),
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["c1", .choicePass], selection: .choicePass),
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [

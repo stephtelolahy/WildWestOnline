@@ -23,11 +23,7 @@ struct PanicTest {
 
         // When
         let action = GameFeature.Action.preparePlay(.panic, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: ["hiddenHand-0"], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -53,11 +49,11 @@ struct PanicTest {
 
         // When
         let action = GameFeature.Action.preparePlay(.panic, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: ["c21", "c22"], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["p2", .choicePass], selection: "p2"),
+            .init(options: ["c21", "c22"], selection: "c22")
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [
@@ -84,11 +80,11 @@ struct PanicTest {
 
         // When
         let action = GameFeature.Action.preparePlay(.panic, player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 0),
-            .init(options: ["c22", "c23", "hiddenHand-0"], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["p2", .choicePass], selection: "p2"),
+            .init(options: ["c22", "c23", "hiddenHand-0"], selection: "c23")
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [

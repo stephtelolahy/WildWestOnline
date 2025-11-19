@@ -31,11 +31,7 @@ struct PedroRamirezTests {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", "p3", .choicePass], selectionIndex: 0),
-            .init(options: ["hiddenHand-0"], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -65,10 +61,10 @@ struct PedroRamirezTests {
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let choices: [Choice] = [
-            .init(options: ["p2", .choicePass], selectionIndex: 1)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let choiceHandler = choiceHandlerWithResponses([
+            .init(options: ["p2", .choicePass], selection: .choicePass)
+        ])
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
         // Then
         #expect(result == [

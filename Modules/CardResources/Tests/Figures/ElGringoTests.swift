@@ -24,10 +24,7 @@ struct ElGringoTests {
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p2")
-        let choices: [Choice] = [
-            .init(options: ["hiddenHand-0"], selectionIndex: 0)
-        ]
-        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
