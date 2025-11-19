@@ -31,7 +31,7 @@ func dispatchUntilCompleted(
             if let error = state.lastError {
                 receivedErrors.append(error)
             }
-            if let event = state.lastSuccessfulAction {
+            if let event = state.lastEvent {
                 receivedActions.append(event)
             }
         }

@@ -68,7 +68,7 @@ public struct GameView: View {
                 await store.dispatch(.game(.startTurn(player: store.state.startPlayer)))
             }
             .onReceive(store.$state) { state in
-                if let action = state.lastSuccessfulAction {
+                if let action = state.lastEvent {
                     animate(action, positions: objectPositions)
                 }
             }
@@ -385,7 +385,7 @@ private extension GameView.ViewState {
             controlledPlayer: "p1",
             startPlayer: "p1",
             actionDelaySeconds: 0.5,
-            lastSuccessfulAction: nil
+            lastEvent: nil
         )
     }
 }

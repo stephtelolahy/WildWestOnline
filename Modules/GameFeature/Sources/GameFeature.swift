@@ -21,10 +21,10 @@ public enum GameFeature {
         public var queue: [Action]
         public var turn: String?
         public var active: [String: [String]]
-        public var lastSuccessfulAction: Action?
+        public var lastEvent: Action?
+        public var lastError: Error?
 
         // Modifiers
-        var lastError: GameFeature.Error?
         var playedThisTurn: [String: Int]
         var isOver: Bool
 

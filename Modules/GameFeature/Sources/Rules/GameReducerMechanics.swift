@@ -44,14 +44,14 @@ extension GameFeature {
             }
 
             if action.isResolved {
-                state.lastSuccessfulAction = action
+                state.lastEvent = action
             } else {
-                state.lastSuccessfulAction = nil
+                state.lastEvent = nil
             }
             state.lastError = nil
         } catch {
             state.lastError = error
-            state.lastSuccessfulAction = nil
+            state.lastEvent = nil
         }
 
         return .none
