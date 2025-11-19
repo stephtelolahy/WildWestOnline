@@ -68,7 +68,7 @@ public struct GameView: View {
                 await store.dispatch(.game(.startTurn(player: store.state.startPlayer)))
             }
             .onReceive(store.$state) { state in
-                if let action = state.lastSuccessfulAction {
+                if let action = state.lastEvent {
                     animate(action, positions: objectPositions)
                 }
             }
@@ -327,7 +327,6 @@ private extension GameView.ViewState {
             imageName: "willyTheKid",
             displayName: "willyTheKid",
             health: 2,
-            maxHealth: 4,
             handCount: 5,
             inPlay: ["scope", "jail"],
             isTurn: true,
@@ -342,7 +341,6 @@ private extension GameView.ViewState {
             imageName: "calamityJanet",
             displayName: "calamityJanet",
             health: 1,
-            maxHealth: 4,
             handCount: 0,
             inPlay: ["scope", "jail"],
             isTurn: false,
@@ -357,7 +355,6 @@ private extension GameView.ViewState {
             imageName: "elGringo",
             displayName: "elGringo",
             health: 0,
-            maxHealth: 3,
             handCount: 0,
             inPlay: [],
             isTurn: false,
@@ -388,7 +385,7 @@ private extension GameView.ViewState {
             controlledPlayer: "p1",
             startPlayer: "p1",
             actionDelaySeconds: 0.5,
-            lastSuccessfulAction: nil
+            lastEvent: nil
         )
     }
 }

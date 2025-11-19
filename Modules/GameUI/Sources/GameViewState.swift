@@ -26,14 +26,13 @@ public extension GameView {
         let controlledPlayer: String?
         let startPlayer: String
         let actionDelaySeconds: Double
-        let lastSuccessfulAction: GameFeature.Action?
+        let lastEvent: GameFeature.Action?
 
         struct PlayerItem: Equatable {
             let id: String
             let imageName: String
             let displayName: String
             let health: Int
-            let maxHealth: Int
             let handCount: Int
             let inPlay: [String]
             let isTurn: Bool
@@ -76,7 +75,7 @@ public extension GameView.ViewState {
         controlledPlayer = game.controlledPlayerId
         startPlayer = game.startPlayerId
         actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
-        lastSuccessfulAction = game.lastSuccessfulAction
+        lastEvent = game.lastEvent
     }
 }
 
@@ -85,7 +84,6 @@ private extension GameFeature.State {
         self.startOrder.map { playerId in
             let playerObj = players.get(playerId)
             let health = max(0, playerObj.health)
-            let maxHealth = playerObj.maxHealth
             let handCount = playerObj.hand.count
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
@@ -97,7 +95,6 @@ private extension GameFeature.State {
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
                 health: health,
-                maxHealth: maxHealth,
                 handCount: handCount,
                 inPlay: equipment,
                 isTurn: isTurn,
@@ -132,22 +129,22 @@ private extension GameFeature.State {
     }
 
     var handCards: [GameView.ViewState.HandCard] {
-        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
-              let playerObj = players[playerId] else {
+        guard let controlledPlayer = controlledPlayerId else {
             return []
         }
 
-        let activeCards = active[playerId] ?? []
+        let activeCards = active[controlledPlayer] ?? []
+        let handCards = players.get(controlledPlayer).hand
 
-        let hand = players.get(playerId).hand.map { card in
+        let hand = handCards.map { card in
             GameView.ViewState.HandCard(
                 card: card,
                 active: activeCards.contains(card)
             )
         }
 
-        let abilities = playerObj.abilities.compactMap { card in
-            if activeCards.contains(card) {
+        let abilities = activeCards.compactMap { card in
+            if !handCards.contains(card) {
                 GameView.ViewState.HandCard(
                     card: card,
                     active: true

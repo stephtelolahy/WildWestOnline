@@ -34,7 +34,7 @@ struct SoundMatcher {
     ]
 
     func sfx(on action: GameFeature.Action) -> AudioClient.Sound? {
-        guard action.selectors.isEmpty else {
+        guard action.isResolved else {
             return nil
         }
 

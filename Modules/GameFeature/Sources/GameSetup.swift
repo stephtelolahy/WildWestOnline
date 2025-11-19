@@ -5,21 +5,48 @@
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
+public enum PlayModeSetup {
+    case oneManual
+    case allAuto
+}
+
 public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
         cards: [Card],
         deck: [String: [String]],
-        preferredFigure: String? = nil
+        actionDelayMilliSeconds: Int,
+        preferredFigure: String? = nil,
+        playModeSetup: PlayModeSetup? = nil
     ) -> GameFeature.State {
-        let figures = cards.names(for: .figure)
+        var figures = cards.names(for: .figure)
             .shuffled()
             .starting(with: preferredFigure)
+        figures = Array(figures.prefix(playersCount))
+
+        let playMode: [String: GameFeature.State.PlayMode] =
+        switch playModeSetup {
+        case .oneManual:
+            figures.reduce(into: [:]) {
+                $0[$1] = $1 == figures[0] ? .manual : .auto
+            }
+
+        case .allAuto:
+            figures.reduce(into: [:]) {
+                $0[$1] = .auto
+            }
+
+        case .none:
+            [:]
+        }
+
         return buildGame(
-            figures: Array(figures.prefix(playersCount)),
+            figures: figures,
             deck: buildDeck(deck: deck).shuffled(),
             cards: cards.toDictionary,
-            playerAbilities: cards.names(for: .ability)
+            playerAbilities: cards.names(for: .ability),
+            playMode: playMode,
+            actionDelayMilliSeconds: actionDelayMilliSeconds
         )
     }
 
@@ -27,7 +54,9 @@ public enum GameSetup {
         figures: [String],
         deck: [String],
         cards: [String: Card],
-        playerAbilities: [String]
+        playerAbilities: [String],
+        playMode: [String: GameFeature.State.PlayMode] = [:],
+        actionDelayMilliSeconds: Int = 0
     ) -> GameFeature.State {
         var deck = deck
         let players = figures.reduce(into: [String: GameFeature.State.Player]()) { result, figure in
@@ -47,12 +76,12 @@ public enum GameSetup {
             playOrder: figures,
             startOrder: figures,
             queue: [],
-            playedThisTurn: [:],
             active: [:],
+            playedThisTurn: [:],
             isOver: false,
-            playMode: [:],
-            actionDelayMilliSeconds: 0,
-            autoActivatePlayableCardsOnIdle: true
+            playMode: playMode,
+            actionDelayMilliSeconds: actionDelayMilliSeconds,
+            showActiveCards: true
         )
     }
 
@@ -96,11 +125,11 @@ private extension GameSetup {
 
         return .init(
             figure: figure,
-            abilities: abilities,
             health: maxHealth,
-            maxHealth: maxHealth,
             hand: hand,
             inPlay: [],
+            abilities: abilities,
+            maxHealth: maxHealth,
             weapon: weapon,
             magnifying: magnifying,
             remoteness: remoteness,

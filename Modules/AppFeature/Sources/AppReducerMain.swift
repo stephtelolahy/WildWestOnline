@@ -58,20 +58,13 @@ extension AppFeature {
 
 private extension GameFeature.State {
     static func create(settings: SettingsFeature.State, cardLibrary: AppFeature.State.CardLibrary) -> Self {
-        var game = GameSetup.buildGame(
+        GameSetup.buildGame(
             playersCount: settings.playersCount,
             cards: cardLibrary.cards,
             deck: cardLibrary.deck,
-            preferredFigure: settings.preferredFigure
+            actionDelayMilliSeconds: settings.actionDelayMilliSeconds,
+            preferredFigure: settings.preferredFigure,
+            playModeSetup: settings.simulation ? .allAuto : .oneManual
         )
-
-        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
-        game.playMode = game.playOrder.reduce(into: [:]) {
-            $0[$1] = $1 == manualPlayer ? .manual : .auto
-        }
-
-        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
-
-        return game
     }
 }

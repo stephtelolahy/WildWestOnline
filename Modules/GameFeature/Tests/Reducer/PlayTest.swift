@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct PlayTest {
     @Test func play_shouldRemoveCardFromHand() async throws {
@@ -15,7 +15,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
-            .withCards(["c1": Card(name: "c1", type: .playable)])
+            .withCards(["c1": Card(name: "c1", type: .collectible)])
             .build()
 
         // When
@@ -33,7 +33,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", type: .playable)])
+            .withCards(["c1": Card(name: "c1", type: .collectible)])
             .build()
 
         // When
@@ -50,7 +50,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", type: .playable)])
+            .withCards(["c1": Card(name: "c1", type: .collectible)])
             .withPlayedThisTurn(["c1": 1])
             .build()
 

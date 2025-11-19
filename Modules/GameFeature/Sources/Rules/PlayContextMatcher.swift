@@ -86,7 +86,7 @@ private extension Card.Selector.PlayContext {
 
     struct PreviousEffectSucceed: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.lastSuccessfulAction != nil
+            state.lastEvent != nil
         }
     }
 }

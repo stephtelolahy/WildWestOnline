@@ -44,35 +44,16 @@ extension GameFeature {
             }
 
             if action.isResolved {
-                state.lastSuccessfulAction = action
+                state.lastEvent = action
             } else {
-                state.lastSuccessfulAction = nil
+                state.lastEvent = nil
             }
             state.lastError = nil
         } catch {
             state.lastError = error
-            state.lastSuccessfulAction = nil
+            state.lastEvent = nil
         }
 
         return .none
-    }
-}
-
-private extension GameFeature.Action {
-    var isResolved: Bool {
-        guard selectors.isEmpty else {
-            return false
-        }
-
-        switch name {
-        case .queue,
-                .addContextCardsPerTurn,
-                .addContextAdditionalMissed,
-                .preparePlay:
-            return false
-
-        default:
-            return true
-        }
     }
 }

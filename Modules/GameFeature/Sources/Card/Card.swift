@@ -30,7 +30,7 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum CardType: String, Codable, Sendable {
-        case playable
+        case collectible
         case figure
         case ability
     }
