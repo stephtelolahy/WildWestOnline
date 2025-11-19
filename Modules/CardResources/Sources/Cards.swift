@@ -59,6 +59,7 @@ public enum Cards {
         .jesseJones,
         .kitCarlson,
         .slabTheKiller,
+        .calamityJanet,
     ]
 }
 
@@ -1068,6 +1069,27 @@ private extension Card {
                     trigger: .shootingWithCard(named: .bang),
                     action: .addContextAdditionalMissed,
                     amount: 1
+                )
+            ]
+        )
+    }
+
+    static var calamityJanet: Self {
+        .init(
+            name: .calamityJanet,
+            type: .figure,
+            description: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .setPlayAlias,
+                    playAlias: [.missed: .bang]
+                ),
+                .init(
+                    trigger: .permanent,
+                    action: .setEffectAlias,
+                    effectAlias: [.bang: .missed]
                 )
             ]
         )

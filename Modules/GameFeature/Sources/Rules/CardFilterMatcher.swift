@@ -28,7 +28,11 @@ private extension Card.Selector.CardFilter {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let cardName = Card.name(of: card)
             let cardObj = state.cards.get(cardName)
-            return cardObj.effects.contains { $0.trigger == .permanent && $0.action == .counterShot }
+            var effects = cardObj.effects
+            if let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer) {
+                effects.append(contentsOf: state.cards.get(alias).effects)
+            }
+            return effects.contains { $0.trigger == .permanent && $0.action == .counterShot }
         }
     }
 
