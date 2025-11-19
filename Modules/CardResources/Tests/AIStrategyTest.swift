@@ -14,6 +14,7 @@ struct AIStrategyTest {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
+            .withPlayer("p1")
             .build()
         let possibleMoves: [GameFeature.Action] = [
             .preparePlay(.endTurn, player: "p1"),

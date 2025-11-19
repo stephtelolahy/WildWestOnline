@@ -43,7 +43,10 @@ private extension AIStrategy {
     func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
         switch action.name {
         case .preparePlay:
-            let cardName = Card.name(of: action.playedCard)
+            var cardName = Card.name(of: action.playedCard)
+            if let alias = state.playCardAlias(for: cardName, player: action.sourcePlayer) {
+                cardName = alias
+            }
             let cardObj = state.cards.get(cardName)
 
             guard let mainEffect = cardObj.mainEffect() else {
