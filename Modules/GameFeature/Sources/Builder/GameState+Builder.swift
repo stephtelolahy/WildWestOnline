@@ -203,7 +203,6 @@ public extension GameFeature.State.Player {
             return self
         }
 
-        @available(*, deprecated, renamed: "withAuras")
         public func withAbilities(_ value: [String]) -> Self {
             abilities = value
             return self
