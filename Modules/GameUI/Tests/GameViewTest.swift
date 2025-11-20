@@ -91,16 +91,14 @@ struct GameViewTest {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
                     .withMaxHealth(4)
-                    .withAbilities([
-                        .endTurn,
-                        .willyTheKid
-                    ])
+                    .withAbilities([.willyTheKid])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])
             }
             .withPlayer("p2")
             .withPlayMode(["p1": .manual])
             .withActive(["p1": [.bang, .endTurn]])
+            .withAuras([.endTurn])
             .build()
         let appState = AppFeature.State(
             cardLibrary: .init(),
