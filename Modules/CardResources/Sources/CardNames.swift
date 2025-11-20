@@ -12,17 +12,16 @@ extension String {
     static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
     static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
     static let eliminateOnDamagedLethal = "eliminateOnDamagedLethal"
-}
-
-public extension String {
-    static let endTurn = "endTurn"
-
     static let endGameOnEliminated = "endGameOnEliminated"
     static let discardAllCardsOnEliminated = "discardAllCardsOnEliminated"
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
     static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
     static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
+}
+
+public extension String {
+    static let endTurn = "endTurn"
 }
 
 // MARK: - Collectible

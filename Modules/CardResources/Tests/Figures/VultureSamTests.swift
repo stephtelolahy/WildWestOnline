@@ -12,14 +12,13 @@ struct VultureSamTests {
     @Test func anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withDummyCards(["c2"])
             .withPlayer("p1") {
                 $0.withAbilities([.vultureSam])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.discardAllCardsOnEliminated])
-                    .withHand(["c1"])
+                $0.withHand(["c1"])
                     .withInPlay(["c2"])
             }
             .withPlayer("p3")
