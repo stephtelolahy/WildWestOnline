@@ -13,12 +13,9 @@ struct KitCarlsonTests {
     @Test func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .kitCarlson,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.kitCarlson])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()

@@ -12,7 +12,7 @@ struct ActivatePlayableCardsTest {
     @Test func updateGame_withPlayableCards_shouldActivate() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHand([.saloon, .gatling, .beer, .missed])
                     .withMaxHealth(4)
@@ -30,7 +30,7 @@ struct ActivatePlayableCardsTest {
 
         // Then
         #expect(result == [
-            .activate([.saloon, .gatling], player: "p1")
+            .activate([.saloon, .gatling, .endTurn], player: "p1")
         ])
     }
 
@@ -60,12 +60,11 @@ struct ActivatePlayableCardsTest {
     @Test func activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
                     .withMaxHealth(4)
                     .withHealth(1)
-                    .withAbilities([.endTurn])
             }
             .withTurn("p1")
             .withShowActiveCards(true)

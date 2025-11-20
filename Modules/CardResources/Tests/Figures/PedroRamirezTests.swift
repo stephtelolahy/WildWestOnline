@@ -13,12 +13,9 @@ struct PedroRamirezTests {
     @Test func startTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .pedroRamirez,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.pedroRamirez])
             }
             .withPlayer("p2") {
                 $0.withHand(["c2"])
@@ -46,12 +43,9 @@ struct PedroRamirezTests {
     @Test func startTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenPass() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .pedroRamirez,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.pedroRamirez])
             }
             .withPlayer("p2") {
                 $0.withHand(["c2"])
@@ -78,13 +72,10 @@ struct PedroRamirezTests {
     @Test func startTurn_withoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withDummyCards(["c2"])
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .pedroRamirez,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.pedroRamirez])
             }
             .withPlayer("p2") {
                 $0.withInPlay(["c2"])

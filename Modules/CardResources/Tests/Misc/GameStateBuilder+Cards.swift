@@ -18,4 +18,9 @@ extension GameFeature.State.Builder {
         }
         return withCards(dummyCards)
     }
+
+    func withAllCardsAndAuras() -> Self {
+        withAllCards()
+            .withAuras(Cards.all.names(for: .ability))
+    }
 }

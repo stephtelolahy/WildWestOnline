@@ -62,12 +62,9 @@ struct CalamityJanetTests {
     @Test func beingShot_holdingMissed_shouldAskToCounter() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .calamityJanet,
-                    .discardMissedOnShot
-                ])
+                $0.withAbilities([.calamityJanet])
                 .withHand([.missed])
             }
             .build()
@@ -88,12 +85,9 @@ struct CalamityJanetTests {
     @Test func beingShot_holdingBang_shouldAskToCounter() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .calamityJanet,
-                    .discardMissedOnShot
-                ])
+                $0.withAbilities([.calamityJanet])
                 .withHand([.bang])
             }
             .build()

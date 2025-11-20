@@ -13,15 +13,14 @@ struct SlabTheKillerTests {
     @Test func playingBang_withTwoMissed() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withAbilities([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.discardMissedOnShot])
-                    .withHand([.missed1, .missed2])
+                $0.withHand([.missed1, .missed2])
             }
             .build()
 
@@ -47,15 +46,14 @@ struct SlabTheKillerTests {
     @Test func playingBang_withSuccessfulBarrelAndMissed() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withAbilities([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.discardMissedOnShot])
-                    .withHand([.missed])
+                $0.withHand([.missed])
                     .withInPlay([.barrel])
                     .withCardsPerDraw(1)
             }
@@ -83,15 +81,15 @@ struct SlabTheKillerTests {
     @Test func playingBang_withOneMissed_shouldDamage() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withAbilities([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.discardMissedOnShot])
-                    .withHand([.missed])
+                $0.withHand([.missed])
+                    .withHealth(2)
             }
             .build()
 

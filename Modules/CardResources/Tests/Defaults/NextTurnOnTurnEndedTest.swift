@@ -12,15 +12,11 @@ struct NextTurnOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withAbilities([
-                    .endTurn,
-                    .nextTurnOnTurnEnded
-                ])
-            }
+            .withAllCardsAndAuras()
+            .withPlayer("p1")
             .withPlayer("p2")
             .withTurn("p1")
+            .withDeck(["c1", "c2"])
             .build()
 
         // When
@@ -30,7 +26,9 @@ struct NextTurnOnTurnEndedTest {
         // Then
         #expect(result == [
             .endTurn(player: "p1"),
-            .startTurn(player: "p2")
+            .startTurn(player: "p2"),
+            .drawDeck(player: "p2"),
+            .drawDeck(player: "p2")
         ])
     }
 }

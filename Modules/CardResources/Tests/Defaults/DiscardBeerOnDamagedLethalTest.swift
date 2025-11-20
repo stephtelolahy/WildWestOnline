@@ -12,14 +12,10 @@ struct DiscardBeerOnDamagedLethalTest {
     @Test func beingDamagedLethal_discardingBeer_shouldRestoreHealth() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withMaxHealth(4)
-                    .withAbilities([
-                        .discardBeerOnDamagedLethal,
-                        .eliminateOnDamagedLethal
-                    ])
                     .withHand([.beer])
             }
             .withPlayer("p2")
@@ -42,13 +38,9 @@ struct DiscardBeerOnDamagedLethalTest {
     @Test func beingDamagedLethal_notDiscardingBeer_shouldBeEliminated() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([
-                        .discardBeerOnDamagedLethal,
-                        .eliminateOnDamagedLethal
-                    ])
                     .withHand([.beer])
             }
             .withPlayer("p2")
@@ -66,20 +58,17 @@ struct DiscardBeerOnDamagedLethalTest {
         #expect(result == [
             .damage(1, player: "p1"),
             .choose(.choicePass, player: "p1"),
-            .eliminate(player: "p1")
+            .eliminate(player: "p1"),
+            .discardHand(.beer, player: "p1")
         ])
     }
 
     @Test func beingDamagedLethal_withoutBeer_shouldBeEliminated() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([
-                        .discardBeerOnDamagedLethal,
-                        .eliminateOnDamagedLethal
-                    ])
             }
             .withPlayer("p2")
             .withPlayer("p3")

@@ -22,6 +22,7 @@ public extension GameFeature.State {
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
         private var showActiveCards: Bool = false
+        private var auras: [String] = []
 
         public func build() -> GameFeature.State {
             .init(
@@ -35,6 +36,7 @@ public extension GameFeature.State {
                 queue: queue,
                 turn: turn,
                 active: active,
+                auras: auras,
                 playedThisTurn: playedThisTurn,
                 isOver: isOver,
                 playMode: playMode,
@@ -116,6 +118,11 @@ public extension GameFeature.State {
             )
             queue.insert(nextAction, at: 0)
           return self
+        }
+
+        public func withAuras(_ value: [String]) -> Self {
+            auras = value
+            return self
         }
     }
 

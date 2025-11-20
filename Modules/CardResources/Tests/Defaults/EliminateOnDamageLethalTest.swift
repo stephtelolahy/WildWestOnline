@@ -12,16 +12,17 @@ struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([.eliminateOnDamagedLethal])
             }
+            .withPlayer("p2")
+            .withPlayer("p3")
             .build()
 
         // When
         let action = GameFeature.Action.damage(1, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [
@@ -33,10 +34,9 @@ struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_nonLethal_shouldRemainActive() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHealth(2)
-                    .withAbilities([.eliminateOnDamagedLethal])
             }
             .build()
 

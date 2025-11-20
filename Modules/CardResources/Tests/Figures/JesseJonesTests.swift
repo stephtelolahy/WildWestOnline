@@ -13,12 +13,9 @@ struct JesseJonesTests {
     @Test func jesseJonesStartTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .jesseJones,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.jesseJones])
             }
             .withDiscard(["c1"])
             .withDeck(["c2"])
@@ -40,12 +37,9 @@ struct JesseJonesTests {
     @Test func jesseJonesStartTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenPass() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .jesseJones,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.jesseJones])
             }
             .withDiscard(["c1"])
             .withDeck(["c2", "c3"])
@@ -70,12 +64,9 @@ struct JesseJonesTests {
     @Test func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .jesseJones,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.jesseJones])
             }
             .withDeck(["c1", "c2"])
             .build()

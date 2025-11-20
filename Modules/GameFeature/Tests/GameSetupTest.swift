@@ -55,7 +55,7 @@ struct GameSetupTest {
             figures: figures,
             deck: deck,
             cards: cards,
-            playerAbilities: ["a1", "a2"]
+            auras: ["a1", "a2"]
         )
 
         // Then
@@ -80,14 +80,19 @@ struct GameSetupTest {
         // should set undefined turn
         #expect(state.turn == nil)
 
+        // should set auras
+        #expect(state.auras == ["a1", "a2"])
+
         // should set figure attributes
-        #expect(state.players.get("p1").abilities == ["p1", "a1", "a2"])
+        #expect(state.players.get("p1").figure == "p1")
+        #expect(state.players.get("p1").abilities == ["p1"])
         #expect(state.players.get("p1").magnifying == 1)
         #expect(state.players.get("p1").maxHealth == 4)
         #expect(state.players.get("p1").weapon == 1)
         #expect(state.players.get("p1").handLimit == 10)
 
-        #expect(state.players.get("p2").abilities == ["p2", "a1", "a2"])
+        #expect(state.players.get("p2").figure == "p2")
+        #expect(state.players.get("p2").abilities == ["p2"])
         #expect(state.players.get("p2").remoteness == 1)
         #expect(state.players.get("p2").maxHealth == 3)
         #expect(state.players.get("p2").weapon == 1)

@@ -149,12 +149,11 @@ struct BarrelTest {
     @Test func triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
                     .withCardsPerDraw(1)
-                    .withAbilities([.discardMissedOnShot])
             }
             .withDeck(["c1-2♥️"])
             .build()

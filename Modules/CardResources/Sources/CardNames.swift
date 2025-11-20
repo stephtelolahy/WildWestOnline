@@ -5,8 +5,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 14/07/2025.
 //
 
-public extension String {
-    static let endTurn = "endTurn"
+// MARK: - Auras
+extension String {
     static let discardMissedOnShot = "discardMissedOnShot"
     static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
     static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
@@ -18,7 +18,14 @@ public extension String {
     static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
     static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
     static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
+}
 
+public extension String {
+    static let endTurn = "endTurn"
+}
+
+// MARK: - Collectible
+public extension String {
     static let bang = "bang"
     static let missed = "missed"
     static let beer = "beer"
@@ -65,7 +72,10 @@ public extension String {
     static let rattlesnake = "rattlesnake"
     static let escape = "escape"
     static let ghost = "ghost"
+}
 
+// MARK: - Figures
+public extension String {
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"
     static let paulRegret = "paulRegret"

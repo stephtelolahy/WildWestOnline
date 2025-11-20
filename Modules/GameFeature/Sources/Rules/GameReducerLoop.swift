@@ -82,7 +82,7 @@ private extension GameFeature.State {
 
         for player in playOrder {
             let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities
+            let triggerableCards = playerObj.inPlay + playerObj.abilities + auras
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
@@ -90,8 +90,7 @@ private extension GameFeature.State {
         case .eliminate:
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
-            let triggerableCards = players.get(player).abilities
-            result += triggerableCards.map { .init(card: $0, player: player) }
+            result += auras.map { .init(card: $0, player: player) }
 
         case .discardInPlay, .stealInPlay:
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
@@ -131,7 +130,7 @@ private extension GameFeature.State {
         }
 
         let playerObj = players.get(player)
-        let activeCards = (playerObj.abilities + players.get(player).hand)
+        let activeCards = (players.get(player).hand + playerObj.abilities + auras)
             .filter {
                 Self.isCardPlayable($0, player: player, state: self)
             }

@@ -33,10 +33,9 @@ struct JailTest {
     @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
             }
             .withDeck(["c1-2♥️", "c2", "c3"])
@@ -59,10 +58,9 @@ struct JailTest {
     @Test func triggeringJail_flippedCardIsNotHearts_shouldSkipTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
             }
             .withPlayer("p2")
@@ -78,6 +76,9 @@ struct JailTest {
             .startTurn(player: "p1"),
             .draw(),
             .endTurn(player: "p1"),
+            .startTurn(player: "p2"),
+            .drawDeck(player: "p2"),
+            .drawDeck(player: "p2"),
             .discardInPlay(.jail, player: "p1")
         ])
     }

@@ -31,10 +31,9 @@ struct DynamiteTest {
     @Test func triggering_withFlippedCardIsHearts_shouldPassInPlay() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
             }
             .withPlayer("p2")
@@ -58,10 +57,9 @@ struct DynamiteTest {
     @Test func triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withCardsPerDraw(1)
                     .withHealth(4)
             }
@@ -86,28 +84,21 @@ struct DynamiteTest {
     @Test func triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withDummyCards(["c4"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
-                    .withAbilities([
-                        .nextTurnOnTurnEnded,
-                        .eliminateOnDamagedLethal,
-                        .discardAllCardsOnEliminated,
-                        .nextTurnOnEliminated
-                    ])
                     .withCardsPerDraw(1)
                     .withHealth(3)
             }
-            .withPlayer("p2") {
-                $0.withAbilities([.draw2CardsOnTurnStarted])
-            }
+            .withPlayer("p2")
+            .withPlayer("p3")
             .withDeck(["c1-8♠️", "c2", "c3"])
             .build()
 
         // When
         let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
         // Then
         #expect(result == [

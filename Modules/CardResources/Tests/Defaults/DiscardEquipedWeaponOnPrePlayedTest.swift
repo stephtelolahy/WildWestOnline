@@ -12,10 +12,9 @@ struct DiscardEquipedWeaponOnPrePlayedTest {
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.discardEquipedWeaponOnPrePlayed])
-                    .withHand([.schofield])
+                $0.withHand([.schofield])
                     .withInPlay([.remington])
                     .withWeapon(3)
             }

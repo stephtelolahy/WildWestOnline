@@ -12,11 +12,9 @@ struct EndGameOnEliminatedTest {
     @Test func game_withOnePlayerLast_shouldBeOver() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1")
-            .withPlayer("p2") {
-                $0.withAbilities([.endGameOnEliminated])
-            }
+            .withPlayer("p2")
             .build()
 
         // When
@@ -33,12 +31,10 @@ struct EndGameOnEliminatedTest {
     @Test func game_with2Players_shouldNotBeOver() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withPlayer("p3") {
-                $0.withAbilities([.endGameOnEliminated])
-            }
+            .withPlayer("p3")
             .build()
 
         // When

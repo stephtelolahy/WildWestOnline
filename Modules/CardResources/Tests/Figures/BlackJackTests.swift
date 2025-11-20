@@ -13,12 +13,9 @@ struct BlackJackTests {
     @Test func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .blackJack,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.blackJack])
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -40,12 +37,9 @@ struct BlackJackTests {
     @Test func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+            .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([
-                    .blackJack,
-                    .draw2CardsOnTurnStarted
-                ])
+                $0.withAbilities([.blackJack])
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()
