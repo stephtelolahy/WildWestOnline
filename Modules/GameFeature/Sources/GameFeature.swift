@@ -24,12 +24,10 @@ public enum GameFeature {
         public var lastEvent: Action?
         public var lastError: Error?
 
-        // Modifiers
         var auras: [String]
         var playedThisTurn: [String: Int]
         var isOver: Bool
 
-        // Configuration
         public let playMode: [String: PlayMode]
         public let actionDelayMilliSeconds: Int
         let showActiveCards: Bool
@@ -40,7 +38,6 @@ public enum GameFeature {
             public var hand: [String]
             public var inPlay: [String]
 
-            // Modifiers
             var abilities: [String]
             var maxHealth: Int
             var weapon: Int
@@ -65,7 +62,6 @@ public enum GameFeature {
         public var targetedPlayer: String?
         public var targetedCard: String?
 
-        // Context
         var amount: Int?
         var chosenOption: String?
         var nestedEffects: [Self]?
