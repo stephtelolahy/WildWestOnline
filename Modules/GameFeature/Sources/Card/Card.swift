@@ -12,10 +12,10 @@ import Redux
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 ///
 public struct Card: Equatable, Codable, Sendable {
-    public let name: String
-    public let type: CardType
-    public let description: String?
-    public let effects: [EffectDefinition]
+    let name: String
+    let type: CardType
+    let description: String?
+    let effects: [EffectDefinition]
 
     public init(
         name: String,
@@ -36,13 +36,13 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public struct EffectDefinition: Equatable, Codable, Sendable {
-        public let trigger: Trigger
-        public let action: ActionName
-        public let amount: Int?
-        public let amountPerTurn: [String: Int]?
-        public let playAlias: [String: String]?
-        public let effectAlias: [String: String]?
-        public let selectors: [Selector]
+        let trigger: Trigger
+        let action: ActionName
+        let amount: Int?
+        let amountPerTurn: [String: Int]?
+        let playAlias: [String: String]?
+        let effectAlias: [String: String]?
+        let selectors: [Selector]
 
         public init(
             trigger: Trigger,

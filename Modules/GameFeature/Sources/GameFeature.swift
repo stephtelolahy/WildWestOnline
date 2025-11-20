@@ -49,25 +49,6 @@ public enum GameFeature {
             var handLimit: Int
             var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]
-
-            /*
-             struct Player {
-                 var figure: String
-                 var health: Int
-                 var hand: [String]
-
-                 // The open-ended extension point:
-                 var modifiers: [ModifierID: Modifier]
-             }
-             Example modifier
-             enum Modifier {
-                 case additionalMissed(required: Int)
-                 case adjustDistance(amount: Int)
-                 case changeHandLimit(amount: Int)
-                 case custom(String, CodableValue)
-             }
-
-             */
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
