@@ -32,6 +32,7 @@ public enum GameFeature {
         public struct Player: Equatable, Codable, Sendable {
             public let figure: String
             public var health: Int
+            public var maxHealth: Int
             public var weapon: Int
             public var magnifying: Int
             public var remoteness: Int
@@ -39,7 +40,6 @@ public enum GameFeature {
             public var inPlay: [String]
 
             var abilities: [String]
-            var maxHealth: Int
             var handLimit: Int
             var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]

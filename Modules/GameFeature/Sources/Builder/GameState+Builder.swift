@@ -150,13 +150,13 @@ public extension GameFeature.State.Player {
             .init(
                 figure: figure,
                 health: health,
+                maxHealth: maxHealth,
                 weapon: weapon,
                 magnifying: magnifying,
                 remoteness: remoteness,
                 hand: hand,
                 inPlay: inPlay,
                 abilities: abilities,
-                maxHealth: maxHealth,
                 handLimit: handLimit,
                 cardsPerDraw: cardsPerDraw,
                 playLimitsPerTurn: playLimitsPerTurn
