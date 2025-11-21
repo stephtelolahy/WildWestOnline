@@ -42,6 +42,21 @@ public enum GameFeature {
             var handLimit: Int
             var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]
+
+            public var attr: [Key: Int]
+
+            public subscript(key: Key) -> Int {
+                get { attr[key] ?? 0 }
+                set { attr[key] = newValue }
+            }
+
+            public struct Key: RawRepresentable, Hashable, Codable, Sendable {
+                public let rawValue: String
+
+                public init(rawValue: String) {
+                    self.rawValue = rawValue
+                }
+            }
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {

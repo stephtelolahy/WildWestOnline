@@ -132,7 +132,8 @@ private extension GameSetup {
             inPlay: [],
             handLimit: handLimit,
             cardsPerDraw: cardsPerDraw,
-            playLimitsPerTurn: playLimitsPerTurn
+            playLimitsPerTurn: playLimitsPerTurn,
+            attr: [:]
         )
     }
 }
