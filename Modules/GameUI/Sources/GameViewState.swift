@@ -20,12 +20,11 @@ public extension GameView {
         let handCards: [HandCard]
         let topDiscard: String?
         let topDeck: String?
-        let animationDelay: TimeInterval
         let startOrder: [String]
         let deckCount: Int
         let controlledPlayer: String?
         let startPlayer: String
-        let actionDelaySeconds: Double
+        let actionDelaySeconds: TimeInterval
         let lastEvent: GameFeature.Action?
 
         struct PlayerItem: Equatable {
@@ -69,7 +68,6 @@ public extension GameView.ViewState {
         handCards = game.handCards
         topDiscard = game.discard.first
         topDeck = game.deck.first
-        animationDelay = Double(game.actionDelayMilliSeconds) / 1000.0
         startOrder = game.startOrder
         deckCount = game.deck.count
         controlledPlayer = game.controlledPlayerId

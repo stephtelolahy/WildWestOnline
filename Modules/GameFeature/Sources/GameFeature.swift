@@ -19,14 +19,14 @@ public enum GameFeature {
         let cards: [String: Card]
         var discovered: [String]
         var queue: [Action]
-        var playable: [String: [String]]
+        public var playable: [String: [String]]
         public var lastEvent: Action?
-        public var lastError: Error?
-        public var auras: [String]
-        public var playedThisTurn: [String: Int]
-        public var isOver: Bool
+        var lastError: Error?
+        var auras: [String]
+        var playedThisTurn: [String: Int]
+        var isOver: Bool
         public let playMode: [String: PlayMode]
-        public let actionDelayMilliSeconds: Int
+        let actionDelayMilliSeconds: Int
         let showPlayableCards: Bool
 
         public struct Player: Equatable, Codable, Sendable {
@@ -38,11 +38,11 @@ public enum GameFeature {
             public var hand: [String]
             public var inPlay: [String]
 
-            public var abilities: [String]
-            public var maxHealth: Int
-            public var handLimit: Int
-            public var cardsPerDraw: Int
-            public var playLimitsPerTurn: [String: Int]
+            var abilities: [String]
+            var maxHealth: Int
+            var handLimit: Int
+            var cardsPerDraw: Int
+            var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
