@@ -93,16 +93,3 @@ public enum GameFeature {
         )
     }
 }
-
-public extension GameFeature.State {
-    var pendingChoice: Card.Selector.ChoicePrompt? {
-        guard let nextAction = queue.first,
-              let selector = nextAction.selectors.first,
-              case let .chooseOne(_, prompt, selection) = selector,
-              selection == nil else {
-            return nil
-        }
-
-        return prompt
-    }
-}
