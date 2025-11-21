@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct DrawDiscoveredTest {
     @Test func drawDiscovered_shouldDrawDeckCard() async throws {

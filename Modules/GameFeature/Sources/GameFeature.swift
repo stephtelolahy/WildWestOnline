@@ -16,9 +16,9 @@ public enum GameFeature {
         public var deck: [String]
         public var discard: [String]
 
-        public let cards: [String: Card]
-        public var discovered: [String]
-        public var queue: [Action]
+        let cards: [String: Card]
+        var discovered: [String]
+        var queue: [Action]
         public var active: [String: [String]]
         public var lastEvent: Action?
         public var lastError: Error?

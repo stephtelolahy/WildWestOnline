@@ -88,7 +88,7 @@ private extension GameFeature.State {
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
-            let isTargeted = queue.contains { $0.targetedPlayer == playerId }
+            let isTargeted = isTargeted(playerId)
 
             return .init(
                 id: playerId,
@@ -116,15 +116,14 @@ private extension GameFeature.State {
 
     var chooseOne: GameView.ViewState.ChooseOne? {
         guard let controlledPlayer = controlledPlayerId,
-              let chooseOne = pendingChoice,
-              chooseOne.chooser == controlledPlayer else {
+              let choice = pendingChoice(for: controlledPlayer) else {
             return  nil
         }
 
         return .init(
-            resolvingAction: queue.first!.name,
-            chooser: chooseOne.chooser,
-            options: chooseOne.options.map(\.label)
+            resolvingAction: choice.action,
+            chooser: choice.prompt.chooser,
+            options: choice.prompt.options.map(\.label)
         )
     }
 
