@@ -68,7 +68,7 @@ private extension GameFeature.State {
         switch effects.count {
         case 0: return nil
         case 1: return effects.first
-        default: return .init(name: .queue, nestedEffects: effects)
+        default: return .init(name: .queue, children: effects)
         }
     }
 

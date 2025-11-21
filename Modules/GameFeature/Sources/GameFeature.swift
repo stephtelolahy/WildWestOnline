@@ -59,9 +59,9 @@ public enum GameFeature {
         public var amount: Int?
 
         var triggeredBy: [Self] = []
-        var chosenOption: String?
-        var nestedEffects: [Self]?
-        var affectedCards: [String]?
+        var selection: String?
+        var children: [Self]?
+        var playableCards: [String]?
         var amountPerTurn: [String: Int]?
         var contextCardsPerTurn: Int = 0
         var contextAdditionalMissed: Int = 0

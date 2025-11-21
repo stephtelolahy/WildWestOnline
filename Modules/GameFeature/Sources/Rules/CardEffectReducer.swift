@@ -309,7 +309,7 @@ private extension Card.ActionName {
 
     struct Choose: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let selection = action.chosenOption else { fatalError("Missing selection") }
+            guard let selection = action.selection else { fatalError("Missing selection") }
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.selectors.first,
@@ -466,7 +466,7 @@ private extension Card.ActionName {
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let children = action.nestedEffects else { fatalError("Missing nestedEffects") }
+            guard let children = action.children else { fatalError("Missing children") }
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
@@ -516,7 +516,7 @@ private extension Card.ActionName {
     struct Activate: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let cards = action.affectedCards else { fatalError("Missing affectedCards") }
+            guard let cards = action.playableCards else { fatalError("Missing playableCards") }
 
             var state = state
             state.playable = [target: cards]

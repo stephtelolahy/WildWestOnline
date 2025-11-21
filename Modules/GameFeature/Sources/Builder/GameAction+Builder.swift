@@ -18,7 +18,7 @@ public extension GameFeature.Action {
         .init(
             name: .choose,
             targetedPlayer: player,
-            chosenOption: selection
+            selection: selection
         )
     }
 
@@ -175,7 +175,7 @@ public extension GameFeature.Action {
         .init(
             name: .activate,
             targetedPlayer: player,
-            affectedCards: cards
+            playableCards: cards
         )
     }
 
@@ -255,7 +255,7 @@ public extension GameFeature.Action {
     static var dummy: Self {
         .init(
             name: .queue,
-            nestedEffects: []
+            children: []
         )
     }
 }
