@@ -38,12 +38,12 @@ struct GameViewTest {
         // Given
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
-                $0.withFigure(.willyTheKid)
+                $0.withFigure([.willyTheKid])
                     .withHealth(1)
                     .withMaxHealth(3)
             }
             .withPlayer("p2") {
-                $0.withFigure(.paulRegret)
+                $0.withFigure([.paulRegret])
                     .withHealth(3)
                     .withMaxHealth(4)
             }
@@ -88,7 +88,7 @@ struct GameViewTest {
         // Given
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
-                $0.withFigure(.willyTheKid)
+                $0.withFigure([.willyTheKid])
                     .withHealth(1)
                     .withMaxHealth(4)
                     .withHand([.bang, .gatling])
@@ -96,7 +96,7 @@ struct GameViewTest {
             }
             .withPlayer("p2")
             .withPlayMode(["p1": .manual])
-            .withActive(["p1": [.bang, .endTurn]])
+            .withPlayable(["p1": [.bang, .endTurn]])
             .withAuras([.endTurn])
             .build()
         let appState = AppFeature.State(

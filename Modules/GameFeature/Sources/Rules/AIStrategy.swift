@@ -56,7 +56,7 @@ private extension AIStrategy {
             return Self.actionValue[mainEffect] ?? 0
 
         case .choose:
-            guard let selection = action.chosenOption else {
+            guard let selection = action.selection else {
                 fatalError("Missing selection for action choose")
             }
 

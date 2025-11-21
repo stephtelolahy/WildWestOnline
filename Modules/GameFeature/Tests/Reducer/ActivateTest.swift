@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct ActivateTest {
     @Test func activate() async throws {
@@ -19,6 +19,6 @@ struct ActivateTest {
         let result = try await dispatch(action, state: state)
 
         // Then
-        #expect(result.active == ["p1": ["c1", "c2"]])
+        #expect(result.playable == ["p1": ["c1", "c2"]])
     }
 }

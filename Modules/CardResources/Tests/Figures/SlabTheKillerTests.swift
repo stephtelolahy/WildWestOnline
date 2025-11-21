@@ -15,7 +15,7 @@ struct SlabTheKillerTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.slabTheKiller])
+                $0.withFigure([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }
@@ -48,7 +48,7 @@ struct SlabTheKillerTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.slabTheKiller])
+                $0.withFigure([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }
@@ -83,7 +83,7 @@ struct SlabTheKillerTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.slabTheKiller])
+                $0.withFigure([.slabTheKiller])
                     .withHand([.bang])
                     .withWeapon(1)
             }

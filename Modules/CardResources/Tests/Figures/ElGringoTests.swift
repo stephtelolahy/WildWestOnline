@@ -14,7 +14,7 @@ struct ElGringoTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.elGringo])
+                $0.withFigure([.elGringo])
                     .withHealth(3)
             }
             .withPlayer("p2") {
@@ -39,7 +39,7 @@ struct ElGringoTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.elGringo])
+                $0.withFigure([.elGringo])
                     .withHealth(3)
             }
             .withPlayer("p2")
@@ -60,7 +60,7 @@ struct ElGringoTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.elGringo])
+                $0.withFigure([.elGringo])
                     .withHealth(3)
             }
             .build()

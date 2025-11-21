@@ -20,12 +20,11 @@ public extension GameView {
         let handCards: [HandCard]
         let topDiscard: String?
         let topDeck: String?
-        let animationDelay: TimeInterval
         let startOrder: [String]
         let deckCount: Int
         let controlledPlayer: String?
         let startPlayer: String
-        let actionDelaySeconds: Double
+        let actionDelaySeconds: TimeInterval
         let lastEvent: GameFeature.Action?
 
         struct PlayerItem: Equatable {
@@ -69,10 +68,9 @@ public extension GameView.ViewState {
         handCards = game.handCards
         topDiscard = game.discard.first
         topDeck = game.deck.first
-        animationDelay = Double(game.actionDelayMilliSeconds) / 1000.0
         startOrder = game.startOrder
         deckCount = game.deck.count
-        controlledPlayer = game.controlledPlayerId
+        controlledPlayer = game.manuallyControlledPlayer()
         startPlayer = game.startPlayerId
         actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
         lastEvent = game.lastEvent
@@ -88,12 +86,13 @@ private extension GameFeature.State {
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
-            let isTargeted = queue.contains { $0.targetedPlayer == playerId }
+            let isTargeted = isTargeted(playerId)
+            let name = playerObj.figure.first ?? ""
 
             return .init(
                 id: playerId,
-                imageName: playerObj.figure,
-                displayName: playerObj.figure.uppercased(),
+                imageName: name,
+                displayName: name.uppercased(),
                 health: health,
                 handCount: handCount,
                 inPlay: equipment,
@@ -115,35 +114,34 @@ private extension GameFeature.State {
     }
 
     var chooseOne: GameView.ViewState.ChooseOne? {
-        guard let controlledPlayer = controlledPlayerId,
-              let chooseOne = pendingChoice,
-              chooseOne.chooser == controlledPlayer else {
+        guard let controlledPlayer = manuallyControlledPlayer(),
+              let choice = pendingChoice(for: controlledPlayer) else {
             return  nil
         }
 
         return .init(
-            resolvingAction: queue.first!.name,
-            chooser: chooseOne.chooser,
-            options: chooseOne.options.map(\.label)
+            resolvingAction: choice.action,
+            chooser: choice.prompt.chooser,
+            options: choice.prompt.options.map(\.label)
         )
     }
 
     var handCards: [GameView.ViewState.HandCard] {
-        guard let controlledPlayer = controlledPlayerId else {
+        guard let controlledPlayer = manuallyControlledPlayer() else {
             return []
         }
 
-        let activeCards = active[controlledPlayer] ?? []
+        let playableCards = playable[controlledPlayer] ?? []
         let handCards = players.get(controlledPlayer).hand
 
         let hand = handCards.map { card in
             GameView.ViewState.HandCard(
                 card: card,
-                active: activeCards.contains(card)
+                active: playableCards.contains(card)
             )
         }
 
-        let abilities = activeCards.compactMap { card in
+        let abilities = playableCards.compactMap { card in
             if !handCards.contains(card) {
                 GameView.ViewState.HandCard(
                     card: card,
@@ -159,10 +157,6 @@ private extension GameFeature.State {
 
     var startingPlayerId: String {
         playOrder.first!
-    }
-
-    var controlledPlayerId: String? {
-        playMode.keys.first { playMode[$0] == .manual }
     }
 
     var startPlayerId: String {

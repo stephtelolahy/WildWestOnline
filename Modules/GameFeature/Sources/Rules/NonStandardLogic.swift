@@ -57,9 +57,9 @@ enum NonStandardLogic {
         && lhs.targetedPlayer == rhs.targetedPlayer
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
-        && lhs.chosenOption == rhs.chosenOption
-        && lhs.nestedEffects == rhs.nestedEffects
-        && lhs.affectedCards == rhs.affectedCards
+        && lhs.selection == rhs.selection
+        && lhs.children == rhs.children
+        && lhs.playableCards == rhs.playableCards
         && lhs.amountPerTurn == rhs.amountPerTurn
         && lhs.selectors == rhs.selectors
     }

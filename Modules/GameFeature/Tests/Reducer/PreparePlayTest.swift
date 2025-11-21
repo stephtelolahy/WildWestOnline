@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+@testable import GameFeature
 
 struct PreparePlayTest {
     @Test func preparePlay_withEffects_shouldQueueEffects() async throws {

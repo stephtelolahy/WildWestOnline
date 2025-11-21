@@ -15,7 +15,7 @@ struct KitCarlsonTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.kitCarlson])
+                $0.withFigure([.kitCarlson])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()

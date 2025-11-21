@@ -68,20 +68,20 @@ public enum GameSetup {
         }
         return .init(
             players: players,
-            cards: cards,
+            playOrder: figures,
+            startOrder: figures,
             deck: deck,
             discard: [],
             discovered: [],
-            playOrder: figures,
-            startOrder: figures,
+            playable: [:],
+            cards: cards,
             queue: [],
-            active: [:],
             auras: auras,
             playedThisTurn: [:],
             isOver: false,
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,
-            showActiveCards: true
+            showPlayableCards: true
         )
     }
 
@@ -122,15 +122,14 @@ private extension GameSetup {
         }
 
         return .init(
-            figure: figure,
+            figure: [figure],
             health: maxHealth,
-            hand: hand,
-            inPlay: [],
-            abilities: [figure],
             maxHealth: maxHealth,
             weapon: weapon,
             magnifying: magnifying,
             remoteness: remoteness,
+            hand: hand,
+            inPlay: [],
             handLimit: handLimit,
             cardsPerDraw: cardsPerDraw,
             playLimitsPerTurn: playLimitsPerTurn

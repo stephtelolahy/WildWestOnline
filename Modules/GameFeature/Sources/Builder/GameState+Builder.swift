@@ -17,31 +17,31 @@ public extension GameFeature.State {
         private var queue: [GameFeature.Action] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
-        private var active: [String: [String]] = [:]
+        private var playable: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
-        private var showActiveCards: Bool = false
+        private var showPlayableCards: Bool = false
         private var auras: [String] = []
 
         public func build() -> GameFeature.State {
             .init(
                 players: players,
-                cards: cards,
+                playOrder: playOrder,
+                startOrder: startOrder,
+                turn: turn,
                 deck: deck,
                 discard: discard,
                 discovered: discovered,
-                playOrder: playOrder,
-                startOrder: startOrder,
+                playable: playable,
+                cards: cards,
                 queue: queue,
-                turn: turn,
-                active: active,
                 auras: auras,
                 playedThisTurn: playedThisTurn,
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
-                showActiveCards: showActiveCards
+                showPlayableCards: showPlayableCards
             )
         }
 
@@ -101,13 +101,13 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withShowActiveCards(_ value: Bool) -> Self {
-            showActiveCards = value
+        public func withShowPlayableCards(_ value: Bool) -> Self {
+            showPlayableCards = value
             return self
         }
 
-        public func withActive(_ value: [String: [String]]) -> Self {
-            active = value
+        public func withPlayable(_ value: [String: [String]]) -> Self {
+            playable = value
             return self
         }
 
@@ -133,7 +133,7 @@ public extension GameFeature.State {
 
 public extension GameFeature.State.Player {
     class Builder {
-        private var figure: String = ""
+        private var figure: [String] = []
         private var health: Int = 0
         private var maxHealth: Int = 0
         private var hand: [String] = []
@@ -141,7 +141,6 @@ public extension GameFeature.State.Player {
         private var magnifying: Int = 0
         private var remoteness: Int = 0
         private var weapon: Int = 0
-        private var abilities: [String] = []
         private var handLimit: Int = 0
         private var playLimitsPerTurn: [String: Int] = [:]
         private var cardsPerDraw: Int = 0
@@ -150,20 +149,19 @@ public extension GameFeature.State.Player {
             .init(
                 figure: figure,
                 health: health,
-                hand: hand,
-                inPlay: inPlay,
-                abilities: abilities,
                 maxHealth: maxHealth,
                 weapon: weapon,
                 magnifying: magnifying,
                 remoteness: remoteness,
+                hand: hand,
+                inPlay: inPlay,
                 handLimit: handLimit,
                 cardsPerDraw: cardsPerDraw,
                 playLimitsPerTurn: playLimitsPerTurn
             )
         }
 
-        public func withFigure(_ value: String) -> Self {
+        public func withFigure(_ value: [String]) -> Self {
             figure = value
             return self
         }
@@ -200,11 +198,6 @@ public extension GameFeature.State.Player {
 
         public func withWeapon(_ value: Int) -> Self {
             weapon = value
-            return self
-        }
-
-        public func withAbilities(_ value: [String]) -> Self {
-            abilities = value
             return self
         }
 

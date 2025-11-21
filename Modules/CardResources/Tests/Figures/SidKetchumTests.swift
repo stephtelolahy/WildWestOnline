@@ -14,7 +14,7 @@ struct SidKetchumTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.sidKetchum])
+                $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
                     .withHealth(1)
                     .withHand(["c1", "c2"])
@@ -40,7 +40,7 @@ struct SidKetchumTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.sidKetchum])
+                $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
                     .withHealth(1)
                     .withHand(["c1", "c2", "c3"])
@@ -66,7 +66,7 @@ struct SidKetchumTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.sidKetchum])
+                $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
                     .withHealth(1)
             }
@@ -86,7 +86,7 @@ struct SidKetchumTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.sidKetchum])
+                $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
                     .withHealth(4)
                     .withHand(["c1", "c2"])

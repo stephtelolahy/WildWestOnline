@@ -14,7 +14,7 @@ struct CalamityJanetTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.calamityJanet])
+                $0.withFigure([.calamityJanet])
                     .withHand([.bang])
                     .withWeapon(1)
             }
@@ -39,7 +39,7 @@ struct CalamityJanetTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.calamityJanet])
+                $0.withFigure([.calamityJanet])
                     .withHand([.missed])
                     .withWeapon(1)
             }
@@ -64,7 +64,7 @@ struct CalamityJanetTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.calamityJanet])
+                $0.withFigure([.calamityJanet])
                 .withHand([.missed])
             }
             .build()
@@ -87,7 +87,7 @@ struct CalamityJanetTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.calamityJanet])
+                $0.withFigure([.calamityJanet])
                 .withHand([.bang])
             }
             .build()

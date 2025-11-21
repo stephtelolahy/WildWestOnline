@@ -27,8 +27,8 @@ extension GameFeature {
             return bestMove
         }
 
-        if state.active.isNotEmpty,
-           let choice = state.active.first,
+        if state.playable.isNotEmpty,
+           let choice = state.playable.first,
            state.playMode[choice.key] == .auto {
             let actions = choice.value.map { GameFeature.Action.preparePlay($0, player: choice.key) }
             let strategy: AIStrategy = AIStrategy()

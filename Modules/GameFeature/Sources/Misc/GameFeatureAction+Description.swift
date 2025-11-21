@@ -12,9 +12,9 @@ extension GameFeature.Action: CustomStringConvertible {
             name.rawValue,
             targetedPlayer,
             targetedCard,
-            chosenOption,
+            selection,
             amount != nil ? "x\(amount ?? 0)" : nil,
-            affectedCards?.isNotEmpty == true ? (affectedCards ?? []).joined(separator: ", ") : nil,
+            playableCards?.isNotEmpty == true ? (playableCards ?? []).joined(separator: ", ") : nil,
             playedCard.isNotEmpty ? "<< \(playedCard):\(sourcePlayer)" : nil
         ]
             .compactMap { $0 }

@@ -15,7 +15,7 @@ struct VultureSamTests {
             .withAllCardsAndAuras()
             .withDummyCards(["c2"])
             .withPlayer("p1") {
-                $0.withAbilities([.vultureSam])
+                $0.withFigure([.vultureSam])
             }
             .withPlayer("p2") {
                 $0.withHand(["c1"])

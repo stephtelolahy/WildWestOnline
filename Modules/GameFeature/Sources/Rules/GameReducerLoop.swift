@@ -30,7 +30,7 @@ extension GameFeature {
             return nil
         }
 
-        if state.active.isNotEmpty {
+        if state.playable.isNotEmpty {
             return nil
         }
 
@@ -42,7 +42,7 @@ extension GameFeature {
             return queued
         }
 
-        if state.showActiveCards,
+        if state.showPlayableCards,
            let activate = state.activatePlayableCards() {
             return activate
         }
@@ -68,7 +68,7 @@ private extension GameFeature.State {
         switch effects.count {
         case 0: return nil
         case 1: return effects.first
-        default: return .init(name: .queue, nestedEffects: effects)
+        default: return .init(name: .queue, children: effects)
         }
     }
 
@@ -82,7 +82,7 @@ private extension GameFeature.State {
 
         for player in playOrder {
             let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities + auras
+            let triggerableCards = playerObj.inPlay + playerObj.figure + auras
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
@@ -130,16 +130,16 @@ private extension GameFeature.State {
         }
 
         let playerObj = players.get(player)
-        let activeCards = (players.get(player).hand + playerObj.abilities + auras)
+        let playableCards = (players.get(player).hand + playerObj.figure + auras)
             .filter {
                 Self.isCardPlayable($0, player: player, state: self)
             }
 
-        guard activeCards.isNotEmpty else {
+        guard playableCards.isNotEmpty else {
             return nil
         }
 
-        return .activate(activeCards, player: player)
+        return .activate(playableCards, player: player)
     }
 
     static func isCardPlayable(
