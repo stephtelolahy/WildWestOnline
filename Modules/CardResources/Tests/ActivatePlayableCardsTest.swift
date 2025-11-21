@@ -21,7 +21,7 @@ struct ActivatePlayableCardsTest {
             .withPlayer("p2")
             .withTurn("p1")
             .withDeck(["c1"])
-            .withShowActiveCards(true)
+            .withShowPlayableCards(true)
             .build()
 
         // When
@@ -46,7 +46,7 @@ struct ActivatePlayableCardsTest {
             .withPlayer("p2")
             .withPlayer("p3")
             .withTurn("p1")
-            .withShowActiveCards(true)
+            .withShowPlayableCards(true)
             .build()
 
         // When
@@ -67,7 +67,7 @@ struct ActivatePlayableCardsTest {
                     .withHealth(1)
             }
             .withTurn("p1")
-            .withShowActiveCards(true)
+            .withShowPlayableCards(true)
             .build()
 
         // When

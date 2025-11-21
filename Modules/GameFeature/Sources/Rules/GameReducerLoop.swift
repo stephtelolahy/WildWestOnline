@@ -30,7 +30,7 @@ extension GameFeature {
             return nil
         }
 
-        if state.active.isNotEmpty {
+        if state.playable.isNotEmpty {
             return nil
         }
 
@@ -42,7 +42,7 @@ extension GameFeature {
             return queued
         }
 
-        if state.showActiveCards,
+        if state.showPlayableCards,
            let activate = state.activatePlayableCards() {
             return activate
         }
@@ -130,16 +130,16 @@ private extension GameFeature.State {
         }
 
         let playerObj = players.get(player)
-        let activeCards = (players.get(player).hand + playerObj.abilities + auras)
+        let playableCards = (players.get(player).hand + playerObj.abilities + auras)
             .filter {
                 Self.isCardPlayable($0, player: player, state: self)
             }
 
-        guard activeCards.isNotEmpty else {
+        guard playableCards.isNotEmpty else {
             return nil
         }
 
-        return .activate(activeCards, player: player)
+        return .activate(playableCards, player: player)
     }
 
     static func isCardPlayable(

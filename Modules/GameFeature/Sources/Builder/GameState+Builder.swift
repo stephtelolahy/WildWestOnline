@@ -17,11 +17,11 @@ public extension GameFeature.State {
         private var queue: [GameFeature.Action] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
-        private var active: [String: [String]] = [:]
+        private var playable: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
-        private var showActiveCards: Bool = false
+        private var showPlayableCards: Bool = false
         private var auras: [String] = []
 
         public func build() -> GameFeature.State {
@@ -35,13 +35,13 @@ public extension GameFeature.State {
                 cards: cards,
                 discovered: discovered,
                 queue: queue,
-                active: active,
+                playable: playable,
                 auras: auras,
                 playedThisTurn: playedThisTurn,
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
-                showActiveCards: showActiveCards
+                showPlayableCards: showPlayableCards
             )
         }
 
@@ -101,13 +101,13 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withShowActiveCards(_ value: Bool) -> Self {
-            showActiveCards = value
+        public func withShowPlayableCards(_ value: Bool) -> Self {
+            showPlayableCards = value
             return self
         }
 
-        public func withActive(_ value: [String: [String]]) -> Self {
-            active = value
+        public func withPlayable(_ value: [String: [String]]) -> Self {
+            playable = value
             return self
         }
 

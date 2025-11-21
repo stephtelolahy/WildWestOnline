@@ -519,7 +519,7 @@ private extension Card.ActionName {
             guard let cards = action.affectedCards else { fatalError("Missing affectedCards") }
 
             var state = state
-            state.active = [target: cards]
+            state.playable = [target: cards]
             return state
         }
     }

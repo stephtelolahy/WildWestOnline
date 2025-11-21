@@ -75,13 +75,13 @@ public enum GameSetup {
             cards: cards,
             discovered: [],
             queue: [],
-            active: [:],
+            playable: [:],
             auras: auras,
             playedThisTurn: [:],
             isOver: false,
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,
-            showActiveCards: true
+            showPlayableCards: true
         )
     }
 

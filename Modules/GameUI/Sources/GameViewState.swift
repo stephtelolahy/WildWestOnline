@@ -132,17 +132,17 @@ private extension GameFeature.State {
             return []
         }
 
-        let activeCards = active[controlledPlayer] ?? []
+        let playableCards = playable[controlledPlayer] ?? []
         let handCards = players.get(controlledPlayer).hand
 
         let hand = handCards.map { card in
             GameView.ViewState.HandCard(
                 card: card,
-                active: activeCards.contains(card)
+                active: playableCards.contains(card)
             )
         }
 
-        let abilities = activeCards.compactMap { card in
+        let abilities = playableCards.compactMap { card in
             if !handCards.contains(card) {
                 GameView.ViewState.HandCard(
                     card: card,

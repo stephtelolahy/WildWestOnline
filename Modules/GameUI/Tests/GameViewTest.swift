@@ -96,7 +96,7 @@ struct GameViewTest {
             }
             .withPlayer("p2")
             .withPlayMode(["p1": .manual])
-            .withActive(["p1": [.bang, .endTurn]])
+            .withPlayable(["p1": [.bang, .endTurn]])
             .withAuras([.endTurn])
             .build()
         let appState = AppFeature.State(

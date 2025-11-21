@@ -20,13 +20,13 @@ extension GameFeature {
             state.queue.remove(at: 0)
         }
 
-        if state.active.isNotEmpty {
+        if state.playable.isNotEmpty {
             guard action.name == .preparePlay,
-                  state.active.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
+                  state.playable.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
-            state.active.removeValue(forKey: action.sourcePlayer)
+            state.playable.removeValue(forKey: action.sourcePlayer)
         }
 
         do {
