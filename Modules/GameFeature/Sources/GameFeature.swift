@@ -25,7 +25,7 @@ public enum GameFeature {
         var auras: [String]
         var playedThisTurn: [String: Int]
         var isOver: Bool
-        public let playMode: [String: PlayMode]
+        let playMode: [String: PlayMode]
         let actionDelayMilliSeconds: Int
         let showPlayableCards: Bool
 

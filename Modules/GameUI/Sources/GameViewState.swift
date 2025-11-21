@@ -70,7 +70,7 @@ public extension GameView.ViewState {
         topDeck = game.deck.first
         startOrder = game.startOrder
         deckCount = game.deck.count
-        controlledPlayer = game.controlledPlayerId
+        controlledPlayer = game.manuallyControlledPlayer()
         startPlayer = game.startPlayerId
         actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
         lastEvent = game.lastEvent
@@ -113,7 +113,7 @@ private extension GameFeature.State {
     }
 
     var chooseOne: GameView.ViewState.ChooseOne? {
-        guard let controlledPlayer = controlledPlayerId,
+        guard let controlledPlayer = manuallyControlledPlayer(),
               let choice = pendingChoice(for: controlledPlayer) else {
             return  nil
         }
@@ -126,7 +126,7 @@ private extension GameFeature.State {
     }
 
     var handCards: [GameView.ViewState.HandCard] {
-        guard let controlledPlayer = controlledPlayerId else {
+        guard let controlledPlayer = manuallyControlledPlayer() else {
             return []
         }
 
@@ -156,10 +156,6 @@ private extension GameFeature.State {
 
     var startingPlayerId: String {
         playOrder.first!
-    }
-
-    var controlledPlayerId: String? {
-        playMode.keys.first { playMode[$0] == .manual }
     }
 
     var startPlayerId: String {

@@ -22,6 +22,10 @@ public extension GameFeature.State {
             prompt: prompt
         )
     }
+
+    func manuallyControlledPlayer() -> String? {
+        playMode.keys.first { playMode[$0] == .manual }
+    }
 }
 
 public struct PendingChoice {
