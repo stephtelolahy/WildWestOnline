@@ -19,7 +19,7 @@ public enum GameFeature {
         let cards: [String: Card]
         var discovered: [String]
         var queue: [Action]
-        public var playable: [String: [String]]
+        var playable: [String: [String]]
         public var lastEvent: Action?
         public var lastError: Error?
         public var auras: [String]
@@ -27,7 +27,7 @@ public enum GameFeature {
         public var isOver: Bool
         public let playMode: [String: PlayMode]
         public let actionDelayMilliSeconds: Int
-        public let showPlayableCards: Bool
+        let showPlayableCards: Bool
 
         public struct Player: Equatable, Codable, Sendable {
             public let figure: String
