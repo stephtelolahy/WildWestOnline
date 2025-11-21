@@ -8,47 +8,41 @@ import Redux
 
 public enum GameFeature {
     /// All aspects of game state
-    /// These state objects are passed around everywhere
-    /// and maintained on both client and server seamlessly
     public struct State: Equatable, Codable, Sendable {
         public var players: [String: Player]
-        public let cards: [String: Card]
-        public var deck: [String]
-        public var discard: [String]
-        public var discovered: [String]
         public var playOrder: [String]
         public let startOrder: [String]
-        public var queue: [Action]
         public var turn: String?
+        public var deck: [String]
+        public var discard: [String]
+
+        public let cards: [String: Card]
+        public var discovered: [String]
+        public var queue: [Action]
         public var active: [String: [String]]
         public var lastEvent: Action?
         public var lastError: Error?
-
-        // Modifiers
-        var auras: [String]
-        var playedThisTurn: [String: Int]
-        var isOver: Bool
-
-        // Configuration
+        public var auras: [String]
+        public var playedThisTurn: [String: Int]
+        public var isOver: Bool
         public let playMode: [String: PlayMode]
         public let actionDelayMilliSeconds: Int
-        let showActiveCards: Bool
+        public let showActiveCards: Bool
 
         public struct Player: Equatable, Codable, Sendable {
             public let figure: String
             public var health: Int
+            public var weapon: Int
+            public var magnifying: Int
+            public var remoteness: Int
             public var hand: [String]
             public var inPlay: [String]
 
-            // Modifiers
-            var abilities: [String]
-            var maxHealth: Int
-            var weapon: Int
-            var magnifying: Int
-            var remoteness: Int
-            var handLimit: Int
-            var cardsPerDraw: Int
-            var playLimitsPerTurn: [String: Int]
+            public var abilities: [String]
+            public var maxHealth: Int
+            public var handLimit: Int
+            public var cardsPerDraw: Int
+            public var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
@@ -61,11 +55,10 @@ public enum GameFeature {
         public let name: Card.ActionName
         public var sourcePlayer: String = ""
         public var playedCard: String = ""
-        public var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
 
-        // Context
+        var triggeredBy: [Self] = []
         var amount: Int?
         var chosenOption: String?
         var nestedEffects: [Self]?

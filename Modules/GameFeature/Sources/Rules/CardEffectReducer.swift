@@ -395,8 +395,8 @@ private extension Card.ActionName {
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
-                triggeredBy: [action],
                 targetedPlayer: target,
+                triggeredBy: [action],
                 amount: 1
             )
             state.queue.insert(damage, at: 0)
