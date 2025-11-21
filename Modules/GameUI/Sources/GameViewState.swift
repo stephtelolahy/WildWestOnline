@@ -87,11 +87,12 @@ private extension GameFeature.State {
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
             let isTargeted = isTargeted(playerId)
+            let name = playerObj.figure.first ?? ""
 
             return .init(
                 id: playerId,
-                imageName: playerObj.figure,
-                displayName: playerObj.figure.uppercased(),
+                imageName: name,
+                displayName: name.uppercased(),
                 health: health,
                 handCount: handCount,
                 inPlay: equipment,

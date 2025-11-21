@@ -14,7 +14,7 @@ struct SuzyLafayetteTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.suzyLafayette])
+                $0.withFigure([.suzyLafayette])
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
@@ -36,7 +36,7 @@ struct SuzyLafayetteTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.suzyLafayette])
+                $0.withFigure([.suzyLafayette])
                     .withHand(["c1", "c2"])
             }
             .build()
@@ -56,7 +56,7 @@ struct SuzyLafayetteTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.suzyLafayette])
+                $0.withFigure([.suzyLafayette])
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
@@ -79,7 +79,7 @@ struct SuzyLafayetteTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.suzyLafayette])
+                $0.withFigure([.suzyLafayette])
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
@@ -102,7 +102,7 @@ struct SuzyLafayetteTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.suzyLafayette])
+                $0.withFigure([.suzyLafayette])
                     .withHand(["c1"])
             }
             .withPlayer("p2")

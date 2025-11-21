@@ -122,7 +122,7 @@ private extension GameSetup {
         }
 
         return .init(
-            figure: figure,
+            figure: [figure],
             health: maxHealth,
             maxHealth: maxHealth,
             weapon: weapon,
@@ -130,7 +130,6 @@ private extension GameSetup {
             remoteness: remoteness,
             hand: hand,
             inPlay: [],
-            abilities: [figure],
             handLimit: handLimit,
             cardsPerDraw: cardsPerDraw,
             playLimitsPerTurn: playLimitsPerTurn

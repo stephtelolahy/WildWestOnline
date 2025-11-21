@@ -14,7 +14,7 @@ struct JourdonnaisTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.jourdonnais])
+                $0.withFigure([.jourdonnais])
                     .withCardsPerDraw(1)
             }
             .withDeck(["c1-2♥️"])
@@ -38,7 +38,7 @@ struct JourdonnaisTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jourdonnais])
+                $0.withFigure([.jourdonnais])
                 .withCardsPerDraw(1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
@@ -63,7 +63,7 @@ struct JourdonnaisTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jourdonnais])
+                $0.withFigure([.jourdonnais])
                 .withCardsPerDraw(1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
@@ -89,7 +89,7 @@ struct JourdonnaisTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jourdonnais])
+                $0.withFigure([.jourdonnais])
                 .withCardsPerDraw(1)
                 .withInPlay([.barrel])
                 .withHand([.missed])

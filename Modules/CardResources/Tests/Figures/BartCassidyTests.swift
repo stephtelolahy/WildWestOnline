@@ -14,7 +14,7 @@ struct BartCassidyTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.bartCassidy])
+                $0.withFigure([.bartCassidy])
                     .withHealth(3)
             }
             .withDeck(["c1"])
@@ -36,7 +36,7 @@ struct BartCassidyTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.bartCassidy])
+                $0.withFigure([.bartCassidy])
                     .withHealth(3)
             }
             .withDeck(["c1", "c2"])
@@ -59,7 +59,7 @@ struct BartCassidyTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.bartCassidy])
+                $0.withFigure([.bartCassidy])
                     .withHealth(1)
             }
             .withDeck(["c1"])

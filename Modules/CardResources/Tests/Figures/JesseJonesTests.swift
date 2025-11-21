@@ -15,7 +15,7 @@ struct JesseJonesTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jesseJones])
+                $0.withFigure([.jesseJones])
             }
             .withDiscard(["c1"])
             .withDeck(["c2"])
@@ -39,7 +39,7 @@ struct JesseJonesTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jesseJones])
+                $0.withFigure([.jesseJones])
             }
             .withDiscard(["c1"])
             .withDeck(["c2", "c3"])
@@ -66,7 +66,7 @@ struct JesseJonesTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.jesseJones])
+                $0.withFigure([.jesseJones])
             }
             .withDeck(["c1", "c2"])
             .build()

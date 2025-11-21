@@ -8,7 +8,7 @@
 extension GameFeature.State {
     func playAlias(for card: String, player: String) -> String? {
         let playerObj = players.get(player)
-        let abilities = playerObj.abilities + auras
+        let abilities = playerObj.figure + auras
         for ability in abilities {
             let abilityCard = cards.get(ability)
             for effect in abilityCard.effects {
@@ -26,7 +26,7 @@ extension GameFeature.State {
 
     func effectAlias(for card: String, player: String) -> String? {
         let playerObj = players.get(player)
-        let abilities = playerObj.abilities + auras
+        let abilities = playerObj.figure + auras
         for ability in abilities {
             let abilityCard = cards.get(ability)
             for effect in abilityCard.effects {

@@ -82,7 +82,7 @@ private extension GameFeature.State {
 
         for player in playOrder {
             let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities + auras
+            let triggerableCards = playerObj.inPlay + playerObj.figure + auras
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
@@ -130,7 +130,7 @@ private extension GameFeature.State {
         }
 
         let playerObj = players.get(player)
-        let playableCards = (players.get(player).hand + playerObj.abilities + auras)
+        let playableCards = (players.get(player).hand + playerObj.figure + auras)
             .filter {
                 Self.isCardPlayable($0, player: player, state: self)
             }

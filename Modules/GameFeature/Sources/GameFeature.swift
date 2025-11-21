@@ -30,7 +30,7 @@ public enum GameFeature {
         let showPlayableCards: Bool
 
         public struct Player: Equatable, Codable, Sendable {
-            public let figure: String
+            public let figure: [String]
             public var health: Int
             public var maxHealth: Int
             public var weapon: Int
@@ -39,7 +39,6 @@ public enum GameFeature {
             public var hand: [String]
             public var inPlay: [String]
 
-            var abilities: [String]
             var handLimit: Int
             var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]

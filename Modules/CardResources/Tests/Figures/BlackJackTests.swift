@@ -15,7 +15,7 @@ struct BlackJackTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withFigure([.blackJack])
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -39,7 +39,7 @@ struct BlackJackTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withFigure([.blackJack])
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()
