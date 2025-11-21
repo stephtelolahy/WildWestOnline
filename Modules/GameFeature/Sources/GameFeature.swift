@@ -15,13 +15,13 @@ public enum GameFeature {
         public var turn: String?
         public var deck: [String]
         public var discard: [String]
+        public var playable: [String: [String]]
+        public var lastEvent: Action?
+        public var lastError: Error?
 
         let cards: [String: Card]
         var discovered: [String]
         var queue: [Action]
-        public var playable: [String: [String]]
-        public var lastEvent: Action?
-        var lastError: Error?
         var auras: [String]
         var playedThisTurn: [String: Int]
         var isOver: Bool
