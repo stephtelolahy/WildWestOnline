@@ -42,7 +42,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let amountPerTurn: [String: Int]?
         public let playAlias: [String: String]?
         public let effectAlias: [String: String]?
-        public let playerArr: [GameFeature.State.Player.Key: Int]?
+        public let playerAttr: [GameFeature.State.Player.Key: Int]?
         public let selectors: [Selector]
         public let children: [Self]?
 
@@ -53,7 +53,7 @@ public struct Card: Equatable, Codable, Sendable {
             amountPerTurn: [String: Int]? = nil,
             playAlias: [String: String]? = nil,
             effectAlias: [String: String]? = nil,
-            playerArr: [GameFeature.State.Player.Key: Int]? = nil,
+            playerAttr: [GameFeature.State.Player.Key: Int]? = nil,
             selectors: [Selector] = [],
             children: [Self]? = nil,
         ) {
@@ -63,7 +63,7 @@ public struct Card: Equatable, Codable, Sendable {
             self.amountPerTurn = amountPerTurn
             self.playAlias = playAlias
             self.effectAlias = effectAlias
-            self.playerArr = playerArr
+            self.playerAttr = playerAttr
             self.selectors = selectors
             self.children = children
         }

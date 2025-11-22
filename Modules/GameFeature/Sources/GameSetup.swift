@@ -148,6 +148,6 @@ private extension Card {
     }
 
     var playerAttr: [GameFeature.State.Player.Key: Int]? {
-        effects.first { $0.trigger == .permanent && $0.action == .setPlayerAttr }?.playerArr
+        effects.first { $0.trigger == .permanent && $0.action == .setPlayerAttr }?.playerAttr
     }
 }
