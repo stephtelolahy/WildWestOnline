@@ -466,7 +466,13 @@ private extension Card.ActionName {
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let children = action.children else { fatalError("Missing children") }
+            guard var children = action.children else { fatalError("Missing children") }
+
+            // <Passing targetedPlayer to children>
+            if let targetedPlayer = action.targetedPlayer {
+                children = children.map { $0.copy(targetedPlayer: targetedPlayer) }
+            }
+            // <Passing targetedPlayer to children>
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)

@@ -75,12 +75,12 @@ public enum GameFeature {
 
         var triggeredBy: [Self] = []
         var selection: String?
-        var children: [Self]?
         var playableCards: [String]?
         var amountPerTurn: [String: Int]?
         var contextCardsPerTurn: Int = 0
         var contextAdditionalMissed: Int = 0
         var selectors: [Card.Selector] = []
+        var children: [Self]?
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)

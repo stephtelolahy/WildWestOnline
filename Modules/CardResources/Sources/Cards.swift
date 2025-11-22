@@ -694,18 +694,23 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .damage,
-                    amount: 3,
+                    action: .queue,
                     selectors: [
                         .applyIf(.drawnCardMatches(.regex2To9Spades))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .discardInPlay,
-                    selectors: [
-                        .applyIf(.lastEvent(.damage)),
-                        .setCard(.played)
+                    ],
+                    children: [
+                        .init(
+                            trigger: .turnStarted,
+                            action: .damage,
+                            amount: 3
+                        ),
+                        .init(
+                            trigger: .turnStarted,
+                            action: .discardInPlay,
+                            selectors: [
+                                .setCard(.played)
+                            ]
+                        )
                     ]
                 )
             ]
@@ -966,18 +971,23 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .turnStarted,
-                    action: .stealHand,
+                    action: .queue,
                     selectors: [
-                        .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.lastEvent(.stealHand))
+                        .chooseOne(.targetPlayer([.hasHandCards]))
+                    ],
+                    children: [
+                        .init(
+                            trigger: .turnStarted,
+                            action: .stealHand,
+                            selectors: [
+                                .chooseOne(.targetCard([.isFromHand]))
+                            ]
+                        ),
+                        .init(
+                            trigger: .turnStarted,
+                            action: .addContextCardsPerTurn,
+                            amount: -1
+                        )
                     ]
                 )
             ]

@@ -44,6 +44,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let effectAlias: [String: String]?
         public let playerArr: [GameFeature.State.Player.Key: Int]?
         public let selectors: [Selector]
+        public let children: [Self]?
 
         public init(
             trigger: Trigger,
@@ -53,7 +54,8 @@ public struct Card: Equatable, Codable, Sendable {
             playAlias: [String: String]? = nil,
             effectAlias: [String: String]? = nil,
             playerArr: [GameFeature.State.Player.Key: Int]? = nil,
-            selectors: [Selector] = []
+            selectors: [Selector] = [],
+            children: [Self]? = nil,
         ) {
             self.trigger = trigger
             self.action = action
@@ -63,6 +65,7 @@ public struct Card: Equatable, Codable, Sendable {
             self.effectAlias = effectAlias
             self.playerArr = playerArr
             self.selectors = selectors
+            self.children = children
         }
     }
 

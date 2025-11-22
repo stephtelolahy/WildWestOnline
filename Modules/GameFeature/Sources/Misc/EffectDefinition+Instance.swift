@@ -22,7 +22,15 @@ extension Card.EffectDefinition {
             amount: amount,
             triggeredBy: [triggeredBy],
             amountPerTurn: amountPerTurn,
-            selectors: selectors
+            selectors: selectors,
+            children: children?.map {
+                $0.toInstance(
+                    withPlayer: sourcePlayer,
+                    playedCard: playedCard,
+                    triggeredBy: triggeredBy,
+                    targetedPlayer: targetedPlayer,
+                )
+            }
         )
     }
 }
