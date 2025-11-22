@@ -24,7 +24,7 @@ public enum GameFeature {
         var queue: [Action]
         var auras: [String]
         var playedThisTurn: [String: Int]
-        var events: [Action]
+        var eventStack: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]
         let actionDelayMilliSeconds: Int

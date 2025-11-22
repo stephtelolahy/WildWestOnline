@@ -23,7 +23,7 @@ public extension GameFeature.State {
         private var actionDelayMilliSeconds: Int = 0
         private var showPlayableCards: Bool = false
         private var auras: [String] = []
-        private var events: [GameFeature.Action] = []
+        private var eventStack: [GameFeature.Action] = []
 
         public func build() -> GameFeature.State {
             .init(
@@ -39,7 +39,7 @@ public extension GameFeature.State {
                 queue: queue,
                 auras: auras,
                 playedThisTurn: playedThisTurn,
-                events: events,
+                eventStack: eventStack,
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
@@ -127,8 +127,8 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withEvents(_ value: [GameFeature.Action]) -> Self {
-            events = value
+        public func withEventStack(_ value: [GameFeature.Action]) -> Self {
+            eventStack = value
             return self
         }
     }

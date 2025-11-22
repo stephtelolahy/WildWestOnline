@@ -463,7 +463,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .require(.playLimitsPerTurn([.bang: 1])),
+                        .require(.playLimitThisTurn(1)),
                         .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
@@ -594,16 +594,16 @@ private extension Card {
             type: .collectible,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
-                .init(
-                    trigger: .cardEquiped,
-                    action: .setPlayLimitsPerTurn,
-                    amountPerTurn: [.bang: .unlimited]
-                ),
-                .init(
-                    trigger: .cardDiscarded,
-                    action: .setPlayLimitsPerTurn,
-                    amountPerTurn: [.bang: 1]
-                )
+//                .init(
+//                    trigger: .cardEquiped,
+//                    action: .setPlayLimitsPerTurn,
+//                    amountPerTurn: [.bang: .unlimited]
+//                ),
+//                .init(
+//                    trigger: .cardDiscarded,
+//                    action: .setPlayLimitsPerTurn,
+//                    amountPerTurn: [.bang: 1]
+//                )
             ]
         )
     }
@@ -755,11 +755,11 @@ private extension Card {
             description: "he can play any number of BANG! cards during his turn.",
             effects: [
                 .maxHealth(4),
-                .init(
-                    trigger: .permanent,
-                    action: .setPlayLimitsPerTurn,
-                    amountPerTurn: [.bang: .unlimited]
-                )
+//                .init(
+//                    trigger: .permanent,
+//                    action: .setPlayLimitsPerTurn,
+//                    amountPerTurn: [.bang: .unlimited]
+//                )
             ]
         )
     }

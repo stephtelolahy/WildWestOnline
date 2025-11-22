@@ -248,8 +248,8 @@ private extension Card.Trigger {
                 return false
             }
 
-            if state.events.count > 1,
-                case .draw = state.events[state.events.count - 2].name {
+            if state.eventStack.count > 1,
+                case .draw = state.eventStack[1].name {
                 return false
             }
 

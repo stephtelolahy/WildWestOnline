@@ -25,8 +25,9 @@ struct VolcanicTest {
         #expect(result == [
             .equip(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
-            .setPlayLimitsPerTurn([.bang: .unlimited], player: "p1")
+//            .setPlayLimitsPerTurn([.bang: .unlimited], player: "p1")
         ])
+        #expect(false)
     }
 
     @Test func discardFromInPlay_shouldResetBangsPerTurn() async throws {
@@ -47,7 +48,8 @@ struct VolcanicTest {
         #expect(result == [
             .discardInPlay(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
-            .setPlayLimitsPerTurn([.bang: 1], player: "p1")
+//            .setPlayLimitsPerTurn([.bang: 1], player: "p1")
         ])
+        #expect(false)
     }
 }

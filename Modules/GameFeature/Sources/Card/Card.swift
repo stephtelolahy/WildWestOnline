@@ -161,7 +161,7 @@ public struct Card: Equatable, Codable, Sendable {
         public indirect enum PlayRequirement: Equatable, Codable, Sendable {
             case not(Self)
             case minimumPlayers(Int)
-            case playLimitsPerTurn([String: Int])
+            case playLimitThisTurn(Int)
             case isHealthZero
             case isGameOver
             case isCurrentTurn
