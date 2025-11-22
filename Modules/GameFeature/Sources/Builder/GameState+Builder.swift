@@ -16,7 +16,6 @@ public extension GameFeature.State {
         private var startOrder: [String] = []
         private var queue: [GameFeature.Action] = []
         private var turn: String?
-        private var playedThisTurn: [String: Int] = [:]
         private var playable: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
@@ -38,7 +37,6 @@ public extension GameFeature.State {
                 cards: cards,
                 queue: queue,
                 auras: auras,
-                playedThisTurn: playedThisTurn,
                 eventStack: eventStack,
                 isOver: isOver,
                 playMode: playMode,
@@ -75,11 +73,6 @@ public extension GameFeature.State {
             for (key, val) in value {
                 cards[key] = val
             }
-            return self
-        }
-
-        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
-            playedThisTurn = value
             return self
         }
 

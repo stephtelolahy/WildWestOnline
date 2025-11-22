@@ -23,7 +23,6 @@ public enum GameFeature {
         let cards: [String: Card]
         var queue: [Action]
         var auras: [String]
-        var playedThisTurn: [String: Int]
         var eventStack: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]

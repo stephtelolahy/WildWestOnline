@@ -77,7 +77,6 @@ public enum GameSetup {
             cards: cards,
             queue: [],
             auras: auras,
-            playedThisTurn: [:],
             eventStack: [],
             isOver: false,
             playMode: playMode,

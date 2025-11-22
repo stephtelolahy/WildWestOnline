@@ -27,7 +27,7 @@ struct PlayTest {
         #expect(result.discard == ["c1"])
     }
 
-    @Test func play_firstTime_shouldSetPlayedThisTurn() async throws {
+    @Test func play_shouldSaveEvent() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
@@ -41,24 +41,6 @@ struct PlayTest {
         let result = try await dispatch(action, state: state)
 
         // Then
-        #expect(result.playedThisTurn["c1"] == 1)
-    }
-
-    @Test func play_secondTime_shouldIncrementPlayedThisTurn() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1"])
-            }
-            .withCards(["c1": Card(name: "c1", type: .collectible)])
-            .withPlayedThisTurn(["c1": 1])
-            .build()
-
-        // When
-        let action = GameFeature.Action.play("c1", player: "p1")
-        let result = try await dispatch(action, state: state)
-
-        // Then
-        #expect(result.playedThisTurn["c1"] == 2)
+        #expect(result.eventStack == [action])
     }
 }
