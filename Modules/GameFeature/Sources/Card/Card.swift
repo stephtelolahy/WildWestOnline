@@ -118,14 +118,12 @@ public struct Card: Equatable, Codable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
-        case setHandLimit
         case setPlayLimitsPerTurn
         case setPlayAlias
         case setEffectAlias
         case queue
         case addContextCardsPerTurn
         case addContextAdditionalMissed
-        case setPlayerAttr
     }
 
     public enum Selector: Equatable, Codable, Sendable {

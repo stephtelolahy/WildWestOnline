@@ -52,10 +52,8 @@ private extension Card.ActionName {
         case .addContextCardsPerTurn: AddContextCardsPerTurn()
         case .addContextAdditionalMissed: AddContextAdditionalMissed()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
-        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
         case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
-        case .setPlayerAttr: fatalError("Unexpected to dispatch setPlayerAttr")
         }
     }
 

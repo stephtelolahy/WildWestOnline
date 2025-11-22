@@ -110,7 +110,6 @@ private extension GameSetup {
         let weapon = 1
         let magnifying = cardDef.amountOfPermanentEffect(named: .increaseMagnifying) ?? 0
         let remoteness = cardDef.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
-        let handLimit = cardDef.amountOfPermanentEffect(named: .setHandLimit) ?? 0
         let playLimitsPerTurn = cardDef.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
@@ -130,7 +129,6 @@ private extension GameSetup {
             remoteness: remoteness,
             hand: hand,
             inPlay: [],
-            handLimit: handLimit,
             playLimitsPerTurn: playLimitsPerTurn
         )
     }
