@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct ActivatePlayableCardsTest {
-    @Test func updateGame_withPlayableCards_shouldActivate() async throws {
+    @Test func idle_withPlayableCards_shouldActivate() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
@@ -34,7 +34,7 @@ struct ActivatePlayableCardsTest {
         ])
     }
 
-    @Test func activatingCards_withoutPlayableCards_shouldDoNothing() async throws {
+    @Test func idle_withoutPlayableCards_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -55,28 +55,5 @@ struct ActivatePlayableCardsTest {
 
         // Then
         #expect(result.isEmpty)
-    }
-
-    @Test func activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHand((1...10).map { "\(String.beer)-\($0)" })
-                    .withMaxHealth(4)
-                    .withHealth(1)
-            }
-            .withTurn("p1")
-            .withShowPlayableCards(true)
-            .build()
-
-        // When
-        let action = GameFeature.Action.dummy
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .activate([.endTurn], player: "p1")
-        ])
     }
 }

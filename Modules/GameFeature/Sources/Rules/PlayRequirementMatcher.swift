@@ -20,7 +20,7 @@ private extension Card.Selector.PlayRequirement {
         switch self {
         case .not(let req): Not(req: req)
         case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .playLimitsPerTurn(let limits): PlayLimitsPerTurn(limits: limits)
+        case .playLimitThisTurn(let limit): PlayLimitThisTurn(limit: limit)
         case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
@@ -47,22 +47,28 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct PlayLimitsPerTurn: Matcher {
-        let limits: [String: Int]
+    struct PlayLimitThisTurn: Matcher {
+        let limit: Int
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            guard let (card, requiredLimit) = limits.first else {
-                fatalError("No card specified in limit")
+            if pendingAction.contextIgnoreLimitPerTurn > 0 {
+                return true
             }
 
-            let playedCount = state.playedThisTurn[card] ?? 0
-
-            if let playerLimit = state.players.get(player).playLimitsPerTurn[card] {
-                return playedCount < playerLimit
+            let cardName = Card.name(of: pendingAction.playedCard)
+            var playedCount = 0
+            for event in state.events {
+                if case .play = event.name {
+                    let playedName = Card.name(of: event.playedCard)
+                    if playedName == cardName {
+                        playedCount += 1
+                    }
+                } else if case .startTurn = event.name {
+                    break
+                }
             }
 
-            return playedCount < requiredLimit
+            return playedCount < limit
         }
     }
 
@@ -76,7 +82,7 @@ private extension Card.Selector.PlayRequirement {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let count = state.lastDrawnCardsCount()
+            let count = state.drawnCardsCount()
             return state.discard
                 .prefix(count)
                 .contains { $0.matches(regex: regex) }
@@ -141,13 +147,13 @@ private extension String {
 }
 
 private extension GameFeature.State {
-    func lastDrawnCardsCount() -> Int {
-        guard let lastDrawIndex = events.lastIndex(where: { $0.name == .draw }) else {
+    func drawnCardsCount() -> Int {
+        guard let firstIndex = events.firstIndex(where: { $0.name == .draw }) else {
             fatalError("Missing draw event")
         }
 
         var count = 1
-        while events[lastDrawIndex - count].name == .draw {
+        while events[firstIndex + count].name == .draw {
             count += 1
         }
 

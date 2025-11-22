@@ -16,13 +16,13 @@ public extension GameFeature.State {
         private var startOrder: [String] = []
         private var queue: [GameFeature.Action] = []
         private var turn: String?
-        private var playedThisTurn: [String: Int] = [:]
         private var playable: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
         private var showPlayableCards: Bool = false
         private var auras: [String] = []
+        private var events: [GameFeature.Action] = []
 
         public func build() -> GameFeature.State {
             .init(
@@ -35,10 +35,9 @@ public extension GameFeature.State {
                 discovered: discovered,
                 playable: playable,
                 cards: cards,
-                queue: queue,
                 auras: auras,
-                playedThisTurn: playedThisTurn,
-                events: [],
+                queue: queue,
+                events: events,
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
@@ -74,11 +73,6 @@ public extension GameFeature.State {
             for (key, val) in value {
                 cards[key] = val
             }
-            return self
-        }
-
-        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
-            playedThisTurn = value
             return self
         }
 
@@ -118,11 +112,16 @@ public extension GameFeature.State {
                 selectors: [.chooseOne(.targetCard(), prompt: prompt, selection: nil)]
             )
             queue.insert(nextAction, at: 0)
-          return self
+            return self
         }
 
         public func withAuras(_ value: [String]) -> Self {
             auras = value
+            return self
+        }
+
+        public func withEvents(_ value: [GameFeature.Action]) -> Self {
+            events = value
             return self
         }
     }
@@ -142,7 +141,6 @@ public extension GameFeature.State.Player {
         private var magnifying: Int = 0
         private var remoteness: Int = 0
         private var weapon: Int = 0
-        private var playLimitsPerTurn: [String: Int] = [:]
 
         public func build() -> GameFeature.State.Player {
             .init(
@@ -153,8 +151,7 @@ public extension GameFeature.State.Player {
                 magnifying: magnifying,
                 remoteness: remoteness,
                 hand: hand,
-                inPlay: inPlay,
-                playLimitsPerTurn: playLimitsPerTurn
+                inPlay: inPlay
             )
         }
 
@@ -195,11 +192,6 @@ public extension GameFeature.State.Player {
 
         public func withWeapon(_ value: Int) -> Self {
             weapon = value
-            return self
-        }
-
-        public func withPlayLimitsPerTurn(_ value: [String: Int]) -> Self {
-            playLimitsPerTurn = value
             return self
         }
     }

@@ -45,12 +45,12 @@ private extension Card.ActionName {
         case .equip: Equip()
         case .handicap: Handicap()
         case .setWeapon: SetWeapon()
-        case .setPlayLimitsPerTurn: SetPlayLimitsPerTurn()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
         case .addContextCardsPerTurn: AddContextCardsPerTurn()
         case .addContextAdditionalMissed: AddContextAdditionalMissed()
+        case .addContextIgnoreLimitPerTurn: AddContextIgnoreLimitPerTurn()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
         case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
@@ -187,10 +187,6 @@ private extension Card.ActionName {
                 }
 
             state.queue.insert(contentsOf: effects, at: 0)
-
-            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
-            state.playedThisTurn[cardName] = playedThisTurn + 1
-
             return state
         }
     }
@@ -457,14 +453,13 @@ private extension Card.ActionName {
 
             var state = state
             state.turn = target
-            state.playedThisTurn = [:]
             return state
         }
     }
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard var children = action.children else { fatalError("Missing children") }
+            guard let children = action.children else { fatalError("Missing children") }
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
@@ -488,6 +483,16 @@ private extension Card.ActionName {
 
             var state = state
             state.queue = state.queue.map { $0.copy(contextAdditionalMissed: amount) }
+            return state
+        }
+    }
+
+    struct AddContextIgnoreLimitPerTurn: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+
+            var state = state
+            state.queue = state.queue.map { $0.copy(contextIgnoreLimitPerTurn: amount) }
             return state
         }
     }
@@ -529,17 +534,6 @@ private extension Card.ActionName {
 
             var state = state
             state[keyPath: \.players[target]!.weapon] = amount
-            return state
-        }
-    }
-
-    struct SetPlayLimitsPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amountPerTurn = action.amountPerTurn else { fatalError("Missing amountPerTurn") }
-
-            var state = state
-            state[keyPath: \.players[target]!.playLimitsPerTurn] = amountPerTurn
             return state
         }
     }

@@ -21,9 +21,8 @@ public enum GameFeature {
         public var lastError: Error?
 
         let cards: [String: Card]
-        var queue: [Action]
         var auras: [String]
-        var playedThisTurn: [String: Int]
+        var queue: [Action]
         var events: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]
@@ -39,8 +38,6 @@ public enum GameFeature {
             public var remoteness: Int
             public var hand: [String]
             public var inPlay: [String]
-
-            var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {
@@ -60,9 +57,9 @@ public enum GameFeature {
         var triggeredBy: [Self] = []
         var selection: String?
         var playableCards: [String]?
-        var amountPerTurn: [String: Int]?
         var contextCardsPerTurn: Int = 0
         var contextAdditionalMissed: Int = 0
+        var contextIgnoreLimitPerTurn: Int = 0
         var children: [Self]?
         var selectors: [Card.Selector] = []
 

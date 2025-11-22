@@ -15,13 +15,13 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    public let effects: [EffectDefinition]
+    public let effects: [Effect]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        effects: [EffectDefinition] = []
+        effects: [Effect] = []
     ) {
         self.name = name
         self.type = type
@@ -35,7 +35,7 @@ public struct Card: Equatable, Codable, Sendable {
         case ability
     }
 
-    public struct EffectDefinition: Equatable, Codable, Sendable {
+    public struct Effect: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
         public let amount: Int?
@@ -81,6 +81,7 @@ public struct Card: Equatable, Codable, Sendable {
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
         case shootingWithCard(named: String)
+        case prePlayingCard(named: String)
         case requiredToDraw
     }
 
@@ -115,12 +116,12 @@ public struct Card: Equatable, Codable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
-        case setPlayLimitsPerTurn
         case setPlayAlias
         case setEffectAlias
         case queue
         case addContextCardsPerTurn
         case addContextAdditionalMissed
+        case addContextIgnoreLimitPerTurn
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -130,7 +131,7 @@ public struct Card: Equatable, Codable, Sendable {
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        case onComplete([EffectDefinition])
+        case onComplete([Effect])
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -162,7 +163,7 @@ public struct Card: Equatable, Codable, Sendable {
         public indirect enum PlayRequirement: Equatable, Codable, Sendable {
             case not(Self)
             case minimumPlayers(Int)
-            case playLimitsPerTurn([String: Int])
+            case playLimitThisTurn(Int)
             case isHealthZero
             case isGameOver
             case isCurrentTurn

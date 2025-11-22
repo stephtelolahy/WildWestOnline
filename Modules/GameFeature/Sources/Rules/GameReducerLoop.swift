@@ -166,6 +166,15 @@ private extension GameFeature.State {
             throw error
         }
 
+        // <add preparePlay effects>
+        if case .preparePlay = action.name {
+            let triggered = newState.triggerableElements(on: action).flatMap {
+                state.effectsTriggered(by: $0.card, ownedBy: $0.player, for: action)
+            }
+            newState.queue.insert(contentsOf: triggered, at: 0)
+        }
+        // </add preparePlay effects>
+
         if let choice = newState.pendingChoice {
             for option in choice.options {
                 let next = GameFeature.Action.choose(option.label, player: choice.chooser)

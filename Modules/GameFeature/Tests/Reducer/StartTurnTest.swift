@@ -21,18 +21,4 @@ struct StartTurnTest {
         // Then
         #expect(result.turn == "p1")
     }
-
-    @Test func startTurn_shouldResetPlayCounters() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withPlayedThisTurn(["c1": 1, "c2": 1])
-            .build()
-
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatch(action, state: state)
-
-        // Then
-        #expect(result.playedThisTurn.isEmpty)
-    }
 }

@@ -39,17 +39,21 @@ struct BangTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.bang])
+                $0.withHand([.bang2])
                     .withWeapon(1)
             }
             .withPlayer("p2")
-            .withPlayedThisTurn([.bang: 1])
+            .withEvents([
+                .equip(.barrel, player: "p1"),
+                .play(.bang1, player: "p1"),
+                .startTurn(player: "p1"),
+            ])
             .build()
 
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: GameFeature.Error.noReq(.playLimitsPerTurn([.bang: 1]))) {
+        await #expect(throws: GameFeature.Error.noReq(.playLimitThisTurn(1))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

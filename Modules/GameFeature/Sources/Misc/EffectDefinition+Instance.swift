@@ -1,11 +1,11 @@
 //
-//  EffectDefinition+Instance.swift
+//  Effect+Instance.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 27/10/2025.
 //
 
-extension Card.EffectDefinition {
+extension Card.Effect {
     func toInstance(
         withPlayer sourcePlayer: String,
         playedCard: String,
@@ -21,7 +21,6 @@ extension Card.EffectDefinition {
             targetedCard: targetedCard,
             amount: amount,
             triggeredBy: triggeredBy,
-            amountPerTurn: amountPerTurn,
             selectors: selectors
         )
     }

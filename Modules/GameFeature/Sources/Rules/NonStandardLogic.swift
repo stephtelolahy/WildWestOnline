@@ -18,7 +18,6 @@ enum NonStandardLogic {
                 .discardInPlay,
                 .heal,
                 .setWeapon,
-                .setPlayLimitsPerTurn,
                 .increaseMagnifying,
                 .increaseRemoteness,
                 .endTurn:
@@ -60,7 +59,6 @@ enum NonStandardLogic {
         && lhs.selection == rhs.selection
         && lhs.children == rhs.children
         && lhs.playableCards == rhs.playableCards
-        && lhs.amountPerTurn == rhs.amountPerTurn
         && lhs.selectors == rhs.selectors
     }
 }
