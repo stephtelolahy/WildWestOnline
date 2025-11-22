@@ -1003,17 +1003,20 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .turnStarted,
-                    action: .drawDiscard,
+                    action: .queue,
                     selectors: [
                         .chooseOne(.discardedCard)
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.lastEvent(.drawDiscard))
+                    ],
+                    children: [
+                        .init(
+                            trigger: .turnStarted,
+                            action: .drawDiscard
+                        ),
+                        .init(
+                            trigger: .turnStarted,
+                            action: .addContextCardsPerTurn,
+                            amount: -1,
+                        )
                     ]
                 )
             ]

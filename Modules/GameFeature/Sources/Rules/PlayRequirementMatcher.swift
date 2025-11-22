@@ -26,7 +26,6 @@ private extension Card.Selector.PlayRequirement {
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
-        case .lastEvent(let actionName): LastEvent(actionName: actionName)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
         }
@@ -114,14 +113,6 @@ private extension Card.Selector.PlayRequirement {
             }
 
             return card.matches(regex: regex)
-        }
-    }
-
-    struct LastEvent: Matcher {
-        let actionName: Card.ActionName
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.lastEvent?.name == actionName
         }
     }
 

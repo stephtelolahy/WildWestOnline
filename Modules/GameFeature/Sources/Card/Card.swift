@@ -178,8 +178,6 @@ public struct Card: Equatable, Codable, Sendable {
             case lastHandCardMatches(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
-            @available(*, deprecated, message: "Not accurate: use children effects")
-            case lastEvent(Card.ActionName)
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
