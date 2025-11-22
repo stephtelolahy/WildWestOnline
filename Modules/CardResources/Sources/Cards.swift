@@ -659,10 +659,7 @@ private extension Card {
                 .equipOnPrePlayed,
                 .init(
                     trigger: .shot,
-                    action: .draw,
-                    selectors: [
-                        .repeat(.playerAttr(.cardsPerDraw))
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .shot,
@@ -684,10 +681,7 @@ private extension Card {
                 .equipOnPrePlayed,
                 .init(
                     trigger: .turnStarted,
-                    action: .draw,
-                    selectors: [
-                        .repeat((.playerAttr(.cardsPerDraw)))
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .turnStarted,
@@ -733,10 +727,7 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .draw,
-                    selectors: [
-                        .repeat((.playerAttr(.cardsPerDraw)))
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .turnStarted,
@@ -866,10 +857,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .shot,
-                    action: .draw,
-                    selectors: [
-                        .repeat((.playerAttr(.cardsPerDraw)))
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .shot,
@@ -937,9 +925,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .permanent,
-                    action: .setPlayerAttr,
-                    playerArr: [.cardsPerDraw: 2]
+                    trigger: .requiredToDraw,
+                    action: .draw
                 )
             ]
         )

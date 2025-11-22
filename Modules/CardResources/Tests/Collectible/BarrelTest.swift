@@ -34,7 +34,6 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -46,7 +45,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -57,7 +56,6 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-A♠️"])
             .build()
@@ -69,7 +67,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
+            .draw(player: "p1"),
             .damage(1, player: "p1")
         ])
     }
@@ -79,8 +77,8 @@ struct BarrelTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 2)
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
             }
             .withDeck(["c1-2♥️", "c1-A♠️"])
             .build()
@@ -92,8 +90,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
-            .draw(),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -103,8 +101,8 @@ struct BarrelTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 2)
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
             }
             .withDeck(["c1-A♠️", "c1-2♥️"])
             .build()
@@ -116,8 +114,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
-            .draw(),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -127,8 +125,8 @@ struct BarrelTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 2)
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
             }
             .withDeck(["c1-A♠️", "c1-2♠️"])
             .build()
@@ -140,8 +138,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
-            .draw(),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
             .damage(1, player: "p1")
         ])
     }
@@ -153,7 +151,6 @@ struct BarrelTest {
             .withPlayer("p1") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
-                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -165,7 +162,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }

@@ -35,6 +35,7 @@ private extension Card.Trigger {
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
         case .weaponPrePlayed: WeaponPrePlayed()
         case .shootingWithCard(let name): ShootingWithCard(name: name)
+        case .requiredToDraw: RequiredToDraw()
         }
     }
 
@@ -237,6 +238,22 @@ private extension Card.Trigger {
 
             let cardName = Card.name(of: parent.playedCard)
             return cardName == name
+        }
+    }
+
+    struct RequiredToDraw: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .draw = action.name,
+                  action.targetedPlayer == player  else {
+                return false
+            }
+
+            if state.events.count > 1,
+                case .draw = state.events[state.events.count - 2].name {
+                return false
+            }
+
+            return true
         }
     }
 }

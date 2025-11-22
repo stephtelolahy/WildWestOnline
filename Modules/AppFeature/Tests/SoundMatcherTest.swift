@@ -47,7 +47,7 @@ struct SoundMatcherTest {
 
     @Test func soundOnDraw() async throws {
         // Given
-        let event = GameFeature.Action.draw()
+        let event = GameFeature.Action.draw(player: "p1")
 
         // When
         let sound = try #require(sut.sfx(on: event))

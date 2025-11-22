@@ -15,7 +15,6 @@ struct JourdonnaisTests {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -28,7 +27,7 @@ struct JourdonnaisTests {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -39,7 +38,6 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
@@ -53,7 +51,7 @@ struct JourdonnaisTests {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -64,7 +62,6 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
@@ -78,8 +75,8 @@ struct JourdonnaisTests {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
-            .draw(),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -90,7 +87,6 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
@@ -104,8 +100,8 @@ struct JourdonnaisTests {
         // Then
         #expect(result == [
             .shoot("p1"),
-            .draw(),
-            .draw(),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
             .choose(.missed, player: "p1"),
             .discardHand(.missed, player: "p1"),
             .counterShoot(player: "p1")

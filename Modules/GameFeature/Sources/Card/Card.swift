@@ -67,11 +67,11 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Trigger: Equatable, Codable, Sendable {
+        case permanent
         case cardPrePlayed
         case cardPlayed
         case cardEquiped
         case cardDiscarded
-        case permanent
         case damaged
         case damagedLethal
         case eliminated
@@ -84,6 +84,7 @@ public struct Card: Equatable, Codable, Sendable {
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
         case shootingWithCard(named: String)
+        case requiredToDraw
     }
 
     public enum ActionName: String, Codable, Sendable {
@@ -174,7 +175,7 @@ public struct Card: Equatable, Codable, Sendable {
             case lastHandCardMatches(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
-            @available(*, deprecated, message: "Not accurate: use context variable from previous effect")
+            @available(*, deprecated, message: "Not accurate: use children effects")
             case lastEvent(Card.ActionName)
         }
 
