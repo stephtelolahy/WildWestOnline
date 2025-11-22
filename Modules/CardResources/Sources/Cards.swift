@@ -694,15 +694,11 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .queue,
+                    action: .damage,
+                    amount: 3,
                     selectors: [
                         .applyIf(.drawnCardMatches(.regex2To9Spades)),
-                        .children([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .damage,
-                                amount: 3
-                            ),
+                        .onComplete([
                             .init(
                                 trigger: .turnStarted,
                                 action: .discardInPlay,
@@ -971,17 +967,11 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .turnStarted,
-                    action: .queue,
+                    action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .children([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .stealHand,
-                                selectors: [
-                                    .chooseOne(.targetCard([.isFromHand]))
-                                ]
-                            ),
+                        .chooseOne(.targetCard([.isFromHand])),
+                        .onComplete([
                             .init(
                                 trigger: .turnStarted,
                                 action: .addContextCardsPerTurn,
@@ -1003,14 +993,10 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .turnStarted,
-                    action: .queue,
+                    action: .drawDiscard,
                     selectors: [
                         .chooseOne(.discardedCard),
-                        .children([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .drawDiscard
-                            ),
+                        .onComplete([
                             .init(
                                 trigger: .turnStarted,
                                 action: .addContextCardsPerTurn,
