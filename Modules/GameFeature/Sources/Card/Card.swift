@@ -163,17 +163,17 @@ public struct Card: Equatable, Codable, Sendable {
             case lastHand
         }
 
-        public enum PlayRequirement: Equatable, Codable, Sendable {
+        public indirect enum PlayRequirement: Equatable, Codable, Sendable {
+            case not(Self)
             case minimumPlayers(Int)
             case playLimitsPerTurn([String: Int])
             case isHealthZero
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)
-            case drawnCardDoesNotMatch(_ regex: String)
+            case lastHandCardMatches(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
-            case lastHandCardMatches(_ regex: String)
             @available(*, deprecated, message: "Not accurate: use context variable from previous effect")
             case lastEvent(Card.ActionName)
         }

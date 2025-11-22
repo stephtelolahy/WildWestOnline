@@ -693,7 +693,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .applyIf(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -742,7 +742,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .applyIf(.drawnCardDoesNotMatch(.regexHearts))
+                        .applyIf(.not(.drawnCardMatches(.regexHearts)))
                     ]
                 ),
                 .init(

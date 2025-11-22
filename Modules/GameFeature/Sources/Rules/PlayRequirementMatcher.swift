@@ -18,17 +18,25 @@ private extension Card.Selector.PlayRequirement {
 
     var matcher: Matcher {
         switch self {
+        case .not(let req): Not(req: req)
         case .minimumPlayers(let count): MinimumPlayers(count: count)
         case .playLimitsPerTurn(let limits): PlayLimitsPerTurn(limits: limits)
         case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
-        case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
         case .lastEvent(let actionName): LastEvent(actionName: actionName)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
+        }
+    }
+
+    struct Not: Matcher {
+        let req: Card.Selector.PlayRequirement
+
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            !req.match(pendingAction, state: state)
         }
     }
 
@@ -73,17 +81,6 @@ private extension Card.Selector.PlayRequirement {
             return state.discard
                 .prefix(count)
                 .contains { $0.matches(regex: regex) }
-        }
-    }
-
-    struct DrawnCardDoesNotMatch: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let count = state.lastDrawnCardsCount()
-            return state.discard
-                .prefix(count)
-                .allSatisfy { $0.matches(regex: regex) == false }
         }
     }
 
@@ -154,10 +151,10 @@ private extension String {
 
 private extension GameFeature.State {
     func lastDrawnCardsCount() -> Int {
-        var result = 0
-        while events[events.count - result - 1].name == .draw {
-            result += 1
+        var count = 0
+        while events[(events.count - 1) - count].name == .draw {
+            count += 1
         }
-        return result
+        return count
     }
 }
