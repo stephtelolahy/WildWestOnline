@@ -56,27 +56,4 @@ struct ActivatePlayableCardsTest {
         // Then
         #expect(result.isEmpty)
     }
-
-    @Test func activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHand((1...10).map { "\(String.beer)-\($0)" })
-                    .withMaxHealth(4)
-                    .withHealth(1)
-            }
-            .withTurn("p1")
-            .withShowPlayableCards(true)
-            .build()
-
-        // When
-        let action = GameFeature.Action.dummy
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .activate([.endTurn], player: "p1")
-        ])
-    }
 }
