@@ -18,7 +18,7 @@ struct VolcanicTest {
                     .withInPlay([.volcanic])
             }
             .withPlayer("p2")
-            .withEventStack([
+            .withEvents([
                 .equip(.barrel, player: "p1"),
                 .play(.bang1, player: "p1"),
                 .startTurn(player: "p1"),
@@ -49,7 +49,7 @@ struct VolcanicTest {
             }
             .withPlayer("p2")
             .withTurn("p1")
-            .withEventStack([
+            .withEvents([
                 .equip(.barrel, player: "p1"),
                 .play(.bang1, player: "p1"),
                 .startTurn(player: "p1"),

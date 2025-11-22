@@ -23,7 +23,7 @@ public enum GameFeature {
         let cards: [String: Card]
         var auras: [String]
         var queue: [Action]
-        var eventStack: [Action]
+        var events: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]
         let actionDelayMilliSeconds: Int

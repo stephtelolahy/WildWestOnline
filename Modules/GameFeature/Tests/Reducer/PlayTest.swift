@@ -41,6 +41,6 @@ struct PlayTest {
         let result = try await dispatch(action, state: state)
 
         // Then
-        #expect(result.eventStack == [action])
+        #expect(result.events == [action])
     }
 }

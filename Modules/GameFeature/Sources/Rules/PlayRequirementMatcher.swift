@@ -57,7 +57,7 @@ private extension Card.Selector.PlayRequirement {
 
             let cardName = Card.name(of: pendingAction.playedCard)
             var playedCount = 0
-            for event in state.eventStack {
+            for event in state.events {
                 if case .play = event.name {
                     let playedName = Card.name(of: event.playedCard)
                     if playedName == cardName {
@@ -148,12 +148,12 @@ private extension String {
 
 private extension GameFeature.State {
     func drawnCardsCount() -> Int {
-        guard let firstIndex = eventStack.firstIndex(where: { $0.name == .draw }) else {
+        guard let firstIndex = events.firstIndex(where: { $0.name == .draw }) else {
             fatalError("Missing draw event")
         }
 
         var count = 1
-        while eventStack[firstIndex + count].name == .draw {
+        while events[firstIndex + count].name == .draw {
             count += 1
         }
 
