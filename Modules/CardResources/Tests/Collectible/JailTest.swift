@@ -36,7 +36,7 @@ struct JailTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️", "c2", "c3"])
             .build()
@@ -61,7 +61,7 @@ struct JailTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withPlayer("p2")
             .withDeck(["c1-A♠️", "c2", "c3"])

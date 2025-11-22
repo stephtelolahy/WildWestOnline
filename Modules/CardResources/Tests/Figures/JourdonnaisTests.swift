@@ -15,7 +15,7 @@ struct JourdonnaisTests {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -39,7 +39,7 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withCardsPerDraw(1)
+                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
@@ -64,7 +64,7 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withCardsPerDraw(1)
+                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }
@@ -90,7 +90,7 @@ struct JourdonnaisTests {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withFigure([.jourdonnais])
-                .withCardsPerDraw(1)
+                .withAttr(.cardsPerDraw, 1)
                 .withInPlay([.barrel])
                 .withHand([.missed])
             }

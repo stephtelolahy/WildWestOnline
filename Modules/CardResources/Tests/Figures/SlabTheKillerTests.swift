@@ -55,7 +55,7 @@ struct SlabTheKillerTests {
             .withPlayer("p2") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()

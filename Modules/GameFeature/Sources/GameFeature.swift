@@ -40,7 +40,6 @@ public enum GameFeature {
             public var inPlay: [String]
 
             var handLimit: Int
-            var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]
 
             public var attr: [Key: Int]

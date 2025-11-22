@@ -42,6 +42,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let amountPerTurn: [String: Int]?
         public let playAlias: [String: String]?
         public let effectAlias: [String: String]?
+        public let playerArr: [GameFeature.State.Player.Key: Int]?
         public let selectors: [Selector]
 
         public init(
@@ -51,6 +52,7 @@ public struct Card: Equatable, Codable, Sendable {
             amountPerTurn: [String: Int]? = nil,
             playAlias: [String: String]? = nil,
             effectAlias: [String: String]? = nil,
+            playerArr: [GameFeature.State.Player.Key: Int]? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
@@ -59,6 +61,7 @@ public struct Card: Equatable, Codable, Sendable {
             self.amountPerTurn = amountPerTurn
             self.playAlias = playAlias
             self.effectAlias = effectAlias
+            self.playerArr = playerArr
             self.selectors = selectors
         }
     }
@@ -116,12 +119,12 @@ public struct Card: Equatable, Codable, Sendable {
         case setMaxHealth
         case setHandLimit
         case setPlayLimitsPerTurn
-        case setCardsPerDraw
         case setPlayAlias
         case setEffectAlias
         case queue
         case addContextCardsPerTurn
         case addContextAdditionalMissed
+        case setPlayerAttr
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -136,10 +139,10 @@ public struct Card: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
-            case cardsPerDraw
             case receivedDamageAmount
             case contextCardsPerTurn
             case contextMissedPerShoot
+            case playerAttr(GameFeature.State.Player.Key)
         }
 
         public enum PlayerGroup: String, Codable, Sendable {

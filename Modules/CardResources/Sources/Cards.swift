@@ -661,7 +661,7 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat(.playerAttr(.cardsPerDraw))
                     ]
                 ),
                 .init(
@@ -686,7 +686,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat((.playerAttr(.cardsPerDraw)))
                     ]
                 ),
                 .init(
@@ -735,7 +735,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .draw,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat((.playerAttr(.cardsPerDraw)))
                     ]
                 ),
                 .init(
@@ -868,7 +868,7 @@ private extension Card {
                     trigger: .shot,
                     action: .draw,
                     selectors: [
-                        .repeat(.cardsPerDraw)
+                        .repeat((.playerAttr(.cardsPerDraw)))
                     ]
                 ),
                 .init(
@@ -938,8 +938,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setCardsPerDraw,
-                    amount: 2
+                    action: .setPlayerAttr,
+                    playerArr: [.cardsPerDraw: 2]
                 )
             ]
         )

@@ -34,7 +34,7 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()
@@ -57,7 +57,7 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-A♠️"])
             .build()
@@ -80,7 +80,7 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withCardsPerDraw(2)
+                    .withAttr(.cardsPerDraw, 2)
             }
             .withDeck(["c1-2♥️", "c1-A♠️"])
             .build()
@@ -104,7 +104,7 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withCardsPerDraw(2)
+                    .withAttr(.cardsPerDraw, 2)
             }
             .withDeck(["c1-A♠️", "c1-2♥️"])
             .build()
@@ -128,7 +128,7 @@ struct BarrelTest {
             .withAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.barrel])
-                    .withCardsPerDraw(2)
+                    .withAttr(.cardsPerDraw, 2)
             }
             .withDeck(["c1-A♠️", "c1-2♠️"])
             .build()
@@ -153,7 +153,7 @@ struct BarrelTest {
             .withPlayer("p1") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withDeck(["c1-2♥️"])
             .build()

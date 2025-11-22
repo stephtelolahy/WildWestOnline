@@ -34,7 +34,7 @@ struct DynamiteTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
             }
             .withPlayer("p2")
             .withDeck(["c1-9♦️", "c2", "c3"])
@@ -60,7 +60,7 @@ struct DynamiteTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
                     .withHealth(4)
             }
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -88,7 +88,7 @@ struct DynamiteTest {
             .withDummyCards(["c4"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
-                    .withCardsPerDraw(1)
+                    .withAttr(.cardsPerDraw, 1)
                     .withHealth(3)
             }
             .withPlayer("p2")
