@@ -142,10 +142,15 @@ private extension String {
 
 private extension GameFeature.State {
     func lastDrawnCardsCount() -> Int {
-        var count = 0
-        while events[(events.count - 1) - count].name == .draw {
+        guard let lastDrawIndex = events.lastIndex(where: { $0.name == .draw }) else {
+            return 0
+        }
+
+        var count = 1
+        while events[lastDrawIndex - count].name == .draw {
             count += 1
         }
+
         return count
     }
 }
