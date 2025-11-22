@@ -143,7 +143,7 @@ private extension String {
 private extension GameFeature.State {
     func lastDrawnCardsCount() -> Int {
         guard let lastDrawIndex = events.lastIndex(where: { $0.name == .draw }) else {
-            return 0
+            fatalError("Missing draw event")
         }
 
         var count = 1
