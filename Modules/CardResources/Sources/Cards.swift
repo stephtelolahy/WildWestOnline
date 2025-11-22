@@ -696,21 +696,21 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .queue,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades))
-                    ],
-                    children: [
-                        .init(
-                            trigger: .turnStarted,
-                            action: .damage,
-                            amount: 3
-                        ),
-                        .init(
-                            trigger: .turnStarted,
-                            action: .discardInPlay,
-                            selectors: [
-                                .setCard(.played)
-                            ]
-                        )
+                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
+                        .children([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .damage,
+                                amount: 3
+                            ),
+                            .init(
+                                trigger: .turnStarted,
+                                action: .discardInPlay,
+                                selectors: [
+                                    .setCard(.played)
+                                ]
+                            )
+                        ])
                     ]
                 )
             ]
@@ -973,21 +973,21 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .queue,
                     selectors: [
-                        .chooseOne(.targetPlayer([.hasHandCards]))
-                    ],
-                    children: [
-                        .init(
-                            trigger: .turnStarted,
-                            action: .stealHand,
-                            selectors: [
-                                .chooseOne(.targetCard([.isFromHand]))
-                            ]
-                        ),
-                        .init(
-                            trigger: .turnStarted,
-                            action: .addContextCardsPerTurn,
-                            amount: -1
-                        )
+                        .chooseOne(.targetPlayer([.hasHandCards])),
+                        .children([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .stealHand,
+                                selectors: [
+                                    .chooseOne(.targetCard([.isFromHand]))
+                                ]
+                            ),
+                            .init(
+                                trigger: .turnStarted,
+                                action: .addContextCardsPerTurn,
+                                amount: -1
+                            )
+                        ])
                     ]
                 )
             ]
@@ -1005,18 +1005,18 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .queue,
                     selectors: [
-                        .chooseOne(.discardedCard)
-                    ],
-                    children: [
-                        .init(
-                            trigger: .turnStarted,
-                            action: .drawDiscard
-                        ),
-                        .init(
-                            trigger: .turnStarted,
-                            action: .addContextCardsPerTurn,
-                            amount: -1,
-                        )
+                        .chooseOne(.discardedCard),
+                        .children([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .drawDiscard
+                            ),
+                            .init(
+                                trigger: .turnStarted,
+                                action: .addContextCardsPerTurn,
+                                amount: -1,
+                            )
+                        ])
                     ]
                 )
             ]

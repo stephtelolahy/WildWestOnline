@@ -43,7 +43,6 @@ public struct Card: Equatable, Codable, Sendable {
         public let playAlias: [String: String]?
         public let effectAlias: [String: String]?
         public let selectors: [Selector]
-        public let children: [Self]?
 
         public init(
             trigger: Trigger,
@@ -52,8 +51,7 @@ public struct Card: Equatable, Codable, Sendable {
             amountPerTurn: [String: Int]? = nil,
             playAlias: [String: String]? = nil,
             effectAlias: [String: String]? = nil,
-            selectors: [Selector] = [],
-            children: [Self]? = nil,
+            selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
@@ -62,7 +60,6 @@ public struct Card: Equatable, Codable, Sendable {
             self.playAlias = playAlias
             self.effectAlias = effectAlias
             self.selectors = selectors
-            self.children = children
         }
     }
 
@@ -133,6 +130,7 @@ public struct Card: Equatable, Codable, Sendable {
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
+        case children([EffectDefinition])
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)

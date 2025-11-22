@@ -30,8 +30,8 @@ extension GameFeature.Action {
             amountPerTurn: self.amountPerTurn,
             contextCardsPerTurn: self.contextCardsPerTurn + contextCardsPerTurn,
             contextAdditionalMissed: self.contextAdditionalMissed + contextAdditionalMissed,
-            selectors: selectors ?? self.selectors,
             children: self.children,
+            selectors: selectors ?? self.selectors,
         )
     }
 }
