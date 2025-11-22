@@ -710,7 +710,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
+                        .applyIf(.lastEvent(.damage)),
                         .setCard(.played)
                     ]
                 )
@@ -990,7 +990,7 @@ private extension Card {
                     action: .addContextCardsPerTurn,
                     amount: -1,
                     selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .applyIf(.lastEvent(.stealHand))
                     ]
                 )
             ]
@@ -1016,7 +1016,7 @@ private extension Card {
                     action: .addContextCardsPerTurn,
                     amount: -1,
                     selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .applyIf(.lastEvent(.drawDiscard))
                     ]
                 )
             ]

@@ -45,6 +45,7 @@ extension GameFeature {
 
             if action.isResolved {
                 state.lastEvent = action
+                state.events.append(action)
             } else {
                 state.lastEvent = nil
             }

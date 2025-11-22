@@ -174,7 +174,8 @@ public struct Card: Equatable, Codable, Sendable {
             case targetedCardFromHand
             case targetedCardFromInPlay
             case lastHandCardMatches(_ regex: String)
-            case previousEffectSucceed
+            @available(*, deprecated, message: "Not accurate: use context variable from previous effect")
+            case lastEvent(Card.ActionName)
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {

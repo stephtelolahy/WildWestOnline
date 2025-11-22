@@ -78,6 +78,7 @@ public enum GameSetup {
             queue: [],
             auras: auras,
             playedThisTurn: [:],
+            events: [],
             isOver: false,
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,

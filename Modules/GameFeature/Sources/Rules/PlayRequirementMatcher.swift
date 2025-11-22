@@ -26,7 +26,7 @@ private extension Card.Selector.PlayRequirement {
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
-        case .previousEffectSucceed: PreviousEffectSucceed()
+        case .lastEvent(let actionName): LastEvent(actionName: actionName)
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
         }
@@ -69,10 +69,9 @@ private extension Card.Selector.PlayRequirement {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let cardsPerDraw = state.players.get(player).cardsPerDraw
+            let count = state.lastDrawnCardsCount()
             return state.discard
-                .prefix(cardsPerDraw)
+                .prefix(count)
                 .contains { $0.matches(regex: regex) }
         }
     }
@@ -81,10 +80,9 @@ private extension Card.Selector.PlayRequirement {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let cardsPerDraw = state.players.get(player).cardsPerDraw
+            let count = state.lastDrawnCardsCount()
             return state.discard
-                .prefix(cardsPerDraw)
+                .prefix(count)
                 .allSatisfy { $0.matches(regex: regex) == false }
         }
     }
@@ -122,9 +120,11 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct PreviousEffectSucceed: Matcher {
+    struct LastEvent: Matcher {
+        let actionName: Card.ActionName
+
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.lastEvent != nil
+            state.lastEvent?.name == actionName
         }
     }
 
@@ -149,5 +149,15 @@ private extension String {
         } else {
             return false
         }
+    }
+}
+
+private extension GameFeature.State {
+    func lastDrawnCardsCount() -> Int {
+        var result = 0
+        while events[events.count - result - 1].name == .draw {
+            result += 1
+        }
+        return result
     }
 }

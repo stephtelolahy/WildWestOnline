@@ -38,6 +38,7 @@ public extension GameFeature.State {
                 queue: queue,
                 auras: auras,
                 playedThisTurn: playedThisTurn,
+                events: [],
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
