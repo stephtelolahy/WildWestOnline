@@ -1828,7 +1828,7 @@ private extension String {
     static let regex2To9Spades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
-private extension Card.EffectDefinition {
+private extension Card.Effect {
     static var playOnPrePlayed: Self {
         .init(
             trigger: .cardPrePlayed,
@@ -1852,7 +1852,7 @@ private extension Card.EffectDefinition {
     }
 }
 
-private extension Array where Element == Card.EffectDefinition {
+private extension Array where Element == Card.Effect {
     static func weapon(range: Int) -> Self {
         [
             .equipOnPrePlayed,

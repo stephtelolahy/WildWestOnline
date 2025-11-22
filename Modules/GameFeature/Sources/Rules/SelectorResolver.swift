@@ -102,7 +102,7 @@ private extension Card.Selector {
     }
 
     struct OnComplete: Resolver {
-        let effects: [Card.EffectDefinition]
+        let effects: [Card.Effect]
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             [pendingAction]
