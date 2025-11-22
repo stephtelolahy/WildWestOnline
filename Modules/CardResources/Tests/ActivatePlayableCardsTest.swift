@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct ActivatePlayableCardsTest {
-    @Test func updateGame_withPlayableCards_shouldActivate() async throws {
+    @Test func idle_withPlayableCards_shouldActivate() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
@@ -34,7 +34,7 @@ struct ActivatePlayableCardsTest {
         ])
     }
 
-    @Test func activatingCards_withoutPlayableCards_shouldDoNothing() async throws {
+    @Test func idle_withoutPlayableCards_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

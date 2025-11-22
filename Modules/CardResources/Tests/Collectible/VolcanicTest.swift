@@ -37,4 +37,33 @@ struct VolcanicTest {
             .damage(1, player: "p2")
         ])
     }
+
+    @Test func idle_shouldActivatePlayBangIgnoringLimitPerTurn() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.bang2])
+                    .withWeapon(1)
+                    .withInPlay([.volcanic])
+            }
+            .withPlayer("p2")
+            .withTurn("p1")
+            .withEventStack([
+                .equip(.barrel, player: "p1"),
+                .play(.bang1, player: "p1"),
+                .startTurn(player: "p1"),
+            ])
+            .withShowPlayableCards(true)
+            .build()
+
+        // When
+        let action = GameFeature.Action.dummy
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .activate([.bang2], player: "p1")
+        ])
+    }
 }

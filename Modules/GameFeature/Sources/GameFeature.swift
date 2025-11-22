@@ -21,8 +21,8 @@ public enum GameFeature {
         public var lastError: Error?
 
         let cards: [String: Card]
-        var queue: [Action]
         var auras: [String]
+        var queue: [Action]
         var eventStack: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]
