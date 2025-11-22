@@ -40,8 +40,3 @@ struct WillyTheKidTest {
         ])
     }
 }
-
-private extension String {
-    static let bang1 = "\(String.bang)-1"
-    static let bang2 = "\(String.bang)-2"
-}

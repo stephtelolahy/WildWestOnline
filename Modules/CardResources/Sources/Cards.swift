@@ -594,16 +594,11 @@ private extension Card {
             type: .collectible,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
-//                .init(
-//                    trigger: .cardEquiped,
-//                    action: .setPlayLimitsPerTurn,
-//                    amountPerTurn: [.bang: .unlimited]
-//                ),
-//                .init(
-//                    trigger: .cardDiscarded,
-//                    action: .setPlayLimitsPerTurn,
-//                    amountPerTurn: [.bang: 1]
-//                )
+                .init(
+                    trigger: .prePlayingCard(named: .bang),
+                    action: .addContextIgnoreLimitPerTurn,
+                    amount: .unlimited
+                )
             ]
         )
     }

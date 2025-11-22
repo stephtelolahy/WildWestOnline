@@ -8,48 +8,33 @@ import Testing
 import GameFeature
 
 struct VolcanicTest {
-    @Test func play_shouldSetUnlimitedBangsPerTurn() async throws {
+    @Test func equiped_shouldPlayBangIgnoringLimitPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.volcanic])
+                $0.withHand([.bang2])
+                    .withWeapon(1)
+                    .withInPlay([.volcanic])
             }
+            .withPlayer("p2")
+            .withEventStack([
+                .equip(.barrel, player: "p1"),
+                .play(.bang1, player: "p1"),
+                .startTurn(player: "p1"),
+            ])
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.volcanic, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang2, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .equip(.volcanic, player: "p1"),
-            .setWeapon(1, player: "p1"),
-//            .setPlayLimitsPerTurn([.bang: .unlimited], player: "p1")
+            .choose("p2", player: "p1"),
+            .play(.bang2, player: "p1", target: "p2"),
+            .shoot("p2"),
+            .damage(1, player: "p2")
         ])
-        #expect(false)
-    }
-
-    @Test func discardFromInPlay_shouldResetBangsPerTurn() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withInPlay([.volcanic])
-                    .withWeapon(2)
-            }
-            .build()
-
-        // When
-        let action = GameFeature.Action.discardInPlay(.volcanic, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .discardInPlay(.volcanic, player: "p1"),
-            .setWeapon(1, player: "p1"),
-//            .setPlayLimitsPerTurn([.bang: 1], player: "p1")
-        ])
-        #expect(false)
     }
 }

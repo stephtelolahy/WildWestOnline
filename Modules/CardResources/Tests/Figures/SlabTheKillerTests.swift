@@ -109,8 +109,3 @@ struct SlabTheKillerTests {
             ])
     }
 }
-
-private extension String {
-    static let missed1 = "\(String.missed)-1"
-    static let missed2 = "\(String.missed)-2"
-}
