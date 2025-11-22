@@ -115,7 +115,6 @@ public struct Card: Equatable, Codable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
-        case setPlayLimitsPerTurn
         case setPlayAlias
         case setEffectAlias
         case queue

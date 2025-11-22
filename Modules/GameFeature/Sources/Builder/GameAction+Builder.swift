@@ -215,14 +215,6 @@ public extension GameFeature.Action {
         )
     }
 
-    static func setPlayLimitsPerTurn(_ limit: [String: Int], player: String) -> Self {
-        .init(
-            name: .setPlayLimitsPerTurn,
-            targetedPlayer: player,
-            amountPerTurn: limit
-        )
-    }
-
     static func increaseMagnifying(_ amount: Int, player: String) -> Self {
         .init(
             name: .increaseMagnifying,

@@ -39,8 +39,6 @@ public enum GameFeature {
             public var remoteness: Int
             public var hand: [String]
             public var inPlay: [String]
-
-            var playLimitsPerTurn: [String: Int]
         }
 
         public enum PlayMode: Equatable, Codable, Sendable {

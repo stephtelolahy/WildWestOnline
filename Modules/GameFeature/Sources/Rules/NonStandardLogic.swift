@@ -18,7 +18,6 @@ enum NonStandardLogic {
                 .discardInPlay,
                 .heal,
                 .setWeapon,
-                .setPlayLimitsPerTurn,
                 .increaseMagnifying,
                 .increaseRemoteness,
                 .endTurn:

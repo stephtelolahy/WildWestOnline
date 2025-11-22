@@ -45,7 +45,6 @@ private extension Card.ActionName {
         case .equip: Equip()
         case .handicap: Handicap()
         case .setWeapon: SetWeapon()
-        case .setPlayLimitsPerTurn: SetPlayLimitsPerTurn()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
@@ -464,7 +463,7 @@ private extension Card.ActionName {
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard var children = action.children else { fatalError("Missing children") }
+            guard let children = action.children else { fatalError("Missing children") }
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
@@ -529,17 +528,6 @@ private extension Card.ActionName {
 
             var state = state
             state[keyPath: \.players[target]!.weapon] = amount
-            return state
-        }
-    }
-
-    struct SetPlayLimitsPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amountPerTurn = action.amountPerTurn else { fatalError("Missing amountPerTurn") }
-
-            var state = state
-            state[keyPath: \.players[target]!.playLimitsPerTurn] = amountPerTurn
             return state
         }
     }

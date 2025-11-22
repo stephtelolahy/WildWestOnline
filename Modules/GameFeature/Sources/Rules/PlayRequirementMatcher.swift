@@ -58,10 +58,6 @@ private extension Card.Selector.PlayRequirement {
 
             let playedCount = state.playedThisTurn[card] ?? 0
 
-            if let playerLimit = state.players.get(player).playLimitsPerTurn[card] {
-                return playedCount < playerLimit
-            }
-
             return playedCount < requiredLimit
         }
     }
