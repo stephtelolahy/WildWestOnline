@@ -59,8 +59,17 @@ public enum GameFeature {
         var playableCards: [String]?
         var contextAdditionalMissed: Int = 0
         var contextIgnoreLimitPerTurn: Int = 0
+        var modifier: Modifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
+
+        public struct Modifier: RawRepresentable, Hashable, Codable, Sendable {
+            public let rawValue: String
+
+            public init (rawValue: String) {
+                self.rawValue = rawValue
+            }
+        }
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)

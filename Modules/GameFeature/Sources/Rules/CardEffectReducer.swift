@@ -50,6 +50,7 @@ private extension Card.ActionName {
         case .queue: Queue()
         case .addContextAdditionalMissed: AddContextAdditionalMissed()
         case .addContextIgnoreLimitPerTurn: AddContextIgnoreLimitPerTurn()
+        case .applyModifier: ApplyModifier()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
         case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
@@ -546,6 +547,15 @@ private extension Card.ActionName {
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
             return state
+        }
+    }
+
+    struct ApplyModifier: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let modifier = action.modifier else { fatalError("Missing modifier") }
+            guard let handler = ModifierRegistry.shared.handler(for: modifier) else { fatalError("No handler for modifier: \(modifier)")}
+
+            return handler(state)
         }
     }
 }
