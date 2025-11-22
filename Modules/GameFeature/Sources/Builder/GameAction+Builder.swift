@@ -22,9 +22,10 @@ public extension GameFeature.Action {
         )
     }
 
-    static func draw() -> Self {
+    static func draw(player: String) -> Self {
         .init(
-            name: .draw
+            name: .draw,
+            targetedPlayer: player
         )
     }
 

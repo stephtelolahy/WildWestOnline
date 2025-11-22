@@ -24,6 +24,7 @@ public enum GameFeature {
         var queue: [Action]
         var auras: [String]
         var playedThisTurn: [String: Int]
+        var events: [Action]
         var isOver: Bool
         let playMode: [String: PlayMode]
         let actionDelayMilliSeconds: Int
@@ -39,8 +40,6 @@ public enum GameFeature {
             public var hand: [String]
             public var inPlay: [String]
 
-            var handLimit: Int
-            var cardsPerDraw: Int
             var playLimitsPerTurn: [String: Int]
         }
 
@@ -60,11 +59,11 @@ public enum GameFeature {
 
         var triggeredBy: [Self] = []
         var selection: String?
-        var children: [Self]?
         var playableCards: [String]?
         var amountPerTurn: [String: Int]?
         var contextCardsPerTurn: Int = 0
         var contextAdditionalMissed: Int = 0
+        var children: [Self]?
         var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {

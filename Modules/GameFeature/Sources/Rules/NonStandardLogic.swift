@@ -9,12 +9,12 @@ enum NonStandardLogic {
     static func targetedPlayerForChildEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {
         switch name {
         case .endGame,
-                .draw,
                 .discover,
                 .undiscover:
             return nil
 
         case .drawDeck,
+                .draw,
                 .discardInPlay,
                 .heal,
                 .setWeapon,

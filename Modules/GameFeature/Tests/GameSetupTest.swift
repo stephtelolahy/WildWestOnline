@@ -36,8 +36,7 @@ struct GameSetupTest {
                 type: .figure,
                 effects: [
                     .init(trigger: .permanent, action: .setMaxHealth, amount: 4),
-                    .init(trigger: .permanent, action: .increaseMagnifying, amount: 1),
-                    .init(trigger: .permanent, action: .setHandLimit, amount: 10)
+                    .init(trigger: .permanent, action: .increaseMagnifying, amount: 1)
                 ]
             ),
             "p2": .init(
@@ -88,13 +87,11 @@ struct GameSetupTest {
         #expect(state.players.get("p1").magnifying == 1)
         #expect(state.players.get("p1").maxHealth == 4)
         #expect(state.players.get("p1").weapon == 1)
-        #expect(state.players.get("p1").handLimit == 10)
 
         #expect(state.players.get("p2").figure == ["p2"])
         #expect(state.players.get("p2").remoteness == 1)
         #expect(state.players.get("p2").maxHealth == 3)
         #expect(state.players.get("p2").weapon == 1)
-        #expect(state.players.get("p2").handLimit == 0)
 
         // should initialize inPlay field
         #expect(state.players.get("p1").inPlay.isEmpty)

@@ -64,11 +64,11 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Trigger: Equatable, Codable, Sendable {
+        case permanent
         case cardPrePlayed
         case cardPlayed
         case cardEquiped
         case cardDiscarded
-        case permanent
         case damaged
         case damagedLethal
         case eliminated
@@ -81,6 +81,7 @@ public struct Card: Equatable, Codable, Sendable {
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
         case shootingWithCard(named: String)
+        case requiredToDraw
     }
 
     public enum ActionName: String, Codable, Sendable {
@@ -114,9 +115,7 @@ public struct Card: Equatable, Codable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
-        case setHandLimit
         case setPlayLimitsPerTurn
-        case setCardsPerDraw
         case setPlayAlias
         case setEffectAlias
         case queue
@@ -131,12 +130,12 @@ public struct Card: Equatable, Codable, Sendable {
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
+        case onComplete([EffectDefinition])
 
         public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
-            case cardsPerDraw
             case receivedDamageAmount
             case contextCardsPerTurn
             case contextMissedPerShoot
@@ -160,18 +159,17 @@ public struct Card: Equatable, Codable, Sendable {
             case lastHand
         }
 
-        public enum PlayRequirement: Equatable, Codable, Sendable {
+        public indirect enum PlayRequirement: Equatable, Codable, Sendable {
+            case not(Self)
             case minimumPlayers(Int)
             case playLimitsPerTurn([String: Int])
             case isHealthZero
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)
-            case drawnCardDoesNotMatch(_ regex: String)
+            case lastHandCardMatches(_ regex: String)
             case targetedCardFromHand
             case targetedCardFromInPlay
-            case lastHandCardMatches(_ regex: String)
-            case previousEffectSucceed
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {

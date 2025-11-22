@@ -74,25 +74,4 @@ struct DiscardExcessHandOnTurnEndedTest {
             .endTurn(player: "p1")
         ])
     }
-
-    @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-                    .withHealth(1)
-                    .withHandLimit(10)
-            }
-            .build()
-
-        // When
-        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
-
-        // Then
-        #expect(result == [
-            .endTurn(player: "p1")
-        ])
-    }
 }

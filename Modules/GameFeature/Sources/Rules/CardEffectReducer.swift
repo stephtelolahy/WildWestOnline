@@ -52,8 +52,6 @@ private extension Card.ActionName {
         case .addContextCardsPerTurn: AddContextCardsPerTurn()
         case .addContextAdditionalMissed: AddContextAdditionalMissed()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
-        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
-        case .setCardsPerDraw: fatalError("Unexpected to dispatch setCardsPerDraw")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
         case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
         }
@@ -151,7 +149,7 @@ private extension Card.ActionName {
                     $0.toInstance(
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
-                        triggeredBy: action,
+                        triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action)
                     )
                 }
@@ -182,7 +180,7 @@ private extension Card.ActionName {
                     $0.toInstance(
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
-                        triggeredBy: action,
+                        triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action),
                         targetedCard: action.targetedCard
                     )
@@ -466,7 +464,7 @@ private extension Card.ActionName {
 
     struct Queue: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let children = action.children else { fatalError("Missing children") }
+            guard var children = action.children else { fatalError("Missing children") }
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)

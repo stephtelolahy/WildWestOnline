@@ -18,17 +18,24 @@ private extension Card.Selector.PlayRequirement {
 
     var matcher: Matcher {
         switch self {
+        case .not(let req): Not(req: req)
         case .minimumPlayers(let count): MinimumPlayers(count: count)
         case .playLimitsPerTurn(let limits): PlayLimitsPerTurn(limits: limits)
         case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
-        case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .targetedCardFromHand: TargetedCardFromHand()
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
-        case .previousEffectSucceed: PreviousEffectSucceed()
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
+        }
+    }
+
+    struct Not: Matcher {
+        let req: Card.Selector.PlayRequirement
+
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            !req.match(pendingAction, state: state)
         }
     }
 
@@ -69,23 +76,10 @@ private extension Card.Selector.PlayRequirement {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let cardsPerDraw = state.players.get(player).cardsPerDraw
+            let count = state.lastDrawnCardsCount()
             return state.discard
-                .prefix(cardsPerDraw)
+                .prefix(count)
                 .contains { $0.matches(regex: regex) }
-        }
-    }
-
-    struct DrawnCardDoesNotMatch: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            let cardsPerDraw = state.players.get(player).cardsPerDraw
-            return state.discard
-                .prefix(cardsPerDraw)
-                .allSatisfy { $0.matches(regex: regex) == false }
         }
     }
 
@@ -122,12 +116,6 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct PreviousEffectSucceed: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.lastEvent != nil
-        }
-    }
-
     struct IsGameOver: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.playOrder.count <= 1
@@ -149,5 +137,20 @@ private extension String {
         } else {
             return false
         }
+    }
+}
+
+private extension GameFeature.State {
+    func lastDrawnCardsCount() -> Int {
+        guard let lastDrawIndex = events.lastIndex(where: { $0.name == .draw }) else {
+            fatalError("Missing draw event")
+        }
+
+        var count = 1
+        while events[lastDrawIndex - count].name == .draw {
+            count += 1
+        }
+
+        return count
     }
 }

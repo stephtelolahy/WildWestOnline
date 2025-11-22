@@ -26,12 +26,12 @@ extension GameFeature.Action {
             amount: amount ?? self.amount,
             triggeredBy: triggeredBy ?? self.triggeredBy,
             selection: self.selection,
-            children: self.children,
             playableCards: self.playableCards,
             amountPerTurn: self.amountPerTurn,
             contextCardsPerTurn: self.contextCardsPerTurn + contextCardsPerTurn,
             contextAdditionalMissed: self.contextAdditionalMissed + contextAdditionalMissed,
-            selectors: selectors ?? self.selectors
+            children: self.children,
+            selectors: selectors ?? self.selectors,
         )
     }
 }

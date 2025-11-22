@@ -38,6 +38,7 @@ public extension GameFeature.State {
                 queue: queue,
                 auras: auras,
                 playedThisTurn: playedThisTurn,
+                events: [],
                 isOver: isOver,
                 playMode: playMode,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,
@@ -141,9 +142,7 @@ public extension GameFeature.State.Player {
         private var magnifying: Int = 0
         private var remoteness: Int = 0
         private var weapon: Int = 0
-        private var handLimit: Int = 0
         private var playLimitsPerTurn: [String: Int] = [:]
-        private var cardsPerDraw: Int = 0
 
         public func build() -> GameFeature.State.Player {
             .init(
@@ -155,8 +154,6 @@ public extension GameFeature.State.Player {
                 remoteness: remoteness,
                 hand: hand,
                 inPlay: inPlay,
-                handLimit: handLimit,
-                cardsPerDraw: cardsPerDraw,
                 playLimitsPerTurn: playLimitsPerTurn
             )
         }
@@ -201,18 +198,8 @@ public extension GameFeature.State.Player {
             return self
         }
 
-        public func withHandLimit(_ value: Int) -> Self {
-            handLimit = value
-            return self
-        }
-
         public func withPlayLimitsPerTurn(_ value: [String: Int]) -> Self {
             playLimitsPerTurn = value
-            return self
-        }
-
-        public func withCardsPerDraw(_ value: Int) -> Self {
-            cardsPerDraw = value
             return self
         }
     }

@@ -23,6 +23,7 @@ private extension Card.Selector {
         case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let requirement): ApplyIf(requirement: requirement)
+        case .onComplete(let effects): OnComplete(effects: effects)
         }
     }
 
@@ -97,6 +98,22 @@ private extension Card.Selector {
             }
 
             return [pendingAction]
+        }
+    }
+
+    struct OnComplete: Resolver {
+        let effects: [Card.EffectDefinition]
+
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+            [pendingAction]
+            + effects.map {
+                $0.toInstance(
+                    withPlayer: pendingAction.sourcePlayer,
+                    playedCard: pendingAction.playedCard,
+                    triggeredBy: pendingAction.triggeredBy,
+                    targetedPlayer: pendingAction.targetedPlayer
+                )
+            }
         }
     }
 }

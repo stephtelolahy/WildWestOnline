@@ -9,7 +9,7 @@ extension Card.EffectDefinition {
     func toInstance(
         withPlayer sourcePlayer: String,
         playedCard: String,
-        triggeredBy: GameFeature.Action,
+        triggeredBy: [GameFeature.Action],
         targetedPlayer: String?,
         targetedCard: String? = nil,
     ) -> GameFeature.Action {
@@ -20,7 +20,7 @@ extension Card.EffectDefinition {
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
             amount: amount,
-            triggeredBy: [triggeredBy],
+            triggeredBy: triggeredBy,
             amountPerTurn: amountPerTurn,
             selectors: selectors
         )

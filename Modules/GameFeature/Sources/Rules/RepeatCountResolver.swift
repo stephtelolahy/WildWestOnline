@@ -21,7 +21,6 @@ private extension Card.Selector.RepeatCount {
         case .fixed(let rawValue): Fixed(rawValue: rawValue)
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
-        case .cardsPerDraw: CardsPerDraw()
         case .receivedDamageAmount: ReceivedDamageAmount()
         case .contextCardsPerTurn: ContextCardsPerTurn()
         case .contextMissedPerShoot: ContextMissedPerShoot()
@@ -46,22 +45,9 @@ private extension Card.Selector.RepeatCount {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
-            let handlLimit = if playerObj.handLimit > 0 {
-                playerObj.handLimit
-            } else {
-                playerObj.health
-            }
-
+            let handlLimit = playerObj.health
             let handCount = playerObj.hand.count
             return max(handCount - handlLimit, 0)
-        }
-    }
-
-    struct CardsPerDraw: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(player)
-            return playerObj.cardsPerDraw
         }
     }
 

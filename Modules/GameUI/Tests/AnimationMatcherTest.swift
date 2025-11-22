@@ -58,7 +58,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDraw() async throws {
         // Given
-        let event = GameFeature.Action.draw()
+        let event = GameFeature.Action.draw(player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))

@@ -1,27 +1,32 @@
 //
 //  LuckyDukeTest.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 import Testing
-@testable import GameFeature
+import GameFeature
 @testable import CardResources
 
 struct LuckyDukeTests {
     @Test func LuckyDuke_shouldHaveTwoFlippedCards() async throws {
         // Given
-        let state = GameSetup.buildGame(
-            figures: [.luckyDuke],
-            deck: [],
-            cards: Cards.all.toDictionary,
-            auras: []
-        )
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withFigure([.luckyDuke])
+            }
+            .withDeck(["c1", "c2"])
+            .build()
 
         // When
-        let player = state.players.get(.luckyDuke)
+        let action = GameFeature.Action.draw(player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        #expect(player.cardsPerDraw == 2)
+        #expect(result == [
+            .draw(player: "p1"),
+            .draw(player: "p1")
+        ])
     }
 }

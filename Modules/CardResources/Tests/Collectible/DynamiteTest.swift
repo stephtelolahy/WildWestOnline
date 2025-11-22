@@ -34,7 +34,6 @@ struct DynamiteTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withCardsPerDraw(1)
             }
             .withPlayer("p2")
             .withDeck(["c1-9♦️", "c2", "c3"])
@@ -47,7 +46,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(),
+            .draw(player: "p1"),
             .passInPlay(.dynamite, target: "p2", player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
@@ -60,7 +59,6 @@ struct DynamiteTest {
             .withAllCardsAndAuras()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withCardsPerDraw(1)
                     .withHealth(4)
             }
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -73,7 +71,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(),
+            .draw(player: "p1"),
             .damage(3, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
             .drawDeck(player: "p1"),
@@ -88,7 +86,6 @@ struct DynamiteTest {
             .withDummyCards(["c4"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
-                    .withCardsPerDraw(1)
                     .withHealth(3)
             }
             .withPlayer("p2")
@@ -103,7 +100,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(),
+            .draw(player: "p1"),
             .damage(3, player: "p1"),
             .eliminate(player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),

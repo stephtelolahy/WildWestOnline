@@ -659,10 +659,7 @@ private extension Card {
                 .equipOnPrePlayed,
                 .init(
                     trigger: .shot,
-                    action: .draw,
-                    selectors: [
-                        .repeat(.cardsPerDraw)
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .shot,
@@ -684,16 +681,13 @@ private extension Card {
                 .equipOnPrePlayed,
                 .init(
                     trigger: .turnStarted,
-                    action: .draw,
-                    selectors: [
-                        .repeat(.cardsPerDraw)
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .applyIf(.drawnCardDoesNotMatch(.regex2To9Spades)),
+                        .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -703,15 +697,16 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .discardInPlay,
-                    selectors: [
                         .applyIf(.drawnCardMatches(.regex2To9Spades)),
-                        .setCard(.played)
+                        .onComplete([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .discardInPlay,
+                                selectors: [
+                                    .setCard(.played)
+                                ]
+                            )
+                        ])
                     ]
                 )
             ]
@@ -733,16 +728,13 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .draw,
-                    selectors: [
-                        .repeat(.cardsPerDraw)
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .applyIf(.drawnCardDoesNotMatch(.regexHearts))
+                        .applyIf(.not(.drawnCardMatches(.regexHearts)))
                     ]
                 ),
                 .init(
@@ -866,10 +858,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .shot,
-                    action: .draw,
-                    selectors: [
-                        .repeat(.cardsPerDraw)
-                    ]
+                    action: .draw
                 ),
                 .init(
                     trigger: .shot,
@@ -937,9 +926,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .permanent,
-                    action: .setCardsPerDraw,
-                    amount: 2
+                    trigger: .requiredToDraw,
+                    action: .draw
                 )
             ]
         )
@@ -982,15 +970,14 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .chooseOne(.targetCard([.isFromHand])),
+                        .onComplete([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .addContextCardsPerTurn,
+                                amount: -1
+                            )
+                        ])
                     ]
                 )
             ]
@@ -1008,15 +995,14 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard)
-                    ]
-                ),
-                .init(
-                    trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: -1,
-                    selectors: [
-                        .applyIf(.previousEffectSucceed)
+                        .chooseOne(.discardedCard),
+                        .onComplete([
+                            .init(
+                                trigger: .turnStarted,
+                                action: .addContextCardsPerTurn,
+                                amount: -1,
+                            )
+                        ])
                     ]
                 )
             ]

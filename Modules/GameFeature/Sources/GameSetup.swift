@@ -78,6 +78,7 @@ public enum GameSetup {
             queue: [],
             auras: auras,
             playedThisTurn: [:],
+            events: [],
             isOver: false,
             playMode: playMode,
             actionDelayMilliSeconds: actionDelayMilliSeconds,
@@ -98,20 +99,18 @@ private extension GameSetup {
         cards: [String: Card],
         deck: inout [String]
     ) -> GameFeature.State.Player {
-        guard let figureObj = cards[figure] else {
+        guard let cardDef = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }
 
-        guard let maxHealth = figureObj.amountOfPermanentEffect(named: .setMaxHealth) else {
+        guard let maxHealth = cardDef.amountOfPermanentEffect(named: .setMaxHealth) else {
             fatalError("Missing maxHealth for \(figure)")
         }
 
         let weapon = 1
-        let cardsPerDraw = figureObj.amountOfPermanentEffect(named: .setCardsPerDraw) ?? 1
-        let magnifying = figureObj.amountOfPermanentEffect(named: .increaseMagnifying) ?? 0
-        let remoteness = figureObj.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
-        let handLimit = figureObj.amountOfPermanentEffect(named: .setHandLimit) ?? 0
-        let playLimitsPerTurn = figureObj.playlimitPerTurn ?? [:]
+        let magnifying = cardDef.amountOfPermanentEffect(named: .increaseMagnifying) ?? 0
+        let remoteness = cardDef.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
+        let playLimitsPerTurn = cardDef.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -130,8 +129,6 @@ private extension GameSetup {
             remoteness: remoteness,
             hand: hand,
             inPlay: [],
-            handLimit: handLimit,
-            cardsPerDraw: cardsPerDraw,
             playLimitsPerTurn: playLimitsPerTurn
         )
     }
