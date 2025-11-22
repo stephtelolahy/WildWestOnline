@@ -81,6 +81,7 @@ public struct Card: Equatable, Codable, Sendable {
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
         case shootingWithCard(named: String)
+        case prePlayingCard(named: String)
         case requiredToDraw
     }
 
@@ -120,6 +121,7 @@ public struct Card: Equatable, Codable, Sendable {
         case queue
         case addContextCardsPerTurn
         case addContextAdditionalMissed
+        case addContextIgnoreLimitPerTurn
     }
 
     public enum Selector: Equatable, Codable, Sendable {

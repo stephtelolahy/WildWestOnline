@@ -21,7 +21,6 @@ extension Card.EffectDefinition {
             targetedCard: targetedCard,
             amount: amount,
             triggeredBy: triggeredBy,
-            amountPerTurn: amountPerTurn,
             selectors: selectors
         )
     }

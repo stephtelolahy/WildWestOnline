@@ -15,6 +15,7 @@ public extension GameFeature.Action {
         case .queue,
                 .addContextCardsPerTurn,
                 .addContextAdditionalMissed,
+                .addContextIgnoreLimitPerTurn,
                 .preparePlay:
             return false
 

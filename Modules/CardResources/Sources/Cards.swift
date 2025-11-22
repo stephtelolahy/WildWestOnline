@@ -755,11 +755,11 @@ private extension Card {
             description: "he can play any number of BANG! cards during his turn.",
             effects: [
                 .maxHealth(4),
-//                .init(
-//                    trigger: .permanent,
-//                    action: .setPlayLimitsPerTurn,
-//                    amountPerTurn: [.bang: .unlimited]
-//                )
+                .init(
+                    trigger: .prePlayingCard(named: .bang),
+                    action: .addContextIgnoreLimitPerTurn,
+                    amount: .unlimited
+                )
             ]
         )
     }
