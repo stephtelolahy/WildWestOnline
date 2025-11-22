@@ -51,7 +51,6 @@ private extension Card.ActionName {
         .eliminate: "☠️",
         .endGame: "🎉",
         .choose: "👉",
-        .queue: "➕",
         .setWeapon: "🎯",
         .increaseMagnifying: "🔎",
         .increaseRemoteness: "🐎"
