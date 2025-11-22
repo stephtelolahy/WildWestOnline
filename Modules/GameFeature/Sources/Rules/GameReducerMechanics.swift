@@ -23,7 +23,7 @@ extension GameFeature {
         if state.playable.isNotEmpty {
             guard action.name == .preparePlay,
                   state.playable.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
-                fatalError("Unexpected unwaited action \(action)")
+                fatalError("Not playable card \(action.playedCard)")
             }
 
             state.playable.removeValue(forKey: action.sourcePlayer)
@@ -31,8 +31,8 @@ extension GameFeature {
 
         do {
             if action.selectors.isNotEmpty {
-                if state.pendingChoice != nil {
-                    fatalError("Unexpected waiting user choice")
+                if let choice = state.pendingChoice {
+                    fatalError("Waiting user choice \(choice)")
                 }
 
                 var pendingAction = action
