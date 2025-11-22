@@ -24,7 +24,6 @@ private extension Card.Selector.RepeatCount {
         case .receivedDamageAmount: ReceivedDamageAmount()
         case .contextCardsPerTurn: ContextCardsPerTurn()
         case .contextMissedPerShoot: ContextMissedPerShoot()
-        case .playerAttr(let key): PlayerAttr(key: key)
         }
     }
 
@@ -78,16 +77,6 @@ private extension Card.Selector.RepeatCount {
     struct ContextMissedPerShoot: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             1 + pendingAction.contextAdditionalMissed
-        }
-    }
-
-    struct PlayerAttr: Resolver {
-        let key: GameFeature.State.Player.Key
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(player)
-            return playerObj.attr[key] ?? 0
         }
     }
 }

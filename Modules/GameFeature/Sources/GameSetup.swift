@@ -112,7 +112,6 @@ private extension GameSetup {
         let remoteness = cardDef.amountOfPermanentEffect(named: .increaseRemoteness) ?? 0
         let handLimit = cardDef.amountOfPermanentEffect(named: .setHandLimit) ?? 0
         let playLimitsPerTurn = cardDef.playlimitPerTurn ?? [:]
-        let playerAttr = cardDef.playerAttr ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -132,8 +131,7 @@ private extension GameSetup {
             hand: hand,
             inPlay: [],
             handLimit: handLimit,
-            playLimitsPerTurn: playLimitsPerTurn,
-            attr: playerAttr
+            playLimitsPerTurn: playLimitsPerTurn
         )
     }
 }
@@ -145,9 +143,5 @@ private extension Card {
 
     var playlimitPerTurn: [String: Int]? {
         effects.first { $0.trigger == .permanent && $0.action == .setPlayLimitsPerTurn }?.amountPerTurn
-    }
-
-    var playerAttr: [GameFeature.State.Player.Key: Int]? {
-        effects.first { $0.trigger == .permanent && $0.action == .setPlayerAttr }?.playerAttr
     }
 }
