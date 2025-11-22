@@ -158,14 +158,9 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: 2
-                ),
-                .init(
-                    trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.contextCardsPerTurn)
+                        .repeat(.fixed(2))
                     ]
                 )
             ]

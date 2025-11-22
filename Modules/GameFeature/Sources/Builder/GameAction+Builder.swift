@@ -231,13 +231,6 @@ public extension GameFeature.Action {
         )
     }
 
-    static func addContextCardsPerTurn(_ value: Int) -> Self {
-        .init(
-            name: .addContextCardsPerTurn,
-            amount: value
-        )
-    }
-
     static func addContextAdditionalMissed(_ value: Int) -> Self {
         .init(
             name: .addContextAdditionalMissed,

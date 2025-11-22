@@ -13,7 +13,6 @@ public extension GameFeature.Action {
 
         switch name {
         case .queue,
-                .addContextCardsPerTurn,
                 .addContextAdditionalMissed,
                 .addContextIgnoreLimitPerTurn,
                 .preparePlay:

@@ -119,7 +119,6 @@ public struct Card: Equatable, Codable, Sendable {
         case setPlayAlias
         case setEffectAlias
         case queue
-        case addContextCardsPerTurn
         case addContextAdditionalMissed
         case addContextIgnoreLimitPerTurn
     }
@@ -138,7 +137,6 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case receivedDamageAmount
-            case contextCardsPerTurn
             case contextMissedPerShoot
         }
 

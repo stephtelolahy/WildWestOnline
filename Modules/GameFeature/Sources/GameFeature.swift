@@ -57,7 +57,6 @@ public enum GameFeature {
         var triggeredBy: [Self] = []
         var selection: String?
         var playableCards: [String]?
-        var contextCardsPerTurn: Int = 0
         var contextAdditionalMissed: Int = 0
         var contextIgnoreLimitPerTurn: Int = 0
         var children: [Self]?
