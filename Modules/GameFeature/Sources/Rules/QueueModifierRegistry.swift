@@ -5,11 +5,15 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
 //
 
-class QueueModifierRegistry {
-    private var handlers: [GameFeature.Action.QueueModifier: QueueModifierHandler.Type] = [:]
+public class QueueModifierRegistry {
+    private let handlers: [GameFeature.Action.QueueModifier: QueueModifierHandler.Type]
 
-    func register(_ modifier: GameFeature.Action.QueueModifier, handler: QueueModifierHandler.Type) {
-        handlers[modifier] = handler
+    public init(handlers: [QueueModifierHandler.Type]) {
+        var result: [GameFeature.Action.QueueModifier: QueueModifierHandler.Type] = [:]
+        for type in handlers {
+            result[type.id] = type
+        }
+        self.handlers = result
     }
 
     func handler(for modifier: GameFeature.Action.QueueModifier) -> QueueModifierHandler.Type? {
@@ -17,19 +21,8 @@ class QueueModifierRegistry {
     }
 }
 
-#warning("Inject as GameFeature's dependency")
-extension QueueModifierRegistry {
-    nonisolated(unsafe) static let shared = QueueModifierRegistry()
-}
-
 public protocol QueueModifierHandler {
     static var id: GameFeature.Action.QueueModifier { get }
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action]
-}
-
-public extension QueueModifierHandler {
-    static func registerSelf() {
-        QueueModifierRegistry.shared.register(self.id, handler: self)
-    }
 }

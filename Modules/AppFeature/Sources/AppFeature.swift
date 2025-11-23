@@ -123,9 +123,7 @@ public enum AppFeature {
             ),
             pullback(
                 reducerSound,
-                state: { _ in
-                    \.self
-                },
+                state: { _ in \.self },
                 action: { $0 },
                 embedAction: \.self,
                 dependencies: { $0.audioClient }

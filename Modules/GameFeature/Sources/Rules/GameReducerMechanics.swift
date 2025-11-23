@@ -10,7 +10,7 @@ extension GameFeature {
     static func reducerMechanics(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: GameFeature.Dependencies
     ) -> Effect<Action> {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
@@ -40,7 +40,7 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state)
+                state = try action.name.reduce(action, state: state, dependencies: dependencies)
             }
 
             if action.isResolved {

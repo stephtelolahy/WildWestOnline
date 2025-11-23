@@ -27,10 +27,18 @@ struct SimulationTest {
             playModeSetup: .allAuto
         )
 
+        let dependencies = GameFeature.Dependencies(
+            registry: .init(
+                handlers: [
+                    IncrementCardsPerTurnModifier.self
+                ]
+            )
+        )
+
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,
-            dependencies: ()
+            dependencies: dependencies
         )
 
         var prevState = state
@@ -51,7 +59,7 @@ struct SimulationTest {
             .sink {
                 print($0)
                 var nextState = prevState
-                _ = GameFeature.reducerMechanics(into: &nextState, action: $0, dependencies: ())
+                _ = GameFeature.reducerMechanics(into: &nextState, action: $0, dependencies: dependencies)
                 #expect(nextState == currentState, "Inconsistent state after applying \($0)")
             }
             .store(in: &cancellables)

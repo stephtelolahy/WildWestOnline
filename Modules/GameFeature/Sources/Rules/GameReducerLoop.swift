@@ -9,15 +9,15 @@ extension GameFeature {
     static func reducerLoop(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: GameFeature.Dependencies
     ) -> Effect<Action> {
         let state = state
         return .run {
-            await nextAction(state: state, action: action)
+            await nextAction(state: state, action: action, dependencies: dependencies)
         }
     }
 
-    private static func nextAction(state: State, action: Action) async -> Action? {
+    private static func nextAction(state: State, action: Action, dependencies: GameFeature.Dependencies) async -> Action? {
         if action.isAnimatable {
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
         }
@@ -43,7 +43,7 @@ extension GameFeature {
         }
 
         if state.showPlayableCards,
-           let activate = state.activatePlayableCards() {
+           let activate = state.activatePlayableCards(dependencies: dependencies) {
             return activate
         }
 
@@ -124,7 +124,7 @@ private extension GameFeature.State {
             }
     }
 
-    func activatePlayableCards() -> GameFeature.Action? {
+    func activatePlayableCards(dependencies: GameFeature.Dependencies) -> GameFeature.Action? {
         guard let player = turn else {
             return nil
         }
@@ -132,7 +132,7 @@ private extension GameFeature.State {
         let playerObj = players.get(player)
         let playableCards = (players.get(player).hand + playerObj.figure + auras)
             .filter {
-                Self.isCardPlayable($0, player: player, state: self)
+                Self.isCardPlayable($0, player: player, state: self, dependencies: dependencies)
             }
 
         guard playableCards.isNotEmpty else {
@@ -145,11 +145,12 @@ private extension GameFeature.State {
     static func isCardPlayable(
         _ card: String,
         player: String,
-        state: GameFeature.State
+        state: GameFeature.State,
+        dependencies: GameFeature.Dependencies
     ) -> Bool {
         let action = GameFeature.Action.preparePlay(card, player: player)
         do {
-            try resolveUntilCompleted(action, state: state)
+            try resolveUntilCompleted(action, state: state, dependencies: dependencies)
             // print("🟢 isCardPlayable: \(card)")
             return true
         } catch {
@@ -158,10 +159,10 @@ private extension GameFeature.State {
         }
     }
 
-    static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State) throws {
+    static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State, dependencies: GameFeature.Dependencies) throws {
         var newState = state
 
-        _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: ())
+        _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: dependencies)
         if let error = newState.lastError {
             throw error
         }
@@ -178,11 +179,11 @@ private extension GameFeature.State {
         if let choice = newState.pendingChoice {
             for option in choice.options {
                 let next = GameFeature.Action.choose(option.label, player: choice.chooser)
-                try resolveUntilCompleted(next, state: newState)
+                try resolveUntilCompleted(next, state: newState, dependencies: dependencies)
             }
         } else if newState.queue.isNotEmpty {
             let next = newState.queue.removeFirst()
-            try resolveUntilCompleted(next, state: newState)
+            try resolveUntilCompleted(next, state: newState, dependencies: dependencies)
         }
     }
 }

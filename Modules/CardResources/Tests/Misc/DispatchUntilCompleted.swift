@@ -19,15 +19,20 @@ func dispatchUntilCompleted(
     choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
-    // <registration>
-    #warning("Move to GameFeature setup")
-    IncrementCardsPerTurnModifier.registerSelf()
-    // </registration>
-
+    let dependencies = GameFeature.CustomDependencies(
+        choiceHandler: choiceHandler,
+        gameDependencies: .init(
+            registry: .init(
+                handlers: [
+                    IncrementCardsPerTurnModifier.self
+                ]
+            )
+        )
+    )
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerCustom,
-        dependencies: GameFeature.CustomDependencies(choiceHandler: choiceHandler)
+        dependencies: dependencies
     )
     var receivedActions: [GameFeature.Action] = []
     var receivedErrors: [GameFeature.Error] = []
@@ -59,11 +64,12 @@ private extension GameFeature {
 
     struct CustomDependencies {
         let choiceHandler: ChoiceHandler
+        let gameDependencies: Dependencies
     }
 
     static var reducerCustom: Reducer<State, Action, CustomDependencies> {
         { state, action, dependencies in
-            let mainEffect = reducer(&state, action, ())
+            let mainEffect = reducer(&state, action, dependencies.gameDependencies)
             let choiceEffect = reducerChoice(&state, action, dependencies)
             return .group([mainEffect, choiceEffect])
         }
