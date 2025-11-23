@@ -26,7 +26,7 @@ struct IncrementCardsPerTurn: QueueModifierHandler {
         var updatedAction = state.queue[actionIndex]
         guard case .repeat(let repeatCount) = updatedAction.selectors[0],
             case.fixed(var value) = repeatCount else {
-            fatalError("missing repeat count")
+            fatalError("Missing repeat count")
         }
 
         var queue = state.queue
