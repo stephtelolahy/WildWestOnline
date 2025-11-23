@@ -5,10 +5,10 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
 //
 
-public class ModifierRegistry {
+class ModifierRegistry {
     private var handlers: [GameFeature.Action.Modifier: ModifierHandler.Type] = [:]
 
-    public func register(_ modifier: GameFeature.Action.Modifier, handler : ModifierHandler.Type) {
+    func register(_ modifier: GameFeature.Action.Modifier, handler : ModifierHandler.Type) {
         handlers[modifier] = handler
     }
 
@@ -18,7 +18,7 @@ public class ModifierRegistry {
 }
 
 #warning("Inject this as GameFeature's dependency")
-public extension ModifierRegistry {
+extension ModifierRegistry {
     nonisolated(unsafe) static let shared = ModifierRegistry()
 }
 
