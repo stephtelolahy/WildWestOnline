@@ -10,7 +10,7 @@ extension GameFeature {
     static func reducerMechanics(
         into state: inout State,
         action: Action,
-        dependencies: GameFeature.Dependencies
+        dependencies: QueueModifierClient
     ) -> Effect<Action> {
         guard !state.isOver else {
             fatalError("Unexpected game is over")

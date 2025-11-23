@@ -58,7 +58,7 @@ public struct SettingsCoordinator: View {
             dependencies: .init(
                 settingsClient: .empty(),
                 audioClient: .empty(),
-                gameDependencies: .init(registry: .init(handlers: []))
+                modifierClient: .empty()
             )
         )
     )

@@ -48,13 +48,15 @@ public enum AppBuilder {
             await audioClient.play(AudioClient.Sound.musicLoneRider)
         }
 
+        let modifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
+
         let store = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>(
             initialState: appState,
             reducer: AppFeature.reducer,
             dependencies: .init(
                 settingsClient: settingsClient,
                 audioClient: audioClient,
-                gameDependencies: .init(registry: .init(handlers: QueueModifiers.allHandlers))
+                modifierClient: modifierClient
             )
         )
 

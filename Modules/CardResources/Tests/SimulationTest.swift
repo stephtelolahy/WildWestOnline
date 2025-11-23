@@ -27,8 +27,7 @@ struct SimulationTest {
             playModeSetup: .allAuto
         )
 
-        let dependencies = GameFeature.Dependencies(registry: .init(handlers: QueueModifiers.allHandlers))
-
+        let dependencies = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,

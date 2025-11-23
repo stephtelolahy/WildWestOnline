@@ -21,7 +21,7 @@ func dispatchUntilCompleted(
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let dependencies = GameFeature.CustomDependencies(
         choiceHandler: choiceHandler,
-        gameDependencies: .init(registry: .init(handlers: QueueModifiers.allHandlers))
+        modifierClient: .live(handlers: QueueModifiers.allHandlers)
     )
     let sut = Store(
         initialState: state,
@@ -58,12 +58,12 @@ private extension GameFeature {
 
     struct CustomDependencies {
         let choiceHandler: ChoiceHandler
-        let gameDependencies: Dependencies
+        let modifierClient: QueueModifierClient
     }
 
     static var reducerCustom: Reducer<State, Action, CustomDependencies> {
         { state, action, dependencies in
-            let mainEffect = reducer(&state, action, dependencies.gameDependencies)
+            let mainEffect = reducer(&state, action, dependencies.modifierClient)
             let choiceEffect = reducerChoice(&state, action, dependencies)
             return .group([mainEffect, choiceEffect])
         }

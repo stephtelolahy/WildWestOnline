@@ -12,11 +12,10 @@ import Redux
     _ action: GameFeature.Action,
     state: GameFeature.State
 ) async throws(GameFeature.Error) -> GameFeature.State {
-    let dependencies = GameFeature.Dependencies(registry: .init(handlers: []))
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerMechanics,
-        dependencies: dependencies
+        dependencies: .empty()
     )
     var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []

@@ -88,15 +88,7 @@ public enum GameFeature {
         case noChoosableCard([Card.Selector.CardFilter])
     }
 
-    public struct Dependencies {
-        let registry: QueueModifierRegistry
-
-        public init(registry: QueueModifierRegistry) {
-            self.registry = registry
-        }
-    }
-
-    public static var reducer: Reducer<State, Action, Dependencies> {
+    public static var reducer: Reducer<State, Action, QueueModifierClient> {
         combine(
             reducerMechanics,
             reducerLoop,

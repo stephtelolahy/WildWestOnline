@@ -19,7 +19,7 @@ struct AppFeatureTest {
             dependencies: .init(
                 settingsClient: .empty(),
                 audioClient: .empty(),
-                gameDependencies: .init(registry: .init(handlers: []))
+                modifierClient: .empty()
             )
         )
     }
