@@ -18,7 +18,8 @@ struct AppFeatureTest {
             reducer: AppFeature.reducer,
             dependencies: .init(
                 settingsClient: .empty(),
-                audioClient: .empty()
+                audioClient: .empty(),
+                gameDependencies: .init(registry: .init(handlers: []))
             )
         )
     }

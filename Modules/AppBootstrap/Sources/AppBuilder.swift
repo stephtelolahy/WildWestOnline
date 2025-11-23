@@ -53,7 +53,8 @@ public enum AppBuilder {
             reducer: AppFeature.reducer,
             dependencies: .init(
                 settingsClient: settingsClient,
-                audioClient: audioClient
+                audioClient: audioClient,
+                gameDependencies: .init(registry: .init(handlers: QueueModifiers.allHandlers))
             )
         )
 

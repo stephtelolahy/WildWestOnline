@@ -66,13 +66,16 @@ public enum AppFeature {
     public struct Dependencies {
         let settingsClient: SettingsClient
         let audioClient: AudioClient
+        let gameDependencies: GameFeature.Dependencies
 
         public init(
             settingsClient: SettingsClient,
-            audioClient: AudioClient
+            audioClient: AudioClient,
+            gameDependencies: GameFeature.Dependencies
         ) {
             self.settingsClient = settingsClient
             self.audioClient = audioClient
+            self.gameDependencies = gameDependencies
         }
     }
 
@@ -91,7 +94,7 @@ public enum AppFeature {
                     return nil
                 },
                 embedAction: Action.game,
-                dependencies: { _ in () }
+                dependencies: { $0.gameDependencies }
             ),
             pullback(
                 SettingsFeature.reducer,
