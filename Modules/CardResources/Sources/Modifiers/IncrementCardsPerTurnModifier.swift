@@ -14,7 +14,7 @@ extension GameFeature.Action.Modifier {
 struct IncrementCardsPerTurnModifier: ModifierHandler {
     static let id = GameFeature.Action.Modifier.incrementCardsPerTurn
 
-    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         guard let amount = action.amount else { fatalError("Missing amount") }
 
         guard let actionIndex = state.queue.firstIndex(where: {
@@ -29,11 +29,10 @@ struct IncrementCardsPerTurnModifier: ModifierHandler {
             fatalError("missing repeat count")
         }
 
-        var state = state
+        var queue = state.queue
         let count = value + amount
         updatedAction.selectors[0] = .repeat(.fixed(count))
-        state.queue[actionIndex] = updatedAction
-
-        return state
+        queue[actionIndex] = updatedAction
+        return queue
     }
 }

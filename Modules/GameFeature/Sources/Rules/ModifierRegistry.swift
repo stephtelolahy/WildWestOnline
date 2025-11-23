@@ -24,7 +24,7 @@ extension ModifierRegistry {
 
 public protocol ModifierHandler {
     static var id: GameFeature.Action.Modifier { get }
-    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State
+    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action]
 }
 
 public extension ModifierHandler {
