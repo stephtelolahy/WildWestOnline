@@ -177,7 +177,7 @@ private extension Card {
                     trigger: .damagedLethal,
                     action: .eliminate,
                     selectors: [
-                        .require(.isHealthZero)
+                        .applyIf(.isHealthZero)
                     ]
                 )
             ]
