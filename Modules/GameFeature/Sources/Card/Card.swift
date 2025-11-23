@@ -121,9 +121,12 @@ public struct Card: Equatable, Codable, Sendable {
         case setMaxHealth
         case setPlayAlias
         case setEffectAlias
+        @available(*, deprecated, message: "use modifier")
         case queue
         case applyModifier
+        @available(*, deprecated, message: "use modifier")
         case addContextAdditionalMissed
+        @available(*, deprecated, message: "use modifier")
         case addContextIgnoreLimitPerTurn
     }
 

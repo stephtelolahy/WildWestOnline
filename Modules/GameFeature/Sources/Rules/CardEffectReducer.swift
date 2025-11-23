@@ -155,6 +155,7 @@ private extension Card.ActionName {
                 }
 
             var state = state
+            #warning("use reducerLoop instead")
             state.queue.insert(contentsOf: effects, at: 0)
             return state
         }
@@ -186,6 +187,7 @@ private extension Card.ActionName {
                     )
                 }
 
+            #warning("use reducerLoop instead")
             state.queue.insert(contentsOf: effects, at: 0)
             return state
         }
@@ -317,6 +319,7 @@ private extension Card.ActionName {
             var state = state
             var updatedAction = nextAction
             updatedAction.selectors[0] = .chooseOne(element, prompt: prompt, selection: selection)
+            #warning("use choice handler instead")
             state.queue[0] = updatedAction
 
             return state
