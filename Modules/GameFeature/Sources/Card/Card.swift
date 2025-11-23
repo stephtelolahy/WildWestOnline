@@ -38,7 +38,7 @@ public struct Card: Equatable, Codable, Sendable {
     public struct Effect: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
-        public let modifier: GameFeature.Action.Modifier?
+        public let modifier: GameFeature.Action.QueueModifier?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let playAlias: [String: String]?
@@ -48,7 +48,7 @@ public struct Card: Equatable, Codable, Sendable {
         public init(
             trigger: Trigger,
             action: ActionName,
-            modifier: GameFeature.Action.Modifier? = nil,
+            modifier: GameFeature.Action.QueueModifier? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             playAlias: [String: String]? = nil,

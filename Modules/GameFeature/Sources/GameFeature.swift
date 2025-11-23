@@ -59,11 +59,11 @@ public enum GameFeature {
         var playableCards: [String]?
         var contextAdditionalMissed: Int = 0
         var contextIgnoreLimitPerTurn: Int = 0
-        var modifier: Modifier?
+        var modifier: QueueModifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
 
-        public struct Modifier: RawRepresentable, Hashable, Codable, Sendable {
+        public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
             public let rawValue: String
 
             public init (rawValue: String) {

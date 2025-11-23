@@ -556,7 +556,7 @@ private extension Card.ActionName {
     struct ApplyModifier: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let modifier = action.modifier else { fatalError("Missing modifier") }
-            guard let handler = ModifierRegistry.shared.handler(for: modifier) else { fatalError("No handler for modifier: \(modifier)")}
+            guard let handler = QueueModifierRegistry.shared.handler(for: modifier) else { fatalError("No handler for modifier: \(modifier)")}
 
             var state = state
             state.queue = try handler.apply(action, state: state)
