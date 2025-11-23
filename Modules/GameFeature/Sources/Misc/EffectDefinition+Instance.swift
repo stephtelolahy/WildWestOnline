@@ -21,6 +21,7 @@ extension Card.Effect {
             targetedCard: targetedCard,
             amount: amount,
             triggeredBy: triggeredBy,
+            modifier: modifier,
             selectors: selectors
         )
     }

@@ -555,7 +555,7 @@ private extension Card.ActionName {
             guard let modifier = action.modifier else { fatalError("Missing modifier") }
             guard let handler = ModifierRegistry.shared.handler(for: modifier) else { fatalError("No handler for modifier: \(modifier)")}
 
-            return handler(state)
+            return try handler.apply(action, state: state)
         }
     }
 }

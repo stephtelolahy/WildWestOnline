@@ -6,22 +6,29 @@
 //
 
 public class ModifierRegistry {
+    private var handlers: [GameFeature.Action.Modifier: ModifierHandler.Type] = [:]
 
-    public typealias Modifier = GameFeature.Action.Modifier
-    public typealias ModifierHandler = (GameFeature.State) -> GameFeature.State
-
-    private var handlers: [Modifier: ModifierHandler] = [:]
-
-    public func register(_ modifier: Modifier, handler : @escaping ModifierHandler) {
+    public func register(_ modifier: GameFeature.Action.Modifier, handler : ModifierHandler.Type) {
         handlers[modifier] = handler
     }
 
-    func handler(for modifier: Modifier) -> ModifierHandler? {
+    func handler(for modifier: GameFeature.Action.Modifier) -> ModifierHandler.Type? {
         handlers[modifier]
     }
 }
 
+#warning("Inject this as GameFeature's dependency")
 public extension ModifierRegistry {
-    #warning("Inject this as GameFeature's dependency")
     nonisolated(unsafe) static let shared = ModifierRegistry()
+}
+
+public protocol ModifierHandler {
+    static var id: GameFeature.Action.Modifier { get }
+    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State
+}
+
+public extension ModifierHandler {
+    static func registerSelf() {
+        ModifierRegistry.shared.register(self.id, handler: self)
+    }
 }

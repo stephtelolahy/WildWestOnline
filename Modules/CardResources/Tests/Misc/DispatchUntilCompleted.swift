@@ -8,6 +8,7 @@ import Testing
 import Redux
 import Combine
 @testable import GameFeature
+@testable import CardResources
 
 typealias ChoiceHandler = ([String]) -> String
 
@@ -18,6 +19,11 @@ func dispatchUntilCompleted(
     choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
+    // <registration>
+    #warning("Move to feature setup")
+    IncrementCardsPerTurnModifier.registerSelf()
+    // </registration>
+
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerCustom,

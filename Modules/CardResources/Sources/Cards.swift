@@ -964,7 +964,8 @@ private extension Card {
                         .onComplete([
                             .init(
                                 trigger: .turnStarted,
-                                action: .addContextCardsPerTurn,
+                                action: .applyModifier,
+                                modifier: .incrementCardsPerTurn,
                                 amount: -1
                             )
                         ])
@@ -989,7 +990,8 @@ private extension Card {
                         .onComplete([
                             .init(
                                 trigger: .turnStarted,
-                                action: .addContextCardsPerTurn,
+                                action: .applyModifier,
+                                modifier: .incrementCardsPerTurn,
                                 amount: -1,
                             )
                         ])
@@ -1027,7 +1029,8 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
+                    action: .applyModifier,
+                    modifier: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]
