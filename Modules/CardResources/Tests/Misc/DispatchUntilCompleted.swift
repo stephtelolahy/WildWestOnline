@@ -20,7 +20,7 @@ func dispatchUntilCompleted(
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     // <registration>
-    #warning("Move to feature setup")
+    #warning("Move to GameFeature setup")
     IncrementCardsPerTurnModifier.registerSelf()
     // </registration>
 

@@ -17,7 +17,7 @@ class ModifierRegistry {
     }
 }
 
-#warning("Inject this as GameFeature's dependency")
+#warning("Inject as GameFeature's dependency")
 extension ModifierRegistry {
     nonisolated(unsafe) static let shared = ModifierRegistry()
 }
