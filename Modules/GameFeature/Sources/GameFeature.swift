@@ -90,6 +90,10 @@ public enum GameFeature {
 
     public struct Dependencies {
         let registry: QueueModifierRegistry
+
+        public init(registry: QueueModifierRegistry) {
+            self.registry = registry
+        }
     }
 
     public static var reducer: Reducer<State, Action, Dependencies> {

@@ -9,7 +9,7 @@ import Testing
 import Redux
 import Combine
 @testable import GameFeature
-@testable import CardResources
+import CardResources
 
 struct SimulationTest {
     @Test func simulateGame_shouldComplete() async throws {
@@ -27,13 +27,7 @@ struct SimulationTest {
             playModeSetup: .allAuto
         )
 
-        let dependencies = GameFeature.Dependencies(
-            registry: .init(
-                handlers: [
-                    IncrementCardsPerTurnModifier.self
-                ]
-            )
-        )
+        let dependencies = GameFeature.Dependencies(registry: .init(handlers: QueueModifiers.allHandlers))
 
         let store = Store(
             initialState: state,

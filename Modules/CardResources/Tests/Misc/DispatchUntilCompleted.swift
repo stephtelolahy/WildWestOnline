@@ -7,8 +7,8 @@
 import Testing
 import Redux
 import Combine
-@testable import GameFeature
-@testable import CardResources
+import GameFeature
+import CardResources
 
 typealias ChoiceHandler = ([String]) -> String
 
@@ -21,13 +21,7 @@ func dispatchUntilCompleted(
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
     let dependencies = GameFeature.CustomDependencies(
         choiceHandler: choiceHandler,
-        gameDependencies: .init(
-            registry: .init(
-                handlers: [
-                    IncrementCardsPerTurnModifier.self
-                ]
-            )
-        )
+        gameDependencies: .init(registry: .init(handlers: QueueModifiers.allHandlers))
     )
     let sut = Store(
         initialState: state,

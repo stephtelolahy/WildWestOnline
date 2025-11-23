@@ -6,8 +6,8 @@
 //
 
 import Testing
-@testable import GameFeature
-@testable import CardResources
+import GameFeature
+import CardResources
 
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldPlayBangIgnoringLimitPerTurn() async throws {
