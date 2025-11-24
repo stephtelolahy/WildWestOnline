@@ -13,6 +13,7 @@ public extension Store {
         state toLocalState: @escaping (State) -> LocalState?,
         action embedAction: @escaping (LocalAction) -> Action
     ) -> Store<LocalState, LocalAction, Void> {
+        // TODO remove StoreProjection
         StoreProjection(
             globalStore: self,
             deriveState: toLocalState,
