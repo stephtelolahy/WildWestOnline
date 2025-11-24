@@ -43,7 +43,7 @@ public struct SettingsClient {
 }
 
 public extension SettingsClient {
-    static func empty() -> Self {
+    static var empty: Self {
         .init(
             savePlayersCount: { _ in },
             saveActionDelayMilliSeconds: { _ in },

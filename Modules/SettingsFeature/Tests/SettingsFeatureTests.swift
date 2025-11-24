@@ -17,7 +17,7 @@ struct SettingsFeatureTests {
         await .init(
             initialState: initialState,
             reducer: SettingsFeature.reducer,
-            dependencies: .empty()
+            dependencies: .empty
         )
     }
 

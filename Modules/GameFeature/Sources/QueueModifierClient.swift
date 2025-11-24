@@ -14,7 +14,7 @@ public struct QueueModifierClient {
 }
 
 public extension QueueModifierClient {
-    static func empty() -> Self {
+    static var empty: Self {
         .init(apply: { _, state in state.queue })
     }
 }
