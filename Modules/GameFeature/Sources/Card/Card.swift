@@ -123,8 +123,6 @@ public struct Card: Equatable, Codable, Sendable {
         case setEffectAlias
         case queue
         case applyModifier
-        @available(*, deprecated, message: "use modifier")
-        case addContextIgnoreLimitPerTurn
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -223,8 +221,4 @@ public struct Card: Equatable, Codable, Sendable {
 public extension String {
     static let choiceHiddenHand = "hiddenHand"
     static let choicePass = "pass"
-}
-
-public extension Int {
-    static let unlimited = 999
 }

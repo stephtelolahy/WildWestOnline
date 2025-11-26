@@ -10,5 +10,6 @@ public enum QueueModifiers {
     public static let allHandlers: [QueueModifierHandler.Type] = [
         IncrementCardsPerTurn.self,
         IncrementRequiredMisses.self,
+        IgnoreLimitPerTurn.self,
     ]
 }

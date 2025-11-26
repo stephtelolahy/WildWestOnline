@@ -14,8 +14,8 @@ public extension GameFeature.Action {
         switch name {
         case .queue,
                 .applyModifier,
-                .addContextIgnoreLimitPerTurn,
                 .preparePlay:
+            #warning("Make preparePlay visible")
             return false
 
         default:

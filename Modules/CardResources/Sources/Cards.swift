@@ -591,8 +591,8 @@ private extension Card {
             effects: .weapon(range: 1) + [
                 .init(
                     trigger: .prePlayingCard(named: .bang),
-                    action: .addContextIgnoreLimitPerTurn,
-                    amount: .unlimited
+                    action: .applyModifier,
+                    modifier: .ignoreLimitPerTurn
                 )
             ]
         )
@@ -747,8 +747,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .prePlayingCard(named: .bang),
-                    action: .addContextIgnoreLimitPerTurn,
-                    amount: .unlimited
+                    action: .applyModifier,
+                    modifier: .ignoreLimitPerTurn
                 )
             ]
         )

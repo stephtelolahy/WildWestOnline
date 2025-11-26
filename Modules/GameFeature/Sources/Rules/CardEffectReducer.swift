@@ -48,7 +48,6 @@ private extension Card.ActionName {
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
-        case .addContextIgnoreLimitPerTurn: AddContextIgnoreLimitPerTurn()
         case .applyModifier: ApplyModifier()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
@@ -469,16 +468,6 @@ private extension Card.ActionName {
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
-            return state
-        }
-    }
-
-    struct AddContextIgnoreLimitPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state.queue = state.queue.map { $0.copy(contextIgnoreLimitPerTurn: amount) }
             return state
         }
     }

@@ -58,8 +58,6 @@ public enum GameFeature {
         var requiredMisses: Int?
         var selection: String?
         var playableCards: [String]?
-        var contextAdditionalMissed: Int = 0
-        var contextIgnoreLimitPerTurn: Int = 0
         var modifier: QueueModifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
