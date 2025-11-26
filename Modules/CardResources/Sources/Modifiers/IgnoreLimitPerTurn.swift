@@ -30,7 +30,7 @@ struct IgnoreLimitPerTurn: QueueModifierHandler {
                 return false
             }
         }) else {
-            fatalError("Missing play limit per turn requirement")
+            return state.queue
         }
 
         playAction.selectors.remove(at: limitPerTurnIndex)
