@@ -12,10 +12,11 @@ public extension GameFeature.Action {
         }
 
         switch name {
-        case .queue,
-                .applyModifier,
-                .preparePlay:
-            #warning("Make preparePlay visible")
+        case .queue, .applyModifier:
+            return false
+
+        case .preparePlay:
+            #warning("expose preparePlay action")
             return false
 
         default:
