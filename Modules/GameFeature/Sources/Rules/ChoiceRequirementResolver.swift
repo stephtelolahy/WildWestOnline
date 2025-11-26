@@ -30,6 +30,7 @@ private extension Card.Selector.ChoiceRequirement {
         case .discardedCard: DiscardedCard()
         case .counterCard(let conditions): CounterCard(conditions: conditions)
         case .redirectCard(let conditions): RedirectCard(conditions: conditions)
+        case .playedCard(let conditions): PlayedCard(conditions: conditions)
         }
     }
 
@@ -249,6 +250,41 @@ private extension Card.Selector.ChoiceRequirement {
                     .discardHand(selection, player: target),
                     reversedAction
                 ]
+            }
+        }
+    }
+
+    struct PlayedCard: Resolver {
+        let conditions: [Card.Selector.CardFilter]
+
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+            let player = pendingAction.sourcePlayer
+            let playerObj = state.players.get(player)
+
+            let costCards = playerObj.hand.filter {
+                conditions.match($0, pendingAction: pendingAction, state: state)
+            }
+
+            guard costCards.isNotEmpty else {
+                throw .noChoosableCard(conditions)
+            }
+
+            let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
+                + [.init(id: .choicePass, label: .choicePass)]
+            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
+
+            return [pendingAction.withChoice(requirement, prompt: prompt)]
+        }
+
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
+            if selection == .choicePass {
+                return []
+            } else {
+                // <set effect alias>
+                let cardName = Card.name(of: selection)
+                let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer)
+                // </set effect alias>
+                return [pendingAction.copy(playedCard: selection, alias: alias)]
             }
         }
     }

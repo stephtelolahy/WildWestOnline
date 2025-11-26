@@ -132,7 +132,8 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
             var cardName = Card.name(of: card)
-            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
+            let alias = state.playAlias(for: cardName, player: action.sourcePlayer)
+            if let alias {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)
@@ -148,12 +149,12 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action)
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action),
+                        alias: alias
                     )
                 }
 
             var state = state
-            #warning("use reducerLoop instead")
             state.queue.insert(contentsOf: effects, at: 0)
             return state
         }
@@ -169,7 +170,7 @@ private extension Card.ActionName {
             state.discard.insert(card, at: 0)
 
             var cardName = Card.name(of: card)
-            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
+            if let alias = action.alias {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)
@@ -185,7 +186,6 @@ private extension Card.ActionName {
                     )
                 }
 
-            #warning("use reducerLoop instead")
             state.queue.insert(contentsOf: effects, at: 0)
             return state
         }
@@ -317,7 +317,6 @@ private extension Card.ActionName {
             var state = state
             var updatedAction = nextAction
             updatedAction.selectors[0] = .chooseOne(element, prompt: prompt, selection: selection)
-            #warning("use choice handler instead")
             state.queue[0] = updatedAction
 
             return state

@@ -22,7 +22,7 @@ struct SimulationTest {
         let state = GameSetup.buildGame(
             playersCount: playersCount,
             cards: Cards.all,
-            deck: Deck.bang,
+            deck: Deck.all,
             actionDelayMilliSeconds: 0,
             playModeSetup: .allAuto
         )

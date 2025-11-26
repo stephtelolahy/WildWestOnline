@@ -43,12 +43,8 @@ private extension AIStrategy {
     func evaluate(_ action: GameFeature.Action, state: GameFeature.State) -> Int {
         switch action.name {
         case .preparePlay:
-            var cardName = Card.name(of: action.playedCard)
-            if let alias = state.playAlias(for: cardName, player: action.sourcePlayer) {
-                cardName = alias
-            }
+            let cardName = Card.name(of: action.playedCard)
             let cardObj = state.cards.get(cardName)
-
             guard let mainEffect = cardObj.mainEffect() else {
                 fatalError("Missing main effect for card \(cardName)")
             }
@@ -70,12 +66,6 @@ private extension AIStrategy {
 
 private extension Card {
     func mainEffect() -> Card.ActionName? {
-        if let playEffect = effects.first(where: { $0.trigger == .cardPlayed }) {
-            return playEffect.action
-        }
-        if let preparePlayEffect = effects.first(where: { $0.trigger == .cardPrePlayed }) {
-            return preparePlayEffect.action
-        }
-        return nil
+        effects.first(where: { $0.trigger == .cardPlayed || $0.trigger == .cardPrePlayed })?.action
     }
 }

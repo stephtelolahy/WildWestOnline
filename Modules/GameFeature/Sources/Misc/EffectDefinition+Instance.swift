@@ -12,6 +12,7 @@ extension Card.Effect {
         triggeredBy: [GameFeature.Action],
         targetedPlayer: String?,
         targetedCard: String? = nil,
+        alias: String? = nil
     ) -> GameFeature.Action {
         .init(
             name: action,
@@ -21,6 +22,7 @@ extension Card.Effect {
             targetedCard: targetedCard,
             triggeredBy: triggeredBy,
             amount: amount,
+            alias: alias,
             modifier: modifier,
             selectors: selectors
         )

@@ -103,7 +103,7 @@ struct JourdonnaisTests {
             .draw(player: "p1"),
             .draw(player: "p1"),
             .choose(.missed, player: "p1"),
-            .discardHand(.missed, player: "p1"),
+            .play(.missed, player: "p1", target: "p1"),
             .counterShoot(player: "p1")
         ])
     }

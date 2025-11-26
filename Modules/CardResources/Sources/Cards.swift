@@ -11,7 +11,7 @@ import GameFeature
 public enum Cards {
     public static let all: [Card] = [
         .endTurn,
-        .discardMissedOnShot,
+        .playMissedOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
@@ -60,10 +60,14 @@ public enum Cards {
         .kitCarlson,
         .slabTheKiller,
         .calamityJanet,
+        .punch,
+        .dodge,
     ]
 }
 
 private extension Card {
+    // MARK: - Default
+
     static var endTurn: Self {
         .init(
             name: .endTurn,
@@ -78,18 +82,18 @@ private extension Card {
         )
     }
 
-    static var discardMissedOnShot: Self {
+    static var playMissedOnShot: Self {
         .init(
-            name: .discardMissedOnShot,
+            name: .playMissedOnShot,
             type: .ability,
             description: "Discard counter card on shot",
             effects: [
                 .init(
                     trigger: .shot,
-                    action: .counterShot,
+                    action: .play,
                     selectors: [
                         .repeat(.requiredMisses),
-                        .chooseOne(.costCard([.canCounterShot]))
+                        .chooseOne(.playedCard([.canCounterShot]))
                     ]
                 )
             ]
@@ -277,6 +281,8 @@ private extension Card {
             ]
         )
     }
+
+    // MARK: - Bang
 
     static var stagecoach: Self {
         .init(
@@ -477,7 +483,7 @@ private extension Card {
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .init(
-                    trigger: .permanent,
+                    trigger: .cardPlayed,
                     action: .counterShot
                 )
             ]
@@ -1076,18 +1082,23 @@ private extension Card {
     }
 
     // MARK: - Dodge city
-/*
+
     static var punch: Self {
         .init(
             name: .punch,
+            type: .collectible,
             description: "Acts as a Bang! with a range of one.",
             effects: [
-                .collectible,
                 .init(
-                    name: .shoot,
+                    trigger: .cardPrePlayed,
+                    action: .play,
                     selectors: [
-                        .chooseTarget([.atDistance(1)])
+                        .chooseOne(.targetPlayer([.atDistance(1)]))
                     ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .shoot
                 )
             ]
         )
@@ -1096,20 +1107,21 @@ private extension Card {
     static var dodge: Self {
         .init(
             name: .dodge,
+            type: .collectible,
             description: "Acts as a Missed!, but allows the player to draw a card.",
-            canPlay: .shot,
             effects: [
-                .collectible,
                 .init(
-                    name: .missed
+                    trigger: .cardPlayed,
+                    action: .counterShot
                 ),
                 .init(
-                    name: .drawDeck
+                    trigger: .cardPlayed,
+                    action: .drawDeck
                 )
             ]
         )
     }
-
+/*
     static var springfield: Self {
         .init(
             name: .springfield,

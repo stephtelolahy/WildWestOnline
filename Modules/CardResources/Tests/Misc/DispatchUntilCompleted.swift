@@ -42,6 +42,12 @@ func dispatchUntilCompleted(
         }
         .store(in: &cancellables)
 
+    sut.dispatchedAction
+        .sink { action in
+            print(action)
+        }
+        .store(in: &cancellables)
+
     // When
     await sut.dispatch(action)
 

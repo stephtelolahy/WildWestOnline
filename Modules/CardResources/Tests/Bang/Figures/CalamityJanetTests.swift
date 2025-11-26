@@ -55,7 +55,7 @@ struct CalamityJanetTests {
         #expect(result == [
             .preparePlay(.missed, player: "p1"),
             .choose("p2", player: "p1"),
-            .play(.missed, player: "p1", target: "p2"),
+            .play(.missed, player: "p1", target: "p2", alias: .bang),
             .shoot("p2"),
             .damage(1, player: "p2")
         ])
@@ -79,7 +79,7 @@ struct CalamityJanetTests {
         #expect(result == [
             .shoot("p1"),
             .choose(.missed, player: "p1"),
-            .discardHand(.missed, player: "p1"),
+            .play(.missed, player: "p1", target: "p1"),
             .counterShoot(player: "p1")
         ])
     }
@@ -102,7 +102,7 @@ struct CalamityJanetTests {
         #expect(result == [
             .shoot("p1"),
             .choose(.bang, player: "p1"),
-            .discardHand(.bang, player: "p1"),
+            .play(.bang, player: "p1", target: "p1", alias: .missed),
             .counterShoot(player: "p1")
         ])
     }

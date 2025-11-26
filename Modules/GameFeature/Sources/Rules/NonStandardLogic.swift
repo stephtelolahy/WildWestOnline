@@ -57,6 +57,7 @@ enum NonStandardLogic {
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
         && lhs.selection == rhs.selection
+        && lhs.alias == rhs.alias
         && lhs.children == rhs.children
         && lhs.playableCards == rhs.playableCards
         && lhs.selectors == rhs.selectors
