@@ -60,6 +60,7 @@ public enum Cards {
         .kitCarlson,
         .slabTheKiller,
         .calamityJanet,
+        .punch,
     ]
 }
 
@@ -1076,23 +1077,28 @@ private extension Card {
     }
 
     // MARK: - Dodge city
-/*
+
     static var punch: Self {
         .init(
             name: .punch,
+            type: .collectible,
             description: "Acts as a Bang! with a range of one.",
             effects: [
-                .collectible,
                 .init(
-                    name: .shoot,
+                    trigger: .cardPrePlayed,
+                    action: .play,
                     selectors: [
-                        .chooseTarget([.atDistance(1)])
+                        .chooseOne(.targetPlayer([.atDistance(1)]))
                     ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .shoot
                 )
             ]
         )
     }
-
+/*
     static var dodge: Self {
         .init(
             name: .dodge,
