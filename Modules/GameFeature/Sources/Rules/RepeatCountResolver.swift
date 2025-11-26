@@ -22,7 +22,7 @@ private extension Card.Selector.RepeatCount {
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .receivedDamageAmount: ReceivedDamageAmount()
-        case .contextMissedPerShoot: ContextMissedPerShoot()
+        case .requiredMisses: RequiredMisses()
         }
     }
 
@@ -62,9 +62,20 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct ContextMissedPerShoot: Resolver {
+    struct RequiredMisses: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
-            1 + pendingAction.contextAdditionalMissed
+            guard let damageIndex = state.queue.firstIndex(where: {
+                $0.triggeredBy.first?.name == .shoot
+                && $0.name == .damage
+                && $0.targetedPlayer == pendingAction.targetedPlayer
+            }) else {
+                fatalError("Missing .shoot effect on targetedPlayer")
+            }
+
+            let damageAction = state.queue[damageIndex]
+            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
+
+            return requiredMisses
         }
     }
 }

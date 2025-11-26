@@ -14,7 +14,6 @@ public extension GameFeature.Action {
         switch name {
         case .queue,
                 .applyModifier,
-                .addContextAdditionalMissed,
                 .addContextIgnoreLimitPerTurn,
                 .preparePlay:
             return false

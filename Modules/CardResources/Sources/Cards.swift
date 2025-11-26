@@ -88,7 +88,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .repeat(.contextMissedPerShoot),
+                        .repeat(.requiredMisses),
                         .chooseOne(.costCard([.canCounterShot]))
                     ]
                 )
@@ -1046,7 +1046,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .shootingWithCard(named: .bang),
-                    action: .addContextAdditionalMissed,
+                    action: .applyModifier,
+                    modifier: .incrementRequiredMisses,
                     amount: 1
                 )
             ]

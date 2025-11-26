@@ -124,8 +124,6 @@ public struct Card: Equatable, Codable, Sendable {
         case queue
         case applyModifier
         @available(*, deprecated, message: "use modifier")
-        case addContextAdditionalMissed
-        @available(*, deprecated, message: "use modifier")
         case addContextIgnoreLimitPerTurn
     }
 
@@ -143,7 +141,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case receivedDamageAmount
-            case contextMissedPerShoot
+            case requiredMisses
         }
 
         public enum PlayerGroup: String, Codable, Sendable {

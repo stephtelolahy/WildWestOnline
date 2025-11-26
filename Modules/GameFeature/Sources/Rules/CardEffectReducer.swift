@@ -48,7 +48,6 @@ private extension Card.ActionName {
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
-        case .addContextAdditionalMissed: AddContextAdditionalMissed()
         case .addContextIgnoreLimitPerTurn: AddContextIgnoreLimitPerTurn()
         case .applyModifier: ApplyModifier()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
@@ -393,8 +392,9 @@ private extension Card.ActionName {
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
                 targetedPlayer: target,
+                triggeredBy: [action],
                 amount: 1,
-                triggeredBy: [action]
+                requiredMisses: 1
             )
             state.queue.insert(damage, at: 0)
             return state
@@ -405,7 +405,7 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
 
-            guard state.queue.contains(where: {
+            guard let damageIndex = state.queue.firstIndex(where: {
                 $0.triggeredBy.first?.name == .shoot
                 && $0.name == .damage
                 && $0.targetedPlayer == action.targetedPlayer
@@ -413,8 +413,11 @@ private extension Card.ActionName {
                 fatalError("Missing .shoot effect on targetedPlayer")
             }
 
-            if action.contextAdditionalMissed > 0 {
-                state.queue = state.queue.map { $0.copy(contextAdditionalMissed: -1) }
+            let damageAction = state.queue[damageIndex]
+            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
+
+            if requiredMisses > 1 {
+                state.queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses - 1)
                 return state
             }
 
@@ -466,16 +469,6 @@ private extension Card.ActionName {
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)
-            return state
-        }
-    }
-
-    struct AddContextAdditionalMissed: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state.queue = state.queue.map { $0.copy(contextAdditionalMissed: amount) }
             return state
         }
     }

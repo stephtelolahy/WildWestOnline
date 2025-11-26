@@ -52,9 +52,10 @@ public enum GameFeature {
         public var playedCard: String = ""
         public var targetedPlayer: String?
         public var targetedCard: String?
-        public var amount: Int?
 
         var triggeredBy: [Self] = []
+        var amount: Int?
+        var requiredMisses: Int?
         var selection: String?
         var playableCards: [String]?
         var contextAdditionalMissed: Int = 0
