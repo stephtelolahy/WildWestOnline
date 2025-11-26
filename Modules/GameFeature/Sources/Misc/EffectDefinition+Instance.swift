@@ -19,8 +19,9 @@ extension Card.Effect {
             playedCard: playedCard,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
-            amount: amount,
             triggeredBy: triggeredBy,
+            amount: amount,
+            modifier: modifier,
             selectors: selectors
         )
     }

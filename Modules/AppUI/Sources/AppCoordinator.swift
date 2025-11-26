@@ -82,8 +82,9 @@ public struct AppCoordinator: View {
         .init(
             initialState: .mock,
             dependencies: .init(
-                settingsClient: .empty(),
-                audioClient: .empty()
+                settingsClient: .empty,
+                audioClient: .empty,
+                modifierClient: .empty
             )
         )
     }

@@ -51,10 +51,6 @@ private extension Card.Selector.PlayRequirement {
         let limit: Int
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            if pendingAction.contextIgnoreLimitPerTurn > 0 {
-                return true
-            }
-
             let cardName = Card.name(of: pendingAction.playedCard)
             var playedCount = 0
             for event in state.events {

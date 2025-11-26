@@ -66,13 +66,16 @@ public enum AppFeature {
     public struct Dependencies {
         let settingsClient: SettingsClient
         let audioClient: AudioClient
+        let modifierClient: QueueModifierClient
 
         public init(
             settingsClient: SettingsClient,
-            audioClient: AudioClient
+            audioClient: AudioClient,
+            modifierClient: QueueModifierClient
         ) {
             self.settingsClient = settingsClient
             self.audioClient = audioClient
+            self.modifierClient = modifierClient
         }
     }
 
@@ -91,7 +94,7 @@ public enum AppFeature {
                     return nil
                 },
                 embedAction: Action.game,
-                dependencies: { _ in () }
+                dependencies: { $0.modifierClient }
             ),
             pullback(
                 SettingsFeature.reducer,
@@ -123,9 +126,7 @@ public enum AppFeature {
             ),
             pullback(
                 reducerSound,
-                state: { _ in
-                    \.self
-                },
+                state: { _ in \.self },
                 action: { $0 },
                 embedAction: \.self,
                 dependencies: { $0.audioClient }

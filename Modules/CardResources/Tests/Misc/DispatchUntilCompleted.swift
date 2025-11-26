@@ -7,7 +7,8 @@
 import Testing
 import Redux
 import Combine
-@testable import GameFeature
+import GameFeature
+import CardResources
 
 typealias ChoiceHandler = ([String]) -> String
 
@@ -18,10 +19,14 @@ func dispatchUntilCompleted(
     choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
+    let dependencies = GameFeature.CustomDependencies(
+        choiceHandler: choiceHandler,
+        modifierClient: .live(handlers: QueueModifiers.allHandlers)
+    )
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerCustom,
-        dependencies: GameFeature.CustomDependencies(choiceHandler: choiceHandler)
+        dependencies: dependencies
     )
     var receivedActions: [GameFeature.Action] = []
     var receivedErrors: [GameFeature.Error] = []
@@ -53,11 +58,12 @@ private extension GameFeature {
 
     struct CustomDependencies {
         let choiceHandler: ChoiceHandler
+        let modifierClient: QueueModifierClient
     }
 
     static var reducerCustom: Reducer<State, Action, CustomDependencies> {
         { state, action, dependencies in
-            let mainEffect = reducer(&state, action, ())
+            let mainEffect = reducer(&state, action, dependencies.modifierClient)
             let choiceEffect = reducerChoice(&state, action, dependencies)
             return .group([mainEffect, choiceEffect])
         }

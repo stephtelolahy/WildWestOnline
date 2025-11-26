@@ -39,7 +39,7 @@ public struct AudioClient {
 }
 
 public extension AudioClient {
-    static func empty() -> Self {
+    static var empty: Self {
         .init(
             load: { _ in },
             loop: { _ in },

@@ -52,16 +52,23 @@ public enum GameFeature {
         public var playedCard: String = ""
         public var targetedPlayer: String?
         public var targetedCard: String?
-        public var amount: Int?
 
         var triggeredBy: [Self] = []
+        var amount: Int?
+        var requiredMisses: Int?
         var selection: String?
         var playableCards: [String]?
-        var contextCardsPerTurn: Int = 0
-        var contextAdditionalMissed: Int = 0
-        var contextIgnoreLimitPerTurn: Int = 0
+        var modifier: QueueModifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
+
+        public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
+            public let rawValue: String
+
+            public init (rawValue: String) {
+                self.rawValue = rawValue
+            }
+        }
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
@@ -80,11 +87,17 @@ public enum GameFeature {
         case noChoosableCard([Card.Selector.CardFilter])
     }
 
-    public static var reducer: Reducer<State, Action, Void> {
+    public static var reducer: Reducer<State, Action, QueueModifierClient> {
         combine(
             reducerMechanics,
             reducerLoop,
-            reducerAI
+            pullback(
+                reducerAI,
+                state: { _ in \.self },
+                action: { $0 },
+                embedAction: \.self,
+                dependencies: { _ in () }
+            )
         )
     }
 }

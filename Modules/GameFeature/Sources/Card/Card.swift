@@ -38,6 +38,7 @@ public struct Card: Equatable, Codable, Sendable {
     public struct Effect: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
+        public let modifier: GameFeature.Action.QueueModifier?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let playAlias: [String: String]?
@@ -47,6 +48,7 @@ public struct Card: Equatable, Codable, Sendable {
         public init(
             trigger: Trigger,
             action: ActionName,
+            modifier: GameFeature.Action.QueueModifier? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             playAlias: [String: String]? = nil,
@@ -55,6 +57,7 @@ public struct Card: Equatable, Codable, Sendable {
         ) {
             self.trigger = trigger
             self.action = action
+            self.modifier = modifier
             self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.playAlias = playAlias
@@ -119,9 +122,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setPlayAlias
         case setEffectAlias
         case queue
-        case addContextCardsPerTurn
-        case addContextAdditionalMissed
-        case addContextIgnoreLimitPerTurn
+        case applyModifier
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -138,8 +139,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case receivedDamageAmount
-            case contextCardsPerTurn
-            case contextMissedPerShoot
+            case requiredMisses
         }
 
         public enum PlayerGroup: String, Codable, Sendable {
@@ -221,8 +221,4 @@ public struct Card: Equatable, Codable, Sendable {
 public extension String {
     static let choiceHiddenHand = "hiddenHand"
     static let choicePass = "pass"
-}
-
-public extension Int {
-    static let unlimited = 999
 }

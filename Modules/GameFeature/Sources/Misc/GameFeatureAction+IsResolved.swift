@@ -12,11 +12,11 @@ public extension GameFeature.Action {
         }
 
         switch name {
-        case .queue,
-                .addContextCardsPerTurn,
-                .addContextAdditionalMissed,
-                .addContextIgnoreLimitPerTurn,
-                .preparePlay:
+        case .queue, .applyModifier:
+            return false
+
+        case .preparePlay:
+            #warning("expose preparePlay action")
             return false
 
         default:

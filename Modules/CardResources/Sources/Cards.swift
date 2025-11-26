@@ -88,7 +88,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .repeat(.contextMissedPerShoot),
+                        .repeat(.requiredMisses),
                         .chooseOne(.costCard([.canCounterShot]))
                     ]
                 )
@@ -158,14 +158,9 @@ private extension Card {
             effects: [
                 .init(
                     trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
-                    amount: 2
-                ),
-                .init(
-                    trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.contextCardsPerTurn)
+                        .repeat(.fixed(2))
                     ]
                 )
             ]
@@ -182,7 +177,7 @@ private extension Card {
                     trigger: .damagedLethal,
                     action: .eliminate,
                     selectors: [
-                        .require(.isHealthZero)
+                        .applyIf(.isHealthZero)
                     ]
                 )
             ]
@@ -596,8 +591,8 @@ private extension Card {
             effects: .weapon(range: 1) + [
                 .init(
                     trigger: .prePlayingCard(named: .bang),
-                    action: .addContextIgnoreLimitPerTurn,
-                    amount: .unlimited
+                    action: .applyModifier,
+                    modifier: .ignoreLimitPerTurn
                 )
             ]
         )
@@ -752,8 +747,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .prePlayingCard(named: .bang),
-                    action: .addContextIgnoreLimitPerTurn,
-                    amount: .unlimited
+                    action: .applyModifier,
+                    modifier: .ignoreLimitPerTurn
                 )
             ]
         )
@@ -969,7 +964,8 @@ private extension Card {
                         .onComplete([
                             .init(
                                 trigger: .turnStarted,
-                                action: .addContextCardsPerTurn,
+                                action: .applyModifier,
+                                modifier: .incrementCardsPerTurn,
                                 amount: -1
                             )
                         ])
@@ -994,7 +990,8 @@ private extension Card {
                         .onComplete([
                             .init(
                                 trigger: .turnStarted,
-                                action: .addContextCardsPerTurn,
+                                action: .applyModifier,
+                                modifier: .incrementCardsPerTurn,
                                 amount: -1,
                             )
                         ])
@@ -1032,7 +1029,8 @@ private extension Card {
                 ),
                 .init(
                     trigger: .turnStarted,
-                    action: .addContextCardsPerTurn,
+                    action: .applyModifier,
+                    modifier: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]
@@ -1048,7 +1046,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .shootingWithCard(named: .bang),
-                    action: .addContextAdditionalMissed,
+                    action: .applyModifier,
+                    modifier: .incrementRequiredMisses,
                     amount: 1
                 )
             ]

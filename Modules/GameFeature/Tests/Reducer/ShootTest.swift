@@ -25,5 +25,6 @@ struct ShootTest {
         #expect(pending.name == .damage)
         #expect(pending.targetedPlayer == "p2")
         #expect(pending.amount == 1)
+        #expect(pending.requiredMisses == 1)
     }
 }

@@ -13,9 +13,7 @@ extension GameFeature.Action {
         targetedPlayer: String? = nil,
         targetedCard: String? = nil,
         amount: Int? = nil,
-        contextCardsPerTurn: Int = 0,
-        contextAdditionalMissed: Int = 0,
-        contextIgnoreLimitPerTurn: Int = 0,
+        requiredMisses: Int? = nil,
         selectors: [Card.Selector]? = nil,
     ) -> Self {
         .init(
@@ -24,13 +22,11 @@ extension GameFeature.Action {
             playedCard: playedCard ?? self.playedCard,
             targetedPlayer: targetedPlayer ?? self.targetedPlayer,
             targetedCard: targetedCard ?? self.targetedCard,
-            amount: amount ?? self.amount,
             triggeredBy: triggeredBy ?? self.triggeredBy,
+            amount: amount ?? self.amount,
+            requiredMisses: requiredMisses ?? self.requiredMisses,
             selection: self.selection,
             playableCards: self.playableCards,
-            contextCardsPerTurn: self.contextCardsPerTurn + contextCardsPerTurn,
-            contextAdditionalMissed: self.contextAdditionalMissed + contextAdditionalMissed,
-            contextIgnoreLimitPerTurn: self.contextIgnoreLimitPerTurn + contextIgnoreLimitPerTurn,
             children: self.children,
             selectors: selectors ?? self.selectors,
         )

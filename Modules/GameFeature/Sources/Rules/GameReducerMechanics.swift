@@ -10,7 +10,7 @@ extension GameFeature {
     static func reducerMechanics(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: QueueModifierClient
     ) -> Effect<Action> {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
@@ -23,7 +23,7 @@ extension GameFeature {
         if state.playable.isNotEmpty {
             guard action.name == .preparePlay,
                   state.playable.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
-                fatalError("Unexpected unwaited action \(action)")
+                fatalError("Not playable card \(action.playedCard)")
             }
 
             state.playable.removeValue(forKey: action.sourcePlayer)
@@ -31,8 +31,8 @@ extension GameFeature {
 
         do {
             if action.selectors.isNotEmpty {
-                if state.pendingChoice != nil {
-                    fatalError("Unexpected waiting user choice")
+                if let choice = state.pendingChoice {
+                    fatalError("Waiting user choice \(choice)")
                 }
 
                 var pendingAction = action
@@ -40,7 +40,7 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state)
+                state = try action.name.reduce(action, state: state, dependencies: dependencies)
             }
 
             if action.isResolved {

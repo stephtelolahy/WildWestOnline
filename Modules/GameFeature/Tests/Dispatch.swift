@@ -15,7 +15,7 @@ import Redux
     let sut = Store(
         initialState: state,
         reducer: GameFeature.reducerMechanics,
-        dependencies: ()
+        dependencies: .empty
     )
     var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []
