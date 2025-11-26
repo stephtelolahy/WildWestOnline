@@ -65,6 +65,8 @@ public enum Cards {
 }
 
 private extension Card {
+    // MARK: - Default
+
     static var endTurn: Self {
         .init(
             name: .endTurn,
@@ -278,6 +280,8 @@ private extension Card {
             ]
         )
     }
+
+    // MARK: - Bang
 
     static var stagecoach: Self {
         .init(
