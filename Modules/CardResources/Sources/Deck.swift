@@ -38,7 +38,7 @@ public enum Deck {
         .beer: ["6♥️", "6♠️"],
         .indians: ["5♦️"],
         .punch: ["10♠️"],
-//        .dodge: ["7♦️", "K♥️"],
+        .dodge: ["7♦️", "K♥️"],
 //        .springfield: ["K♠️"],
 //        .hideout: ["K♦️"],
         .generalStore: ["A♠️"],

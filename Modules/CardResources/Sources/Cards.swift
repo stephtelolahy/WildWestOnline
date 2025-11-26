@@ -61,6 +61,7 @@ public enum Cards {
         .slabTheKiller,
         .calamityJanet,
         .punch,
+        .dodge,
     ]
 }
 
@@ -1102,24 +1103,25 @@ private extension Card {
             ]
         )
     }
-/*
+
     static var dodge: Self {
         .init(
             name: .dodge,
+            type: .collectible,
             description: "Acts as a Missed!, but allows the player to draw a card.",
-            canPlay: .shot,
             effects: [
-                .collectible,
                 .init(
-                    name: .missed
+                    trigger: .permanent,
+                    action: .counterShot
                 ),
-                .init(
-                    name: .drawDeck
-                )
+//                .init(
+//                    trigger: .cardPlayed,
+//                    action: .drawDeck
+//                )
             ]
         )
     }
-
+/*
     static var springfield: Self {
         .init(
             name: .springfield,
