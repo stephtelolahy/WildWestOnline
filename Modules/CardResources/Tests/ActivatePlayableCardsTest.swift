@@ -7,6 +7,7 @@
 
 import Testing
 import GameFeature
+import CardResources
 
 struct ActivatePlayableCardsTest {
     @Test func idle_withPlayableCards_shouldActivate() async throws {

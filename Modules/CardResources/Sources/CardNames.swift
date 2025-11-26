@@ -6,6 +6,10 @@
 //
 
 // MARK: - Auras
+public extension String {
+    static let endTurn = "endTurn"
+}
+
 extension String {
     static let discardMissedOnShot = "discardMissedOnShot"
     static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
@@ -18,10 +22,6 @@ extension String {
     static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
     static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
     static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
-}
-
-public extension String {
-    static let endTurn = "endTurn"
 }
 
 // MARK: - Collectible

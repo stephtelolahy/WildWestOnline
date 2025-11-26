@@ -7,6 +7,7 @@
 
 import Testing
 import GameFeature
+import CardResources
 
 struct NextTurnOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
@@ -25,6 +26,7 @@ struct NextTurnOnTurnEndedTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2"),
             .drawDeck(player: "p2"),

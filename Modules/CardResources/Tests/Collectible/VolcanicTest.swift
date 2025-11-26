@@ -31,6 +31,7 @@ struct VolcanicTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.bang2, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.bang2, player: "p1", target: "p2"),
             .shoot("p2"),

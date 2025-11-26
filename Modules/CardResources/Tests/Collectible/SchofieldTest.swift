@@ -24,6 +24,7 @@ struct SchofieldTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.schofield, player: "p1"),
             .equip(.schofield, player: "p1"),
             .setWeapon(2, player: "p1")
         ])

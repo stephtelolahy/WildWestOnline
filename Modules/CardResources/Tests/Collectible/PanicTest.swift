@@ -27,6 +27,7 @@ struct PanicTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .play(.panic, player: "p1", target: "p2", card: "c21"),
@@ -57,6 +58,7 @@ struct PanicTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c22", player: "p1"),
             .play(.panic, player: "p1", target: "p2", card: "c22"),
@@ -88,6 +90,7 @@ struct PanicTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c23", player: "p1"),
             .play(.panic, player: "p1", target: "p2", card: "c23"),

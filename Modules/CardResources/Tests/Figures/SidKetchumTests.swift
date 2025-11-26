@@ -27,6 +27,7 @@ struct SidKetchumTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.sidKetchum, player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
             .choose("c2", player: "p1"),
@@ -53,6 +54,7 @@ struct SidKetchumTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.sidKetchum, player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
             .choose("c2", player: "p1"),

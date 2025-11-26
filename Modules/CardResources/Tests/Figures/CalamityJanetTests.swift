@@ -27,6 +27,7 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.bang, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.bang, player: "p1", target: "p2"),
             .shoot("p2"),
@@ -52,6 +53,7 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.missed, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.missed, player: "p1", target: "p2"),
             .shoot("p2"),
