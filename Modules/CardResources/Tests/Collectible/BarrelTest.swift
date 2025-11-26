@@ -24,6 +24,7 @@ struct BarrelTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.barrel, player: "p1"),
             .equip(.barrel, player: "p1")
         ])
     }

@@ -24,6 +24,7 @@ struct RemingtonTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.remington, player: "p1"),
             .equip(.remington, player: "p1"),
             .setWeapon(3, player: "p1")
         ])

@@ -24,6 +24,7 @@ struct ScopeTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.scope, player: "p1"),
             .equip(.scope, player: "p1"),
             .increaseMagnifying(1, player: "p1")
         ])

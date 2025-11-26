@@ -35,6 +35,7 @@ struct DuelTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.duel, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.duel, player: "p1", target: "p2"),
             .choose(.choicePass, player: "p2"),
@@ -49,6 +50,7 @@ struct DuelTests {
 
         // Then
         #expect(result == [
+            .preparePlay(.duel, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.duel, player: "p1", target: "p2"),
             .choose(.bang2, player: "p2"),

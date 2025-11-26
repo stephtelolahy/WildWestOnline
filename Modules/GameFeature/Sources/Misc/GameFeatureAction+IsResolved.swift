@@ -15,10 +15,6 @@ public extension GameFeature.Action {
         case .queue, .applyModifier:
             return false
 
-        case .preparePlay:
-            #warning("expose preparePlay action")
-            return false
-
         default:
             return true
         }

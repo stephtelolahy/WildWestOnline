@@ -27,6 +27,7 @@ struct BangTest {
 
         // Then
         #expect(result == [
+            .preparePlay(.bang, player: "p1"),
             .choose("p2", player: "p1"),
             .play(.bang, player: "p1", target: "p2"),
             .shoot("p2"),
