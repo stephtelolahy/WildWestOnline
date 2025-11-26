@@ -180,13 +180,14 @@ public extension GameFeature.Action {
         )
     }
 
-    static func play(_ playedCard: String, player: String, target: String? = nil, card: String? = nil) -> Self {
+    static func play(_ playedCard: String, player: String, target: String? = nil, card: String? = nil, alias: String? = nil) -> Self {
         .init(
             name: .play,
             sourcePlayer: player,
             playedCard: playedCard,
             targetedPlayer: target,
-            targetedCard: card
+            targetedCard: card,
+            alias: alias
         )
     }
 

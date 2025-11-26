@@ -57,6 +57,7 @@ public enum GameFeature {
         var amount: Int?
         var requiredMisses: Int?
         var selection: String?
+        var alias: String?
         var playableCards: [String]?
         var modifier: QueueModifier?
         var children: [Self]?

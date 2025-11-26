@@ -16,6 +16,7 @@ struct DodgeTest {
             .withPlayer("p1") {
                 $0.withHand([.dodge])
             }
+            .withDeck(["c1"])
             .build()
 
         // When
@@ -26,7 +27,7 @@ struct DodgeTest {
         #expect(result == [
             .shoot("p1"),
             .choose(.dodge, player: "p1"),
-            .discardHand(.dodge, player: "p1"),
+            .play(.dodge, player: "p1", target: "p1"),
             .counterShoot(player: "p1"),
             .drawDeck(player: "p1")
         ])

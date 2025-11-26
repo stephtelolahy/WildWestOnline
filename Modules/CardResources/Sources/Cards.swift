@@ -11,7 +11,7 @@ import GameFeature
 public enum Cards {
     public static let all: [Card] = [
         .endTurn,
-        .discardMissedOnShot,
+        .playMissedOnShot,
         .discardBeerOnDamagedLethal,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
@@ -82,18 +82,18 @@ private extension Card {
         )
     }
 
-    static var discardMissedOnShot: Self {
+    static var playMissedOnShot: Self {
         .init(
-            name: .discardMissedOnShot,
+            name: .playMissedOnShot,
             type: .ability,
             description: "Discard counter card on shot",
             effects: [
                 .init(
                     trigger: .shot,
-                    action: .counterShot,
+                    action: .play,
                     selectors: [
                         .repeat(.requiredMisses),
-                        .chooseOne(.costCard([.canCounterShot]))
+                        .chooseOne(.playedCard([.canCounterShot]))
                     ]
                 )
             ]
@@ -483,7 +483,7 @@ private extension Card {
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .init(
-                    trigger: .permanent,
+                    trigger: .cardPlayed,
                     action: .counterShot
                 )
             ]
@@ -1111,13 +1111,13 @@ private extension Card {
             description: "Acts as a Missed!, but allows the player to draw a card.",
             effects: [
                 .init(
-                    trigger: .permanent,
+                    trigger: .cardPlayed,
                     action: .counterShot
                 ),
-//                .init(
-//                    trigger: .cardPlayed,
-//                    action: .drawDeck
-//                )
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDeck
+                )
             ]
         )
     }

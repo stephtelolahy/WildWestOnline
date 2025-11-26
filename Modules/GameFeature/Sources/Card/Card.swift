@@ -181,6 +181,7 @@ public struct Card: Equatable, Codable, Sendable {
             case costCard([CardFilter] = [])
             case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])
+            case playedCard([CardFilter] = [])
         }
 
         public enum PlayerFilter: Equatable, Codable, Sendable {

@@ -36,10 +36,10 @@ struct SlabTheKillerTests {
                 .play(.bang, player: "p1", target: "p2"),
                 .shoot("p2"),
                 .choose(.missed1, player: "p2"),
-                .discardHand(.missed1, player: "p2"),
+                .play(.missed1, player: "p2", target: "p2"),
                 .counterShoot(player: "p2"),
                 .choose(.missed2, player: "p2"),
-                .discardHand(.missed2, player: "p2"),
+                .play(.missed2, player: "p2", target: "p2"),
                 .counterShoot(player: "p2")
             ])
     }
@@ -74,7 +74,7 @@ struct SlabTheKillerTests {
                 .draw(player: "p2"),
                 .counterShoot(player: "p2"),
                 .choose(.missed, player: "p2"),
-                .discardHand(.missed, player: "p2"),
+                .play(.missed, player: "p2", target: "p2"),
                 .counterShoot(player: "p2")
             ])
     }
@@ -106,7 +106,7 @@ struct SlabTheKillerTests {
                 .play(.bang, player: "p1", target: "p2"),
                 .shoot("p2"),
                 .choose(.missed, player: "p2"),
-                .discardHand(.missed, player: "p2"),
+                .play(.missed, player: "p2", target: "p2"),
                 .counterShoot(player: "p2"),
                 .damage(1, player: "p2")
             ])

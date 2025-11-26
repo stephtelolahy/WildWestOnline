@@ -14,6 +14,7 @@ extension GameFeature.Action {
         targetedCard: String? = nil,
         amount: Int? = nil,
         requiredMisses: Int? = nil,
+        alias: String? = nil,
         selectors: [Card.Selector]? = nil,
     ) -> Self {
         .init(
@@ -26,6 +27,7 @@ extension GameFeature.Action {
             amount: amount ?? self.amount,
             requiredMisses: requiredMisses ?? self.requiredMisses,
             selection: self.selection,
+            alias: alias ?? self.alias,
             playableCards: self.playableCards,
             children: self.children,
             selectors: selectors ?? self.selectors,

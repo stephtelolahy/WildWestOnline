@@ -32,7 +32,7 @@ private extension Card.Selector.CardFilter {
             if let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer) {
                 effects.append(contentsOf: state.cards.get(alias).effects)
             }
-            return effects.contains { $0.trigger == .permanent && $0.action == .counterShot }
+            return effects.contains { $0.trigger == .cardPlayed && $0.action == .counterShot }
         }
     }
 
