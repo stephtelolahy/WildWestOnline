@@ -9,7 +9,7 @@ import Testing
 @testable import GameFeature
 
 struct PreparePlayTest {
-    @Test func preparePlay_withEffects_shouldQueueEffects() async throws {
+    @Test func preparePlay_shouldQueueEffects() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
