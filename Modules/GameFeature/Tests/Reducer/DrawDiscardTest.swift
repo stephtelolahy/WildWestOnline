@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct DrawDiscardTest {
-    @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
+    @Test func drawDiscard_shouldRemoveTopCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
