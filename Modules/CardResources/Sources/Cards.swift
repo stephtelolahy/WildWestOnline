@@ -1209,7 +1209,6 @@ private extension Card {
         .init(
             name: .tequila,
             description: "The player must discard one additional card, to heal any player one health.",
-            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .collectible,
                 .init(
