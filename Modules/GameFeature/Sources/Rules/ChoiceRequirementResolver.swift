@@ -280,10 +280,12 @@ private extension Card.Selector.ChoiceRequirement {
             if selection == .choicePass {
                 return []
             } else {
-                // <set effect alias>
-                let cardName = Card.name(of: selection)
-                let alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, actionName: .counterShot)
-                // </set effect alias>
+                var alias: String?
+                if conditions.contains(.canCounterShot) {
+                    let cardName = Card.name(of: selection)
+                    alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .cardPlayed)
+                }
+
                 return [pendingAction.copy(playedCard: selection, alias: alias)]
             }
         }

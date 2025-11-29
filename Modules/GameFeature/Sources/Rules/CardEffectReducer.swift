@@ -131,7 +131,7 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
             var cardName = Card.name(of: card)
-            let alias = state.alias(for: cardName, player: action.sourcePlayer, actionName: .play)
+            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .cardPrePlayed)
             if let alias {
                 cardName = alias
             }

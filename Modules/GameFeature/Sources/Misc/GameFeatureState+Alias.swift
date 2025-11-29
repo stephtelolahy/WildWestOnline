@@ -6,7 +6,12 @@
 //
 
 extension GameFeature.State {
-    func alias(for card: String, player: String, actionName: Card.ActionName) -> String? {
+    func alias(
+        for card: String,
+        player: String,
+        action: Card.ActionName,
+        on trigger: Card.Trigger
+    ) -> String? {
         let playerObj = players.get(player)
         let abilities = playerObj.figure + auras
         for ability in abilities {
@@ -17,10 +22,9 @@ extension GameFeature.State {
                    let effectAlias = effect.alias,
                    let aliasCardName = effectAlias[card] {
                     let aliasCardObj = cards.get(aliasCardName)
-                    if let mainEffect = aliasCardObj.effects.first(where: { $0.trigger == .cardPlayed || $0.trigger == .cardPrePlayed })?.action {
-                        if mainEffect == actionName {
-                            return aliasCardName
-                        }
+                    if let effectName = aliasCardObj.effects.first(where: { $0.trigger == trigger })?.action,
+                       effectName == action {
+                        return aliasCardName
                     }
                 }
             }
