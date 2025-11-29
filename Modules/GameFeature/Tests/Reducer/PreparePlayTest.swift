@@ -26,6 +26,24 @@ struct PreparePlayTest {
         #expect(result.queue.count == 1)
     }
 
+    @Test func preparePlay_shouldResetPlayable() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c-2❤️"])
+            }
+            .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .cardPrePlayed, action: .play)])])
+            .withPlayable(["p1": ["c-2❤️"]])
+            .build()
+
+        // When
+        let action = GameFeature.Action.preparePlay("c-2❤️", player: "p1")
+        let result = try await dispatch(action, state: state)
+
+        // Then
+        #expect(result.playable.isEmpty)
+    }
+
     @Test func preparePlay_withoutEffects_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
@@ -42,6 +60,4 @@ struct PreparePlayTest {
             try await dispatch(action, state: state)
         }
     }
-    
-    // TODO: play should reset playable cards
 }
