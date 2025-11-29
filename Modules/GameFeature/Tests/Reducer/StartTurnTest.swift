@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import GameFeature
+import GameFeature
 
 struct StartTurnTest {
     @Test func startTurn_shouldSetTurn() async throws {

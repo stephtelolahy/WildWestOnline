@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import GameFeature
+import GameFeature
 
 struct IncreaseMagnifyingTest {
     @Test func increaseMagnifying_shouldUpdatePlayerAttribute() async throws {

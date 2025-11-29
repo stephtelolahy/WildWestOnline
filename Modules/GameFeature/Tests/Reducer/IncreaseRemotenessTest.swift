@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import GameFeature
+import GameFeature
 
 struct IncreaseRemotenessTest {
     @Test func increaseRemoteness_shouldUpdatePlayerAttribute() async throws {
