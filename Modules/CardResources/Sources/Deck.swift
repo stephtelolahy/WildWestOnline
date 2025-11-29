@@ -40,7 +40,7 @@ public enum Deck {
         .punch: ["10♠️"],
         .dodge: ["7♦️", "K♥️"],
 //        .springfield: ["K♠️"],
-//        .hideout: ["K♦️"],
+        .hideout: ["K♦️"],
         .generalStore: ["A♠️"],
         .catBalou: ["8♣️"],
         .panic: ["J♥️"],

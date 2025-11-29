@@ -68,6 +68,7 @@ public enum Cards {
         .punch,
         .dodge,
         .binocular,
+        .hideout,
     ]
 }
 
@@ -1148,6 +1149,27 @@ private extension Card {
             ]
         )
     }
+
+    static var hideout: Self {
+        .init(
+            name: .hideout,
+            type: .collectible,
+            description: "Others view you at distance +1",
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .cardEquiped,
+                    action: .increaseRemoteness,
+                    amount: 1
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .increaseRemoteness,
+                    amount: -1
+                )
+            ]
+        )
+    }
 /*
     static var springfield: Self {
         .init(
@@ -1165,16 +1187,6 @@ private extension Card {
             ]
         )
     }
-
-    static var hideout: Self {
-        .init(
-            name: .hideout,
-            description: "Others view you at distance +1",
-            increasePlayerAttribute: [.remoteness: 1]
-        )
-    }
-
-
 
     static var whisky: Self {
         .init(
