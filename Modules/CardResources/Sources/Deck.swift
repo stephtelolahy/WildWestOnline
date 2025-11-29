@@ -6,7 +6,7 @@
 //
 
 public enum Deck {
-    public static let all: [String: [String]] = bang.merging(dodgeCity) { left, right in left + right }
+    public static let all: [String] = Self.flatten(bang) + Self.flatten(dodgeCity)
 
     static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
@@ -56,4 +56,10 @@ public enum Deck {
 //        .ragTime: ["9♥️"],
 //        .brawl: ["J♠️"]
     ]
+
+    private static func flatten(_ dict: [String: [String]]) -> [String] {
+        dict.reduce(into: [String]()) { result, card in
+            result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
+        }
+    }
 }

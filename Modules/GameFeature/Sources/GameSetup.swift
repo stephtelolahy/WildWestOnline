@@ -14,7 +14,7 @@ public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
         cards: [Card],
-        deck: [String: [String]],
+        deck: [String],
         actionDelayMilliSeconds: Int,
         preferredFigure: String? = nil,
         playModeSetup: PlayModeSetup? = nil
@@ -42,7 +42,7 @@ public enum GameSetup {
 
         return buildGame(
             figures: figures,
-            deck: buildDeck(deck: deck).shuffled(),
+            deck: deck.shuffled(),
             cards: cards.toDictionary,
             auras: cards.names(for: .ability),
             playMode: playMode,
@@ -82,12 +82,6 @@ public enum GameSetup {
             actionDelayMilliSeconds: actionDelayMilliSeconds,
             showPlayableCards: true
         )
-    }
-
-    static func buildDeck(deck: [String: [String]]) -> [String] {
-        deck.reduce(into: [String]()) { result, card in
-            result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
-        }
     }
 }
 
