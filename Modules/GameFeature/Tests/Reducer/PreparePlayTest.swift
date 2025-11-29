@@ -42,4 +42,6 @@ struct PreparePlayTest {
             try await dispatch(action, state: state)
         }
     }
+    
+    // TODO: play should reset playable cards
 }
