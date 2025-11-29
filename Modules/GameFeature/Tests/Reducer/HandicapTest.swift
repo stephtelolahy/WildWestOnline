@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct HandicapTest {
-    @Test func handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() async throws {
+    @Test func handicap_shouldPutcardInTargetInPlay() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {

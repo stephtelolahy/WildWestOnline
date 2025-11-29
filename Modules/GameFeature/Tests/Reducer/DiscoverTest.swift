@@ -40,7 +40,7 @@ struct DiscoverTest {
         #expect(result.deck == ["c1", "c2", "c3"])
     }
 
-    @Test func discover_emptyDeck_withEnoughCards_shouldResetDeck() async throws {
+    @Test func discover_emptyDeck_shouldResetDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withDeck([])

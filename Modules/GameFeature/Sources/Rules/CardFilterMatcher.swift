@@ -27,11 +27,13 @@ private extension Card.Selector.CardFilter {
     struct CanCounterShot: Matcher {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let cardName = Card.name(of: card)
-            let cardObj = state.cards.get(cardName)
-            var effects = cardObj.effects
-            if let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer) {
-                effects.append(contentsOf: state.cards.get(alias).effects)
+
+            if state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .cardPlayed) != nil {
+                return true
             }
+
+            let cardObj = state.cards.get(cardName)
+            let effects = cardObj.effects
             return effects.contains { $0.trigger == .cardPlayed && $0.action == .counterShot }
         }
     }

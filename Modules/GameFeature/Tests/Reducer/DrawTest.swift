@@ -25,7 +25,7 @@ struct DrawTest {
         #expect(result.deck == ["c3"])
     }
 
-    @Test func draw_withEmptyDeck_withEnoughDiscard_shouldResetDeck() async throws {
+    @Test func draw_withEmptyDeck_shouldResetDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withDiscard(["c1", "c2", "c3"])

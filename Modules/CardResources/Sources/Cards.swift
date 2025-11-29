@@ -10,6 +10,7 @@ import GameFeature
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
 public enum Cards {
     public static let all: [Card] = [
+        // MARK: - Aura
         .endTurn,
         .playMissedOnShot,
         .discardBeerOnDamagedLethal,
@@ -22,6 +23,8 @@ public enum Cards {
         .nextTurnOnEliminated,
         .draw3CardsOnEliminating,
         .discardEquipedWeaponOnPrePlayed,
+
+        // MARK: - Bang
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -60,6 +63,8 @@ public enum Cards {
         .kitCarlson,
         .slabTheKiller,
         .calamityJanet,
+
+        // MARK: - Dodge city
         .punch,
         .dodge,
     ]
@@ -1069,13 +1074,13 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setPlayAlias,
-                    playAlias: [.missed: .bang]
+                    action: .setAlias,
+                    alias: [.missed: .bang]
                 ),
                 .init(
                     trigger: .permanent,
-                    action: .setEffectAlias,
-                    effectAlias: [.bang: .missed]
+                    action: .setAlias,
+                    alias: [.bang: .missed]
                 )
             ]
         )

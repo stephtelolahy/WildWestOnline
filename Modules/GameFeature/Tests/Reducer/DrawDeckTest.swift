@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct DrawDeckTest {
-    @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {
+    @Test func drawDeck_shouldRemoveTopCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
@@ -25,7 +25,7 @@ struct DrawDeckTest {
         #expect(result.deck == ["c2"])
     }
 
-    @Test func drawDeck_whitEmptyDeckAndEnoughDiscardPile_shouldResetDeck() async throws {
+    @Test func drawDeck_shouldResetDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")

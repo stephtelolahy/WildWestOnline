@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct EquipTest {
-    @Test func equip_withCardNotInPlay_shouldPutCardInPlay() async throws {
+    @Test func equip_shouldPutCardInPlay() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
