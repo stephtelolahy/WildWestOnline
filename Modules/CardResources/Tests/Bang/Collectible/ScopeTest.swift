@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct ScopeTest {
-    @Test func playScope_shouldEquipAndSetAttribute() async throws {
+    @Test func playScope_shouldEquipAndIncreaseMagnifying() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -30,7 +30,7 @@ struct ScopeTest {
         ])
     }
 
-    @Test func discardScope_shouldResetAttribute() async throws {
+    @Test func discardScope_shouldDecreaseMagnifying() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

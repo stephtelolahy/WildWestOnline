@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct IncreaseRemotenessTest {
-    @Test func increaseRemoteness_shouldUpdatePlayerAttribute() async throws {
+    @Test func increaseRemoteness() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {

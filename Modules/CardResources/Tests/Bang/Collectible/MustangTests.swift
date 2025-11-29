@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct MustangTests {
-    @Test func playMustang_shouldEquipAndSetAttribute() async throws {
+    @Test func playMustang_shouldEquipAndIncreaseRemoteness() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -30,7 +30,7 @@ struct MustangTests {
         ])
     }
 
-    @Test func discardMistang_shouldResetAttribute() async throws {
+    @Test func discardMistang_shouldDecreaseRemoteness() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
