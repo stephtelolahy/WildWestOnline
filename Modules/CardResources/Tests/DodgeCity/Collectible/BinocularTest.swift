@@ -1,5 +1,5 @@
 //
-//  ScopeTest.swift
+//  BinocularTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,24 +8,24 @@
 import Testing
 import GameFeature
 
-struct ScopeTest {
+struct BinocularTest {
     @Test func play_shouldEquipAndIncreaseMagnifying() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.scope])
+                $0.withHand([.binocular])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.scope, player: "p1")
+        let action = GameFeature.Action.preparePlay(.binocular, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .preparePlay(.scope, player: "p1"),
-            .equip(.scope, player: "p1"),
+            .preparePlay(.binocular, player: "p1"),
+            .equip(.binocular, player: "p1"),
             .increaseMagnifying(1, player: "p1")
         ])
     }
@@ -35,18 +35,18 @@ struct ScopeTest {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withInPlay([.scope])
+                $0.withInPlay([.binocular])
                     .withMagnifying(1)
             }
             .build()
 
         // When
-        let action = GameFeature.Action.discardInPlay(.scope, player: "p1")
+        let action = GameFeature.Action.discardInPlay(.binocular, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .discardInPlay(.scope, player: "p1"),
+            .discardInPlay(.binocular, player: "p1"),
             .increaseMagnifying(-1, player: "p1")
         ])
     }

@@ -46,7 +46,7 @@ public enum Deck {
         .panic: ["J♥️"],
         .missed: ["8♦️"],
         .remington: ["6♦️"],
-//        .binocular: ["10♦️"],
+        .binocular: ["10♦️"],
         .revCarabine: ["5♠️"],
         .dynamite: ["10♣️"],
         .mustang: ["5♥️"],
