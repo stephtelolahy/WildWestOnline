@@ -1069,8 +1069,8 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .permanent,
-                    action: .setPlayAlias,
-                    playAlias: [.missed: .bang]
+                    action: .setAlias,
+                    alias: [.missed: .bang]
                 ),
                 .init(
                     trigger: .permanent,

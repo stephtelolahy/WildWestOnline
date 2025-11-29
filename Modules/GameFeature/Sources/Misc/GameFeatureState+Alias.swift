@@ -6,16 +6,16 @@
 //
 
 extension GameFeature.State {
-    func playAlias(for card: String, player: String) -> String? {
+    func alias(for card: String, player: String) -> String? {
         let playerObj = players.get(player)
         let abilities = playerObj.figure + auras
         for ability in abilities {
             let abilityCard = cards.get(ability)
             for effect in abilityCard.effects {
                 if effect.trigger == .permanent,
-                   effect.action == .setPlayAlias,
-                   let playAlias = effect.playAlias {
-                    if let aliasName = playAlias[card] {
+                   effect.action == .setAlias,
+                   let effectAlias = effect.alias {
+                    if let aliasName = effectAlias[card] {
                         return aliasName
                     }
                 }

@@ -41,7 +41,7 @@ public struct Card: Equatable, Codable, Sendable {
         public let modifier: GameFeature.Action.QueueModifier?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
-        public let playAlias: [String: String]?
+        public let alias: [String: String]?
         public let effectAlias: [String: String]?
         public let selectors: [Selector]
 
@@ -51,7 +51,7 @@ public struct Card: Equatable, Codable, Sendable {
             modifier: GameFeature.Action.QueueModifier? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
-            playAlias: [String: String]? = nil,
+            alias: [String: String]? = nil,
             effectAlias: [String: String]? = nil,
             selectors: [Selector] = []
         ) {
@@ -60,7 +60,7 @@ public struct Card: Equatable, Codable, Sendable {
             self.modifier = modifier
             self.amount = amount
             self.amountPerTurn = amountPerTurn
-            self.playAlias = playAlias
+            self.alias = alias
             self.effectAlias = effectAlias
             self.selectors = selectors
         }
@@ -119,7 +119,7 @@ public struct Card: Equatable, Codable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
-        case setPlayAlias
+        case setAlias
         case setEffectAlias
         case queue
         case applyModifier

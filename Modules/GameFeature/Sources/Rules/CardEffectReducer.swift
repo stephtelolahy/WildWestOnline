@@ -50,7 +50,7 @@ private extension Card.ActionName {
         case .queue: Queue()
         case .applyModifier: ApplyModifier()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
-        case .setPlayAlias: fatalError("Unexpected to dispatch setPlayAlias")
+        case .setAlias: fatalError("Unexpected to dispatch setAlias")
         case .setEffectAlias: fatalError("Unexpected to dispatch setEffectAlias")
         }
     }
@@ -132,7 +132,7 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
             var cardName = Card.name(of: card)
-            let alias = state.playAlias(for: cardName, player: action.sourcePlayer)
+            let alias = state.alias(for: cardName, player: action.sourcePlayer)
             if let alias {
                 cardName = alias
             }
