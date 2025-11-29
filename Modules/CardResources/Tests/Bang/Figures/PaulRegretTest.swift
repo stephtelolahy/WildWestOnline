@@ -10,7 +10,7 @@ import GameFeature
 import CardResources
 
 struct PaulRegretTest {
-    @Test func paulRegret_shouldIncrementDistanceFromOthers() async throws {
+    @Test func shouldIncrementDistanceFromOthers() async throws {
         // Given
         let state = GameSetup.buildGame(
             figures: [.paulRegret],
