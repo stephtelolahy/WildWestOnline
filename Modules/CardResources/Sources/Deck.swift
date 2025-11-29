@@ -39,7 +39,7 @@ public enum Deck {
         .indians: ["5♦️"],
         .punch: ["10♠️"],
         .dodge: ["7♦️", "K♥️"],
-//        .springfield: ["K♠️"],
+        .springfield: ["K♠️"],
         .hideout: ["K♦️"],
         .generalStore: ["A♠️"],
         .catBalou: ["8♣️"],

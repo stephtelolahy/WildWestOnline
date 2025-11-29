@@ -71,21 +71,21 @@ private extension Card.Selector.ChoiceRequirement {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(target)
+            let targetObj = state.players.get(target)
 
             var options: [Card.Selector.ChoicePrompt.Option] = []
-            options += playerObj.inPlay.map {
+            options += targetObj.inPlay.map {
                 .init(id: $0, label: $0)
             }
-            options += playerObj.hand.indices.map {
-                let value = playerObj.hand[$0]
+            options += targetObj.hand.indices.map {
+                let value = targetObj.hand[$0]
                 let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
                 return .init(id: value, label: label)
             }
             options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
 
             guard options.isNotEmpty else {
-                throw .noChoosableCard(conditions)
+                throw .noChoosableCard(conditions, player: target)
             }
 
             let prompt = Card.Selector.ChoicePrompt(
@@ -108,12 +108,15 @@ private extension Card.Selector.ChoiceRequirement {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(target)
+            let targetObj = state.players.get(target)
 
-            let costCards = playerObj.hand.filter { conditions.match($0, pendingAction: pendingAction, state: state) }
+            let costCards = targetObj.hand.filter {
+                conditions.match($0, pendingAction: pendingAction, state: state)
+                && $0 != pendingAction.playedCard
+            }
 
             guard costCards.isNotEmpty else {
-                throw .noChoosableCard(conditions)
+                throw .noChoosableCard(conditions, player: target)
             }
 
             let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
@@ -266,7 +269,7 @@ private extension Card.Selector.ChoiceRequirement {
             }
 
             guard costCards.isNotEmpty else {
-                throw .noChoosableCard(conditions)
+                throw .noChoosableCard(conditions, player: player)
             }
 
             let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }

@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct PunchTest {
-    @Test func play_shouldDeal1Damage() async throws {
+    @Test func play_shouldShootAtRange1() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

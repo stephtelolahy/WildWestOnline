@@ -201,7 +201,7 @@ private extension Card.ActionName {
             let cardName = Card.name(of: card)
             let playerObj = state.players.get(player)
             guard playerObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName)
+                throw .cardAlreadyInPlay(cardName, player: player)
             }
 
             // put card on self's play
@@ -224,7 +224,7 @@ private extension Card.ActionName {
             let cardName = Card.name(of: card)
             let targetObj = state.players.get(target)
             guard targetObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName)
+                throw .cardAlreadyInPlay(cardName, player: target)
             }
 
             // put card on target's play

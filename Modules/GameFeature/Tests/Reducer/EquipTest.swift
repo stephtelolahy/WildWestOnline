@@ -39,7 +39,7 @@ struct EquipTest {
         // When
         // Then
         let action = GameFeature.Action.equip("c-1", player: "p1")
-        await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c")) {
+        await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c", player: "p1")) {
             try await dispatch(action, state: state)
         }
     }

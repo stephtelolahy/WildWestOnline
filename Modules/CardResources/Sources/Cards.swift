@@ -69,6 +69,7 @@ public enum Cards {
         .dodge,
         .binocular,
         .hideout,
+        .springfield,
     ]
 }
 
@@ -1170,24 +1171,30 @@ private extension Card {
             ]
         )
     }
-/*
+
     static var springfield: Self {
         .init(
             name: .springfield,
+            type: .collectible,
             description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
             effects: [
-                .collectible,
                 .init(
-                    name: .shoot,
+                    trigger: .cardPrePlayed,
+                    action: .play,
                     selectors: [
-                        .chooseCostHandCard(),
-                        .chooseTarget()
+                        .setTarget(.currentPlayer),
+                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.targetPlayer())
                     ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .shoot
                 )
             ]
         )
     }
-
+/*
     static var whisky: Self {
         .init(
             name: .whisky,

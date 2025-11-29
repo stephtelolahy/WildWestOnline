@@ -43,7 +43,7 @@ struct HandicapTest {
         // When
         // Then
         let action = GameFeature.Action.handicap("c-1", target: "p2", player: "p1")
-        await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c")) {
+        await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c", player: "p2")) {
             try await dispatch(action, state: state)
         }
     }
