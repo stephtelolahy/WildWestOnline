@@ -19,6 +19,8 @@ struct ActivateTest {
         let result = try await dispatch(action, state: state)
 
         // Then
-        #expect(result.playable == ["p1": ["c1", "c2"]])
+        let playable = try #require(result.playable)
+        #expect(playable.player ==  "p1")
+        #expect(playable.cards ==  ["c1", "c2"])
     }
 }

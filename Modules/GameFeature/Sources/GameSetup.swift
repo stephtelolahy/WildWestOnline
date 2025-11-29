@@ -73,7 +73,6 @@ public enum GameSetup {
             deck: deck,
             discard: [],
             discovered: [],
-            playable: [:],
             cards: cards,
             auras: auras,
             queue: [],

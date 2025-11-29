@@ -131,7 +131,11 @@ private extension GameFeature.State {
             return []
         }
 
-        let playableCards = playable[controlledPlayer] ?? []
+        var playableCards: [String] = []
+        if let playable,
+            playable.player == controlledPlayer {
+            playableCards = playable.cards
+        }
         let handCards = players.get(controlledPlayer).hand
 
         let hand = handCards.map { card in
