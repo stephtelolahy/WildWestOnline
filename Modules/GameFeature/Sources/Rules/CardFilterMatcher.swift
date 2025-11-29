@@ -29,7 +29,7 @@ private extension Card.Selector.CardFilter {
             let cardName = Card.name(of: card)
             let cardObj = state.cards.get(cardName)
             var effects = cardObj.effects
-            if let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer) {
+            if let alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, actionName: .counterShot) {
                 effects.append(contentsOf: state.cards.get(alias).effects)
             }
             return effects.contains { $0.trigger == .cardPlayed && $0.action == .counterShot }

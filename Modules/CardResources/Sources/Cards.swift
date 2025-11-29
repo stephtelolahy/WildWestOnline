@@ -1079,8 +1079,8 @@ private extension Card {
                 ),
                 .init(
                     trigger: .permanent,
-                    action: .setEffectAlias,
-                    effectAlias: [.bang: .missed]
+                    action: .setAlias,
+                    alias: [.bang: .missed]
                 )
             ]
         )

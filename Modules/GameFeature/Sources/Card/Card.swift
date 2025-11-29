@@ -42,7 +42,6 @@ public struct Card: Equatable, Codable, Sendable {
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]?
-        public let effectAlias: [String: String]?
         public let selectors: [Selector]
 
         public init(
@@ -52,7 +51,6 @@ public struct Card: Equatable, Codable, Sendable {
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
-            effectAlias: [String: String]? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
@@ -61,7 +59,6 @@ public struct Card: Equatable, Codable, Sendable {
             self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.alias = alias
-            self.effectAlias = effectAlias
             self.selectors = selectors
         }
     }
@@ -120,7 +117,6 @@ public struct Card: Equatable, Codable, Sendable {
         case setWeapon
         case setMaxHealth
         case setAlias
-        case setEffectAlias
         case queue
         case applyModifier
     }

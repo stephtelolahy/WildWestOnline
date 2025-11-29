@@ -282,7 +282,7 @@ private extension Card.Selector.ChoiceRequirement {
             } else {
                 // <set effect alias>
                 let cardName = Card.name(of: selection)
-                let alias = state.effectAlias(for: cardName, player: pendingAction.sourcePlayer)
+                let alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, actionName: .counterShot)
                 // </set effect alias>
                 return [pendingAction.copy(playedCard: selection, alias: alias)]
             }
