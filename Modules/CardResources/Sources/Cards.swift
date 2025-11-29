@@ -67,6 +67,8 @@ public enum Cards {
         // MARK: - Dodge city
         .punch,
         .dodge,
+        .binocular,
+        .hideout,
     ]
 }
 
@@ -1126,6 +1128,48 @@ private extension Card {
             ]
         )
     }
+
+    static var binocular: Self {
+        .init(
+            name: .binocular,
+            type: .collectible,
+            description: "you view others at distance -1",
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .cardEquiped,
+                    action: .increaseMagnifying,
+                    amount: 1
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .increaseMagnifying,
+                    amount: -1
+                )
+            ]
+        )
+    }
+
+    static var hideout: Self {
+        .init(
+            name: .hideout,
+            type: .collectible,
+            description: "Others view you at distance +1",
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .cardEquiped,
+                    action: .increaseRemoteness,
+                    amount: 1
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .increaseRemoteness,
+                    amount: -1
+                )
+            ]
+        )
+    }
 /*
     static var springfield: Self {
         .init(
@@ -1141,22 +1185,6 @@ private extension Card {
                     ]
                 )
             ]
-        )
-    }
-
-    static var hideout: Self {
-        .init(
-            name: .hideout,
-            description: "Others view you at distance +1",
-            increasePlayerAttribute: [.remoteness: 1]
-        )
-    }
-
-    static var binocular: Self {
-        .init(
-            name: .binocular,
-            description: "you view others at distance -1",
-            increasePlayerAttribute: [.magnifying: 1]
         )
     }
 
@@ -1181,7 +1209,6 @@ private extension Card {
         .init(
             name: .tequila,
             description: "The player must discard one additional card, to heal any player one health.",
-            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .collectible,
                 .init(

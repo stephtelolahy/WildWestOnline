@@ -9,7 +9,7 @@ import GameFeature
 import Testing
 
 struct SidKetchumTests {
-    @Test func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
+    @Test func playing_withTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -36,7 +36,7 @@ struct SidKetchumTests {
         ])
     }
 
-    @Test func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
+    @Test func playing_withThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -63,7 +63,7 @@ struct SidKetchumTests {
         ])
     }
 
-    @Test func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
+    @Test func playing_withoutCard_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -83,7 +83,7 @@ struct SidKetchumTests {
         }
     }
 
-    @Test func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
+    @Test func playing_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

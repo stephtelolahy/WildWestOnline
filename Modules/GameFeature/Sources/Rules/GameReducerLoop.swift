@@ -30,7 +30,7 @@ extension GameFeature {
             return nil
         }
 
-        if state.playable.isNotEmpty {
+        if state.playable != nil {
             return nil
         }
 

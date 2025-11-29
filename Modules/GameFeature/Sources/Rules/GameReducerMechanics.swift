@@ -20,13 +20,14 @@ extension GameFeature {
             state.queue.remove(at: 0)
         }
 
-        if state.playable.isNotEmpty {
+        if let playable = state.playable {
             guard action.name == .preparePlay,
-                  state.playable.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
+                  playable.player == action.sourcePlayer,
+                  playable.cards.contains(action.playedCard) else {
                 fatalError("Not playable card \(action.playedCard)")
             }
 
-            state.playable.removeValue(forKey: action.sourcePlayer)
+            state.playable = nil
         }
 
         do {

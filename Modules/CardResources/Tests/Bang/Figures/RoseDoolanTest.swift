@@ -10,7 +10,7 @@ import GameFeature
 import CardResources
 
 struct RoseDoolanTest {
-    @Test func roseDoolan_shouldDecrementDistanceToOthers() async throws {
+    @Test func shouldDecrementDistanceToOthers() async throws {
         // Given
         let state = GameSetup.buildGame(
             figures: [.roseDoolan],

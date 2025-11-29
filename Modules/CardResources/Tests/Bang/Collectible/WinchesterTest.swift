@@ -9,7 +9,7 @@ import Testing
 import GameFeature
 
 struct WinchesterTest {
-    @Test func playWinchester_shouldEquipAndSetAttribute() async throws {
+    @Test func playWinchester_shouldEquipAndSetWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

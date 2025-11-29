@@ -16,7 +16,7 @@ public extension GameFeature.State {
         private var startOrder: [String] = []
         private var queue: [GameFeature.Action] = []
         private var turn: String?
-        private var playable: [String: [String]] = [:]
+        private var playable: PlayableCards?
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
@@ -101,8 +101,8 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withPlayable(_ value: [String: [String]]) -> Self {
-            playable = value
+        public func withPlayable(_ cards: [String], player: String) -> Self {
+            playable = .init(player: player, cards: cards)
             return self
         }
 

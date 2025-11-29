@@ -10,7 +10,7 @@ import GameFeature
 import CardResources
 
 struct WillyTheKidTest {
-    @Test func willyTheKid_shouldPlayBangIgnoringLimitPerTurn() async throws {
+    @Test func shouldPlayBangIgnoringLimitPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -70,7 +70,7 @@ struct WillyTheKidTest {
         ])
     }
 
-    @Test func willyTheKid_withVolcanic_shouldPlayBangIgnoringLimitPerTurn() async throws {
+    @Test func equipedWithVolcanic_shouldPlayBangIgnoringLimitPerTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

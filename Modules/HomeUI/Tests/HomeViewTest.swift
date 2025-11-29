@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 
-@testable import HomeUI
+import HomeUI
 import Testing
 import AppFeature
 import GameFeature

@@ -495,7 +495,7 @@ private extension Card.ActionName {
             guard let cards = action.playableCards else { fatalError("Missing playableCards") }
 
             var state = state
-            state.playable = [target: cards]
+            state.playable = .init(player: target, cards: cards)
             return state
         }
     }

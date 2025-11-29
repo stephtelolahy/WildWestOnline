@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct BlackJackTests {
-    @Test func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
+    @Test func startingTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
@@ -34,7 +34,7 @@ struct BlackJackTests {
         ])
     }
 
-    @Test func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
+    @Test func startingTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()

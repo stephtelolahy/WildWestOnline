@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct JesseJonesTests {
-    @Test func jesseJonesStartTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenDraw() async throws {
+    @Test func startingTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
@@ -34,7 +34,7 @@ struct JesseJonesTests {
         ])
     }
 
-    @Test func jesseJonesStartTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenPass() async throws {
+    @Test func startingTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenPass() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
@@ -61,7 +61,7 @@ struct JesseJonesTests {
         ])
     }
 
-    @Test func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
+    @Test func startingTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()

@@ -9,7 +9,7 @@ import GameFeature
 import CardResources
 
 struct LuckyDukeTests {
-    @Test func LuckyDuke_shouldHaveTwoFlippedCards() async throws {
+    @Test func drawing_shouldFlipped2Cards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

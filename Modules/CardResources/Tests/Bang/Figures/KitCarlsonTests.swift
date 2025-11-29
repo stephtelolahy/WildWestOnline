@@ -10,7 +10,7 @@ import GameFeature
 import Testing
 
 struct KitCarlsonTests {
-    @Test func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
+    @Test func startingTurn_shouldChooseDeckCards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()

@@ -16,7 +16,7 @@ public enum GameFeature {
         public var deck: [String]
         public var discard: [String]
         public var discovered: [String]
-        public var playable: [String: [String]]
+        public var playable: PlayableCards?
         public var lastEvent: Action?
         public var lastError: Error?
 
@@ -43,6 +43,11 @@ public enum GameFeature {
         public enum PlayMode: Equatable, Codable, Sendable {
             case manual
             case auto
+        }
+
+        public struct PlayableCards: Equatable, Codable, Sendable {
+            public var player: String
+            public var cards: [String]
         }
     }
 

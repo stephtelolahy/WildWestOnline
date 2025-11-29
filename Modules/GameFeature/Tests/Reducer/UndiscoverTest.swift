@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 12/11/2025.
 //
 import Testing
-@testable import GameFeature
+import GameFeature
 
 struct UndiscoverTest {
     @Test func undiscover_shouldResetDiscoveredCards() async throws {

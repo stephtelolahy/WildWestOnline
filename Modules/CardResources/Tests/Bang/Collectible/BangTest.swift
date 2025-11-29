@@ -18,7 +18,6 @@ struct BangTest {
                     .withWeapon(1)
             }
             .withPlayer("p2")
-            .withPlayer("p3")
             .build()
 
         // When

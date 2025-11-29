@@ -33,7 +33,7 @@ struct PreparePlayTest {
                 $0.withHand(["c-2❤️"])
             }
             .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .cardPrePlayed, action: .play)])])
-            .withPlayable(["p1": ["c-2❤️"]])
+            .withPlayable(["c-2❤️"], player: "p1")
             .build()
 
         // When
@@ -41,7 +41,7 @@ struct PreparePlayTest {
         let result = try await dispatch(action, state: state)
 
         // Then
-        #expect(result.playable.isEmpty)
+        #expect(result.playable == nil)
     }
 
     @Test func preparePlay_withoutEffects_shouldThrowError() async throws {

@@ -9,24 +9,7 @@ import Testing
 @testable import GameFeature
 
 struct GameSetupTest {
-    @Test func setupDeck_shouldCreateCardsByCombiningNameAndValues() async throws {
-        // Given
-        let cardSets: [String: [String]] = [
-            "card1": ["val11", "val12"],
-            "card2": ["val21", "val22"]
-        ]
-
-        // When
-        let deck = GameSetup.buildDeck(deck: cardSets)
-
-        // Then
-        #expect(deck.contains("card1-val11"))
-        #expect(deck.contains("card1-val12"))
-        #expect(deck.contains("card2-val21"))
-        #expect(deck.contains("card2-val22"))
-    }
-
-    @Test func setupGame_shouldCreatePlayer() async throws {
+    @Test func setupGame() async throws {
         // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]

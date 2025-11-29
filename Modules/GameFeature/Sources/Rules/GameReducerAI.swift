@@ -27,10 +27,9 @@ extension GameFeature {
             return bestMove
         }
 
-        if state.playable.isNotEmpty,
-           let choice = state.playable.first,
-           state.playMode[choice.key] == .auto {
-            let actions = choice.value.map { GameFeature.Action.preparePlay($0, player: choice.key) }
+        if let playable = state.playable,
+           state.playMode[playable.player] == .auto {
+            let actions = playable.cards.map { GameFeature.Action.preparePlay($0, player: playable.player) }
             let strategy: AIStrategy = AIStrategy()
             let bestMove = strategy.evaluateBestMove(actions, state: state)
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
