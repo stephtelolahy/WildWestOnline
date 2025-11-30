@@ -72,6 +72,7 @@ public enum Cards {
         .springfield,
         .whisky,
         .tequila,
+        .ragTime,
     ]
 }
 
@@ -1239,6 +1240,40 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .heal,
                     amount: 1
+                )
+            ]
+        )
+    }
+
+    static var ragTime: Self {
+        .init(
+            name: .ragTime,
+            type: .collectible,
+            description: "The player must discard one additional card to steal a card from any other player.",
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .setTarget(.currentPlayer),
+                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.targetPlayer([.hasCards])),
+                        .chooseOne(.targetCard())
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .stealHand,
+                    selectors: [
+                        .applyIf(.targetedCardFromHand)
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .stealInPlay,
+                    selectors: [
+                        .applyIf(.targetedCardFromInPlay)
+                    ]
                 )
             ]
         )

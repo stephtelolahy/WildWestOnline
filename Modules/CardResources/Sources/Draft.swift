@@ -6,24 +6,6 @@
 //
 
 /*
-    static var ragTime: Self {
-        .init(
-            name: .ragTime,
-            description: "The player must discard one additional card to steal a card from any other player.",
-            effects: [
-                .collectible,
-                .init(
-                    name: .steal,
-                    selectors: [
-                        .chooseCostHandCard(),
-                        .chooseTarget(),
-                        .chooseCard()
-                    ]
-                )
-            ]
-        )
-    }
-
     static var brawl: Self {
         .init(
             name: .brawl,
