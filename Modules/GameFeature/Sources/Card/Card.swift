@@ -145,7 +145,7 @@ public struct Card: Equatable, Codable, Sendable {
             case otherPlayers([PlayerFilter] = [])
             case nextPlayer
             case damagingPlayer
-            case currentPlayer
+            case sourcePlayer
             case eliminatedPlayer
         }
 

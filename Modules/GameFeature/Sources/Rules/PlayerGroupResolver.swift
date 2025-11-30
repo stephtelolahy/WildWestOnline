@@ -23,7 +23,7 @@ private extension Card.Selector.PlayerGroup {
         case .otherPlayers(let conditions): OtherPlayers(conditions: conditions)
         case .nextPlayer: NextPlayer()
         case .damagingPlayer: DamagingPlayer()
-        case .currentPlayer: CurrentPlayer()
+        case .sourcePlayer: SourcePlayer()
         case .eliminatedPlayer: EliminatedPlayer()
         }
     }
@@ -87,7 +87,7 @@ private extension Card.Selector.PlayerGroup {
         }
     }
 
-    struct CurrentPlayer: Resolver {
+    struct SourcePlayer: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             [pendingAction.sourcePlayer]
         }
