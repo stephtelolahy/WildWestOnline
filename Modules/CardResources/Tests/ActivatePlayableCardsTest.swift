@@ -26,7 +26,7 @@ struct ActivatePlayableCardsTest {
             .build()
 
         // When
-        let action = GameFeature.Action.dummy
+        let action = GameFeature.Action.dummy()
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -51,7 +51,7 @@ struct ActivatePlayableCardsTest {
             .build()
 
         // When
-        let action = GameFeature.Action.dummy
+        let action = GameFeature.Action.dummy()
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

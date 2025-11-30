@@ -1296,10 +1296,26 @@ private extension Card {
                 ),
                 .init(
                     trigger: .cardPlayed,
-                    action: .discardHand,
+                    action: .dummy,
                     selectors: [
                         .setTarget(.otherPlayers),
-                        .chooseOne(.targetCard())
+                        .chooseOne(.targetCard()),
+                        .onComplete([
+                            .init(
+                                trigger: .cardPlayed,
+                                action: .discardHand,
+                                selectors: [
+                                    .applyIf(.targetedCardFromHand)
+                                ]
+                            ),
+                            .init(
+                                trigger: .cardPlayed,
+                                action: .discardInPlay,
+                                selectors: [
+                                    .applyIf(.targetedCardFromInPlay)
+                                ]
+                            )
+                        ])
                     ]
                 )
             ]

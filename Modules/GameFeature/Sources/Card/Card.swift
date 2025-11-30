@@ -119,6 +119,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setAlias
         case queue
         case applyModifier
+        case dummy
     }
 
     public enum Selector: Equatable, Codable, Sendable {

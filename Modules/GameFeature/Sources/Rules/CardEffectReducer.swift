@@ -49,6 +49,7 @@ private extension Card.ActionName {
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
         case .applyModifier: ApplyModifier()
+        case .dummy: Dummy()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         }
@@ -538,6 +539,12 @@ private extension Card.ActionName {
             var state = state
             state.queue = try dependencies.apply(action, state)
             return state
+        }
+    }
+
+    struct Dummy: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
+            state
         }
     }
 }
