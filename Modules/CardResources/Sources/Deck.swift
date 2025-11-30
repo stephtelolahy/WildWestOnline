@@ -54,7 +54,7 @@ public enum Deck {
         .whisky: ["Q♦️"],
         .tequila: ["9♣️"],
         .ragTime: ["9♥️"],
-//        .brawl: ["J♠️"]
+        .brawl: ["J♠️"]
     ]
 
     private static func flatten(_ dict: [String: [String]]) -> [String] {
