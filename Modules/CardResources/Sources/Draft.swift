@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 30/11/2025.
 //
+// swiftlint:disable file_length
 
 /*
     static var elenaFuente: Self {

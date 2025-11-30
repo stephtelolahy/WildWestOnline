@@ -20,7 +20,7 @@ private extension Card.Selector.PlayerGroup {
         switch self {
         case .woundedPlayers: WoundedPlayers()
         case .activePlayers: ActivePlayers()
-        case .otherPlayers: OtherPlayers()
+        case .otherPlayers(let conditions): OtherPlayers(conditions: conditions)
         case .nextPlayer: NextPlayer()
         case .damagingPlayer: DamagingPlayer()
         case .currentPlayer: CurrentPlayer()
@@ -44,8 +44,15 @@ private extension Card.Selector.PlayerGroup {
     }
 
     struct OtherPlayers: Resolver {
+        let conditions: [Card.Selector.PlayerFilter]
+
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
-            Array(state.playOrder.starting(with: pendingAction.sourcePlayer).dropFirst())
+            let targetPlayers = state.playOrder
+                .starting(with: pendingAction.sourcePlayer)
+                .dropFirst()
+                .filter { conditions.match($0, pendingAction: pendingAction, state: state) }
+
+            return Array(targetPlayers)
         }
     }
 

@@ -295,7 +295,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 }
 
-private extension Array where Element == Card.Selector.PlayerFilter {
+extension Array where Element == Card.Selector.PlayerFilter {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(player, pendingAction: pendingAction, state: state)

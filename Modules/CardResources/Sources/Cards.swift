@@ -513,7 +513,7 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .shoot,
                     selectors: [
-                        .setTarget(.otherPlayers)
+                        .setTarget(.otherPlayers())
                     ]
                 )
             ]
@@ -532,7 +532,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .setTarget(.otherPlayers),
+                        .setTarget(.otherPlayers()),
                         .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
@@ -1298,7 +1298,7 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .dummy,
                     selectors: [
-                        .setTarget(.otherPlayers),
+                        .setTarget(.otherPlayers([.hasCards])),
                         .chooseOne(.targetCard()),
                         .onComplete([
                             .init(
