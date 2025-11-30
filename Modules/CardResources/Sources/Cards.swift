@@ -71,6 +71,7 @@ public enum Cards {
         .hideout,
         .springfield,
         .whisky,
+        .tequila,
     ]
 }
 
@@ -1214,6 +1215,30 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .heal,
                     amount: 2
+                )
+            ]
+        )
+    }
+
+    static var tequila: Self {
+        .init(
+            name: .tequila,
+            type: .collectible,
+            description: "The player must discard one additional card, to heal any player one health.",
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .setTarget(.currentPlayer),
+                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.targetPlayer([.isWounded]))
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .heal,
+                    amount: 1
                 )
             ]
         )

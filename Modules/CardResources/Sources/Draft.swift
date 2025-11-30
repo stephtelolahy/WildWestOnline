@@ -6,23 +6,6 @@
 //
 
 /*
-    static var tequila: Self {
-        .init(
-            name: .tequila,
-            description: "The player must discard one additional card, to heal any player one health.",
-            effects: [
-                .collectible,
-                .init(
-                    name: .heal,
-                    selectors: [
-                        .chooseCostHandCard(),
-                        .chooseTarget()
-                    ]
-                )
-            ]
-        )
-    }
-
     static var ragTime: Self {
         .init(
             name: .ragTime,

@@ -52,7 +52,7 @@ public enum Deck {
         .mustang: ["5♥️"],
         .barrel: ["A♣️"],
         .whisky: ["Q♦️"],
-//        .tequila: ["9♣️"],
+        .tequila: ["9♣️"],
 //        .ragTime: ["9♥️"],
 //        .brawl: ["J♠️"]
     ]

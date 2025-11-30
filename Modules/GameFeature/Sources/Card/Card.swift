@@ -185,6 +185,7 @@ public struct Card: Equatable, Codable, Sendable {
             case hasHandCards
             case atDistance(Int)
             case reachable
+            case isWounded
         }
 
         public enum CardFilter: Equatable, Codable, Sendable {
