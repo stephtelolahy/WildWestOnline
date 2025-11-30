@@ -141,7 +141,6 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum PlayerGroup: Equatable, Codable, Sendable {
             case activePlayers
-            @available(*, deprecated, renamed: "otherPlayers")
             case woundedPlayers
             case otherPlayers([PlayerFilter] = [])
             case nextPlayer
