@@ -51,7 +51,7 @@ public enum Deck {
         .dynamite: ["10♣️"],
         .mustang: ["5♥️"],
         .barrel: ["A♣️"],
-//        .whisky: ["Q♦️"],
+        .whisky: ["Q♦️"],
 //        .tequila: ["9♣️"],
 //        .ragTime: ["9♥️"],
 //        .brawl: ["J♠️"]
