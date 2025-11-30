@@ -39,7 +39,7 @@ public enum Deck {
         .indians: ["5♦️"],
         .punch: ["10♠️"],
         .dodge: ["7♦️", "K♥️"],
-//        .springfield: ["K♠️"],
+        .springfield: ["K♠️"],
         .hideout: ["K♦️"],
         .generalStore: ["A♠️"],
         .catBalou: ["8♣️"],
@@ -51,10 +51,10 @@ public enum Deck {
         .dynamite: ["10♣️"],
         .mustang: ["5♥️"],
         .barrel: ["A♣️"],
-//        .whisky: ["Q♦️"],
-//        .tequila: ["9♣️"],
-//        .ragTime: ["9♥️"],
-//        .brawl: ["J♠️"]
+        .whisky: ["Q♦️"],
+        .tequila: ["9♣️"],
+        .ragTime: ["9♥️"],
+        .brawl: ["J♠️"]
     ]
 
     private static func flatten(_ dict: [String: [String]]) -> [String] {

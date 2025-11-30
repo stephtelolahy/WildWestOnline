@@ -77,7 +77,7 @@ struct DiscardBeerOnDamagedLethalTest {
         // When
         // Then
         let action = GameFeature.Action.damage(1, player: "p1")
-        await #expect(throws: GameFeature.Error.noChoosableCard([.named(.beer)])) {
+        await #expect(throws: GameFeature.Error.noChoosableCard([.named(.beer)], player: "p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

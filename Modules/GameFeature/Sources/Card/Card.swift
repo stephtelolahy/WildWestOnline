@@ -119,6 +119,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setAlias
         case queue
         case applyModifier
+        case dummy
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -138,13 +139,13 @@ public struct Card: Equatable, Codable, Sendable {
             case requiredMisses
         }
 
-        public enum PlayerGroup: String, Codable, Sendable {
+        public enum PlayerGroup: Equatable, Codable, Sendable {
             case activePlayers
             case woundedPlayers
-            case otherPlayers
+            case otherPlayers([PlayerFilter] = [])
             case nextPlayer
             case damagingPlayer
-            case currentPlayer
+            case sourcePlayer
             case eliminatedPlayer
         }
 
@@ -185,6 +186,7 @@ public struct Card: Equatable, Codable, Sendable {
             case hasHandCards
             case atDistance(Int)
             case reachable
+            case isWounded
         }
 
         public enum CardFilter: Equatable, Codable, Sendable {

@@ -49,6 +49,7 @@ private extension Card.ActionName {
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
         case .applyModifier: ApplyModifier()
+        case .dummy: Dummy()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         }
@@ -148,7 +149,7 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.action, parentAction: action),
                         alias: alias
                     )
                 }
@@ -180,7 +181,7 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.action, parentAction: action),
                         targetedCard: action.targetedCard
                     )
                 }
@@ -201,7 +202,7 @@ private extension Card.ActionName {
             let cardName = Card.name(of: card)
             let playerObj = state.players.get(player)
             guard playerObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName)
+                throw .cardAlreadyInPlay(cardName, player: player)
             }
 
             // put card on self's play
@@ -224,7 +225,7 @@ private extension Card.ActionName {
             let cardName = Card.name(of: card)
             let targetObj = state.players.get(target)
             guard targetObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName)
+                throw .cardAlreadyInPlay(cardName, player: target)
             }
 
             // put card on target's play
@@ -538,6 +539,12 @@ private extension Card.ActionName {
             var state = state
             state.queue = try dependencies.apply(action, state)
             return state
+        }
+    }
+
+    struct Dummy: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {
+            state
         }
     }
 }

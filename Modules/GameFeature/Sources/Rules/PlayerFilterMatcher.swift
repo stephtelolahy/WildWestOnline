@@ -22,6 +22,7 @@ private extension Card.Selector.PlayerFilter {
         case .hasHandCards: HasHandCards()
         case .atDistance(let distance): AtDistance(distance: distance)
         case .reachable: Reachable()
+        case .isWounded: IsWounded()
         }
     }
 
@@ -54,6 +55,12 @@ private extension Card.Selector.PlayerFilter {
     struct Reachable: Matcher {
         func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.distance(from: pendingAction.sourcePlayer, to: player) <= state.players.get(pendingAction.sourcePlayer).weapon
+        }
+    }
+
+    struct IsWounded: Matcher {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            player != pendingAction.sourcePlayer && state.players.get(player).isWounded
         }
     }
 }

@@ -86,11 +86,11 @@ public enum GameFeature {
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
         case cardNotPlayable(String)
-        case cardAlreadyInPlay(String)
+        case cardAlreadyInPlay(String, player: String)
         case noReq(Card.Selector.PlayRequirement)
         case noTarget(Card.Selector.PlayerGroup)
         case noChoosableTarget([Card.Selector.PlayerFilter])
-        case noChoosableCard([Card.Selector.CardFilter])
+        case noChoosableCard([Card.Selector.CardFilter], player: String)
     }
 
     public static var reducer: Reducer<State, Action, QueueModifierClient> {
