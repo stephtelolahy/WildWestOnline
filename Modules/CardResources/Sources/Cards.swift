@@ -73,6 +73,7 @@ public enum Cards {
         .whisky,
         .tequila,
         .ragTime,
+        .brawl,
     ]
 }
 
@@ -1273,6 +1274,32 @@ private extension Card {
                     action: .stealInPlay,
                     selectors: [
                         .applyIf(.targetedCardFromInPlay)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var brawl: Self {
+        .init(
+            name: .brawl,
+            type: .collectible,
+            description: "The player must discard one additional card to cause all other players to discard one card.",
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .setTarget(.currentPlayer),
+                        .chooseOne(.costCard([.isFromHand]))
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .discardHand,
+                    selectors: [
+                        .setTarget(.otherPlayers),
+                        .chooseOne(.targetCard())
                     ]
                 )
             ]

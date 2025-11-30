@@ -6,24 +6,6 @@
 //
 
 /*
-    static var brawl: Self {
-        .init(
-            name: .brawl,
-            description: "The player must discard one additional card to cause all other players to discard one card.",
-            effects: [
-                .collectible,
-                .init(
-                    name: .discard,
-                    selectors: [
-                        .chooseCostHandCard(),
-                        .setTarget(.all),
-                        .chooseCard()
-                    ]
-                )
-            ]
-        )
-    }
-
     static var elenaFuente: Self {
         .init(
             name: .elenaFuente,
