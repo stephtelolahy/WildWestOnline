@@ -12,7 +12,7 @@ import Redux
 public extension HomeView {
     struct ViewState: Equatable {}
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action>
 }
 
 public extension HomeView.ViewState {

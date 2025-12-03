@@ -19,13 +19,12 @@ func dispatchUntilCompleted(
     choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
-    let dependencies = GameFeature.CustomDependencies(
-        choiceHandler: choiceHandler,
-        modifierClient: .live(handlers: QueueModifiers.allHandlers)
-    )
+    var dependencies = Dependencies()
+    dependencies.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+    dependencies.choiceHandler = .init(handleChoice: choiceHandler)
     let sut = Store(
         initialState: state,
-        reducer: GameFeature.reducerCustom,
+        reducer: combine(GameFeature.reducer, GameFeature.reducerChoice),
         dependencies: dependencies
     )
     var receivedActions: [GameFeature.Action] = []
@@ -61,44 +60,22 @@ func dispatchUntilCompleted(
 }
 
 private extension GameFeature {
-
-    struct CustomDependencies {
-        let choiceHandler: ChoiceHandler
-        let modifierClient: QueueModifierClient
-    }
-
-    static var reducerCustom: Reducer<State, Action, CustomDependencies> {
-        { state, action, dependencies in
-            let mainEffect = reducer(&state, action, dependencies.modifierClient)
-            let choiceEffect = reducerChoice(&state, action, dependencies)
-            return .group([mainEffect, choiceEffect])
-        }
-    }
-
-    static var reducerChoice: Reducer<State, Action, CustomDependencies> {
+    static var reducerChoice: Reducer<State, Action> {
         { state, action, dependencies in
             let state = state
             return .run {
-                await performChoice(state: state, action: action, choiceHandler: dependencies.choiceHandler)
+                guard let pendingChoice = state.pendingChoice else {
+                    return nil
+                }
+
+                let selection = dependencies.choiceHandler.handleChoice(pendingChoice.options.map(\.label))
+                return GameFeature.Action.choose(selection, player: pendingChoice.chooser)
             }
         }
     }
-
-    static func performChoice(
-        state: State,
-        action: Action,
-        choiceHandler: ChoiceHandler
-    ) async -> Action? {
-        guard let pendingChoice = state.pendingChoice else {
-            return nil
-        }
-
-        let selection = choiceHandler(pendingChoice.options.map(\.label))
-        return GameFeature.Action.choose(selection, player: pendingChoice.chooser)
-    }
 }
 
-func choiceHandlerFirstOption() -> ChoiceHandler {
+private func choiceHandlerFirstOption() -> ChoiceHandler {
     return { $0[0] }
 }
 
@@ -114,4 +91,27 @@ func choiceHandlerWithResponses(_ responses: [ChoiceResponse]) -> ChoiceHandler 
 struct ChoiceResponse {
     let options: [String]
     let selection: String
+}
+
+private struct ChoiceHandlerClient {
+    var handleChoice: ChoiceHandler
+}
+
+private extension Dependencies {
+    var choiceHandler: ChoiceHandlerClient {
+        get { self[ChoiceHandlerClientKey.self] }
+        set { self[ChoiceHandlerClientKey.self] = newValue }
+    }
+}
+
+private enum ChoiceHandlerClientKey: DependencyKey {
+    nonisolated(unsafe) static let defaultValue: ChoiceHandlerClient = .noop
+}
+
+private extension ChoiceHandlerClient {
+    static var noop: Self {
+        .init(
+            handleChoice: { $0[0] }
+        )
+    }
 }

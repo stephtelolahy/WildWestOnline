@@ -172,7 +172,7 @@ struct SettingsRootView: View {
 #Preview {
     NavigationStack {
         SettingsRootView {
-            .init(initialState: .previewState, dependencies: ())
+            .init(initialState: .previewState)
         }
     }
 }

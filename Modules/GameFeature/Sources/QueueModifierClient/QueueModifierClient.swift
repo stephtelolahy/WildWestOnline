@@ -12,9 +12,3 @@ public struct QueueModifierClient {
         self.apply = apply
     }
 }
-
-public extension QueueModifierClient {
-    static var empty: Self {
-        .init(apply: { _, state in state.queue })
-    }
-}

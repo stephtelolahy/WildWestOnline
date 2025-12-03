@@ -8,12 +8,12 @@
 import Foundation
 
 @propertyWrapper
-public struct UserDefaultsStored<T> {
+struct UserDefaultsStored<T> {
     private let key: String
     private let defaultValue: T
     private let storage: UserDefaults
 
-    public var wrappedValue: T {
+    var wrappedValue: T {
         get {
             storage.object(forKey: key) as? T ?? defaultValue
         }
@@ -23,7 +23,7 @@ public struct UserDefaultsStored<T> {
         }
     }
 
-    public init(_ key: String, defaultValue: T, storage: UserDefaults = .standard) {
+    init(_ key: String, defaultValue: T, storage: UserDefaults = .standard) {
         self.key = key
         self.defaultValue = defaultValue
         self.storage = storage
@@ -31,11 +31,11 @@ public struct UserDefaultsStored<T> {
 }
 
 @propertyWrapper
-public struct OptionalUserDefaultsStored<T> {
+struct OptionalUserDefaultsStored<T> {
     private let key: String
     private let storage: UserDefaults
 
-    public var wrappedValue: T? {
+    var wrappedValue: T? {
         get {
             storage.object(forKey: key) as? T
         }
@@ -45,7 +45,7 @@ public struct OptionalUserDefaultsStored<T> {
         }
     }
 
-    public init(_ key: String, storage: UserDefaults = .standard) {
+    init(_ key: String, storage: UserDefaults = .standard) {
         self.key = key
         self.storage = storage
     }

@@ -12,12 +12,12 @@ public extension Store {
     func projection<LocalState: Equatable, LocalAction>(
         state deriveState: @escaping (State) -> LocalState?,
         action embedAction: @escaping (LocalAction) -> Action
-    ) -> Store<LocalState, LocalAction, Void> {
+    ) -> Store<LocalState, LocalAction> {
         guard let initialState = deriveState(state) else {
             fatalError("Failed deriving \(LocalState.self) from \(State.self): \(state)")
         }
 
-        let store = Store<LocalState, LocalAction, Void>(
+        let store = Store<LocalState, LocalAction>(
             initialState: initialState,
             reducer: { _, action, _ in
                 .run {
@@ -25,7 +25,7 @@ public extension Store {
                     return .none
                 }
             },
-            dependencies: ()
+            dependencies: dependencies
         )
 
         $state

@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 import Redux
-import SettingsClient
+import PreferencesClient
 
 public enum SettingsFeature {
     public struct State: Equatable, Codable, Sendable {
@@ -27,28 +27,28 @@ public enum SettingsFeature {
     public static func reducer(
         state: inout State,
         action: Action,
-        dependencies: SettingsClient
+        dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
         case .updatePlayersCount(let value):
             state.playersCount = value
-            dependencies.savePlayersCount(value)
+            dependencies.preferencesClient.savePlayersCount(value)
 
         case .updateActionDelayMilliSeconds(let value):
             state.actionDelayMilliSeconds = value
-            dependencies.saveActionDelayMilliSeconds(value)
+            dependencies.preferencesClient.saveActionDelayMilliSeconds(value)
 
         case .toggleSimulation:
             state.simulation.toggle()
-            dependencies.saveSimulationEnabled(state.simulation)
+            dependencies.preferencesClient.saveSimulationEnabled(state.simulation)
 
         case .updatePreferredFigure(let value):
             state.preferredFigure = value
-            dependencies.savePreferredFigure(value)
+            dependencies.preferencesClient.savePreferredFigure(value)
 
         case .updateMusicVolume(let value):
             state.musicVolume = value
-            dependencies.saveMusicVolume(value)
+            dependencies.preferencesClient.saveMusicVolume(value)
         }
 
         return .none

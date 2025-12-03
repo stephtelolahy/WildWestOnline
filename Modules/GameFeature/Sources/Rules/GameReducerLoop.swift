@@ -9,7 +9,7 @@ extension GameFeature {
     static func reducerLoop(
         into state: inout State,
         action: Action,
-        dependencies: QueueModifierClient
+        dependencies: Dependencies
     ) -> Effect<Action> {
         let state = state
         return .run {
@@ -17,7 +17,7 @@ extension GameFeature {
         }
     }
 
-    private static func nextAction(state: State, action: Action, dependencies: QueueModifierClient) async -> Action? {
+    private static func nextAction(state: State, action: Action, dependencies: Dependencies) async -> Action? {
         if action.isAnimatable {
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
         }
@@ -124,7 +124,7 @@ private extension GameFeature.State {
             }
     }
 
-    func activatePlayableCards(dependencies: QueueModifierClient) -> GameFeature.Action? {
+    func activatePlayableCards(dependencies: Dependencies) -> GameFeature.Action? {
         guard let player = turn else {
             return nil
         }
@@ -146,7 +146,7 @@ private extension GameFeature.State {
         _ card: String,
         player: String,
         state: GameFeature.State,
-        dependencies: QueueModifierClient
+        dependencies: Dependencies
     ) -> Bool {
         let action = GameFeature.Action.preparePlay(card, player: player)
         do {
@@ -159,7 +159,7 @@ private extension GameFeature.State {
         }
     }
 
-    static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws {
+    static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws {
         var newState = state
 
         _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: dependencies)

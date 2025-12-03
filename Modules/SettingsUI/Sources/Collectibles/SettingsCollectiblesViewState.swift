@@ -17,7 +17,7 @@ extension SettingsCollectiblesView {
         }
     }
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action>
 }
 
 extension SettingsCollectiblesView.ViewState {

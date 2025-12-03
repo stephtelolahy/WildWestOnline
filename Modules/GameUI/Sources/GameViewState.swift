@@ -53,7 +53,7 @@ public extension GameView {
         }
     }
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action>
 }
 
 public extension GameView.ViewState {

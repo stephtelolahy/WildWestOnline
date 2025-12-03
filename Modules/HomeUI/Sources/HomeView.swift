@@ -103,6 +103,6 @@ private struct BreathingEffect: ViewModifier {
 
 #Preview {
     HomeView {
-        .init(initialState: .init(), dependencies: ())
+        .init(initialState: .init())
     }
 }

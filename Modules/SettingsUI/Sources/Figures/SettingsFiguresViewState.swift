@@ -18,7 +18,7 @@ extension SettingsFiguresView {
         }
     }
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action>
 }
 
 extension SettingsFiguresView.ViewState {

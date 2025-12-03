@@ -80,12 +80,7 @@ public struct AppCoordinator: View {
 #Preview {
     AppCoordinator {
         .init(
-            initialState: .previewState,
-            dependencies: .init(
-                settingsClient: .empty,
-                audioClient: .empty,
-                modifierClient: .empty
-            )
+            initialState: .previewState
         )
     }
 }

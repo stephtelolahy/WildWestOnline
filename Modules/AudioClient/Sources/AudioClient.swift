@@ -37,18 +37,3 @@ public struct AudioClient {
 
     public typealias Sound = String
 }
-
-public extension AudioClient {
-    static var empty: Self {
-        .init(
-            load: { _ in },
-            loop: { _ in },
-            play: { _ in },
-            pause: { _ in },
-            resume: { _ in },
-            stop: { _ in },
-            setMusicVolume: { _ in },
-            getMusicVolume: { 0.0 }
-        )
-    }
-}

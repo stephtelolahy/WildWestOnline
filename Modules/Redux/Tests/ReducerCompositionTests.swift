@@ -1,5 +1,5 @@
 //
-//  Reducer+PullbackTest.swift
+//  ReducerCompositionTests.swift
 //
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
@@ -14,19 +14,17 @@ struct ReducerCompositionTests {
             flag: FlagFeature.State(isOn: false)
         )
 
-        let deps = GlobalFeature.Dependencies(
-            counterDeps: .init(step: 2),
-            flagDeps: .init()
-        )
+        var dependencies = Dependencies()
+        dependencies.stepClient = .init(step: { 2 })
 
         // Dispatch global counter action
-        let effect1 = GlobalFeature.reducer(&state, .counter(.increment), deps)
+        let effect1 = GlobalFeature.reducer(&state, .counter(.increment), dependencies)
         #expect(state.counter.count == 7)
         #expect(state.flag.isOn == false)
         #expect(effect1.isGroup())
 
         // Dispatch global flag action
-        let effect2 = GlobalFeature.reducer(&state, .flag(.toggle), deps)
+        let effect2 = GlobalFeature.reducer(&state, .flag(.toggle), dependencies)
         #expect(state.flag.isOn == true)
         #expect(state.counter.count == 7)
         #expect(effect2.isGroup())
@@ -34,14 +32,15 @@ struct ReducerCompositionTests {
 
     @Test func testPullbackHandlesOnlyMatchingAction() {
         var state = GlobalFeature.State(counter: .init(), flag: .init())
-        let deps = GlobalFeature.Dependencies(counterDeps: .init(step: 1), flagDeps: .init())
+        var dependencies = Dependencies()
+        dependencies.stepClient = .init(step: { 1 })
 
         // Should handle only .counter actions
-        let effect1 = GlobalFeature.reducer(&state, .counter(.increment), deps)
+        let effect1 = GlobalFeature.reducer(&state, .counter(.increment), dependencies)
         #expect(state.counter.count == 1)
 
         // .flag action should not affect counter
-        let effect2 = GlobalFeature.reducer(&state, .flag(.toggle), deps)
+        let effect2 = GlobalFeature.reducer(&state, .flag(.toggle), dependencies)
         #expect(state.counter.count == 1)
         #expect(state.flag.isOn == true)
 
@@ -51,9 +50,10 @@ struct ReducerCompositionTests {
 
     @Test func testAsyncEffectRunsCorrectly() async {
         var state = GlobalFeature.State(counter: .init(), flag: .init())
-        let deps = GlobalFeature.Dependencies(counterDeps: .init(step: 1), flagDeps: .init())
+        var dependencies = Dependencies()
+        dependencies.stepClient = .init(step: { 1 })
 
-        let effect = GlobalFeature.reducer(&state, .counter(.asyncIncrement), deps)
+        let effect = GlobalFeature.reducer(&state, .counter(.asyncIncrement), dependencies)
 
         // Extract async effect and run it manually
         guard case let .group(effects) = effect,
@@ -67,12 +67,12 @@ struct ReducerCompositionTests {
         #expect(nextAction == .counter(.incremented(1)))
 
         // Apply returned action manually to simulate dispatch
-        _ = GlobalFeature.reducer(&state, nextAction!, deps)
+        _ = GlobalFeature.reducer(&state, nextAction!, dependencies)
         #expect(state.counter.count == 1)
     }
 }
 
-extension Effect where Action == GlobalFeature.Action {
+private extension Effect where Action == GlobalFeature.Action {
     func isGroup() -> Bool {
         guard case .group = self else {
             return false

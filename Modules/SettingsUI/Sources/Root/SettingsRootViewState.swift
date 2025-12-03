@@ -29,7 +29,7 @@ extension SettingsRootView {
         }
     }
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action>
 }
 
 extension SettingsRootView.ViewState {

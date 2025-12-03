@@ -32,11 +32,11 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
         // Dependencies abstraction
-        .library(name: "SettingsClient", targets: ["SettingsClient"]),
+        .library(name: "PreferencesClient", targets: ["PreferencesClient"]),
         .library(name: "AudioClient", targets: ["AudioClient"]),
 
         // Dependencies implementation
-        .library(name: "SettingsClientLive", targets: ["SettingsClientLive"]),
+        .library(name: "PreferencesClientLive", targets: ["PreferencesClientLive"]),
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
         .library(name: "CardResources", targets: ["CardResources"]),
 
@@ -93,15 +93,18 @@ let package = Package(
             path: "GameFeature/Tests"
         ),
         .target(
-            name: "SettingsClient",
-            path: "SettingsClient/Sources",
+            name: "PreferencesClient",
+            dependencies: [
+                "Redux"
+            ],
+            path: "PreferencesClient/Sources",
             plugins: lintPlugin
         ),
         .target(
             name: "SettingsFeature",
             dependencies: [
                 "Redux",
-                "SettingsClient"
+                "PreferencesClient"
             ],
             path: "SettingsFeature/Sources",
             plugins: lintPlugin
@@ -154,7 +157,9 @@ let package = Package(
         ),
         .target(
             name: "AudioClient",
-            dependencies: [],
+            dependencies: [
+                "Redux"
+            ],
             path: "AudioClient/Sources",
             plugins: lintPlugin
         ),
@@ -260,12 +265,11 @@ let package = Package(
             path: "CardResources/Tests"
         ),
         .target(
-            name: "SettingsClientLive",
+            name: "PreferencesClientLive",
             dependencies: [
-                "SettingsClient",
-                "Utils"
+                "PreferencesClient"
             ],
-            path: "SettingsClientLive/Sources",
+            path: "PreferencesClientLive/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -273,7 +277,7 @@ let package = Package(
             dependencies: [
                 "AppUI",
                 "CardResources",
-                "SettingsClientLive",
+                "PreferencesClientLive",
                 "AudioClientLive"
             ],
             path: "AppBootstrap/Sources",

@@ -9,7 +9,7 @@ extension GameFeature {
     static func reducerAI(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: Dependencies
     ) -> Effect<Action> {
         let state = state
         return .run {

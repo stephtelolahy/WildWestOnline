@@ -55,8 +55,7 @@ struct SettingsCollectiblesView: View {
                     .init(name: .bang, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"),
                     .init(name: .missed, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"),
                     .init(name: .dodge, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry")
-                ]),
-                dependencies: ()
+                ])
             )
         }
     }

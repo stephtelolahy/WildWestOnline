@@ -315,7 +315,7 @@ private struct TurnBadge: View {
 #Preview {
     NavigationStack {
         GameView {
-            .init(initialState: .previewState, dependencies: ())
+            .init(initialState: .previewState)
         }
     }
 }

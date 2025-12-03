@@ -11,32 +11,32 @@ extension AppFeature {
     static func reducerSound(
         into state: inout State,
         action: Action,
-        dependencies: AudioClient
+        dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
         case .game(let gameAction):
             let soundMatcher = SoundMatcher(specialSounds: state.cardLibrary.specialSounds)
             if let sfx = soundMatcher.sfx(on: gameAction) {
-                let playFunc = dependencies.play
+                let playFunc = dependencies.audioClient.play
                 Task {
                     await playFunc(sfx)
                 }
             }
 
         case .navigation(.push(.game)):
-            let pauseFunc = dependencies.pause
+            let pauseFunc = dependencies.audioClient.pause
             Task {
                 await pauseFunc(.musicLoneRider)
             }
 
         case .navigation(.pop):
-            let resumeFunc = dependencies.resume
+            let resumeFunc = dependencies.audioClient.resume
             Task {
                 await resumeFunc(.musicLoneRider)
             }
 
         case .settings(.updateMusicVolume(let value)):
-            let setMusicVolumeFunc = dependencies.setMusicVolume
+            let setMusicVolumeFunc = dependencies.audioClient.setMusicVolume
             Task {
                 await setMusicVolumeFunc(value)
             }

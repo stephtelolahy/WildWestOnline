@@ -8,8 +8,8 @@ import SwiftUI
 import Redux
 import AppFeature
 import SettingsFeature
-import SettingsClient
-import SettingsClientLive
+import PreferencesClient
+import PreferencesClientLive
 import GameFeature
 import CardResources
 import AudioClient
@@ -19,14 +19,14 @@ import AppUI
 @MainActor
 public enum AppBuilder {
     public static func build() -> some View {
-        let settingsClient = SettingsClient.live()
+        let preferencesClient = PreferencesClient.live()
 
         let settingsState = SettingsFeature.State.makeBuilder()
-            .withPlayersCount(settingsClient.playersCount())
-            .withActionDelayMilliSeconds(settingsClient.actionDelayMilliSeconds())
-            .withSimulation(settingsClient.isSimulationEnabled())
-            .withPreferredFigure(settingsClient.preferredFigure())
-            .withMusicVolume(settingsClient.musicVolume())
+            .withPlayersCount(preferencesClient.playersCount())
+            .withActionDelayMilliSeconds(preferencesClient.actionDelayMilliSeconds())
+            .withSimulation(preferencesClient.isSimulationEnabled())
+            .withPreferredFigure(preferencesClient.preferredFigure())
+            .withMusicVolume(preferencesClient.musicVolume())
             .build()
 
         let cardLibrary = AppFeature.State.CardLibrary(
@@ -43,21 +43,22 @@ public enum AppBuilder {
 
         let audioClient = AudioClient.live()
         Task {
-            await audioClient.setMusicVolume(settingsClient.musicVolume())
+            await audioClient.setMusicVolume(preferencesClient.musicVolume())
             await audioClient.load(AudioClient.Sound.allSfx)
             await audioClient.play(AudioClient.Sound.musicLoneRider)
         }
 
-        let modifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
+        let queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
 
-        let store = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>(
+        var dependencies = Dependencies()
+        dependencies.preferencesClient = preferencesClient
+        dependencies.audioClient = audioClient
+        dependencies.queueModifierClient = queueModifierClient
+
+        let store = Store<AppFeature.State, AppFeature.Action>(
             initialState: appState,
             reducer: AppFeature.reducer,
-            dependencies: .init(
-                settingsClient: settingsClient,
-                audioClient: audioClient,
-                modifierClient: modifierClient
-            )
+            dependencies: dependencies
         )
 
         return AppCoordinator {

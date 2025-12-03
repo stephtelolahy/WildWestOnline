@@ -10,17 +10,14 @@ public func pullback<
     LocalState,
     LocalAction,
     GlobalState,
-    GlobalAction,
-    LocalDependencies,
-    GlobalDependencies
+    GlobalAction
 >(
-    _ localReducer: @escaping Reducer<LocalState, LocalAction, LocalDependencies>,
+    _ localReducer: @escaping Reducer<LocalState, LocalAction>,
     state toLocalState: @escaping (GlobalState) -> WritableKeyPath<GlobalState, LocalState>?,
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
-    embedAction: @escaping (LocalAction) -> GlobalAction,
-    dependencies toLocalDependencies: @escaping (GlobalDependencies) -> LocalDependencies
-) -> Reducer<GlobalState, GlobalAction, GlobalDependencies> {
-    return { globalState, globalAction, globalDependencies in
+    embedAction: @escaping (LocalAction) -> GlobalAction
+) -> Reducer<GlobalState, GlobalAction> {
+    return { globalState, globalAction, dependencies in
         // Only handle actions that map to the local domain
         guard let localAction = toLocalAction(globalAction) else {
             return .none
@@ -32,8 +29,7 @@ public func pullback<
         }
 
         // Run the local reducer directly on that portion of state
-        let localDeps = toLocalDependencies(globalDependencies)
-        let localEffect = localReducer(&globalState[keyPath: localKeyPath], localAction, localDeps)
+        let localEffect = localReducer(&globalState[keyPath: localKeyPath], localAction, dependencies)
 
         // Map local effect’s actions back into global ones
         return localEffect.map(embedAction)

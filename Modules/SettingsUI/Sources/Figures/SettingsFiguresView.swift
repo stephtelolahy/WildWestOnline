@@ -84,8 +84,7 @@ struct SettingsFiguresView: View {
                             isFavorite: true
                         )
                     ]
-                ),
-                dependencies: ()
+                )
             )
         }
     }
