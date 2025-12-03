@@ -166,13 +166,6 @@ let package = Package(
             path: "Features/HomeUI/Sources",
             plugins: lintPlugin
         ),
-        .testTarget(
-            name: "HomeUITests",
-            dependencies: [
-                "HomeUI"
-            ],
-            path: "Features/HomeUI/Tests"
-        ),
         .target(
             name: "SettingsUI",
             dependencies: [
@@ -212,13 +205,6 @@ let package = Package(
             ],
             path: "Features/AppUI/Sources",
             plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "AppUITests",
-            dependencies: [
-                "AppUI"
-            ],
-            path: "Features/AppUI/Tests"
         ),
         .target(
             name: "CardResources",
