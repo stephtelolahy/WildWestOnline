@@ -57,7 +57,7 @@ public struct SettingsCoordinator: View {
         store: Store(
             initialState: .previewState,
             dependencies: .init(
-                settingsClient: .empty,
+                preferencesClient: .empty,
                 audioClient: .empty,
                 modifierClient: .empty
             )

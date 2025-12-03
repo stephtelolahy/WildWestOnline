@@ -1,11 +1,11 @@
 //
-//  SettingsClient.swift
+//  PreferencesClient.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2025.
 //
 
-public struct SettingsClient {
+public struct PreferencesClient {
     public var savePlayersCount: (Int) -> Void
     public var saveActionDelayMilliSeconds: (Int) -> Void
     public var saveSimulationEnabled: (Bool) -> Void
@@ -39,22 +39,5 @@ public struct SettingsClient {
         self.isSimulationEnabled = isSimulationEnabled
         self.preferredFigure = preferredFigure
         self.musicVolume = musicVolume
-    }
-}
-
-public extension SettingsClient {
-    static var empty: Self {
-        .init(
-            savePlayersCount: { _ in },
-            saveActionDelayMilliSeconds: { _ in },
-            saveSimulationEnabled: { _ in },
-            savePreferredFigure: { _ in },
-            saveMusicVolume: { _ in },
-            playersCount: { 0 },
-            actionDelayMilliSeconds: { 0 },
-            isSimulationEnabled: { false },
-            preferredFigure: { nil },
-            musicVolume: { 0 }
-        )
     }
 }

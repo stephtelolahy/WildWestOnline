@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 import Redux
-import SettingsClient
+import PreferencesClient
 
 public enum SettingsFeature {
     public struct State: Equatable, Codable, Sendable {
@@ -27,7 +27,7 @@ public enum SettingsFeature {
     public static func reducer(
         state: inout State,
         action: Action,
-        dependencies: SettingsClient
+        dependencies: PreferencesClient
     ) -> Effect<Action> {
         switch action {
         case .updatePlayersCount(let value):

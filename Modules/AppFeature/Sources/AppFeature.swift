@@ -10,7 +10,7 @@ import NavigationFeature
 import SettingsFeature
 import GameFeature
 import AudioClient
-import SettingsClient
+import PreferencesClient
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
 
@@ -64,16 +64,16 @@ public enum AppFeature {
     }
 
     public struct Dependencies {
-        let settingsClient: SettingsClient
+        let preferencesClient: PreferencesClient
         let audioClient: AudioClient
         let modifierClient: QueueModifierClient
 
         public init(
-            settingsClient: SettingsClient,
+            preferencesClient: PreferencesClient,
             audioClient: AudioClient,
             modifierClient: QueueModifierClient
         ) {
-            self.settingsClient = settingsClient
+            self.preferencesClient = preferencesClient
             self.audioClient = audioClient
             self.modifierClient = modifierClient
         }
@@ -108,7 +108,7 @@ public enum AppFeature {
                     return nil
                 },
                 embedAction: Action.settings,
-                dependencies: { $0.settingsClient }
+                dependencies: { $0.preferencesClient }
             ),
             pullback(
                 AppNavigationFeature.reducer,

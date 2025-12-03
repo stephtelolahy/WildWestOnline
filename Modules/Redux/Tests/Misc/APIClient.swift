@@ -6,9 +6,9 @@
 //
 import Redux
 
-struct APIClient: Sendable {
-    var search: @Sendable (String) async throws -> [String]
-    var fetchRecent: @Sendable () async throws -> [String]
+struct APIClient {
+    var search: (String) async throws -> [String]
+    var fetchRecent: () async throws -> [String]
 }
 
 extension Dependencies {
@@ -19,12 +19,14 @@ extension Dependencies {
 }
 
 private enum APIClientKey: DependencyKey {
-    static let defaultValue: APIClient = .noop
+    nonisolated(unsafe) static let defaultValue: APIClient = .noop
 }
 
 private extension APIClient {
-    static let noop: Self = .init(
-        search: { @Sendable _ in [] },
-        fetchRecent: { @Sendable in [] }
-    )
+    static var noop: Self {
+        .init(
+            search: { _ in [] },
+            fetchRecent: { [] }
+        )
+    }
 }

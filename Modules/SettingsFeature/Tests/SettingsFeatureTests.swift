@@ -8,10 +8,10 @@
 import Testing
 import Redux
 import SettingsFeature
-import SettingsClient
+import PreferencesClient
 
 struct SettingsFeatureTests {
-    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action, SettingsClient>
+    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action, PreferencesClient>
 
     private func createSettingsStore(initialState: SettingsFeature.State) async -> SettingsStore {
         await .init(

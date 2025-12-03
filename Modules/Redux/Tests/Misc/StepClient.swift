@@ -6,8 +6,8 @@
 //
 import Redux
 
-struct StepClient: Sendable {
-    var step: @Sendable () -> Int
+struct StepClient {
+    var step: () -> Int
 }
 
 extension Dependencies {
@@ -18,11 +18,13 @@ extension Dependencies {
 }
 
 private struct StepClientKey: DependencyKey {
-    static let defaultValue: StepClient = .noop
+    nonisolated(unsafe) static let defaultValue: StepClient = .noop
 }
 
 private extension StepClient {
-    static let noop: Self = .init(
-        step: { 0 }
-    )
+    static var noop: Self {
+        .init(
+            step: { 0 }
+        )
+    }
 }
