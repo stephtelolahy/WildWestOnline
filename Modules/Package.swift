@@ -64,7 +64,7 @@ let package = Package(
             dependencies: [
                 "Redux"
             ],
-            path: "Features/GameFeature/Sources",
+            path: "GameFeature/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
@@ -72,14 +72,14 @@ let package = Package(
             dependencies: [
                 "GameFeature"
             ],
-            path: "Features/GameFeature/Tests"
+            path: "GameFeature/Tests"
         ),
         .target(
             name: "PreferencesClient",
             dependencies: [
                 "Redux"
             ],
-            path: "Dependencies/PreferencesClient/Sources",
+            path: "PreferencesClient/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -88,7 +88,7 @@ let package = Package(
                 "Redux",
                 "PreferencesClient"
             ],
-            path: "Features/SettingsFeature/Sources",
+            path: "SettingsFeature/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
@@ -96,14 +96,14 @@ let package = Package(
             dependencies: [
                 "SettingsFeature"
             ],
-            path: "Features/SettingsFeature/Tests"
+            path: "SettingsFeature/Tests"
         ),
         .target(
             name: "NavigationFeature",
             dependencies: [
                 "Redux"
             ],
-            path: "Features/NavigationFeature/Sources",
+            path: "NavigationFeature/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
@@ -111,7 +111,7 @@ let package = Package(
             dependencies: [
                 "NavigationFeature"
             ],
-            path: "Features/NavigationFeature/Tests"
+            path: "NavigationFeature/Tests"
         ),
         .target(
             name: "AppFeature",
@@ -121,7 +121,7 @@ let package = Package(
                 "NavigationFeature",
                 "AudioClient"
             ],
-            path: "Features/AppFeature/Sources",
+            path: "AppFeature/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
@@ -129,12 +129,12 @@ let package = Package(
             dependencies: [
                 "AppFeature"
             ],
-            path: "Features/AppFeature/Tests"
+            path: "AppFeature/Tests"
         ),
         .target(
             name: "Theme",
             dependencies: [],
-            path: "Features/Theme/Sources",
+            path: "Theme/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -142,7 +142,7 @@ let package = Package(
             dependencies: [
                 "Redux"
             ],
-            path: "Dependencies/AudioClient/Sources",
+            path: "AudioClient/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -150,7 +150,7 @@ let package = Package(
             dependencies: [
                 "AudioClient"
             ],
-            path: "Dependencies/AudioClientLive/Sources",
+            path: "AudioClientLive/Sources",
             resources: [
                 .process("Resources")
             ],
@@ -163,7 +163,7 @@ let package = Package(
                 "Theme",
                 "AudioClient"
             ],
-            path: "Features/HomeUI/Sources",
+            path: "HomeUI/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -173,7 +173,7 @@ let package = Package(
                 "CardResources",
                 "Theme"
             ],
-            path: "Features/SettingsUI/Sources",
+            path: "SettingsUI/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -183,7 +183,7 @@ let package = Package(
                 "Theme",
                 "CardResources"
             ],
-            path: "Features/GameUI/Sources",
+            path: "GameUI/Sources",
             resources: [
                 .process("Resources")
             ],
@@ -194,7 +194,7 @@ let package = Package(
             dependencies: [
                 "GameUI"
             ],
-            path: "Features/GameUI/Tests"
+            path: "GameUI/Tests"
         ),
         .target(
             name: "AppUI",
@@ -203,7 +203,7 @@ let package = Package(
                 "GameUI",
                 "SettingsUI"
             ],
-            path: "Features/AppUI/Sources",
+            path: "AppUI/Sources",
             plugins: lintPlugin
         ),
         .target(
@@ -212,7 +212,7 @@ let package = Package(
                 "GameFeature",
                 "AudioClient"
             ],
-            path: "Features/CardResources/Sources",
+            path: "CardResources/Sources",
             resources: [
                 .process("Resources")
             ],
@@ -223,14 +223,14 @@ let package = Package(
             dependencies: [
                 "CardResources"
             ],
-            path: "Features/CardResources/Tests"
+            path: "CardResources/Tests"
         ),
         .target(
             name: "PreferencesClientLive",
             dependencies: [
                 "PreferencesClient"
             ],
-            path: "Dependencies/PreferencesClientLive/Sources",
+            path: "PreferencesClientLive/Sources",
             plugins: lintPlugin
         ),
         .target(
