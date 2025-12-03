@@ -64,22 +64,14 @@ private extension GameFeature {
         { state, action, dependencies in
             let state = state
             return .run {
-                await performChoice(state: state, action: action, choiceHandler: dependencies.choiceHandler)
+                guard let pendingChoice = state.pendingChoice else {
+                    return nil
+                }
+
+                let selection = dependencies.choiceHandler.handleChoice(pendingChoice.options.map(\.label))
+                return GameFeature.Action.choose(selection, player: pendingChoice.chooser)
             }
         }
-    }
-
-    static func performChoice(
-        state: State,
-        action: Action,
-        choiceHandler: ChoiceHandlerClient
-    ) async -> Action? {
-        guard let pendingChoice = state.pendingChoice else {
-            return nil
-        }
-
-        let selection = choiceHandler.handleChoice(pendingChoice.options.map(\.label))
-        return GameFeature.Action.choose(selection, player: pendingChoice.chooser)
     }
 }
 
