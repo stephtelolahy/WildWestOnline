@@ -1,5 +1,5 @@
 //
-//  SettingsFeature.swift
+//  SettingsHomeFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
@@ -7,7 +7,7 @@
 import Redux
 import PreferencesClient
 
-public enum SettingsFeature {
+public enum SettingsHomeFeature {
     public struct State: Equatable, Codable, Sendable {
         public var playersCount: Int
         public var actionDelayMilliSeconds: Int

@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Redux
 import CardResources
 
 struct SettingsFiguresView: View {
+    typealias ViewStore = Store<SettingsFiguresFeature.State, SettingsFiguresFeature.Action>
+
     @StateObject private var store: ViewStore
 
     init(store: @escaping () -> ViewStore) {
@@ -22,7 +25,7 @@ struct SettingsFiguresView: View {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
                     Task {
-                        await store.dispatch(.settings(.updatePreferredFigure(figure.name)))
+                        await store.dispatch(.selected(figure.name))
                     }
                 }, label: {
                     rowView(figure: figure)
@@ -31,9 +34,12 @@ struct SettingsFiguresView: View {
         }
         .scrollContentBackground(.hidden)
         .navigationTitle("Figures")
+        .task {
+            await store.dispatch(.onAppear)
+        }
     }
 
-    func rowView(figure: ViewState.Figure) -> some View {
+    func rowView(figure: SettingsFiguresFeature.State.Figure) -> some View {
         HStack {
             Image(figure.name, bundle: .cardResources)
                 .resizable()
@@ -44,10 +50,7 @@ struct SettingsFiguresView: View {
             VStack(alignment: .leading) {
                 Text(figure.name.uppercased())
                     .bold()
-
-                if let description = figure.description {
-                    Text(description)
-                }
+                Text(figure.description)
             }
 
             Spacer()

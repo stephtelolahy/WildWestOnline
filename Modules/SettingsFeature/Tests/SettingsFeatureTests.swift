@@ -1,5 +1,5 @@
 //
-//  SettingsFeatureTest.swift
+//  SettingsHomeFeatureTest.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
@@ -10,23 +10,23 @@ import Redux
 import SettingsFeature
 import PreferencesClient
 
-struct SettingsFeatureTests {
-    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action>
+struct SettingsHomeFeatureTests {
+    private typealias SettingsStore = Store<SettingsHomeFeature.State, SettingsHomeFeature.Action>
 
-    private func createSettingsStore(initialState: SettingsFeature.State) async -> SettingsStore {
+    private func createSettingsStore(initialState: SettingsHomeFeature.State) async -> SettingsStore {
         await .init(
             initialState: initialState,
-            reducer: SettingsFeature.reducer
+            reducer: SettingsHomeFeature.reducer
         )
     }
 
     @Test func updatePlayersCount() async throws {
         // Given
-        let state = SettingsFeature.State.makeBuilder().withPlayersCount(2).build()
+        let state = SettingsHomeFeature.State.makeBuilder().withPlayersCount(2).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsFeature.Action.updatePlayersCount(5)
+        let action = SettingsHomeFeature.Action.updatePlayersCount(5)
         await sut.dispatch(action)
 
         // Then
@@ -35,11 +35,11 @@ struct SettingsFeatureTests {
 
     @Test func toggleSimulation() async throws {
         // Given
-        let state = SettingsFeature.State.makeBuilder().withSimulation(true).build()
+        let state = SettingsHomeFeature.State.makeBuilder().withSimulation(true).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsFeature.Action.toggleSimulation
+        let action = SettingsHomeFeature.Action.toggleSimulation
         await sut.dispatch(action)
 
         // Then
@@ -48,11 +48,11 @@ struct SettingsFeatureTests {
 
     @Test func updateWaitDelay() async throws {
         // Given
-        let state = SettingsFeature.State.makeBuilder().withActionDelayMilliSeconds(0).build()
+        let state = SettingsHomeFeature.State.makeBuilder().withActionDelayMilliSeconds(0).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsFeature.Action.updateActionDelayMilliSeconds(500)
+        let action = SettingsHomeFeature.Action.updateActionDelayMilliSeconds(500)
         await sut.dispatch(action)
 
         // Then

@@ -89,7 +89,8 @@ let package = Package(
             name: "SettingsFeature",
             dependencies: [
                 "Redux",
-                "PreferencesClient"
+                "PreferencesClient",
+                "CardResources"
             ],
             path: "SettingsFeature/Sources",
             plugins: lintPlugin

@@ -1,10 +1,10 @@
 //
-//  SettingsState+Builder.swift
+//  SettingsHomeFeatureState+Builder.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-public extension SettingsFeature.State {
+public extension SettingsHomeFeature.State {
     class Builder {
         private var playersCount: Int = 0
         private var actionDelayMilliSeconds: Int = 0
@@ -12,7 +12,7 @@ public extension SettingsFeature.State {
         private var preferredFigure: String?
         private var musicVolume: Float = 1.0
 
-        public func build() -> SettingsFeature.State {
+        public func build() -> SettingsHomeFeature.State {
             .init(
                 playersCount: playersCount,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,

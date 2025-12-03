@@ -33,8 +33,12 @@ public enum SettingsCollectiblesFeature {
         switch action {
         case .onAppear:
             state.cards = dependencies.cardLibrary.cards()
-                .map{
-                    .init(name: $0.name, description: $0.description ?? "")
+                .filter { $0.type == .collectible }
+                .map {
+                    .init(
+                        name: $0.name,
+                        description: $0.description ?? ""
+                    )
                 }
         }
 
