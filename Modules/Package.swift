@@ -30,7 +30,7 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "CardResources", targets: ["CardResources"]),
 
-        // Dependencies
+        // Capabilities
         .library(name: "PreferencesClient", targets: ["PreferencesClient"]),
         .library(name: "PreferencesClientLive", targets: ["PreferencesClientLive"]),
         .library(name: "AudioClient", targets: ["AudioClient"]),
