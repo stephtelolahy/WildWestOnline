@@ -93,7 +93,7 @@ public enum GameFeature {
         case noChoosableCard([Card.Selector.CardFilter], player: String)
     }
 
-    public static var reducer: Reducer<State, Action, QueueModifierClient> {
+    public static var reducer: Reducer<State, Action> {
         combine(
             reducerMechanics,
             reducerLoop,
@@ -101,8 +101,7 @@ public enum GameFeature {
                 reducerAI,
                 state: { _ in \.self },
                 action: { $0 },
-                embedAction: \.self,
-                dependencies: { _ in () }
+                embedAction: \.self
             )
         )
     }

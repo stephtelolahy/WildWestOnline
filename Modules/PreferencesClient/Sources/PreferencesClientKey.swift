@@ -18,7 +18,7 @@ private enum PreferencesClientKey: DependencyKey {
     nonisolated(unsafe) static let defaultValue: PreferencesClient = .noop
 }
 
-public extension PreferencesClient {
+private extension PreferencesClient {
     static var noop: Self {
         .init(
             savePlayersCount: { _ in },
