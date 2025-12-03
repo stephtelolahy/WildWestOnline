@@ -7,28 +7,26 @@
 import Redux
 import AppFeature
 
-extension SettingsFiguresView {
+extension SettingsCollectiblesView {
     struct ViewState: Equatable {
-        let figures: [Figure]
+        let cards: [Card]
 
-        struct Figure: Equatable {
+        struct Card: Equatable {
             let name: String
             let description: String?
-            let isFavorite: Bool
         }
     }
 
     typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
 }
 
-extension SettingsFiguresView.ViewState {
+extension SettingsCollectiblesView.ViewState {
     init?(appState: AppFeature.State) {
-        figures = appState.cardLibrary.cards.filter { $0.type == .figure }
+        cards = appState.cardLibrary.cards.filter { $0.type == .collectible }
             .map {
                 .init(
                     name: $0.name,
-                    description: $0.description,
-                    isFavorite: $0.name == appState.settings.preferredFigure
+                    description: $0.description
                 )
             }
     }

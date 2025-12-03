@@ -21,6 +21,7 @@ struct SettingsRootView: View {
     var body: some View {
         Form {
             preferencesSection
+            cardsLibrarySection
         }
         .scrollContentBackground(.hidden)
         .navigationTitle("Settings")
@@ -44,7 +45,6 @@ struct SettingsRootView: View {
             playersCountView
             speedView
             simulationView
-            figureView
             volumeView
         }
     }
@@ -109,22 +109,6 @@ struct SettingsRootView: View {
         }
     }
 
-    private var figureView: some View {
-        Button(action: {
-            Task {
-                await store.dispatch(.navigation(.settingsSheet(.push(.figures))))
-            }
-        }, label: {
-            HStack {
-                Image(systemName: "lanyardcard")
-                Text("Preferred figure")
-                Spacer()
-                Text(store.state.preferredFigure ?? "")
-            }
-            .foregroundStyle(.foreground)
-        })
-    }
-
     private var volumeView: some View {
         HStack {
             Image(systemName: "speaker.wave.2")
@@ -144,18 +128,57 @@ struct SettingsRootView: View {
             }
         }
     }
+
+    // MARK: - CardsLibrary
+
+    private var cardsLibrarySection: some View {
+        Section(header: Text("LIBRARY")) {
+            figuresView
+            collectiblesView
+        }
+    }
+
+    private var figuresView: some View {
+        Button(action: {
+            Task {
+                await store.dispatch(.navigation(.settingsSheet(.push(.figures))))
+            }
+        }, label: {
+            HStack {
+                Image(systemName: "face.smiling")
+                Text("Figures")
+                Spacer()
+                Text(store.state.preferredFigure ?? "")
+            }
+            .foregroundStyle(.foreground)
+        })
+    }
+
+    private var collectiblesView: some View {
+        Button(action: {
+            Task {
+                await store.dispatch(.navigation(.settingsSheet(.push(.collectibles))))
+            }
+        }, label: {
+            HStack {
+                Image(systemName: "moonphase.new.moon.inverse")
+                Text("Collectibles")
+            }
+            .foregroundStyle(.foreground)
+        })
+    }
 }
 
 #Preview {
     NavigationStack {
         SettingsRootView {
-            .init(initialState: .mock, dependencies: ())
+            .init(initialState: .previewState, dependencies: ())
         }
     }
 }
 
 private extension SettingsRootView.ViewState {
-    static var mock: Self {
+    static var previewState: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,

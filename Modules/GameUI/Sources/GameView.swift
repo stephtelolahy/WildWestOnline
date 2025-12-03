@@ -315,13 +315,13 @@ private struct TurnBadge: View {
 #Preview {
     NavigationStack {
         GameView {
-            .init(initialState: .mock, dependencies: ())
+            .init(initialState: .previewState, dependencies: ())
         }
     }
 }
 
 private extension GameView.ViewState {
-    static var mock: Self {
+    static var previewState: Self {
         let player1 = GameView.ViewState.PlayerItem(
             id: "p1",
             imageName: "willyTheKid",
