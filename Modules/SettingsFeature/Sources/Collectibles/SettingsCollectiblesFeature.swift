@@ -7,8 +7,8 @@
 import Redux
 import CardLibrary
 
-enum SettingsCollectiblesFeature {
-    struct State: Equatable, Codable, Sendable {
+public enum SettingsCollectiblesFeature {
+    public struct State: Equatable, Codable, Sendable {
         var cards: [Card]
 
         struct Card: Equatable, Codable, Sendable {
@@ -17,7 +17,7 @@ enum SettingsCollectiblesFeature {
         }
     }
 
-    enum Action {
+    public enum Action {
         case onAppear
     }
 

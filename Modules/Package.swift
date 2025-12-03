@@ -25,7 +25,6 @@ let package = Package(
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
-        .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "NavigationFeature", targets: ["NavigationFeature"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
@@ -89,6 +88,7 @@ let package = Package(
             name: "SettingsFeature",
             dependencies: [
                 "Redux",
+                "Theme",
                 "PreferencesClient",
                 "CardResources"
             ],
@@ -206,16 +206,6 @@ let package = Package(
             plugins: lintPlugin
         ),
         .target(
-            name: "SettingsUI",
-            dependencies: [
-                "AppFeature",
-                "CardResources",
-                "Theme"
-            ],
-            path: "SettingsUI/Sources",
-            plugins: lintPlugin
-        ),
-        .target(
             name: "GameUI",
             dependencies: [
                 "AppFeature",
@@ -240,7 +230,6 @@ let package = Package(
             dependencies: [
                 "HomeUI",
                 "GameUI",
-                "SettingsUI"
             ],
             path: "AppUI/Sources",
             plugins: lintPlugin

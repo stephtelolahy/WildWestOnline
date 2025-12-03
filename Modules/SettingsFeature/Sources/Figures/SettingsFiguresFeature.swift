@@ -8,8 +8,8 @@
 import Redux
 import CardLibrary
 
-enum SettingsFiguresFeature {
-    struct State: Equatable, Codable, Sendable {
+public enum SettingsFiguresFeature {
+    public struct State: Equatable, Codable, Sendable {
         var figures: [Figure]
 
         struct Figure: Equatable, Codable, Sendable {
@@ -19,7 +19,7 @@ enum SettingsFiguresFeature {
         }
     }
 
-    enum Action {
+    public enum Action {
         case onAppear
         case selected(String)
     }

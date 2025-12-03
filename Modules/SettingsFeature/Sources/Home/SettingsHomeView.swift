@@ -76,13 +76,11 @@ struct SettingsHomeView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        let optionIndex = store.state.speedOptions.firstIndex { $0.value == store.state.actionDelayMilliSeconds } ?? 0
-                        return optionIndex
+                        store.state.speedOptions.firstIndex { $0.value == store.state.actionDelayMilliSeconds } ?? 0
                     },
                     set: { index in
                         Task {
-                            let optionValue = store.state.speedOptions[index].value
-                            await store.dispatch(.updateActionDelayMilliSeconds(optionValue))
+                            await store.dispatch(.updateActionDelayMilliSeconds(store.state.speedOptions[index].value))
                         }
                     }
                 ),
