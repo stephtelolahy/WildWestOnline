@@ -41,7 +41,7 @@ public struct SettingsCoordinator: View {
                 await store.dispatch(.navigation(.settingsSheet(.setPath(newPath))))
             }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.large])
     }
 
     @ViewBuilder private func viewForDestination(_ destination: SettingsNavigationFeature.State.Destination) -> some View {
