@@ -7,7 +7,7 @@ import Combine
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// Also return side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) -> Effect<Action>
+public typealias Reducer<State, Action> = (inout State, Action, Dependencies) -> Effect<Action>
 
 /// ``Effect`` is an asynchronous `Action`
 public enum Effect<Action> {
@@ -17,21 +17,37 @@ public enum Effect<Action> {
     case group([Effect<Action>])
 }
 
+public struct Dependencies {
+    private var storage: [ObjectIdentifier: Any] = [:]
+
+    public init() {}
+
+    public subscript<K: DependencyKey>(key: K.Type) -> K.Value {
+        get { storage[ObjectIdentifier(key)] as? K.Value ?? K.defaultValue }
+        set { storage[ObjectIdentifier(key)] = newValue }
+    }
+}
+
+public protocol DependencyKey {
+    associatedtype Value
+    static var defaultValue: Value { get }
+}
+
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
 @MainActor
-public class Store<State, Action, Dependencies>: ObservableObject {
+public class Store<State, Action>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var dispatchedAction = PassthroughSubject<Action, Never>()
 
-    private let reducer: Reducer<State, Action, Dependencies>
-    private let dependencies: Dependencies
+    private let reducer: Reducer<State, Action>
+    internal let dependencies: Dependencies
 
     public init(
         initialState: State,
-        reducer: @escaping Reducer<State, Action, Dependencies> = { _, _, _ in .none },
+        reducer: @escaping Reducer<State, Action> = { _, _, _ in .none },
         dependencies: Dependencies
     ) {
         self.state = initialState

@@ -7,9 +7,9 @@
 
 /// Combine reducers —
 /// multiple reducers for the same State and Action
-public func combine<State, Action, Dependencies>(
-    _ reducers: Reducer<State, Action, Dependencies>...
-) -> Reducer<State, Action, Dependencies> {
+public func combine<State, Action>(
+    _ reducers: Reducer<State, Action>...
+) -> Reducer<State, Action> {
     { state, action, dependencies in
         let effects = reducers.map { $0(&state, action, dependencies) }
         return .group(effects)

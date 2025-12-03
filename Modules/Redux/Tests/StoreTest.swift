@@ -4,25 +4,23 @@
 //  Created by Hugues Telolahy on 07/04/2023.
 //
 
-import Redux
 import Testing
+import Redux
 import Combine
 
 @MainActor
 struct StoreTest {
     @Test func dispatchValidAction_shouldEmitNewState() async throws {
         // Given
-        let service = SearchService(
-            searchResult: .success(["result"]),
-            fetchRecentResult: .success(["recent"])
+        var dependencies = Dependencies()
+        dependencies.apiClient = .init(
+            search: { _ in ["result"] },
+            fetchRecent: { ["recent"] }
         )
         let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
-            dependencies: .init(
-                search: service.search,
-                fetchRecent: service.fetchRecent
-            )
+            dependencies: dependencies
         )
 
         var dispatchedActions: [SearchFeature.Action] = []
@@ -38,23 +36,16 @@ struct StoreTest {
         #expect(sut.state.searchResult == ["recent"])
         #expect(dispatchedActions == [
             .fetchRecent,
-            .setSearchResults(repos: ["recent"])
+            .setSearchResults(items: ["recent"])
         ])
     }
 
     @Test func dispatchInvalidAction_shouldNotUpdateState() async throws {
         // Given
-        let service = SearchService(
-            searchResult: .success(["result"]),
-            fetchRecentResult: .success(["recent"])
-        )
         let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
-            dependencies: .init(
-                search: service.search,
-                fetchRecent: service.fetchRecent
-            )
+            dependencies: .init()
         )
 
         var dispatchedActions: [SearchFeature.Action] = []
@@ -71,7 +62,7 @@ struct StoreTest {
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
-        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
+        let sut = Store<SearchFeature.State, SearchFeature.Action>(
             initialState: .init(),
             reducer: { state, _, _ in
                 (0...3).forEach {
@@ -79,7 +70,7 @@ struct StoreTest {
                 }
                 return .none
             },
-            dependencies: .init(search: { _ in [] }, fetchRecent: { [] })
+            dependencies: .init()
         )
         var receivedStates: [SearchFeature.State] = []
         var cancellables: Set<AnyCancellable> = []
