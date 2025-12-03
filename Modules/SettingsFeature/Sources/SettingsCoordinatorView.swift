@@ -21,13 +21,16 @@ public struct SettingsCoordinatorView: View {
     @State private var path: [SettingsCoordinatorFeature.State.Destination] = []
 
     public var body: some View {
-//        NavigationStack(path: $path) {
-        NavigationStack {
-            EmptyView()
-//            SettingsHomeView { store.projection(state: \.home, action: \.self) }
-//                .navigationDestination(for: SettingsCoordinatorFeature.State.Destination.self) {
-//                    viewForDestination($0)
-//                }
+        NavigationStack(path: $path) {
+            SettingsHomeView {
+                store.projection(
+                    state: \.home,
+                    action: { .home($0) }
+                )
+            }
+            .navigationDestination(for: SettingsCoordinatorFeature.State.Destination.self) {
+                viewForDestination($0)
+            }
         }
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { state in
@@ -50,15 +53,25 @@ public struct SettingsCoordinatorView: View {
         .presentationDetents([.large])
     }
 
-//    @ViewBuilder private func viewForDestination(_ destination: SettingsCoordinatorFeature.State.Destination) -> some View {
-//        switch destination {
-//        case .figures:
-//            SettingsFiguresView { store.projection(state: SettingsFiguresView.ViewState.init, action: \.self) }
-//
-//        case .collectibles:
-//            SettingsCollectiblesView { store.projection(state: SettingsCollectiblesView.ViewState.init, action: \.self) }
-//        }
-//    }
+    @ViewBuilder private func viewForDestination(_ destination: SettingsCoordinatorFeature.State.Destination) -> some View {
+        switch destination {
+        case .figures:
+            SettingsFiguresView {
+                store.projection(
+                    state: \.figures,
+                    action: { .figures($0) }
+                )
+            }
+
+        case .collectibles:
+            SettingsCollectiblesView {
+                store.projection(
+                    state: \.collectibles,
+                    action: { .collectibles($0) }
+                )
+            }
+        }
+    }
 }
 
 #Preview {
@@ -71,6 +84,12 @@ public struct SettingsCoordinatorView: View {
                     simulation: false,
                     preferredFigure: nil,
                     musicVolume: 0
+                ),
+                figures: .init(
+                    figures: []
+                ),
+                collectibles: .init(
+                    cards: []
                 ),
                 path: []
             )

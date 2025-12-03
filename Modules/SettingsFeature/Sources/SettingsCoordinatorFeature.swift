@@ -10,12 +10,14 @@ import Redux
 public enum SettingsCoordinatorFeature {
     public struct State: Equatable, Codable, Sendable {
         var home: SettingsHomeFeature.State
+        var figures: SettingsFiguresFeature.State
+        var collectibles: SettingsCollectiblesFeature.State
 
         public var path: [Destination]
 
-        public enum Destination: Equatable, Codable, Sendable {
-            case figures(SettingsFiguresFeature.State)
-            case collectibles(SettingsCollectiblesFeature.State)
+        public enum Destination: Hashable, Codable, Sendable {
+            case figures
+            case collectibles
         }
     }
 
