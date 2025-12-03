@@ -7,6 +7,7 @@
 import Redux
 import GameFeature
 import SettingsFeature
+import CardLibrary
 
 extension AppFeature {
     static func reducerMain(
@@ -19,7 +20,7 @@ extension AppFeature {
             let state = state
             return .group([
                 .run {
-                    .setGame(.create(settings: state.settings, cardLibrary: state.cardLibrary))
+                    .setGame(createGame(state: state, dependencies: dependencies))
                 },
                 .run {
                     .navigation(.push(.game))
@@ -54,17 +55,15 @@ extension AppFeature {
 
         return .none
     }
-}
 
-private extension GameFeature.State {
-    static func create(settings: SettingsFeature.State, cardLibrary: AppFeature.State.CardLibrary) -> Self {
+    private static func createGame(state: State, dependencies: Dependencies) -> GameFeature.State {
         GameSetup.buildGame(
-            playersCount: settings.playersCount,
-            cards: cardLibrary.cards,
-            deck: cardLibrary.deck,
-            actionDelayMilliSeconds: settings.actionDelayMilliSeconds,
-            preferredFigure: settings.preferredFigure,
-            playModeSetup: settings.simulation ? .allAuto : .oneManual
+            playersCount: state.settings.playersCount,
+            cards: dependencies.cardLibrary.cards(),
+            deck: dependencies.cardLibrary.deck(),
+            actionDelayMilliSeconds: state.settings.actionDelayMilliSeconds,
+            preferredFigure: state.settings.preferredFigure,
+            playModeSetup: state.settings.simulation ? .allAuto : .oneManual
         )
     }
 }

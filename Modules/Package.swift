@@ -121,6 +121,7 @@ let package = Package(
             dependencies: [
                 "GameFeature",
                 "SettingsFeature",
+                "CardLibrary",
                 "NavigationFeature",
                 "AudioClient"
             ],
