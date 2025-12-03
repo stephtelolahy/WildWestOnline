@@ -208,7 +208,7 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "AppFeature",
-                "CardLibrary",
+                "CardResources",
                 "Theme"
             ],
             path: "SettingsUI/Sources",

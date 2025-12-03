@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Redux
 import CardResources
 
 struct SettingsCollectiblesView: View {
+    typealias ViewStore = Store<SettingsCollectiblesFeature.State, SettingsCollectiblesFeature.Action>
+
     @StateObject private var store: ViewStore
 
     init(store: @escaping () -> ViewStore) {
@@ -25,9 +28,12 @@ struct SettingsCollectiblesView: View {
         }
         .scrollContentBackground(.hidden)
         .navigationTitle("Collectibles")
+        .task {
+            await store.dispatch(.onAppear)
+        }
     }
 
-    func rowView(card: ViewState.Card) -> some View {
+    func rowView(card: SettingsCollectiblesFeature.State.Card) -> some View {
         HStack {
             Image(card.name, bundle: .cardResources)
                 .resizable()
@@ -37,10 +43,7 @@ struct SettingsCollectiblesView: View {
             VStack(alignment: .leading) {
                 Text(card.name.uppercased())
                     .bold()
-
-                if let description = card.description {
-                    Text(description)
-                }
+                Text(card.description)
             }
         }
         .foregroundStyle(.foreground)

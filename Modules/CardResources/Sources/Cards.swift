@@ -8,7 +8,7 @@ import CardDefinition
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
-enum Cards {
+public enum Cards {
     static let all: [Card] = [
         // MARK: - Aura
         .endTurn,

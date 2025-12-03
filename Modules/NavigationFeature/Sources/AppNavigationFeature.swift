@@ -7,6 +7,7 @@
 
 import Redux
 
+@available(*, deprecated, message: "Slice the app horizontally along features/domains")
 public enum AppNavigationFeature {
     public struct State: Equatable, Codable, Sendable {
         public var path: [Destination]

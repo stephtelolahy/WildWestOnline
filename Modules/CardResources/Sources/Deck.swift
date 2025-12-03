@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-enum Deck {
+public enum Deck {
     static let all: [String] = Self.flatten(bang) + Self.flatten(dodgeCity)
 
     static let bang: [String: [String]] = [
