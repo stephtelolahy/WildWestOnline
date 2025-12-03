@@ -11,7 +11,7 @@ extension AppFeature {
     static func reducerSound(
         into state: inout State,
         action: Action,
-        dependencies: AudioClient
+        dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
         case .game(let gameAction):

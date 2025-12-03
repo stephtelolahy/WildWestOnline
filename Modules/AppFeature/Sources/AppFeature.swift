@@ -12,7 +12,7 @@ import GameFeature
 import AudioClient
 import PreferencesClient
 
-public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
+public typealias AppStore = Store<AppFeature.State, AppFeature.Action>
 
 public enum AppFeature {
     /// Global app state
@@ -63,23 +63,7 @@ public enum AppFeature {
         case game(GameFeature.Action)
     }
 
-    public struct Dependencies {
-        let preferencesClient: PreferencesClient
-        let audioClient: AudioClient
-        let modifierClient: QueueModifierClient
-
-        public init(
-            preferencesClient: PreferencesClient,
-            audioClient: AudioClient,
-            modifierClient: QueueModifierClient
-        ) {
-            self.preferencesClient = preferencesClient
-            self.audioClient = audioClient
-            self.modifierClient = modifierClient
-        }
-    }
-
-    public static var reducer: Reducer<State, Action, Dependencies> {
+    public static var reducer: Reducer<State, Action> {
         combine(
             reducerMain,
             pullback(
@@ -93,8 +77,7 @@ public enum AppFeature {
                     }
                     return nil
                 },
-                embedAction: Action.game,
-                dependencies: { $0.modifierClient }
+                embedAction: Action.game
             ),
             pullback(
                 SettingsFeature.reducer,
@@ -107,8 +90,7 @@ public enum AppFeature {
                     }
                     return nil
                 },
-                embedAction: Action.settings,
-                dependencies: { $0.preferencesClient }
+                embedAction: Action.settings
             ),
             pullback(
                 AppNavigationFeature.reducer,
@@ -121,15 +103,13 @@ public enum AppFeature {
                     }
                     return nil
                 },
-                embedAction: Action.navigation,
-                dependencies: { _ in () }
+                embedAction: Action.navigation
             ),
             pullback(
                 reducerSound,
                 state: { _ in \.self },
                 action: { $0 },
-                embedAction: \.self,
-                dependencies: { $0.audioClient }
+                embedAction: \.self
             )
         )
     }

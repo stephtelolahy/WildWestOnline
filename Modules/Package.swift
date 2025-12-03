@@ -157,7 +157,9 @@ let package = Package(
         ),
         .target(
             name: "AudioClient",
-            dependencies: [],
+            dependencies: [
+                "Redux"
+            ],
             path: "AudioClient/Sources",
             plugins: lintPlugin
         ),
