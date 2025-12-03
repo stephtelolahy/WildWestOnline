@@ -34,7 +34,7 @@ public enum AppNavigationFeature {
         case settingsSheet(SettingsNavigationFeature.Action)
     }
 
-    public static var reducer: Reducer<State, Action, Void> {
+    public static var reducer: Reducer<State, Action> {
         combine(
             reducerMain,
             pullback(
@@ -48,8 +48,7 @@ public enum AppNavigationFeature {
                     }
                     return nil
                 },
-                embedAction: Action.settingsSheet,
-                dependencies: { $0 }
+                embedAction: Action.settingsSheet
             )
         )
     }
@@ -57,7 +56,7 @@ public enum AppNavigationFeature {
     private static func reducerMain(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
         case .push(let page):

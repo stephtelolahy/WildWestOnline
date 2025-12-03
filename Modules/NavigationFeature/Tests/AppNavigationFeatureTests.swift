@@ -9,13 +9,13 @@ import NavigationFeature
 import Redux
 
 struct AppNavigationFeatureTests {
-    private typealias NavigationStore = Store<AppNavigationFeature.State, AppNavigationFeature.Action, Void>
+    private typealias NavigationStore = Store<AppNavigationFeature.State, AppNavigationFeature.Action>
 
     private func createNavigationStore(initialState: AppNavigationFeature.State) async -> NavigationStore {
         await .init(
             initialState: initialState,
             reducer: AppNavigationFeature.reducer,
-            dependencies: ()
+            dependencies: .init()
         )
     }
 

@@ -30,7 +30,7 @@ public enum SettingsNavigationFeature {
     public static func reducer(
         into state: inout State,
         action: Action,
-        dependencies: Void
+        dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
         case .push(let page):
