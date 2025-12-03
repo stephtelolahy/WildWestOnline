@@ -14,8 +14,7 @@ struct AppNavigationFeatureTests {
     private func createNavigationStore(initialState: AppNavigationFeature.State) async -> NavigationStore {
         await .init(
             initialState: initialState,
-            reducer: AppNavigationFeature.reducer,
-            dependencies: .init()
+            reducer: AppNavigationFeature.reducer
         )
     }
 

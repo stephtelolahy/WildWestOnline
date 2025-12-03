@@ -14,8 +14,7 @@ import Redux
 ) async throws(GameFeature.Error) -> GameFeature.State {
     let sut = Store(
         initialState: state,
-        reducer: GameFeature.reducerMechanics,
-        dependencies: .init()
+        reducer: GameFeature.reducerMechanics
     )
     var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []

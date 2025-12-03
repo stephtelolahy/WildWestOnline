@@ -44,8 +44,7 @@ struct StoreTest {
         // Given
         let sut = Store(
             initialState: .init(),
-            reducer: SearchFeature.reducer,
-            dependencies: .init()
+            reducer: SearchFeature.reducer
         )
 
         var dispatchedActions: [SearchFeature.Action] = []
@@ -69,8 +68,7 @@ struct StoreTest {
                     state.searchResult.append("\($0)")
                 }
                 return .none
-            },
-            dependencies: .init()
+            }
         )
         var receivedStates: [SearchFeature.State] = []
         var cancellables: Set<AnyCancellable> = []

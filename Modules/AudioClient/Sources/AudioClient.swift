@@ -8,21 +8,21 @@
 public struct AudioClient {
     public var load: ([Sound]) async -> Void
     public var loop: (Sound) async -> Void
-    public var play: (Sound) async -> Void
-    public var pause: (Sound) async -> Void
-    public var resume: (Sound) async -> Void
+    public var play: @Sendable (Sound) async -> Void
+    public var pause: @Sendable (Sound) async -> Void
+    public var resume: @Sendable (Sound) async -> Void
     public var stop: (Sound) async -> Void
-    public var setMusicVolume: (Float) async -> Void
+    public var setMusicVolume: @Sendable (Float) async -> Void
     public var getMusicVolume: () async -> Float
 
     public init(
         load: @escaping ([Sound]) async -> Void,
         loop: @escaping (Sound) async -> Void,
-        play: @escaping (Sound) async -> Void,
-        pause: @escaping (Sound) async -> Void,
-        resume: @escaping (Sound) async -> Void,
+        play: @Sendable @escaping (Sound) async -> Void,
+        pause: @Sendable @escaping (Sound) async -> Void,
+        resume: @Sendable @escaping (Sound) async -> Void,
         stop: @escaping (Sound) async -> Void,
-        setMusicVolume: @escaping (Float) async -> Void,
+        setMusicVolume: @Sendable @escaping (Float) async -> Void,
         getMusicVolume: @escaping () async -> Float,
     ) {
         self.load = load

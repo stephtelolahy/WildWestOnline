@@ -16,8 +16,7 @@ struct SettingsFeatureTests {
     private func createSettingsStore(initialState: SettingsFeature.State) async -> SettingsStore {
         await .init(
             initialState: initialState,
-            reducer: SettingsFeature.reducer,
-            dependencies: .init()
+            reducer: SettingsFeature.reducer
         )
     }
 

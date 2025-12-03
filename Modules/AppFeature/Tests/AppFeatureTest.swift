@@ -15,12 +15,7 @@ struct AppFeatureTest {
     private func createAppStore(initialState: AppFeature.State) async -> AppStore {
         await .init(
             initialState: initialState,
-            reducer: AppFeature.reducer,
-            dependencies: .init(
-                preferencesClient: .empty,
-                audioClient: .empty,
-                modifierClient: .empty
-            )
+            reducer: AppFeature.reducer
         )
     }
 

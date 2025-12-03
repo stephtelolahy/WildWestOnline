@@ -48,7 +48,7 @@ public class Store<State, Action>: ObservableObject {
     public init(
         initialState: State,
         reducer: @escaping Reducer<State, Action> = { _, _, _ in .none },
-        dependencies: Dependencies
+        dependencies: Dependencies = .init()
     ) {
         self.state = initialState
         self.reducer = reducer
