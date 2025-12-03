@@ -21,12 +21,12 @@ struct StoreProjectionTest {
             reducer: SearchFeature.reducer,
             dependencies: dependencies
         )
-        
+
         let sut = await store.projection(state: SearchView.ViewState.init, action: \.self)
-        
+
         // When
         await sut.dispatch(SearchFeature.Action.fetchRecent)
-        
+
         // Then
         await #expect(sut.state.items == ["recent"])
     }
@@ -36,10 +36,10 @@ private struct SearchView: View {
     struct ViewState: Equatable {
         let items: [String]
     }
-    
+
     @ObservedObject var store: Store<ViewState, SearchFeature.Action>
     @State var query: String = ""
-    
+
     var body: some View {
         NavigationView {
             List {
