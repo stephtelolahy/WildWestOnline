@@ -1,13 +1,16 @@
 //
-//  SettingsRootView.swift
+//  SettingsHomeView.swift
 //
 //
 //  Created by Hugues Telolahy on 08/12/2023.
 //
 
 import SwiftUI
+import Redux
 
-struct SettingsRootView: View {
+struct SettingsHomeView: View {
+    typealias ViewStore = Store<SettingsHomeFeature.State, SettingsHomeFeature.Action>
+
     @StateObject private var store: ViewStore
 
     @Environment(\.dismiss) private var dismiss
@@ -56,9 +59,9 @@ struct SettingsRootView: View {
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
                     get: { store.state.playersCount },
-                    set: { index in
+                    set: { newValue in
                         Task {
-                            await store.dispatch(.settings(.updatePlayersCount(index)))
+                            await store.dispatch(.updatePlayersCount(newValue))
                         }
                     }
                 ).animation(),
@@ -73,12 +76,13 @@ struct SettingsRootView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        store.state.speedIndex
+                        let optionIndex = store.state.speedOptions.firstIndex { $0.value == store.state.actionDelayMilliSeconds } ?? 0
+                        return optionIndex
                     },
                     set: { index in
                         Task {
-                            let option = store.state.speedOptions[index]
-                            await store.dispatch(.settings(.updateActionDelayMilliSeconds(option.value)))
+                            let optionValue = store.state.speedOptions[index].value
+                            await store.dispatch(.updateActionDelayMilliSeconds(optionValue))
                         }
                     }
                 ),
@@ -100,7 +104,7 @@ struct SettingsRootView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(.settings(.toggleSimulation))
+                        await store.dispatch(.toggleSimulation)
                     }
                 }
             ).animation()) {
@@ -119,7 +123,7 @@ struct SettingsRootView: View {
                         get: { store.state.musicVolume },
                         set: { newValue in
                             Task {
-                                await store.dispatch(.settings(.updateMusicVolume(newValue)))
+                                await store.dispatch(.updateMusicVolume(newValue))
                             }
                         }
                     ),
@@ -141,7 +145,7 @@ struct SettingsRootView: View {
     private var figuresView: some View {
         Button(action: {
             Task {
-                await store.dispatch(.navigation(.settingsSheet(.push(.figures))))
+                await store.dispatch(.delegate(.selectedFigures))
             }
         }, label: {
             HStack {
@@ -157,7 +161,7 @@ struct SettingsRootView: View {
     private var collectiblesView: some View {
         Button(action: {
             Task {
-                await store.dispatch(.navigation(.settingsSheet(.push(.collectibles))))
+                await store.dispatch(.delegate(.selectedCollectibles))
             }
         }, label: {
             HStack {
@@ -171,20 +175,16 @@ struct SettingsRootView: View {
 
 #Preview {
     NavigationStack {
-        SettingsRootView {
-            .init(initialState: .previewState)
+        SettingsHomeView {
+            .init(
+                initialState: .init(
+                    playersCount: 5,
+                    actionDelayMilliSeconds: 0,
+                    simulation: false,
+                    preferredFigure: "Figure1",
+                    musicVolume: 1.0
+                )
+            )
         }
-    }
-}
-
-private extension SettingsRootView.ViewState {
-    static var previewState: Self {
-        .init(
-            playersCount: 5,
-            speedIndex: 0,
-            simulation: false,
-            preferredFigure: "Figure1",
-            musicVolume: 1.0
-        )
     }
 }

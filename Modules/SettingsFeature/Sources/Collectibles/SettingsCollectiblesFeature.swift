@@ -7,25 +7,21 @@
 import Redux
 import CardLibrary
 
-public enum SettingsCollectiblesFeature {
-    public struct State: Equatable, Codable, Sendable {
-        public var cards: [Card]
+enum SettingsCollectiblesFeature {
+    struct State: Equatable, Codable, Sendable {
+        var cards: [Card]
 
-        public struct Card: Equatable, Codable, Sendable {
+        struct Card: Equatable, Codable, Sendable {
             let name: String
             let description: String
         }
-
-        public init(cards: [Card]) {
-            self.cards = cards
-        }
     }
 
-    public enum Action {
+    enum Action {
         case onAppear
     }
 
-    public static func reducer(
+    static func reducer(
         state: inout State,
         action: Action,
         dependencies: Dependencies

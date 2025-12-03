@@ -9,19 +9,38 @@ import PreferencesClient
 
 public enum SettingsHomeFeature {
     public struct State: Equatable, Codable, Sendable {
+        let minPlayersCount = 2
+        let maxPlayersCount = 7
+        let speedOptions: [SpeedOption] = [
+            .init(label: "Normal", value: 500),
+            .init(label: "Fast", value: 0)
+        ]
+
+        struct SpeedOption: Equatable, Codable, Sendable {
+            let label: String
+            let value: Int
+        }
+
         public var playersCount: Int
         public var actionDelayMilliSeconds: Int
         public var simulation: Bool
         public var preferredFigure: String?
-        public var musicVolume: Float
+        var musicVolume: Float
     }
 
     public enum Action {
+        case onAppear
         case updatePlayersCount(Int)
         case updateActionDelayMilliSeconds(Int)
         case toggleSimulation
         case updatePreferredFigure(String?)
         case updateMusicVolume(Float)
+
+        case delegate(Delegate)
+        public enum Delegate {
+            case selectedFigures
+            case selectedCollectibles
+        }
     }
 
     public static func reducer(
@@ -30,6 +49,13 @@ public enum SettingsHomeFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
+        case .onAppear:
+            state.playersCount = dependencies.preferencesClient.playersCount()
+            state.actionDelayMilliSeconds = dependencies.preferencesClient.actionDelayMilliSeconds()
+            state.simulation = dependencies.preferencesClient.isSimulationEnabled()
+            state.preferredFigure = dependencies.preferencesClient.preferredFigure()
+            state.musicVolume = dependencies.preferencesClient.musicVolume()
+
         case .updatePlayersCount(let value):
             state.playersCount = value
             dependencies.preferencesClient.savePlayersCount(value)
@@ -49,6 +75,9 @@ public enum SettingsHomeFeature {
         case .updateMusicVolume(let value):
             state.musicVolume = value
             dependencies.preferencesClient.saveMusicVolume(value)
+
+        case .delegate:
+            break
         }
 
         return .none

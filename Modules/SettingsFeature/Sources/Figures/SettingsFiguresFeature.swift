@@ -8,27 +8,23 @@
 import Redux
 import CardLibrary
 
-public enum SettingsFiguresFeature {
-    public struct State: Equatable, Codable, Sendable {
-        public var figures: [Figure]
+enum SettingsFiguresFeature {
+    struct State: Equatable, Codable, Sendable {
+        var figures: [Figure]
 
-        public struct Figure: Equatable, Codable, Sendable {
+        struct Figure: Equatable, Codable, Sendable {
             let name: String
             let description: String
             let isFavorite: Bool
         }
-
-        public init(figures: [Figure]) {
-            self.figures = figures
-        }
     }
 
-    public enum Action {
+    enum Action {
         case onAppear
         case selected(String)
     }
 
-    public static func reducer(
+    static func reducer(
         state: inout State,
         action: Action,
         dependencies: Dependencies
