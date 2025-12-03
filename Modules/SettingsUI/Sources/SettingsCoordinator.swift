@@ -47,6 +47,7 @@ public struct SettingsCoordinator: View {
     @ViewBuilder private func viewForDestination(_ destination: SettingsNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .figures: SettingsFiguresView { store.projection(state: SettingsFiguresView.ViewState.init, action: \.self) }
+        case .collectibles: SettingsCollectiblesView { store.projection(state: SettingsCollectiblesView.ViewState.init, action: \.self) }
         }
     }
 }
@@ -54,7 +55,7 @@ public struct SettingsCoordinator: View {
 #Preview {
     SettingsCoordinator(
         store: Store(
-            initialState: .mock,
+            initialState: .previewState,
             dependencies: .init(
                 settingsClient: .empty,
                 audioClient: .empty,
@@ -65,7 +66,7 @@ public struct SettingsCoordinator: View {
 }
 
 private extension AppFeature.State {
-    static var mock: Self {
+    static var previewState: Self {
         .init(
             cardLibrary: .init(),
             navigation: .init(),

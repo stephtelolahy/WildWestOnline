@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SettingsFiguresView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 07/09/2024.
@@ -25,8 +25,7 @@ struct SettingsFiguresView: View {
                         await store.dispatch(.settings(.updatePreferredFigure(figure.name)))
                     }
                 }, label: {
-                    figureRow(figure: figure)
-                        .foregroundStyle(.foreground)
+                    rowView(figure: figure)
                 })
             }
         }
@@ -34,7 +33,7 @@ struct SettingsFiguresView: View {
         .navigationTitle("Figures")
     }
 
-    func figureRow(figure: ViewState.Figure) -> some View {
+    func rowView(figure: ViewState.Figure) -> some View {
         HStack {
             Image(figure.name, bundle: .cardResources)
                 .resizable()
@@ -42,7 +41,14 @@ struct SettingsFiguresView: View {
                 .frame(width: 48, height: 48)
                 .clipShape(Circle())
 
-            Text(figure.name.uppercased())
+            VStack(alignment: .leading) {
+                Text(figure.name.uppercased())
+                    .bold()
+
+                if let description = figure.description {
+                    Text(description)
+                }
+            }
 
             Spacer()
 
@@ -52,18 +58,35 @@ struct SettingsFiguresView: View {
                     .padding()
             }
         }
+        .foregroundStyle(.foreground)
     }
 }
 
 #Preview {
-    SettingsFiguresView {
-        .init(
-            initialState: .init(figures: [
-                .init(name: .willyTheKid, isFavorite: false),
-                .init(name: .calamityJanet, isFavorite: false),
-                .init(name: .blackJack, isFavorite: true)
-            ]),
-            dependencies: ()
-        )
+    NavigationStack {
+        SettingsFiguresView {
+            .init(
+                initialState: .init(
+                    figures: [
+                        .init(
+                            name: .willyTheKid,
+                            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                            isFavorite: false
+                        ),
+                        .init(
+                            name: .calamityJanet,
+                            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                            isFavorite: false
+                        ),
+                        .init(
+                            name: .blackJack,
+                            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                            isFavorite: true
+                        )
+                    ]
+                ),
+                dependencies: ()
+            )
+        }
     }
 }

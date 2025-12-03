@@ -80,7 +80,7 @@ public struct AppCoordinator: View {
 #Preview {
     AppCoordinator {
         .init(
-            initialState: .mock,
+            initialState: .previewState,
             dependencies: .init(
                 settingsClient: .empty,
                 audioClient: .empty,
@@ -91,7 +91,7 @@ public struct AppCoordinator: View {
 }
 
 private extension AppFeature.State {
-    static var mock: Self {
+    static var previewState: Self {
         .init(
             cardLibrary: .init(),
             navigation: .init(),

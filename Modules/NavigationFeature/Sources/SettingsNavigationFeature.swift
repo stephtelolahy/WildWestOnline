@@ -13,6 +13,7 @@ public enum SettingsNavigationFeature {
 
         public enum Destination: String, Codable, Sendable {
             case figures
+            case collectibles
         }
 
         public init(path: [Destination] = []) {
