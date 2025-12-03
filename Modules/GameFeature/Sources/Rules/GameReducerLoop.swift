@@ -4,6 +4,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import Redux
+import CardDefinition
 
 extension GameFeature {
     static func reducerLoop(

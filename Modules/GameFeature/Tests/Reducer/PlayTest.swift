@@ -6,6 +6,7 @@
 //
 
 import Testing
+import CardDefinition
 import GameFeature
 
 struct PlayTest {

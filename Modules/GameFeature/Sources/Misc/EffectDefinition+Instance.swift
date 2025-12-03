@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 27/10/2025.
 //
+import CardDefinition
 
 extension Card.Effect {
     func toInstance(

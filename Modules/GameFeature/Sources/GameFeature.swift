@@ -5,6 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 28/03/2025.
 //
 import Redux
+import CardDefinition
 
 public enum GameFeature {
     /// All aspects of game state
@@ -64,17 +65,9 @@ public enum GameFeature {
         var selection: String?
         var alias: String?
         var playableCards: [String]?
-        var modifier: QueueModifier?
+        var modifier: Card.QueueModifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
-
-        public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
-            public let rawValue: String
-
-            public init (rawValue: String) {
-                self.rawValue = rawValue
-            }
-        }
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)

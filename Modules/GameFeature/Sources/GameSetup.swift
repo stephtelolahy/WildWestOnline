@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
+import CardDefinition
 
 public enum PlayModeSetup {
     case oneManual

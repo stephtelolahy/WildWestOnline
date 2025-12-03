@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/03/2025.
 //
+import CardDefinition
 
 enum NonStandardLogic {
     static func targetedPlayerForTriggeredEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {

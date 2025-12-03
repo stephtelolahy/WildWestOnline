@@ -4,8 +4,9 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
+import CardDefinition
 import GameFeature
-import CardResources
+@testable import CardResources
 
 extension GameFeature.State.Builder {
     func withAllCards() -> Self {

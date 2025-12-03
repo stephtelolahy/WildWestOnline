@@ -6,6 +6,7 @@
 //
 
 import Testing
+import CardDefinition
 @testable import GameFeature
 
 struct GameSetupTest {

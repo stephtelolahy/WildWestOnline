@@ -4,6 +4,7 @@
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 // swiftlint:disable file_length
+import CardDefinition
 
 extension Card.ActionName {
     func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: QueueModifierClient) throws(GameFeature.Error) -> GameFeature.State {

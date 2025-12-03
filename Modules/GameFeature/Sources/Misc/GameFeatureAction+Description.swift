@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
 //
+import CardDefinition
 
 extension GameFeature.Action: CustomStringConvertible {
     public var description: String {

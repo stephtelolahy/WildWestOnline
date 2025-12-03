@@ -7,7 +7,7 @@
 
 import Testing
 import GameFeature
-import CardResources
+@testable import CardResources
 
 struct PaulRegretTest {
     @Test func shouldIncrementDistanceFromOthers() async throws {

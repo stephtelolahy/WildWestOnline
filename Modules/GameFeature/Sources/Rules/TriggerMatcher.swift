@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 26/07/2025.
 //
+import CardDefinition
 
 extension Card.Trigger {
     func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {

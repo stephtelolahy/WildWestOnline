@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
+import CardDefinition
 
 extension Card.Selector.PlayRequirement {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {

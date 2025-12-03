@@ -5,8 +5,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-public enum Deck {
-    public static let all: [String] = Self.flatten(bang) + Self.flatten(dodgeCity)
+enum Deck {
+    static let all: [String] = Self.flatten(bang) + Self.flatten(dodgeCity)
 
     static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],

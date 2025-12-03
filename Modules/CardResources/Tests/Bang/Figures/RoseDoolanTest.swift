@@ -7,7 +7,7 @@
 
 import Testing
 import GameFeature
-import CardResources
+@testable import CardResources
 
 struct RoseDoolanTest {
     @Test func shouldDecrementDistanceToOthers() async throws {

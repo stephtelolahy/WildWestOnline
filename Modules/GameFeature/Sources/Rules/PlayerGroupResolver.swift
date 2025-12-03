@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 31/10/2024.
 //
+import CardDefinition
 
 extension Card.Selector.PlayerGroup {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {

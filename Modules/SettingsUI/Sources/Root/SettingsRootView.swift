@@ -129,7 +129,7 @@ struct SettingsRootView: View {
         }
     }
 
-    // MARK: - CardsLibrary
+    // MARK: - CardLibrary
 
     private var cardsLibrarySection: some View {
         Section(header: Text("LIBRARY")) {

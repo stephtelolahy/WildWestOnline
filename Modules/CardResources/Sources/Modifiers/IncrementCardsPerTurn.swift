@@ -5,14 +5,15 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
 //
 
+import CardDefinition
 @testable import GameFeature
 
-extension GameFeature.Action.QueueModifier {
-    static let incrementCardsPerTurn = GameFeature.Action.QueueModifier(rawValue: "incrementCardsPerTurn")
+extension Card.QueueModifier {
+    static let incrementCardsPerTurn = Card.QueueModifier(rawValue: "incrementCardsPerTurn")
 }
 
 struct IncrementCardsPerTurn: QueueModifierHandler {
-    static let id = GameFeature.Action.QueueModifier.incrementCardsPerTurn
+    static let id = Card.QueueModifier.incrementCardsPerTurn
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         guard let amount = action.amount else { fatalError("Missing amount") }

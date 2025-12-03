@@ -3,6 +3,7 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
+import CardDefinition
 
 extension Card.Selector {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {

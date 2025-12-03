@@ -4,8 +4,6 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 
-import Redux
-
 /// We are working on a Card Definition DSL that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
@@ -38,7 +36,7 @@ public struct Card: Equatable, Codable, Sendable {
     public struct Effect: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
-        public let modifier: GameFeature.Action.QueueModifier?
+        public let modifier: QueueModifier?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]?
@@ -47,7 +45,7 @@ public struct Card: Equatable, Codable, Sendable {
         public init(
             trigger: Trigger,
             action: ActionName,
-            modifier: GameFeature.Action.QueueModifier? = nil,
+            modifier: QueueModifier? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
@@ -213,6 +211,14 @@ public struct Card: Equatable, Codable, Sendable {
                     self.label = label
                 }
             }
+        }
+    }
+
+    public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
+        public let rawValue: String
+
+        public init (rawValue: String) {
+            self.rawValue = rawValue
         }
     }
 }

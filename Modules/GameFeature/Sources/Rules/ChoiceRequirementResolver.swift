@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 01/11/2024.
 //
+import CardDefinition
 
 extension Card.Selector.ChoiceRequirement {
     func resolveOptions(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
