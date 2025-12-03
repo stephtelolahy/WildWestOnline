@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import Redux
 import AppFeature
+import CardDefinition
 import GameFeature
 
 public extension GameView {

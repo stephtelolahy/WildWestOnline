@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CardDefinition
 import GameFeature
 import CardResources
 

@@ -63,7 +63,6 @@ public struct SettingsCoordinator: View {
 private extension AppFeature.State {
     static var previewState: Self {
         .init(
-            cardLibrary: .init(),
             navigation: .init(),
             settings: .makeBuilder().build()
         )

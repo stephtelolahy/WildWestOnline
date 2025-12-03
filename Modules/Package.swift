@@ -219,7 +219,7 @@ let package = Package(
             dependencies: [
                 "AppFeature",
                 "Theme",
-                "CardLibrary"
+                "CardResources"
             ],
             path: "GameUI/Sources",
             resources: [
