@@ -15,6 +15,9 @@ import SettingsClient
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
 
 public enum AppFeature {
+    /// Global app state
+    /// Organize State Structure Based on Data Types, Not Components
+    /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
     public struct State: Codable, Equatable, Sendable {
         public let cardLibrary: CardLibrary
         public var navigation: AppNavigationFeature.State
