@@ -25,7 +25,7 @@ public enum SettingsHomeFeature {
         public var actionDelayMilliSeconds: Int
         public var simulation: Bool
         public var preferredFigure: String?
-        var musicVolume: Float
+        public var musicVolume: Float
     }
 
     public enum Action {

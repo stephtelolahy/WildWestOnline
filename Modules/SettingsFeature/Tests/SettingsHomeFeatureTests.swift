@@ -7,7 +7,7 @@
 
 import Testing
 import Redux
-import SettingsFeature
+@testable import SettingsFeature
 import PreferencesClient
 
 struct SettingsHomeFeatureTests {
@@ -22,7 +22,7 @@ struct SettingsHomeFeatureTests {
 
     @Test func updatePlayersCount() async throws {
         // Given
-        let state = SettingsHomeFeature.State.makeBuilder().withPlayersCount(2).build()
+        let state = SettingsHomeFeature.State.create(playersCount: 2)
         let sut = await createSettingsStore(initialState: state)
 
         // When
@@ -35,7 +35,7 @@ struct SettingsHomeFeatureTests {
 
     @Test func toggleSimulation() async throws {
         // Given
-        let state = SettingsHomeFeature.State.makeBuilder().withSimulation(true).build()
+        let state = SettingsHomeFeature.State.create(simulation: true)
         let sut = await createSettingsStore(initialState: state)
 
         // When
@@ -48,7 +48,7 @@ struct SettingsHomeFeatureTests {
 
     @Test func updateWaitDelay() async throws {
         // Given
-        let state = SettingsHomeFeature.State.makeBuilder().withActionDelayMilliSeconds(0).build()
+        let state = SettingsHomeFeature.State.create(actionDelayMilliSeconds: 0)
         let sut = await createSettingsStore(initialState: state)
 
         // When
@@ -57,5 +57,23 @@ struct SettingsHomeFeatureTests {
 
         // Then
         await #expect(sut.state.actionDelayMilliSeconds == 500)
+    }
+}
+
+extension SettingsHomeFeature.State {
+    static func create(
+        playersCount: Int = 0,
+        actionDelayMilliSeconds: Int = 0,
+        simulation: Bool = false,
+        preferredFigure: String? = nil,
+        musicVolume: Float = 0
+    ) -> Self {
+        .init(
+            playersCount: playersCount,
+            actionDelayMilliSeconds: actionDelayMilliSeconds,
+            simulation: simulation,
+            preferredFigure: preferredFigure,
+            musicVolume: musicVolume
+        )
     }
 }

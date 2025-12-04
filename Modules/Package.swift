@@ -90,6 +90,7 @@ let package = Package(
                 "Redux",
                 "Theme",
                 "PreferencesClient",
+                "CardLibrary",
                 "CardResources"
             ],
             path: "SettingsFeature/Sources",
