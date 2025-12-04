@@ -189,13 +189,14 @@ let package = Package(
         .target(
             name: "HomeFeature",
             dependencies: [
+                "Redux",
                 "Theme",
                 "AudioClient"
             ],
             path: "HomeFeature/Sources",
             plugins: lintPlugin
         ),
-        .target(
+        .testTarget(
             name: "HomeFeatureTests",
             dependencies: [
                 "HomeFeature"
