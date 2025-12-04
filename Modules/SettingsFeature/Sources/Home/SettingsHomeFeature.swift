@@ -8,7 +8,7 @@ import Redux
 import PreferencesClient
 
 public enum SettingsHomeFeature {
-    public struct State: Equatable, Codable, Sendable {
+    public struct State: Equatable, Sendable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
         let speedOptions: [SpeedOption] = [
@@ -16,7 +16,7 @@ public enum SettingsHomeFeature {
             .init(label: "Fast", value: 0)
         ]
 
-        struct SpeedOption: Equatable, Codable, Sendable {
+        struct SpeedOption: Equatable, Sendable {
             let label: String
             let value: Int
         }

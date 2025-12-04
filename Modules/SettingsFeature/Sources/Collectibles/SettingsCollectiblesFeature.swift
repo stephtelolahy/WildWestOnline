@@ -8,10 +8,10 @@ import Redux
 import CardLibrary
 
 public enum SettingsCollectiblesFeature {
-    public struct State: Equatable, Codable, Sendable {
+    public struct State: Equatable, Sendable {
         var cards: [Card]
 
-        struct Card: Equatable, Codable, Sendable {
+        struct Card: Equatable, Sendable {
             let name: String
             let description: String
         }

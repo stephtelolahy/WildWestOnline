@@ -8,7 +8,7 @@
 import Redux
 
 public enum SettingsCoordinatorFeature {
-    public struct State: Equatable, Codable, Sendable {
+    public struct State: Equatable {
         var home: SettingsHomeFeature.State
         var figures: SettingsFiguresFeature.State
         var collectibles: SettingsCollectiblesFeature.State

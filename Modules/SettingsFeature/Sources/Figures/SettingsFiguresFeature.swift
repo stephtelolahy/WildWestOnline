@@ -9,10 +9,10 @@ import Redux
 import CardLibrary
 
 public enum SettingsFiguresFeature {
-    public struct State: Equatable, Codable, Sendable {
+    public struct State: Equatable, Sendable {
         var figures: [Figure]
 
-        struct Figure: Equatable, Codable, Sendable {
+        struct Figure: Equatable, Sendable {
             let name: String
             let description: String
             let isFavorite: Bool

@@ -25,7 +25,6 @@ let package = Package(
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
-        .library(name: "NavigationFeature", targets: ["NavigationFeature"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
 
         // Capabilities
@@ -103,27 +102,11 @@ let package = Package(
             path: "SettingsFeature/Tests"
         ),
         .target(
-            name: "NavigationFeature",
-            dependencies: [
-                "Redux"
-            ],
-            path: "NavigationFeature/Sources",
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "NavigationFeatureTests",
-            dependencies: [
-                "NavigationFeature"
-            ],
-            path: "NavigationFeature/Tests"
-        ),
-        .target(
             name: "AppFeature",
             dependencies: [
                 "GameFeature",
                 "SettingsFeature",
                 "CardLibrary",
-                "NavigationFeature",
                 "AudioClient"
             ],
             path: "AppFeature/Sources",
