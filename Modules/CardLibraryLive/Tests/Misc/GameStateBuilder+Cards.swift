@@ -6,7 +6,7 @@
 //
 import CardDefinition
 import GameFeature
-@testable import CardResources
+@testable import CardLibraryLive
 
 extension GameFeature.State.Builder {
     func withAllCards() -> Self {

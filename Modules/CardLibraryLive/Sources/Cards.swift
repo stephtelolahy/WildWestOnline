@@ -5,10 +5,11 @@
 //
 // swiftlint:disable file_length line_length
 import CardDefinition
+import CardResources
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
-public enum Cards {
+enum Cards {
     static let all: [Card] = [
         // MARK: - Aura
         .endTurn,
@@ -1371,4 +1372,18 @@ private extension Array where Element == Card.Effect {
             )
         ]
     }
+}
+
+private extension String {
+    static let playMissedOnShot = "playMissedOnShot"
+    static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
+    static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
+    static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
+    static let eliminateOnDamagedLethal = "eliminateOnDamagedLethal"
+    static let endGameOnEliminated = "endGameOnEliminated"
+    static let discardAllCardsOnEliminated = "discardAllCardsOnEliminated"
+    static let nextTurnOnEliminated = "nextTurnOnEliminated"
+    static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
+    static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
+    static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
 }

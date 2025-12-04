@@ -1,5 +1,5 @@
 //
-//  RoseDoolanTest.swift
+//  PaulRegretTest.swift
 //  
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -7,22 +7,22 @@
 
 import Testing
 import GameFeature
-@testable import CardResources
+@testable import CardLibraryLive
 
-struct RoseDoolanTest {
-    @Test func shouldDecrementDistanceToOthers() async throws {
+struct PaulRegretTest {
+    @Test func shouldIncrementDistanceFromOthers() async throws {
         // Given
         let state = GameSetup.buildGame(
-            figures: [.roseDoolan],
+            figures: [.paulRegret],
             deck: [],
             cards: Cards.all.toDictionary,
             auras: []
         )
 
         // When
-        let player = state.players.get(.roseDoolan)
+        let player = state.players.get(.paulRegret)
 
         // Then
-        #expect(player.magnifying == 1)
+        #expect(player.remoteness == 1)
     }
 }
