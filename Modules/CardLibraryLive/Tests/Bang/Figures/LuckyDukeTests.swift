@@ -6,7 +6,6 @@
 //
 import Testing
 import GameFeature
-import CardResources
 
 struct LuckyDukeTests {
     @Test func drawing_shouldFlipped2Cards() async throws {

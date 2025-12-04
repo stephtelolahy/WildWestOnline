@@ -7,7 +7,6 @@
 
 import Testing
 import GameFeature
-import CardResources
 
 struct NextTurnOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
