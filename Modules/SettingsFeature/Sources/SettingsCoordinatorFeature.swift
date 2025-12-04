@@ -33,9 +33,6 @@ public enum SettingsCoordinatorFeature {
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
-        switch action {
-        default:
-            return .none
-        }
+        .none
     }
 }

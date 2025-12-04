@@ -25,7 +25,7 @@ let package = Package(
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
-        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "HomeFeature", targets: ["HomeFeature"]),
 
         // Capabilities
         .library(name: "CardDefinition", targets: ["CardDefinition"]),
@@ -187,14 +187,20 @@ let package = Package(
             plugins: lintPlugin
         ),
         .target(
-            name: "HomeUI",
+            name: "HomeFeature",
             dependencies: [
-                "AppFeature",
                 "Theme",
                 "AudioClient"
             ],
-            path: "HomeUI/Sources",
+            path: "HomeFeature/Sources",
             plugins: lintPlugin
+        ),
+        .target(
+            name: "HomeFeatureTests",
+            dependencies: [
+                "HomeFeature"
+            ],
+            path: "HomeFeature/Tests"
         ),
         .target(
             name: "GameUI",
@@ -219,7 +225,7 @@ let package = Package(
         .target(
             name: "AppUI",
             dependencies: [
-                "HomeUI",
+                "HomeFeature",
                 "GameUI",
             ],
             path: "AppUI/Sources",

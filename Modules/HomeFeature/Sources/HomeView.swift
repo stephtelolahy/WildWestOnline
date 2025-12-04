@@ -6,14 +6,16 @@
 //
 
 import SwiftUI
+import Redux
 import Theme
 
 public struct HomeView: View {
-    @StateObject private var store: ViewStore
+    typealias ViewStore = Store<HomeFeature.State, HomeFeature.Action>
 
+    @StateObject private var store: ViewStore
     @Environment(\.theme) private var theme
 
-    public init(store: @escaping () -> ViewStore) {
+    init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -50,12 +52,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(.start)
+                        await store.dispatch(.playTapped)
                     }
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(.navigation(.presentSettingsSheet))
+                        await store.dispatch(.settingsTapped)
                     }
                 }
             }
