@@ -27,8 +27,10 @@ let package = Package(
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "HomeFeature", targets: ["HomeFeature"]),
 
-        // Capabilities
+        // Domain
         .library(name: "CardDefinition", targets: ["CardDefinition"]),
+
+        // Capabilities
         .library(name: "CardLibrary", targets: ["CardLibrary"]),
         .library(name: "CardLibraryLive", targets: ["CardLibraryLive"]),
         .library(name: "PreferencesClient", targets: ["PreferencesClient"]),
