@@ -1,5 +1,5 @@
 //
-//  Cards+Subscript.swift
+//  Array+ToDictionary.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 02/11/2025.

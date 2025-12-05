@@ -10,7 +10,6 @@ import CardDefinition
 import GameFeature
 import CardResources
 
-/// A view that displays a card
 struct CardView: View {
     let content: CardContent
     var format: Format = .medium

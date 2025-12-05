@@ -23,7 +23,7 @@ let package = Package(
         .library(name: "AppFeature", targets: ["AppFeature"]),
         .library(name: "AppUI", targets: ["AppUI"]),
         .library(name: "GameFeature", targets: ["GameFeature"]),
-        .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "GameSessionFeature", targets: ["GameSessionFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "HomeFeature", targets: ["HomeFeature"]),
 
@@ -208,30 +208,29 @@ let package = Package(
             path: "HomeFeature/Tests"
         ),
         .target(
-            name: "GameUI",
+            name: "GameSessionFeature",
             dependencies: [
-                "AppFeature",
+                "GameFeature",
                 "Theme",
                 "CardResources"
             ],
-            path: "GameUI/Sources",
+            path: "GameSessionFeature/Sources",
             resources: [
                 .process("Resources")
             ],
             plugins: lintPlugin
         ),
         .testTarget(
-            name: "GameUITests",
+            name: "GameSessionFeatureTests",
             dependencies: [
-                "GameUI"
+                "GameSessionFeature"
             ],
-            path: "GameUI/Tests"
+            path: "GameSessionFeature/Tests"
         ),
         .target(
             name: "AppUI",
             dependencies: [
                 "HomeFeature",
-                "GameUI",
             ],
             path: "AppUI/Sources",
             plugins: lintPlugin

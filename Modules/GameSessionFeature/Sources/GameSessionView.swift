@@ -1,5 +1,5 @@
 //
-//  GameView.swift
+//  GameSessionView.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
@@ -7,24 +7,15 @@
 // swiftlint:disable identifier_name force_unwrapping
 
 import SwiftUI
+import Redux
 import Theme
 import GameFeature
 
-enum GameArea: Hashable {
-    case deck
-    case discard
-    case discovered
-    case playerHand(String)
-    case playerInPlay(String)
-}
+public struct GameSessionView: View {
+    public typealias ViewStore = Store<GameSessionFeature.State, GameSessionFeature.Action>
 
-enum CardContent: Equatable {
-    case id(String)
-    case hidden
-}
-
-public struct GameView: View {
     @StateObject private var store: ViewStore
+
     @State private var animationSource: CGPoint = .zero
     @State private var animationTarget: CGPoint = .zero
     @State private var animatedCard: CardContent?
@@ -76,13 +67,13 @@ public struct GameView: View {
     }
 }
 
-private extension GameView {
+private extension GameSessionView {
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .automatic) {
             Menu {
                 Button {
                     Task {
-                        await store.dispatch(.navigation(.presentSettingsSheet))
+                        await store.dispatch(.settingsTapped)
                     }
                 } label: {
                     Label("Settings", systemImage: "gearshape")
@@ -91,7 +82,7 @@ private extension GameView {
                 Divider()
 
                 Button(role: .destructive) {
-                    Task { await store.dispatch(.quit) }
+                    Task { await store.dispatch(.quitTapped) }
                 } label: {
                     Label {
                         Text(.gameQuitButton)
@@ -314,15 +305,15 @@ private struct TurnBadge: View {
 
 #Preview {
     NavigationStack {
-        GameView {
+        GameSessionView {
             .init(initialState: .previewState)
         }
     }
 }
 
-private extension GameView.ViewState {
+private extension GameSessionFeature.State {
     static var previewState: Self {
-        let player1 = GameView.ViewState.PlayerItem(
+        let player1 = GameSessionFeature.State.Player(
             id: "p1",
             imageName: "willyTheKid",
             displayName: "willyTheKid",
@@ -336,7 +327,7 @@ private extension GameView.ViewState {
             userPhotoUrl: nil
         )
 
-        let player2 = GameView.ViewState.PlayerItem(
+        let player2 = GameSessionFeature.State.Player(
             id: "p2",
             imageName: "calamityJanet",
             displayName: "calamityJanet",
@@ -350,7 +341,7 @@ private extension GameView.ViewState {
             userPhotoUrl: nil
         )
 
-        let player3 = GameView.ViewState.PlayerItem(
+        let player3 = GameSessionFeature.State.Player(
             id: "p3",
             imageName: "elGringo",
             displayName: "elGringo",
@@ -365,6 +356,7 @@ private extension GameView.ViewState {
         )
 
         return .init(
+            game: nil,
             players: [player1, player2, player3],
             message: "P1's turn",
             chooseOne: .init(
@@ -381,10 +373,10 @@ private extension GameView.ViewState {
             topDeck: nil,
             startOrder: [],
             deckCount: 12,
-            controlledPlayer: "p1",
             startPlayer: "p1",
             actionDelaySeconds: 0.5,
-            lastEvent: nil
+            lastEvent: nil,
+            controlledPlayer: "p1",
         )
     }
 }

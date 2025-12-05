@@ -7,9 +7,8 @@
 import SwiftUI
 import CardResources
 
-// Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
-    var player: GameView.ViewState.PlayerItem
+    var player: GameSessionFeature.State.Player
 
     @Environment(\.theme) private var theme
 
@@ -60,7 +59,7 @@ struct PlayerView: View {
     }
 }
 
-private extension GameView.ViewState.PlayerItem {
+private extension GameSessionFeature.State.Player {
     var foregroundColor: Color {
         if isTargeted {
             Color(.systemRed)

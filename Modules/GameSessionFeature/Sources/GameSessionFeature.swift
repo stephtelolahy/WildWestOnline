@@ -1,34 +1,33 @@
 //
-//  GameViewState.swift
+//  GameSessionFeature.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
+//  Created by Hugues Stéphano TELOLAHY on 05/12/2025.
 //
-// swiftlint:disable force_unwrapping
 
 import Foundation
-import SwiftUI
 import Redux
-import AppFeature
 import CardDefinition
 import GameFeature
 
-public extension GameView {
-    struct ViewState: Equatable {
-        let players: [PlayerItem]
-        let message: String
-        let chooseOne: ChooseOne?
-        let handCards: [HandCard]
-        let topDiscard: String?
-        let topDeck: String?
-        let startOrder: [String]
-        let deckCount: Int
-        let controlledPlayer: String?
-        let startPlayer: String
-        let actionDelaySeconds: TimeInterval
-        let lastEvent: GameFeature.Action?
+public enum GameSessionFeature {
+    public struct State: Equatable {
+        var game: GameFeature.State?
 
-        struct PlayerItem: Equatable {
+        var players: [Player]
+        var message: String
+        var chooseOne: ChooseOne?
+        var handCards: [HandCard]
+        var topDiscard: String?
+        var topDeck: String?
+        var startOrder: [String]
+        var deckCount: Int
+        var startPlayer: String
+        var actionDelaySeconds: TimeInterval
+        var lastEvent: GameFeature.Action?
+        var controlledPlayer: String?
+
+        struct Player: Equatable {
             let id: String
             let imageName: String
             let displayName: String
@@ -54,8 +53,34 @@ public extension GameView {
         }
     }
 
-    typealias ViewStore = Store<ViewState, AppFeature.Action>
+    public enum Action {
+        case onAppear
+        case quitTapped
+        case settingsTapped
+
+        case game(GameFeature.Action)
+
+        case delegate(Delegate)
+
+        public enum Delegate {
+            case quit
+            case settings
+        }
+    }
+
+    public static func reducer(
+        state: inout State,
+        action: Action,
+        dependencies: Dependencies
+    ) -> Effect<Action> {
+        .none
+    }
 }
+
+extension GameSessionFeature.State {
+}
+
+/*
 
 public extension GameView.ViewState {
     init?(appState: AppFeature.State) {
@@ -172,3 +197,4 @@ private extension GameFeature.State {
         return playerId
     }
 }
+*/
