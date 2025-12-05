@@ -1,5 +1,5 @@
 //
-//  AppCoordinator.swift
+//  AppCoordinatorView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.

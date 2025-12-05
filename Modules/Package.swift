@@ -21,9 +21,8 @@ let package = Package(
 
         // Features
         .library(name: "AppFeature", targets: ["AppFeature"]),
-        .library(name: "AppUI", targets: ["AppUI"]),
-        .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "GameSessionFeature", targets: ["GameSessionFeature"]),
+        .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
         .library(name: "HomeFeature", targets: ["HomeFeature"]),
 
@@ -54,7 +53,6 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Redux",
-            dependencies: [],
             path: "Redux/Sources"
         ),
         .testTarget(
@@ -112,6 +110,7 @@ let package = Package(
             dependencies: [
                 "GameFeature",
                 "SettingsFeature",
+                "HomeFeature",
                 "CardLibrary",
                 "AudioClient"
             ],
@@ -127,7 +126,6 @@ let package = Package(
         ),
         .target(
             name: "Theme",
-            dependencies: [],
             path: "Theme/Sources",
             plugins: lintPlugin
         ),
@@ -228,14 +226,6 @@ let package = Package(
             path: "GameSessionFeature/Tests"
         ),
         .target(
-            name: "AppUI",
-            dependencies: [
-                "HomeFeature",
-            ],
-            path: "AppUI/Sources",
-            plugins: lintPlugin
-        ),
-        .target(
             name: "PreferencesClientLive",
             dependencies: [
                 "PreferencesClient"
@@ -246,8 +236,7 @@ let package = Package(
         .target(
             name: "AppBootstrap",
             dependencies: [
-                "AppUI",
-                "CardResources",
+                "AppFeature",
                 "PreferencesClientLive",
                 "AudioClientLive"
             ],
