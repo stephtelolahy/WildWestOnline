@@ -39,9 +39,11 @@ let package = Package(
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
 
         // Utilities
-        .library(name: "CardResources", targets: ["CardResources"]),
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Theme", targets: ["Theme"]),
+
+        // Resources
+        .library(name: "CardResources", targets: ["CardResources"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
