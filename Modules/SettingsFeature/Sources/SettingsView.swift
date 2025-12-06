@@ -1,5 +1,5 @@
 //
-//  SettingsCoordinatorView.swift
+//  SettingsView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 15/09/2024.
@@ -7,8 +7,8 @@
 import Redux
 import SwiftUI
 
-public struct SettingsCoordinatorView: View {
-    typealias ViewStore = Store<SettingsCoordinatorFeature.State, SettingsCoordinatorFeature.Action>
+public struct SettingsView: View {
+    typealias ViewStore = Store<SettingsFeature.State, SettingsFeature.Action>
 
     @StateObject private var store: ViewStore
 
@@ -18,7 +18,7 @@ public struct SettingsCoordinatorView: View {
         _store = StateObject(wrappedValue: store())
     }
 
-    @State private var path: [SettingsCoordinatorFeature.State.Destination] = []
+    @State private var path: [SettingsFeature.State.Destination] = []
 
     public var body: some View {
         NavigationStack(path: $path) {
@@ -28,7 +28,7 @@ public struct SettingsCoordinatorView: View {
                     action: { .home($0) }
                 )
             }
-            .navigationDestination(for: SettingsCoordinatorFeature.State.Destination.self) {
+            .navigationDestination(for: SettingsFeature.State.Destination.self) {
                 viewForDestination($0)
             }
         }
@@ -53,7 +53,7 @@ public struct SettingsCoordinatorView: View {
         .presentationDetents([.large])
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: SettingsCoordinatorFeature.State.Destination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: SettingsFeature.State.Destination) -> some View {
         switch destination {
         case .figures:
             SettingsFiguresView {
@@ -75,7 +75,7 @@ public struct SettingsCoordinatorView: View {
 }
 
 #Preview {
-    SettingsCoordinatorView {
+    SettingsView {
         .init(
             initialState: .init(
                 home: .init(

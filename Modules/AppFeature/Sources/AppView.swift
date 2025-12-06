@@ -1,5 +1,5 @@
 //
-//  AppCoordinatorView.swift
+//  AppView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.
@@ -7,10 +7,9 @@
 
 import SwiftUI
 import Redux
-import AppFeature
-import SettingsUI
-import HomeUI
-import GameUI
+import SettingsFeature
+import GameSessionFeature
+import HomeFeature
 
 public struct AppCoordinator: View {
     @StateObject private var store: AppStore

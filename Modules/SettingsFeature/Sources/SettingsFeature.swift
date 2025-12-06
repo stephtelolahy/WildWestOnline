@@ -1,5 +1,5 @@
 //
-//  SettingsCoordinatorFeature.swift
+//  SettingsFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 04/12/2025.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public enum SettingsCoordinatorFeature {
+public enum SettingsFeature {
     public struct State: Equatable {
         var home: SettingsHomeFeature.State
         var figures: SettingsFiguresFeature.State

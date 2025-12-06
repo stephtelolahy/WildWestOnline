@@ -17,7 +17,7 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         // Bootstrap
-        .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
+        .library(name: "AppBuilder", targets: ["AppBuilder"]),
 
         // Features
         .library(name: "AppFeature", targets: ["AppFeature"]),
@@ -234,13 +234,13 @@ let package = Package(
             plugins: lintPlugin
         ),
         .target(
-            name: "AppBootstrap",
+            name: "AppBuilder",
             dependencies: [
                 "AppFeature",
                 "PreferencesClientLive",
                 "AudioClientLive"
             ],
-            path: "AppBootstrap/Sources",
+            path: "AppBuilder/Sources",
             plugins: lintPlugin
         ),
     ]

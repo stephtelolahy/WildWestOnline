@@ -1,14 +1,12 @@
 //
-//  AppTheme.swift
+//  Theme.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 import SwiftUI
 
-/// App theme
-///
-public protocol AppTheme {
+public protocol Theme {
     var colorBackground: Color { get }
     var colorAccent: Color { get }
     var fontHeadline: Font { get }
@@ -16,10 +14,10 @@ public protocol AppTheme {
 }
 
 public extension EnvironmentValues {
-    @Entry var theme: AppTheme = DefaultTheme()
+    @Entry var theme: Theme = DefaultTheme()
 }
 
-struct DefaultTheme: AppTheme {
+struct DefaultTheme: Theme {
     private static let fontName = "AmericanTypewriter-Bold"
 
     var colorBackground = Color("BackgroundColor", bundle: .module)
