@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
 //
+import CardDefinition
 
 public extension QueueModifierClient {
     static func live(handlers: [QueueModifierHandler.Type]) -> Self {
@@ -16,10 +17,10 @@ public extension QueueModifierClient {
 }
 
 struct QueueModifierRegistry {
-    let dictionary: [GameFeature.Action.QueueModifier: QueueModifierHandler.Type]
+    let dictionary: [Card.QueueModifier: QueueModifierHandler.Type]
 
     init(handlers: [QueueModifierHandler.Type]) {
-        var dict: [GameFeature.Action.QueueModifier: QueueModifierHandler.Type] = [:]
+        var dict: [Card.QueueModifier: QueueModifierHandler.Type] = [:]
         for type in handlers {
             dict[type.id] = type
         }
@@ -35,7 +36,7 @@ struct QueueModifierRegistry {
 }
 
 public protocol QueueModifierHandler {
-    static var id: GameFeature.Action.QueueModifier { get }
+    static var id: Card.QueueModifier { get }
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action]
 }

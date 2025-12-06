@@ -4,9 +4,7 @@
 //
 //  Created by Hugues Telolahy on 31/10/2025.
 //
-import Redux
-import AudioClient
-
+/*
 extension AppFeature {
     static func reducerSound(
         into state: inout State,
@@ -15,7 +13,7 @@ extension AppFeature {
     ) -> Effect<Action> {
         switch action {
         case .game(let gameAction):
-            let soundMatcher = SoundMatcher(specialSounds: state.cardLibrary.specialSounds)
+            let soundMatcher = SoundMatcher(specialSounds: dependencies.cardLibrary.specialSounds())
             if let sfx = soundMatcher.sfx(on: gameAction) {
                 let playFunc = dependencies.audioClient.play
                 Task {
@@ -48,3 +46,4 @@ extension AppFeature {
         return .none
     }
 }
+*/

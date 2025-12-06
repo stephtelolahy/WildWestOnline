@@ -6,11 +6,11 @@
 //
 
 public struct PreferencesClient {
-    public var savePlayersCount: (Int) -> Void
-    public var saveActionDelayMilliSeconds: (Int) -> Void
-    public var saveSimulationEnabled: (Bool) -> Void
-    public var savePreferredFigure: (String?) -> Void
-    public var saveMusicVolume: (Float) -> Void
+    public var setPlayersCount: (Int) -> Void
+    public var setActionDelayMilliSeconds: (Int) -> Void
+    public var setSimulationEnabled: (Bool) -> Void
+    public var setPreferredFigure: (String?) -> Void
+    public var setMusicVolume: (Float) -> Void
     public var playersCount: () -> Int
     public var actionDelayMilliSeconds: () -> Int
     public var isSimulationEnabled: () -> Bool
@@ -18,22 +18,22 @@ public struct PreferencesClient {
     public var musicVolume: () -> Float
 
     public init(
-        savePlayersCount: @escaping (Int) -> Void,
-        saveActionDelayMilliSeconds: @escaping (Int) -> Void,
-        saveSimulationEnabled: @escaping (Bool) -> Void,
-        savePreferredFigure: @escaping (String?) -> Void,
-        saveMusicVolume: @escaping (Float) -> Void,
+        setPlayersCount: @escaping (Int) -> Void,
+        setActionDelayMilliSeconds: @escaping (Int) -> Void,
+        setSimulationEnabled: @escaping (Bool) -> Void,
+        setPreferredFigure: @escaping (String?) -> Void,
+        setMusicVolume: @escaping (Float) -> Void,
         playersCount: @escaping () -> Int,
         actionDelayMilliSeconds: @escaping () -> Int,
         isSimulationEnabled: @escaping () -> Bool,
         preferredFigure: @escaping () -> String?,
         musicVolume: @escaping () -> Float
     ) {
-        self.savePlayersCount = savePlayersCount
-        self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
-        self.saveSimulationEnabled = saveSimulationEnabled
-        self.savePreferredFigure = savePreferredFigure
-        self.saveMusicVolume = saveMusicVolume
+        self.setPlayersCount = setPlayersCount
+        self.setActionDelayMilliSeconds = setActionDelayMilliSeconds
+        self.setSimulationEnabled = setSimulationEnabled
+        self.setPreferredFigure = setPreferredFigure
+        self.setMusicVolume = setMusicVolume
         self.playersCount = playersCount
         self.actionDelayMilliSeconds = actionDelayMilliSeconds
         self.isSimulationEnabled = isSimulationEnabled

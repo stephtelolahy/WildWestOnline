@@ -17,33 +17,32 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         // Bootstrap
-        .library(name: "AppBootstrap", targets: ["AppBootstrap"]),
+        .library(name: "AppBuilder", targets: ["AppBuilder"]),
 
         // Features
         .library(name: "AppFeature", targets: ["AppFeature"]),
+        .library(name: "GameSessionFeature", targets: ["GameSessionFeature"]),
         .library(name: "GameFeature", targets: ["GameFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
-        .library(name: "NavigationFeature", targets: ["NavigationFeature"]),
+        .library(name: "HomeFeature", targets: ["HomeFeature"]),
 
-        // UI
-        .library(name: "AppUI", targets: ["AppUI"]),
-        .library(name: "GameUI", targets: ["GameUI"]),
-        .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "HomeUI", targets: ["HomeUI"]),
+        // Domain
+        .library(name: "CardDefinition", targets: ["CardDefinition"]),
 
-        // Dependencies abstraction
+        // Capabilities
+        .library(name: "CardLibrary", targets: ["CardLibrary"]),
+        .library(name: "CardLibraryLive", targets: ["CardLibraryLive"]),
         .library(name: "PreferencesClient", targets: ["PreferencesClient"]),
-        .library(name: "AudioClient", targets: ["AudioClient"]),
-
-        // Dependencies implementation
         .library(name: "PreferencesClientLive", targets: ["PreferencesClientLive"]),
+        .library(name: "AudioClient", targets: ["AudioClient"]),
         .library(name: "AudioClientLive", targets: ["AudioClientLive"]),
-        .library(name: "CardResources", targets: ["CardResources"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Theme", targets: ["Theme"]),
-        .library(name: "Utils", targets: ["Utils"]),
+
+        // Resources
+        .library(name: "CardResources", targets: ["CardResources"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -54,7 +53,6 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Redux",
-            dependencies: [],
             path: "Redux/Sources"
         ),
         .testTarget(
@@ -65,22 +63,10 @@ let package = Package(
             path: "Redux/Tests"
         ),
         .target(
-            name: "Utils",
-            dependencies: [],
-            path: "Utils/Sources",
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "UtilsTests",
-            dependencies: [
-                "Utils"
-            ],
-            path: "Utils/Tests"
-        ),
-        .target(
             name: "GameFeature",
             dependencies: [
-                "Redux"
+                "Redux",
+                "CardDefinition"
             ],
             path: "GameFeature/Sources",
             plugins: lintPlugin
@@ -104,7 +90,10 @@ let package = Package(
             name: "SettingsFeature",
             dependencies: [
                 "Redux",
-                "PreferencesClient"
+                "Theme",
+                "PreferencesClient",
+                "CardLibrary",
+                "CardResources"
             ],
             path: "SettingsFeature/Sources",
             plugins: lintPlugin
@@ -117,27 +106,11 @@ let package = Package(
             path: "SettingsFeature/Tests"
         ),
         .target(
-            name: "NavigationFeature",
-            dependencies: [
-                "Redux"
-            ],
-            path: "NavigationFeature/Sources",
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "NavigationFeatureTests",
-            dependencies: [
-                "NavigationFeature"
-            ],
-            path: "NavigationFeature/Tests"
-        ),
-        .target(
             name: "AppFeature",
             dependencies: [
-                "GameFeature",
-                "SettingsFeature",
-                "NavigationFeature",
-                "AudioClient"
+                "HomeFeature",
+                "GameSessionFeature",
+                "SettingsFeature"
             ],
             path: "AppFeature/Sources",
             plugins: lintPlugin
@@ -151,9 +124,48 @@ let package = Package(
         ),
         .target(
             name: "Theme",
-            dependencies: [],
             path: "Theme/Sources",
             plugins: lintPlugin
+        ),
+        .target(
+            name: "CardDefinition",
+            path: "CardDefinition/Sources",
+            plugins: lintPlugin
+        ),
+        .target(
+            name: "CardLibrary",
+            dependencies: [
+                "Redux",
+                "CardDefinition",
+                "AudioClient"
+            ],
+            path: "CardLibrary/Sources",
+            plugins: lintPlugin
+        ),
+        .target(
+            name: "CardResources",
+            path: "CardResources/Sources",
+            resources: [
+                .process("Resources")
+            ],
+            plugins: lintPlugin
+        ),
+        .target(
+            name: "CardLibraryLive",
+            dependencies: [
+                "CardLibrary",
+                "GameFeature", // TODO: should not depend on feature
+                "CardResources"
+            ],
+            path: "CardLibraryLive/Sources",
+            plugins: lintPlugin
+        ),
+        .testTarget(
+            name: "CardLibraryLiveTests",
+            dependencies: [
+                "CardLibraryLive"
+            ],
+            path: "CardLibraryLive/Tests"
         ),
         .target(
             name: "AudioClient",
@@ -175,94 +187,41 @@ let package = Package(
             plugins: lintPlugin
         ),
         .target(
-            name: "HomeUI",
+            name: "HomeFeature",
             dependencies: [
-                "AppFeature",
+                "Redux",
                 "Theme",
                 "AudioClient"
             ],
-            path: "HomeUI/Sources",
+            path: "HomeFeature/Sources",
             plugins: lintPlugin
         ),
         .testTarget(
-            name: "HomeUITests",
+            name: "HomeFeatureTests",
             dependencies: [
-                "HomeUI"
+                "HomeFeature"
             ],
-            path: "HomeUI/Tests"
+            path: "HomeFeature/Tests"
         ),
         .target(
-            name: "SettingsUI",
-            dependencies: [
-                "AppFeature",
-                "CardResources",
-                "Theme"
-            ],
-            path: "SettingsUI/Sources",
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "SettingsUITests",
-            dependencies: [
-                "SettingsUI"
-            ],
-            path: "SettingsUI/Tests"
-        ),
-        .target(
-            name: "GameUI",
-            dependencies: [
-                "AppFeature",
-                "Theme",
-                "CardResources"
-            ],
-            path: "GameUI/Sources",
-            resources: [
-                .process("Resources")
-            ],
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "GameUITests",
-            dependencies: [
-                "GameUI"
-            ],
-            path: "GameUI/Tests"
-        ),
-        .target(
-            name: "AppUI",
-            dependencies: [
-                "HomeUI",
-                "GameUI",
-                "SettingsUI"
-            ],
-            path: "AppUI/Sources",
-            plugins: lintPlugin
-        ),
-        .testTarget(
-            name: "AppUITests",
-            dependencies: [
-                "AppUI"
-            ],
-            path: "AppUI/Tests"
-        ),
-        .target(
-            name: "CardResources",
+            name: "GameSessionFeature",
             dependencies: [
                 "GameFeature",
-                "AudioClient"
+                "Theme",
+                "CardResources"
             ],
-            path: "CardResources/Sources",
+            path: "GameSessionFeature/Sources",
             resources: [
                 .process("Resources")
             ],
             plugins: lintPlugin
         ),
         .testTarget(
-            name: "CardResourcesTests",
+            name: "GameSessionFeatureTests",
             dependencies: [
-                "CardResources"
+                "GameSessionFeature"
             ],
-            path: "CardResources/Tests"
+            path: "GameSessionFeature/Tests"
         ),
         .target(
             name: "PreferencesClientLive",
@@ -273,14 +232,14 @@ let package = Package(
             plugins: lintPlugin
         ),
         .target(
-            name: "AppBootstrap",
+            name: "AppBuilder",
             dependencies: [
-                "AppUI",
-                "CardResources",
+                "AppFeature",
                 "PreferencesClientLive",
-                "AudioClientLive"
+                "AudioClientLive",
+                "CardLibraryLive"
             ],
-            path: "AppBootstrap/Sources",
+            path: "AppBuilder/Sources",
             plugins: lintPlugin
         ),
     ]

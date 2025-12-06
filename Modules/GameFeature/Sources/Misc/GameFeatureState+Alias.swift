@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 19/11/2025.
 //
+import CardDefinition
 
 extension GameFeature.State {
     func alias(

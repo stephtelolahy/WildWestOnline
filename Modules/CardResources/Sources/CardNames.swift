@@ -1,4 +1,4 @@
-//
+// swiftlint:disable:this file_name
 //  CardNames.swift
 //  WildWestOnline
 //
@@ -8,20 +8,6 @@
 // MARK: - Auras
 public extension String {
     static let endTurn = "endTurn"
-}
-
-extension String {
-    static let playMissedOnShot = "playMissedOnShot"
-    static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
-    static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
-    static let nextTurnOnTurnEnded = "nextTurnOnTurnEnded"
-    static let eliminateOnDamagedLethal = "eliminateOnDamagedLethal"
-    static let endGameOnEliminated = "endGameOnEliminated"
-    static let discardAllCardsOnEliminated = "discardAllCardsOnEliminated"
-    static let nextTurnOnEliminated = "nextTurnOnEliminated"
-    static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
-    static let draw3CardsOnEliminating = "draw3CardsOnEliminating"
-    static let discardEquipedWeaponOnPrePlayed = "discardEquipedWeaponOnPrePlayed"
 }
 
 // MARK: - Collectible

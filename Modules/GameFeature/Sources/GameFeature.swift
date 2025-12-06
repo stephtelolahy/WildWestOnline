@@ -5,10 +5,11 @@
 //  Created by Hugues Stéphano TELOLAHY on 28/03/2025.
 //
 import Redux
+import CardDefinition
 
 public enum GameFeature {
     /// All aspects of game state
-    public struct State: Equatable, Codable, Sendable {
+    public struct State: Equatable, Sendable {
         public var players: [String: Player]
         public var playOrder: [String]
         public let startOrder: [String]
@@ -29,7 +30,7 @@ public enum GameFeature {
         let actionDelayMilliSeconds: Int
         let showPlayableCards: Bool
 
-        public struct Player: Equatable, Codable, Sendable {
+        public struct Player: Equatable, Sendable {
             public let figure: [String]
             public var health: Int
             public let maxHealth: Int
@@ -40,18 +41,18 @@ public enum GameFeature {
             public var inPlay: [String]
         }
 
-        public enum PlayMode: Equatable, Codable, Sendable {
+        public enum PlayMode: Equatable, Sendable {
             case manual
             case auto
         }
 
-        public struct PlayableCards: Equatable, Codable, Sendable {
+        public struct PlayableCards: Equatable, Sendable {
             public var player: String
             public var cards: [String]
         }
     }
 
-    public struct Action: Equatable, Codable, Sendable {
+    public struct Action: Equatable, Sendable {
         public let name: Card.ActionName
         public var sourcePlayer: String = ""
         public var playedCard: String = ""
@@ -64,24 +65,16 @@ public enum GameFeature {
         var selection: String?
         var alias: String?
         var playableCards: [String]?
-        var modifier: QueueModifier?
+        var modifier: Card.QueueModifier?
         var children: [Self]?
         var selectors: [Card.Selector] = []
-
-        public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
-            public let rawValue: String
-
-            public init (rawValue: String) {
-                self.rawValue = rawValue
-            }
-        }
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
         }
     }
 
-    public enum Error: Swift.Error, Equatable, Codable {
+    public enum Error: Swift.Error, Equatable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)

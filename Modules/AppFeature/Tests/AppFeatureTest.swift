@@ -6,6 +6,7 @@
 //
 
 import Testing
+import CardDefinition
 import AppFeature
 import GameFeature
 import Redux
@@ -21,21 +22,7 @@ struct AppFeatureTest {
 
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
-        let cards = (1...100).map {
-            Card(
-                name: "c\($0)",
-                type: .figure,
-                effects: [
-                    .init(
-                        trigger: .permanent,
-                        action: .setMaxHealth,
-                        amount: 1
-                    )
-                ]
-            )
-        }
         let state = AppFeature.State(
-            cardLibrary: .init(cards: cards),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().withPlayersCount(5).build()
         )
@@ -53,7 +40,6 @@ struct AppFeatureTest {
     @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
         // Given
         let state = AppFeature.State(
-            cardLibrary: .init(),
             navigation: .init(path: [.game]),
             settings: SettingsFeature.State.makeBuilder().build(),
             game: GameFeature.State.makeBuilder().build()

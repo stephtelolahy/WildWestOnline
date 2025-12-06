@@ -21,11 +21,11 @@ private enum PreferencesClientKey: DependencyKey {
 private extension PreferencesClient {
     static var noop: Self {
         .init(
-            savePlayersCount: { _ in },
-            saveActionDelayMilliSeconds: { _ in },
-            saveSimulationEnabled: { _ in },
-            savePreferredFigure: { _ in },
-            saveMusicVolume: { _ in },
+            setPlayersCount: { _ in },
+            setActionDelayMilliSeconds: { _ in },
+            setSimulationEnabled: { _ in },
+            setPreferredFigure: { _ in },
+            setMusicVolume: { _ in },
             playersCount: { 0 },
             actionDelayMilliSeconds: { 0 },
             isSimulationEnabled: { false },

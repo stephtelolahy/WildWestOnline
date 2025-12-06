@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
-		26F4048D2EB5CE5700F5FCA9 /* AppBootstrap in Frameworks */ = {isa = PBXBuildFile; productRef = 26F4048C2EB5CE5700F5FCA9 /* AppBootstrap */; };
+		98A1A0BA2EE4A1D7003EB768 /* AppBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 98A1A0B92EE4A1D7003EB768 /* AppBuilder */; };
 		98E868E62D9D19CC00EF4582 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +26,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26F4048D2EB5CE5700F5FCA9 /* AppBootstrap in Frameworks */,
+				98A1A0BA2EE4A1D7003EB768 /* AppBuilder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +77,7 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				26F4048C2EB5CE5700F5FCA9 /* AppBootstrap */,
+				98A1A0B92EE4A1D7003EB768 /* AppBuilder */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -419,9 +419,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26F4048C2EB5CE5700F5FCA9 /* AppBootstrap */ = {
+		98A1A0B92EE4A1D7003EB768 /* AppBuilder */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppBootstrap;
+			package = 26F4048B2EB5CE5700F5FCA9 /* XCLocalSwiftPackageReference "../Modules" */;
+			productName = AppBuilder;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

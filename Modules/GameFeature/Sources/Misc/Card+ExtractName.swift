@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 09/11/2024.
 //
+import CardDefinition
 
 public extension Card {
     static func name(of identifier: String) -> String {

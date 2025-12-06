@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 21/11/2025.
 //
+import CardDefinition
 
 public extension GameFeature.State {
     func isTargeted(_ player: String) -> Bool {
