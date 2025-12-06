@@ -236,7 +236,8 @@ let package = Package(
             dependencies: [
                 "AppFeature",
                 "PreferencesClientLive",
-                "AudioClientLive"
+                "AudioClientLive",
+                "CardLibraryLive"
             ],
             path: "AppBuilder/Sources",
             plugins: lintPlugin

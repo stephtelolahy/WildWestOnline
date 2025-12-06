@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 import SwiftUI
-import AppBootstrap
+import AppBuilder
 
 @main
 struct WildWestOnlineApp: App {
