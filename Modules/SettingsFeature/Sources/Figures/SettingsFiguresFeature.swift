@@ -42,7 +42,7 @@ public enum SettingsFiguresFeature {
                 }
 
         case .selected(let name):
-            dependencies.preferencesClient.savePreferredFigure(name)
+            dependencies.preferencesClient.setPreferredFigure(name)
         }
 
         return .none

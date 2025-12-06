@@ -11,7 +11,7 @@ import SettingsFeature
 import GameSessionFeature
 import HomeFeature
 
-public struct AppCoordinator: View {
+public struct AppView: View {
     @StateObject private var store: AppStore
     @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
@@ -76,7 +76,7 @@ public struct AppCoordinator: View {
 }
 
 #Preview {
-    AppCoordinator {
+    AppView {
         .init(
             initialState: .previewState
         )

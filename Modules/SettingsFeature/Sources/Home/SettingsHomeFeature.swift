@@ -58,23 +58,23 @@ public enum SettingsHomeFeature {
 
         case .updatePlayersCount(let value):
             state.playersCount = value
-            dependencies.preferencesClient.savePlayersCount(value)
+            dependencies.preferencesClient.setPlayersCount(value)
 
         case .updateActionDelayMilliSeconds(let value):
             state.actionDelayMilliSeconds = value
-            dependencies.preferencesClient.saveActionDelayMilliSeconds(value)
+            dependencies.preferencesClient.setActionDelayMilliSeconds(value)
 
         case .toggleSimulation:
             state.simulation.toggle()
-            dependencies.preferencesClient.saveSimulationEnabled(state.simulation)
+            dependencies.preferencesClient.setSimulationEnabled(state.simulation)
 
         case .updatePreferredFigure(let value):
             state.preferredFigure = value
-            dependencies.preferencesClient.savePreferredFigure(value)
+            dependencies.preferencesClient.setPreferredFigure(value)
 
         case .updateMusicVolume(let value):
             state.musicVolume = value
-            dependencies.preferencesClient.saveMusicVolume(value)
+            dependencies.preferencesClient.setMusicVolume(value)
 
         case .delegate:
             break

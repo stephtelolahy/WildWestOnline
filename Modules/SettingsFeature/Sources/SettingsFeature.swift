@@ -15,17 +15,18 @@ public enum SettingsFeature {
 
         public var path: [Destination]
 
-        public enum Destination: Hashable, Codable, Sendable {
+        public enum Destination: Hashable, Sendable {
             case figures
             case collectibles
         }
     }
 
     public enum Action {
+        case setPath([State.Destination])
+
         case home(SettingsHomeFeature.Action)
         case figures(SettingsFiguresFeature.Action)
         case collectibles(SettingsCollectiblesFeature.Action)
-        case setPath([State.Destination])
     }
 
     public static func reducer(

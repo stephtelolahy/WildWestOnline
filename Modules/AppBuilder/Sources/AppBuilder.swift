@@ -61,7 +61,7 @@ public enum AppBuilder {
             dependencies: dependencies
         )
 
-        return AppCoordinator {
+        return AppView {
             store
         }
     }

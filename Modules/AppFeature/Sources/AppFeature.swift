@@ -6,41 +6,39 @@
 //
 
 import Redux
+import HomeFeature
 import SettingsFeature
-import GameFeature
+import GameSessionFeature
 import AudioClient
 import PreferencesClient
 
 public typealias AppStore = Store<AppFeature.State, AppFeature.Action>
 
 public enum AppFeature {
-    public struct State: Codable, Equatable, Sendable {
-        public var navigation: AppNavigationFeature.State
-        public var settings: SettingsFeature.State
-        public var game: GameFeature.State?
+    public struct State: Equatable {
+        var home: HomeFeature.State
+        var settings: SettingsFeature.State
+        var gameSession: GameSessionFeature.State
 
-        public init(
-            navigation: AppNavigationFeature.State,
-            settings: SettingsFeature.State,
-            game: GameFeature.State? = nil
-        ) {
-            self.navigation = navigation
-            self.settings = settings
-            self.game = game
+        var path: [Destination]
+        var isSettingsPresented: Bool = false
+
+        public enum Destination: Hashable {
+            case gameSession
         }
     }
 
     public enum Action {
-        case start
-        case quit
-        case setGame(GameFeature.State)
-        case unsetGame
-        case navigation(AppNavigationFeature.Action)
+        case setPath([State.Destination])
+        case setSettingsPresented(Bool)
+
+        case home(HomeFeature.Action)
         case settings(SettingsFeature.Action)
-        case game(GameFeature.Action)
+        case gameSession(GameSessionFeature.Action)
     }
 
     public static var reducer: Reducer<State, Action> {
+        /*
         combine(
             reducerMain,
             pullback(
@@ -89,5 +87,6 @@ public enum AppFeature {
                 embedAction: \.self
             )
         )
+         */
     }
 }

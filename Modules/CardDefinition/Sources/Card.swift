@@ -9,7 +9,7 @@
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 ///
-public struct Card: Equatable, Codable, Sendable {
+public struct Card: Equatable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
@@ -27,13 +27,13 @@ public struct Card: Equatable, Codable, Sendable {
         self.effects = effects
     }
 
-    public enum CardType: String, Codable, Sendable {
+    public enum CardType: String, Sendable {
         case collectible
         case figure
         case ability
     }
 
-    public struct Effect: Equatable, Codable, Sendable {
+    public struct Effect: Equatable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
         public let modifier: QueueModifier?
@@ -61,7 +61,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    public enum Trigger: Equatable, Codable, Sendable {
+    public enum Trigger: Equatable, Sendable {
         case permanent
         case cardPrePlayed
         case cardPlayed
@@ -83,7 +83,7 @@ public struct Card: Equatable, Codable, Sendable {
         case requiredToDraw
     }
 
-    public enum ActionName: String, Codable, Sendable {
+    public enum ActionName: String, Sendable {
         case preparePlay
         case play
         case equip
@@ -120,7 +120,7 @@ public struct Card: Equatable, Codable, Sendable {
         case dummy
     }
 
-    public enum Selector: Equatable, Codable, Sendable {
+    public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
         case setTarget(PlayerGroup)
         case setCard(CardGroup)
@@ -129,7 +129,7 @@ public struct Card: Equatable, Codable, Sendable {
         case applyIf(PlayRequirement)
         case onComplete([Effect])
 
-        public enum RepeatCount: Equatable, Codable, Sendable {
+        public enum RepeatCount: Equatable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
@@ -137,7 +137,7 @@ public struct Card: Equatable, Codable, Sendable {
             case requiredMisses
         }
 
-        public enum PlayerGroup: Equatable, Codable, Sendable {
+        public enum PlayerGroup: Equatable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers([PlayerFilter] = [])
@@ -147,7 +147,7 @@ public struct Card: Equatable, Codable, Sendable {
             case eliminatedPlayer
         }
 
-        public enum CardGroup: String, Codable, Sendable {
+        public enum CardGroup: String, Sendable {
             case allInHand
             case allInPlay
             case played
@@ -155,7 +155,7 @@ public struct Card: Equatable, Codable, Sendable {
             case lastHand
         }
 
-        public indirect enum PlayRequirement: Equatable, Codable, Sendable {
+        public indirect enum PlayRequirement: Equatable, Sendable {
             case not(Self)
             case minimumPlayers(Int)
             case playLimitThisTurn(Int)
@@ -168,7 +168,7 @@ public struct Card: Equatable, Codable, Sendable {
             case targetedCardFromInPlay
         }
 
-        public enum ChoiceRequirement: Equatable, Codable, Sendable {
+        public enum ChoiceRequirement: Equatable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
@@ -179,7 +179,7 @@ public struct Card: Equatable, Codable, Sendable {
             case playedCard([CardFilter] = [])
         }
 
-        public enum PlayerFilter: Equatable, Codable, Sendable {
+        public enum PlayerFilter: Equatable, Sendable {
             case hasCards
             case hasHandCards
             case atDistance(Int)
@@ -187,13 +187,13 @@ public struct Card: Equatable, Codable, Sendable {
             case isWounded
         }
 
-        public enum CardFilter: Equatable, Codable, Sendable {
+        public enum CardFilter: Equatable, Sendable {
             case canCounterShot
             case named(String)
             case isFromHand
         }
 
-        public struct ChoicePrompt: Equatable, Codable, Sendable {
+        public struct ChoicePrompt: Equatable, Sendable {
             public let chooser: String
             public let options: [Option]
 
@@ -202,7 +202,7 @@ public struct Card: Equatable, Codable, Sendable {
                 self.options = options
             }
 
-            public struct Option: Equatable, Codable, Sendable {
+            public struct Option: Equatable, Sendable {
                 public let id: String
                 public let label: String
 
@@ -214,7 +214,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    public struct QueueModifier: RawRepresentable, Hashable, Codable, Sendable {
+    public struct QueueModifier: RawRepresentable, Hashable, Sendable {
         public let rawValue: String
 
         public init (rawValue: String) {
