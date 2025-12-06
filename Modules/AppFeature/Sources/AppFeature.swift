@@ -17,10 +17,24 @@ public enum AppFeature {
         var gameSession: GameSessionFeature.State
 
         var path: [Destination]
-        var isSettingsPresented: Bool = false
+        var isSettingsPresented: Bool
 
         public enum Destination: Hashable {
             case gameSession
+        }
+
+        public init(
+            home: HomeFeature.State = .init(),
+            settings: SettingsFeature.State = .init(),
+            gameSession: GameSessionFeature.State = .init(),
+            path: [Destination] = [],
+            isSettingsPresented: Bool = false
+        ) {
+            self.home = home
+            self.settings = settings
+            self.gameSession = gameSession
+            self.path = path
+            self.isSettingsPresented = isSettingsPresented
         }
     }
 
