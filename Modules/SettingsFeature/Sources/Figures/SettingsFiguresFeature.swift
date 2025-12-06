@@ -12,10 +12,14 @@ public enum SettingsFiguresFeature {
     public struct State: Equatable, Sendable {
         var figures: [Figure]
 
-        struct Figure: Equatable, Sendable {
+        public struct Figure: Equatable, Sendable {
             let name: String
             let description: String
             let isFavorite: Bool
+        }
+
+        public init(figures: [Figure] = []) {
+            self.figures = figures
         }
     }
 

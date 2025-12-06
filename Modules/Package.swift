@@ -108,11 +108,9 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
-                "GameFeature",
-                "SettingsFeature",
                 "HomeFeature",
-                "CardLibrary",
-                "AudioClient"
+                "GameSessionFeature",
+                "SettingsFeature"
             ],
             path: "AppFeature/Sources",
             plugins: lintPlugin

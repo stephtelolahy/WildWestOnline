@@ -8,11 +8,11 @@ import Redux
 import SwiftUI
 
 public struct SettingsView: View {
-    typealias ViewStore = Store<SettingsFeature.State, SettingsFeature.Action>
+    public typealias ViewStore = Store<SettingsFeature.State, SettingsFeature.Action>
 
     @StateObject private var store: ViewStore
 
-    init(store: @escaping () -> ViewStore) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -35,19 +35,15 @@ public struct SettingsView: View {
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { state in
             let newPath = state.path
-            guard newPath != path else {
-                return
+            if newPath != path {
+                path = newPath
             }
-
-            path = newPath
         }
         .onChange(of: path) { _, newPath in
-            guard newPath != store.state.path else {
-                return
-            }
-
-            Task {
-                await store.dispatch(.setPath(newPath))
+            if newPath != store.state.path {
+                Task {
+                    await store.dispatch(.setPath(newPath))
+                }
             }
         }
         .presentationDetents([.large])

@@ -9,10 +9,6 @@ import Redux
 import HomeFeature
 import SettingsFeature
 import GameSessionFeature
-import AudioClient
-import PreferencesClient
-
-public typealias AppStore = Store<AppFeature.State, AppFeature.Action>
 
 public enum AppFeature {
     public struct State: Equatable {
@@ -38,6 +34,7 @@ public enum AppFeature {
     }
 
     public static var reducer: Reducer<State, Action> {
+        combine()
         /*
         combine(
             reducerMain,

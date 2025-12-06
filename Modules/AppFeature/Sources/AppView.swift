@@ -12,13 +12,15 @@ import GameSessionFeature
 import HomeFeature
 
 public struct AppView: View {
-    @StateObject private var store: AppStore
-    @State private var path: [AppNavigationFeature.State.Destination] = []
-    @State private var settingsSheetPresented: Bool = false
+    public typealias ViewStore = Store<AppFeature.State, AppFeature.Action>
+
+    @StateObject private var store: ViewStore
+    @State private var path: [AppFeature.State.Destination] = []
+    @State private var isSettingsPresented: Bool = false
 
     @Environment(\.theme) private var theme
 
-    public init(store: @escaping () -> AppStore) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -26,39 +28,50 @@ public struct AppView: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            HomeView { store.projection(state: HomeView.ViewState.init, action: \.self) }
-                .navigationDestination(for: AppNavigationFeature.State.Destination.self) {
-                    viewForDestination($0)
-                }
+            HomeView {
+                store.projection(
+                    state: \.home,
+                    action: { .home($0) }
+                )
+            }
+            .navigationDestination(for: AppFeature.State.Destination.self) {
+                viewForDestination($0)
+            }
         }
-        .sheet(isPresented: $settingsSheetPresented) {
-            SettingsCoordinator(store: store)
+        .sheet(isPresented: $isSettingsPresented) {
+            SettingsView {
+                store.projection(
+                    state: \.settings,
+                    action: { .settings($0) }
+                )
+            }
         }
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { state in
-            path = state.navigation.path
-            settingsSheetPresented = state.navigation.settingsSheet != nil
+            let newPath = state.path
+            if newPath != path {
+                path = newPath
+            }
+
+            let newIsSettingsPresented = state.isSettingsPresented
+            if newIsSettingsPresented != isSettingsPresented {
+                isSettingsPresented = newIsSettingsPresented
+            }
         }
         .onChange(of: path) { _, newPath in
-            guard newPath != store.state.navigation.path else {
-                return
-            }
-
-            Task {
-                await store.dispatch(.navigation(.setPath(newPath)))
+            if newPath != store.state.path {
+                Task {
+                    await store.dispatch(.setPath(newPath))
+                }
             }
         }
-        .onChange(of: settingsSheetPresented) { _, isPresented in
-            guard isPresented != (store.state.navigation.settingsSheet != nil) else {
+        .onChange(of: isSettingsPresented) { _, newIsSettingsPresented in
+            guard newIsSettingsPresented != store.state.isSettingsPresented else {
                 return
             }
 
             Task {
-                if isPresented {
-                    await store.dispatch(.navigation(.presentSettingsSheet))
-                } else {
-                    await store.dispatch(.navigation(.dismissSettingsSheet))
-                }
+                await store.dispatch(.setSettingsPresented(newIsSettingsPresented))
             }
         }
         .onReceive(store.dispatchedAction) { event in
@@ -67,10 +80,15 @@ public struct AppView: View {
         .accentColor(theme.colorAccent)
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: AppNavigationFeature.State.Destination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: AppFeature.State.Destination) -> some View {
         switch destination {
-        case .game:
-            GameView { store.projection(state: GameView.ViewState.init, action: \.self) }
+        case .gameSession:
+            GameSessionView {
+                store.projection(
+                    state: \.gameSession,
+                    action: { .gameSession($0) }
+                )
+            }
         }
     }
 }
@@ -78,17 +96,13 @@ public struct AppView: View {
 #Preview {
     AppView {
         .init(
-            initialState: .previewState
-        )
-    }
-}
-
-private extension AppFeature.State {
-    static var previewState: Self {
-        .init(
-            cardLibrary: .init(),
-            navigation: .init(),
-            settings: .makeBuilder().build()
+            initialState: .init(
+                home: .init(),
+                settings: .init(),
+                gameSession: .init(),
+                path: [],
+                isSettingsPresented: false
+            )
         )
     }
 }

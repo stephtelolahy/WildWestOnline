@@ -9,6 +9,7 @@ import Redux
 
 public enum HomeFeature {
     public struct State: Equatable, Sendable {
+        public init() {}
     }
 
     public enum Action {

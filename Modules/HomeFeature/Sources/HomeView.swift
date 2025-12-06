@@ -10,12 +10,12 @@ import Redux
 import Theme
 
 public struct HomeView: View {
-    typealias ViewStore = Store<HomeFeature.State, HomeFeature.Action>
+    public typealias ViewStore = Store<HomeFeature.State, HomeFeature.Action>
 
     @StateObject private var store: ViewStore
     @Environment(\.theme) private var theme
 
-    init(store: @escaping () -> ViewStore) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())

@@ -27,7 +27,7 @@ public enum GameSessionFeature {
         var lastEvent: GameFeature.Action?
         var controlledPlayer: String?
 
-        struct Player: Equatable {
+        public struct Player: Equatable {
             let id: String
             let imageName: String
             let displayName: String
@@ -41,15 +41,45 @@ public enum GameSessionFeature {
             let userPhotoUrl: String?
         }
 
-        struct HandCard: Equatable {
+        public struct HandCard: Equatable {
             let card: String
             let active: Bool
         }
 
-        struct ChooseOne: Equatable {
+        public struct ChooseOne: Equatable {
             let resolvingAction: Card.ActionName
             let chooser: String
             let options: [String]
+        }
+
+        public init(
+            game: GameFeature.State? = nil,
+            players: [Player] = [],
+            message: String = "",
+            chooseOne: ChooseOne? = nil,
+            handCards: [HandCard] = [],
+            topDiscard: String? = nil,
+            topDeck: String? = nil,
+            startOrder: [String] = [],
+            deckCount: Int = 0,
+            startPlayer: String = "",
+            actionDelaySeconds: TimeInterval = 0,
+            lastEvent: GameFeature.Action? = nil,
+            controlledPlayer: String? = nil
+        ) {
+            self.game = game
+            self.players = players
+            self.message = message
+            self.chooseOne = chooseOne
+            self.handCards = handCards
+            self.topDiscard = topDiscard
+            self.topDeck = topDeck
+            self.startOrder = startOrder
+            self.deckCount = deckCount
+            self.startPlayer = startPlayer
+            self.actionDelaySeconds = actionDelaySeconds
+            self.lastEvent = lastEvent
+            self.controlledPlayer = controlledPlayer
         }
     }
 

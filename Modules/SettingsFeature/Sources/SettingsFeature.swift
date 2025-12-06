@@ -19,6 +19,18 @@ public enum SettingsFeature {
             case figures
             case collectibles
         }
+
+        public init(
+            home: SettingsHomeFeature.State = .init(),
+            figures: SettingsFiguresFeature.State = .init(),
+            collectibles: SettingsCollectiblesFeature.State = .init(),
+            path: [Destination] = []
+        ) {
+            self.home = home
+            self.figures = figures
+            self.collectibles = collectibles
+            self.path = path
+        }
     }
 
     public enum Action {

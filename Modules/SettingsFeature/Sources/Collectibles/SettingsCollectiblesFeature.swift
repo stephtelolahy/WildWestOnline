@@ -9,11 +9,15 @@ import CardLibrary
 
 public enum SettingsCollectiblesFeature {
     public struct State: Equatable, Sendable {
-        var cards: [Card]
+        public var cards: [Card]
 
-        struct Card: Equatable, Sendable {
+        public struct Card: Equatable, Sendable {
             let name: String
             let description: String
+        }
+
+        public init(cards: [Card] = []) {
+            self.cards = cards
         }
     }
 

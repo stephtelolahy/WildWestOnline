@@ -26,6 +26,20 @@ public enum SettingsHomeFeature {
         public var simulation: Bool
         public var preferredFigure: String?
         public var musicVolume: Float
+
+        public init(
+            playersCount: Int = 0,
+            actionDelayMilliSeconds: Int = 0,
+            simulation: Bool = false,
+            preferredFigure: String? = nil,
+            musicVolume: Float = 0
+        ) {
+            self.playersCount = playersCount
+            self.actionDelayMilliSeconds = actionDelayMilliSeconds
+            self.simulation = simulation
+            self.preferredFigure = preferredFigure
+            self.musicVolume = musicVolume
+        }
     }
 
     public enum Action {

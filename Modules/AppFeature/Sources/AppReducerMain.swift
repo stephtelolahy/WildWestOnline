@@ -4,11 +4,7 @@
 //
 //  Created by Hugues Telolahy on 31/10/2025.
 //
-import Redux
-import GameFeature
-import SettingsFeature
-import CardLibrary
-
+/*
 extension AppFeature {
     static func reducerMain(
         into state: inout State,
@@ -67,3 +63,4 @@ extension AppFeature {
         )
     }
 }
+*/
