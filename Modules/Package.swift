@@ -208,7 +208,8 @@ let package = Package(
             dependencies: [
                 "GameFeature",
                 "Theme",
-                "CardResources"
+                "CardResources",
+                "AudioClient",
             ],
             path: "GameSessionFeature/Sources",
             resources: [

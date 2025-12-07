@@ -73,7 +73,7 @@ private extension GameSessionView {
             Menu {
                 Button {
                     Task {
-                        await store.dispatch(.settingsTapped)
+                        await store.dispatch(.delegate(.settings))
                     }
                 } label: {
                     Label("Settings", systemImage: "gearshape")
@@ -82,7 +82,7 @@ private extension GameSessionView {
                 Divider()
 
                 Button(role: .destructive) {
-                    Task { await store.dispatch(.quitTapped) }
+                    Task { await store.dispatch(.delegate(.quit)) }
                 } label: {
                     Label {
                         Text(.gameQuitButton)

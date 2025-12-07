@@ -124,6 +124,12 @@ public enum AppFeature {
         case .settings:
             return .none
 
+        case .gameSession(.delegate(.settings)):
+            return .run { .setSettingsPresented(true) }
+
+        case .gameSession(.delegate(.quit)):
+            return .run { .setPath([]) }
+
         case .gameSession:
             return .none
         }

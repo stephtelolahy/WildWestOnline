@@ -85,8 +85,6 @@ public enum GameSessionFeature {
 
     public enum Action {
         case onAppear
-        case quitTapped
-        case settingsTapped
 
         case game(GameFeature.Action)
 
@@ -103,7 +101,16 @@ public enum GameSessionFeature {
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
-        .none
+        switch action {
+        case .onAppear:
+            return .none
+
+        case .game:
+            return .none
+
+        case .delegate:
+            return .none
+        }
     }
 }
 
