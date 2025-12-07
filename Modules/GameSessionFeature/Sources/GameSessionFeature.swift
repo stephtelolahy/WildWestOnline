@@ -9,6 +9,8 @@ import Foundation
 import Redux
 import CardDefinition
 import GameFeature
+import PreferencesClient
+import CardLibrary
 
 public enum GameSessionFeature {
     public struct State: Equatable {
@@ -86,6 +88,7 @@ public enum GameSessionFeature {
     public enum Action {
         case onAppear
 
+        case setGame(GameFeature.State)
         case game(GameFeature.Action)
 
         case delegate(Delegate)
@@ -103,6 +106,13 @@ public enum GameSessionFeature {
     ) -> Effect<Action> {
         switch action {
         case .onAppear:
+            return .run {
+                .setGame(dependencies.createGame())
+                // .game(.startTurn(player: store.state.startPlayer)
+            }
+
+        case .setGame(let game):
+            state.game = game
             return .none
 
         case .game:
@@ -114,19 +124,18 @@ public enum GameSessionFeature {
     }
 }
 
-extension GameSessionFeature.State {
+private extension Dependencies {
+    func createGame() -> GameFeature.State {
+        GameSetup.buildGame(
+            playersCount: preferencesClient.playersCount(),
+            cards: cardLibrary.cards(),
+            deck: cardLibrary.deck(),
+            actionDelayMilliSeconds: preferencesClient.actionDelayMilliSeconds(),
+            preferredFigure: preferencesClient.preferredFigure(),
+            playModeSetup: preferencesClient.isSimulationEnabled() ? .allAuto : .oneManual
+        )
+    }
 }
-
-//    private static func createGame(state: State, dependencies: Dependencies) -> GameFeature.State {
-//        GameSetup.buildGame(
-//            playersCount: state.settings.playersCount,
-//            cards: dependencies.cardLibrary.cards(),
-//            deck: dependencies.cardLibrary.deck(),
-//            actionDelayMilliSeconds: state.settings.actionDelayMilliSeconds,
-//            preferredFigure: state.settings.preferredFigure,
-//            playModeSetup: state.settings.simulation ? .allAuto : .oneManual
-//        )
-//    }
 
 /*
  extension AppFeature {

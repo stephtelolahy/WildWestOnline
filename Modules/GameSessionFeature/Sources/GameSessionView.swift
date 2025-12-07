@@ -56,7 +56,7 @@ public struct GameSessionView: View {
 #endif
             .toolbar { toolBarView }
             .task {
-                await store.dispatch(.game(.startTurn(player: store.state.startPlayer)))
+                await store.dispatch(.onAppear)
             }
             .onReceive(store.$state) { state in
                 if let action = state.lastEvent {
