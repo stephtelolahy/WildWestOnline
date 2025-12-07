@@ -73,6 +73,14 @@ SettingsFeature {
             state.path = path
             return .none
 
+        case .home(.delegate(.selectedCollectibles)):
+            state.path = [.collectibles]
+            return .none
+
+        case .home(.delegate(.selectedFigures)):
+            state.path = [.figures]
+            return .none
+
         case .home:
             return .none
 

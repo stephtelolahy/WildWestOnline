@@ -58,12 +58,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(.playTapped)
+                        await store.dispatch(.delegate(.play))
                     }
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(.settingsTapped)
+                        await store.dispatch(.delegate(.settings))
                     }
                 }
             }

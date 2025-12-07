@@ -13,9 +13,6 @@ public enum HomeFeature {
     }
 
     public enum Action {
-        case playTapped
-        case settingsTapped
-
         case delegate(Delegate)
 
         public enum Delegate {
@@ -30,12 +27,6 @@ public enum HomeFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .playTapped:
-            return .run { .delegate(.play) }
-
-        case .settingsTapped:
-            return .run { .delegate(.settings) }
-
         case .delegate:
             return .none
         }
