@@ -97,10 +97,8 @@ public enum AppFeature {
             )
         )
     }
-}
 
-private extension AppFeature {
-    static func reducerMain(
+    private static func reducerMain(
         into state: inout State,
         action: Action,
         dependencies: Dependencies

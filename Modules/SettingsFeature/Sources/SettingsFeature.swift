@@ -7,7 +7,8 @@
 
 import Redux
 
-public enum SettingsFeature {
+public enum
+SettingsFeature {
     public struct State: Equatable {
         public var path: [Destination]
 
@@ -41,11 +42,45 @@ public enum SettingsFeature {
         case collectibles(SettingsCollectiblesFeature.Action)
     }
 
-    public static func reducer(
-        state: inout State,
+    public static var reducer: Reducer<State, Action> {
+        combine(
+            reducerMain,
+            pullback(
+                SettingsHomeFeature.reducer,
+                state: { _ in
+                    \.home
+                },
+                action: { globalAction in
+                    if case let .home(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .home($0)
+                }
+            )
+        )
+    }
+
+    private static func reducerMain(
+        into state: inout State,
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
-        .none
+        switch action {
+        case .setPath(let path):
+            state.path = path
+            return .none
+
+        case .home:
+            return .none
+
+        case .figures:
+            return .none
+
+        case .collectibles:
+            return .none
+        }
     }
 }
