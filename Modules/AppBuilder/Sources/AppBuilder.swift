@@ -40,7 +40,6 @@ public enum AppBuilder {
         .task {
             await audioClient.setMusicVolume(preferencesClient.musicVolume())
             await audioClient.load(AudioClient.Sound.allSfx)
-            await audioClient.play(AudioClient.Sound.musicLoneRider)
         }
     }
 }

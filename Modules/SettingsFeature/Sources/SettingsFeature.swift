@@ -9,11 +9,11 @@ import Redux
 
 public enum SettingsFeature {
     public struct State: Equatable {
+        public var path: [Destination]
+
         var home: SettingsHomeFeature.State
         var figures: SettingsFiguresFeature.State
         var collectibles: SettingsCollectiblesFeature.State
-
-        public var path: [Destination]
 
         public enum Destination: Hashable, Sendable {
             case figures
@@ -21,10 +21,10 @@ public enum SettingsFeature {
         }
 
         public init(
+            path: [Destination] = [],
             home: SettingsHomeFeature.State = .init(),
             figures: SettingsFiguresFeature.State = .init(),
-            collectibles: SettingsCollectiblesFeature.State = .init(),
-            path: [Destination] = []
+            collectibles: SettingsCollectiblesFeature.State = .init()
         ) {
             self.home = home
             self.figures = figures

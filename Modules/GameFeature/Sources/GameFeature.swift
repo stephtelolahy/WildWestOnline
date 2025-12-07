@@ -90,12 +90,7 @@ public enum GameFeature {
         combine(
             reducerMechanics,
             reducerLoop,
-            pullback(
-                reducerAI,
-                state: { _ in \.self },
-                action: { $0 },
-                embedAction: \.self
-            )
+            reducerAI
         )
     }
 }

@@ -110,6 +110,17 @@ public enum GameSessionFeature {
 extension GameSessionFeature.State {
 }
 
+//    private static func createGame(state: State, dependencies: Dependencies) -> GameFeature.State {
+//        GameSetup.buildGame(
+//            playersCount: state.settings.playersCount,
+//            cards: dependencies.cardLibrary.cards(),
+//            deck: dependencies.cardLibrary.deck(),
+//            actionDelayMilliSeconds: state.settings.actionDelayMilliSeconds,
+//            preferredFigure: state.settings.preferredFigure,
+//            playModeSetup: state.settings.simulation ? .allAuto : .oneManual
+//        )
+//    }
+
 /*
 
 public extension GameView.ViewState {

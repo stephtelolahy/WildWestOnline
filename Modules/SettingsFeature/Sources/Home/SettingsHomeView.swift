@@ -39,6 +39,9 @@ struct SettingsHomeView: View {
                 }
             }
         }
+        .task {
+            await store.dispatch(.onAppear)
+        }
     }
 
     // MARK: - Preferences

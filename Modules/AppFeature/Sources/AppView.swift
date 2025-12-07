@@ -66,12 +66,10 @@ public struct AppView: View {
             }
         }
         .onChange(of: isSettingsPresented) { _, newIsSettingsPresented in
-            guard newIsSettingsPresented != store.state.isSettingsPresented else {
-                return
-            }
-
-            Task {
-                await store.dispatch(.setSettingsPresented(newIsSettingsPresented))
+            if newIsSettingsPresented != store.state.isSettingsPresented {
+                Task {
+                    await store.dispatch(.setSettingsPresented(newIsSettingsPresented))
+                }
             }
         }
         .onReceive(store.dispatchedAction) { event in
@@ -96,13 +94,7 @@ public struct AppView: View {
 #Preview {
     AppView {
         .init(
-            initialState: .init(
-                home: .init(),
-                settings: .init(),
-                gameSession: .init(),
-                path: [],
-                isSettingsPresented: false
-            )
+            initialState: .init()
         )
     }
 }

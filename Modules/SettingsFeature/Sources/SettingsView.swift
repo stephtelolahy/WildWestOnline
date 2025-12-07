@@ -73,22 +73,7 @@ public struct SettingsView: View {
 #Preview {
     SettingsView {
         .init(
-            initialState: .init(
-                home: .init(
-                    playersCount: 5,
-                    actionDelayMilliSeconds: 0,
-                    simulation: false,
-                    preferredFigure: nil,
-                    musicVolume: 0
-                ),
-                figures: .init(
-                    figures: []
-                ),
-                collectibles: .init(
-                    cards: []
-                ),
-                path: []
-            )
+            initialState: .init()
         )
     }
 }

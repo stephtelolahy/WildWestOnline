@@ -24,11 +24,20 @@ public enum HomeFeature {
         }
     }
 
-    static func reducer(
+    public static func reducer(
         state: inout State,
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
-        .none
+        switch action {
+        case .playTapped:
+            return .run { .delegate(.play) }
+
+        case .settingsTapped:
+            return .run { .delegate(.settings) }
+
+        case .delegate:
+            return .none
+        }
     }
 }
