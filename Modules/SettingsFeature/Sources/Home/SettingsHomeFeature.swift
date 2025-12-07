@@ -6,6 +6,7 @@
 //
 import Redux
 import PreferencesClient
+import AudioClient
 
 public enum SettingsHomeFeature {
     public struct State: Equatable, Sendable {
@@ -89,6 +90,10 @@ public enum SettingsHomeFeature {
         case .updateMusicVolume(let value):
             state.musicVolume = value
             dependencies.preferencesClient.setMusicVolume(value)
+            return .run {
+                await dependencies.audioClient.setMusicVolume(value)
+                return .none
+            }
 
         case .delegate:
             break

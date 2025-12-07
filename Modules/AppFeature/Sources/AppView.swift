@@ -38,6 +38,9 @@ public struct AppView: View {
                 viewForDestination($0)
             }
         }
+        .task {
+            await store.dispatch(.onAppear)
+        }
         .sheet(isPresented: $isSettingsPresented) {
             SettingsView {
                 store.projection(

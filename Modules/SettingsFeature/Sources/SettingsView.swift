@@ -28,6 +28,7 @@ public struct SettingsView: View {
                     action: { .home($0) }
                 )
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SettingsFeature.State.Destination.self) {
                 viewForDestination($0)
             }

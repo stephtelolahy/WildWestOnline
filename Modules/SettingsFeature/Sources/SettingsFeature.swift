@@ -59,6 +59,36 @@ SettingsFeature {
                 embedAction: {
                     .home($0)
                 }
+            ),
+            pullback(
+                SettingsFiguresFeature.reducer,
+                state: { _ in
+                    \.figures
+                },
+                action: { globalAction in
+                    if case let .figures(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .figures($0)
+                }
+            ),
+            pullback(
+                SettingsCollectiblesFeature.reducer,
+                state: { _ in
+                    \.collectibles
+                },
+                action: { globalAction in
+                    if case let .collectibles(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .collectibles($0)
+                }
             )
         )
     }

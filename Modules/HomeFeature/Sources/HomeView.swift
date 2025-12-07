@@ -34,12 +34,16 @@ public struct HomeView: View {
 #if os(iOS)
         .navigationBarHidden(true)
 #endif
-//        .onAppear {
-//            await audioClient.play(AudioClient.Sound.musicLoneRider)
-//        }
-//        .onDisappear {
-//            await audioClient.pause(AudioClient.Sound.musicLoneRider)
-//        }
+        .onAppear {
+            Task {
+                await store.dispatch(.onAppear)
+            }
+        }
+        .onDisappear {
+            Task {
+                await store.dispatch(.onDisappear)
+            }
+        }
     }
 
     private var contentView: some View {

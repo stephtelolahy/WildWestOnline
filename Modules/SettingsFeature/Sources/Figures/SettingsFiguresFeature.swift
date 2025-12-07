@@ -35,20 +35,27 @@ public enum SettingsFiguresFeature {
     ) -> Effect<Action> {
         switch action {
         case .onAppear:
-            state.figures = dependencies.cardLibrary.cards()
-                .filter { $0.type == .figure }
-                .map {
-                    .init(
-                        name: $0.name,
-                        description: $0.description ?? "",
-                        isFavorite: $0.name == dependencies.preferencesClient.preferredFigure()
-                    )
-                }
+            state.figures = dependencies.loadFigures()
 
         case .selected(let name):
             dependencies.preferencesClient.setPreferredFigure(name)
+            state.figures = dependencies.loadFigures()
         }
 
         return .none
+    }
+}
+
+private extension Dependencies {
+    func loadFigures() -> [SettingsFiguresFeature.State.Figure] {
+        cardLibrary.cards()
+            .filter { $0.type == .figure }
+            .map {
+                .init(
+                    name: $0.name,
+                    description: $0.description ?? "",
+                    isFavorite: $0.name == preferencesClient.preferredFigure()
+                )
+            }
     }
 }

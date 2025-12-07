@@ -18,15 +18,11 @@ import GameFeature
 @MainActor
 public enum AppBuilder {
     public static func build() -> some View {
-        let preferencesClient = PreferencesClient.live()
-        let cardLibrary = CardLibrary.live()
-        let audioClient = AudioClient.live()
-        let queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
-
         var dependencies = Dependencies()
-        dependencies.preferencesClient = preferencesClient
-        dependencies.audioClient = audioClient
-        dependencies.queueModifierClient = queueModifierClient
+        dependencies.preferencesClient = PreferencesClient.live()
+        dependencies.audioClient = AudioClient.live()
+        dependencies.queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
+        dependencies.cardLibrary = CardLibrary.live()
 
         let store = Store<AppFeature.State, AppFeature.Action>(
             initialState: .init(),
@@ -36,10 +32,6 @@ public enum AppBuilder {
 
         return AppView {
             store
-        }
-        .task {
-            await audioClient.setMusicVolume(preferencesClient.musicVolume())
-            await audioClient.load(AudioClient.Sound.allSfx)
         }
     }
 }

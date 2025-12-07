@@ -6,6 +6,7 @@
 //
 
 import Redux
+import AudioClient
 
 public enum HomeFeature {
     public struct State: Equatable, Sendable {
@@ -13,6 +14,9 @@ public enum HomeFeature {
     }
 
     public enum Action {
+        case onAppear
+        case onDisappear
+
         case delegate(Delegate)
 
         public enum Delegate {
@@ -27,6 +31,18 @@ public enum HomeFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
+        case .onAppear:
+            return .run {
+                await dependencies.audioClient.play(AudioClient.Sound.musicLoneRider)
+                return .none
+            }
+
+        case .onDisappear:
+            return .run {
+                await dependencies.audioClient.pause(AudioClient.Sound.musicLoneRider)
+                return .none
+            }
+
         case .delegate:
             return .none
         }
