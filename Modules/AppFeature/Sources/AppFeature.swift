@@ -9,7 +9,6 @@ import Redux
 import HomeFeature
 import SettingsFeature
 import GameSessionFeature
-import AudioClient
 
 public enum AppFeature {
     public struct State: Equatable {
@@ -40,7 +39,6 @@ public enum AppFeature {
     }
 
     public enum Action {
-        case onAppear
         case setPath([State.Destination])
         case setSettingsPresented(Bool)
 
@@ -106,14 +104,6 @@ public enum AppFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
-            return .run {
-                await dependencies.audioClient.setMusicVolume(dependencies.preferencesClient.musicVolume())
-                await dependencies.audioClient.load(AudioClient.Sound.allSfx)
-                await dependencies.audioClient.play(.musicLoneRider)
-                return .none
-            }
-
         case .setPath(let path):
             state.path = path
             return .none

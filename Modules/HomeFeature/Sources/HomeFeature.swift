@@ -7,9 +7,12 @@
 
 import Redux
 import AudioClient
+import PreferencesClient
 
 public enum HomeFeature {
     public struct State: Equatable, Sendable {
+        var isFirstLoad: Bool = true
+
         public init() {}
     }
 
@@ -32,9 +35,19 @@ public enum HomeFeature {
     ) -> Effect<Action> {
         switch action {
         case .onAppear:
-            return .run {
-                await dependencies.audioClient.play(AudioClient.Sound.musicLoneRider)
-                return .none
+            if state.isFirstLoad {
+                state.isFirstLoad = false
+                return .run {
+                    await dependencies.audioClient.setMusicVolume(dependencies.preferencesClient.musicVolume())
+                    await dependencies.audioClient.load(AudioClient.Sound.allSfx)
+                    await dependencies.audioClient.play(.musicLoneRider)
+                    return .none
+                }
+            } else {
+                return .run {
+                    await dependencies.audioClient.resume(AudioClient.Sound.musicLoneRider)
+                    return .none
+                }
             }
 
         case .onDisappear:
@@ -48,47 +61,3 @@ public enum HomeFeature {
         }
     }
 }
-
-/*
-extension AppFeature {
-    static func reducerSound(
-        into state: inout State,
-        action: Action,
-        dependencies: Dependencies
-    ) -> Effect<Action> {
-        switch action {
-        case .game(let gameAction):
-            let soundMatcher = SoundMatcher(specialSounds: dependencies.cardLibrary.specialSounds())
-            if let sfx = soundMatcher.sfx(on: gameAction) {
-                let playFunc = dependencies.audioClient.play
-                Task {
-                    await playFunc(sfx)
-                }
-            }
-
-        case .navigation(.push(.game)):
-            let pauseFunc = dependencies.audioClient.pause
-            Task {
-                await pauseFunc(.musicLoneRider)
-            }
-
-        case .navigation(.pop):
-            let resumeFunc = dependencies.audioClient.resume
-            Task {
-                await resumeFunc(.musicLoneRider)
-            }
-
-        case .settings(.updateMusicVolume(let value)):
-            let setMusicVolumeFunc = dependencies.audioClient.setMusicVolume
-            Task {
-                await setMusicVolumeFunc(value)
-            }
-
-        default:
-            break
-        }
-
-        return .none
-    }
-}
-*/
