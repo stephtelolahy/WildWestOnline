@@ -210,6 +210,7 @@ let package = Package(
                 "Theme",
                 "CardResources",
                 "AudioClient",
+                "CardLibrary"
             ],
             path: "GameSessionFeature/Sources",
             resources: [

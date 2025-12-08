@@ -5,6 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 21/11/2025.
 //
 import CardDefinition
+import Foundation
 
 public extension GameFeature.State {
     func isTargeted(_ player: String) -> Bool {
@@ -26,6 +27,10 @@ public extension GameFeature.State {
 
     func manuallyControlledPlayer() -> String? {
         playMode.keys.first { playMode[$0] == .manual }
+    }
+
+    var actionDelaySeconds: TimeInterval {
+        Double(actionDelayMilliSeconds) / 1000.0
     }
 }
 

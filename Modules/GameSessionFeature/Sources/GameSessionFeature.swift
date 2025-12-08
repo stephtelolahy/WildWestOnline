@@ -16,72 +16,8 @@ public enum GameSessionFeature {
     public struct State: Equatable {
         var game: GameFeature.State?
 
-        var players: [Player]
-        var message: String
-        var chooseOne: ChooseOne?
-        var handCards: [HandCard]
-        var topDiscard: String?
-        var topDeck: String?
-        var startOrder: [String]
-        var deckCount: Int
-        var startPlayer: String
-        var actionDelaySeconds: TimeInterval
-        var lastEvent: GameFeature.Action?
-        var controlledPlayer: String?
-
-        public struct Player: Equatable {
-            let id: String
-            let imageName: String
-            let displayName: String
-            let health: Int
-            let handCount: Int
-            let inPlay: [String]
-            let isTurn: Bool
-            let isTargeted: Bool
-            let isEliminated: Bool
-            let role: String?
-            let userPhotoUrl: String?
-        }
-
-        public struct HandCard: Equatable {
-            let card: String
-            let active: Bool
-        }
-
-        public struct ChooseOne: Equatable {
-            let resolvingAction: Card.ActionName
-            let chooser: String
-            let options: [String]
-        }
-
-        public init(
-            game: GameFeature.State? = nil,
-            players: [Player] = [],
-            message: String = "",
-            chooseOne: ChooseOne? = nil,
-            handCards: [HandCard] = [],
-            topDiscard: String? = nil,
-            topDeck: String? = nil,
-            startOrder: [String] = [],
-            deckCount: Int = 0,
-            startPlayer: String = "",
-            actionDelaySeconds: TimeInterval = 0,
-            lastEvent: GameFeature.Action? = nil,
-            controlledPlayer: String? = nil
-        ) {
+        public init(game: GameFeature.State? = nil) {
             self.game = game
-            self.players = players
-            self.message = message
-            self.chooseOne = chooseOne
-            self.handCards = handCards
-            self.topDiscard = topDiscard
-            self.topDeck = topDeck
-            self.startOrder = startOrder
-            self.deckCount = deckCount
-            self.startPlayer = startPlayer
-            self.actionDelaySeconds = actionDelaySeconds
-            self.lastEvent = lastEvent
-            self.controlledPlayer = controlledPlayer
         }
     }
 
@@ -99,8 +35,29 @@ public enum GameSessionFeature {
         }
     }
 
-    public static func reducer(
-        state: inout State,
+    public static var reducer: Reducer<State, Action> {
+        combine(
+            reducerMain,
+            pullback(
+                GameFeature.reducer,
+                state: {
+                    $0.game != nil ? \.game! : nil
+                },
+                action: { globalAction in
+                    if case let .game(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .game($0)
+                }
+            )
+        )
+    }
+
+    private static func reducerMain(
+        into state: inout State,
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
@@ -108,17 +65,39 @@ public enum GameSessionFeature {
         case .onAppear:
             return .run {
                 .setGame(dependencies.createGame())
-                // .game(.startTurn(player: store.state.startPlayer)
             }
 
         case .setGame(let game):
             state.game = game
-            return .none
+            return .run {
+                .game(.startTurn(player: game.startOrder[0]))
+            }
 
         case .game:
             return .none
 
         case .delegate:
+            return .none
+        }
+    }
+
+    private static func reducerSound(
+        into state: inout State,
+        action: Action,
+        dependencies: Dependencies
+    ) -> Effect<Action> {
+        switch action {
+        case .game(let gameAction):
+            let soundMatcher = SoundMatcher(specialSounds: dependencies.cardLibrary.specialSounds())
+            if let sfx = soundMatcher.sfx(on: gameAction) {
+                let playFunc = dependencies.audioClient.play
+                Task {
+                    await playFunc(sfx)
+                }
+            }
+            return .none
+
+        default:
             return .none
         }
     }
@@ -137,57 +116,45 @@ private extension Dependencies {
     }
 }
 
-/*
- extension AppFeature {
-     static func reducerSound(
-         into state: inout State,
-         action: Action,
-         dependencies: Dependencies
-     ) -> Effect<Action> {
-         switch action {
-         case .game(let gameAction):
-             let soundMatcher = SoundMatcher(specialSounds: dependencies.cardLibrary.specialSounds())
-             if let sfx = soundMatcher.sfx(on: gameAction) {
-                 let playFunc = dependencies.audioClient.play
-                 Task {
-                     await playFunc(sfx)
-                 }
-             }
-         return .none
-     }
- }
+extension GameSessionFeature.State {
+    struct Player: Equatable {
+        let id: String
+        let imageName: String
+        let displayName: String
+        let health: Int
+        let handCount: Int
+        let inPlay: [String]
+        let isTurn: Bool
+        let isTargeted: Bool
+        let isEliminated: Bool
+        let role: String?
+        let userPhotoUrl: String?
+    }
 
-public extension GameView.ViewState {
-    init?(appState: AppFeature.State) {
-        guard let game = appState.game else {
-            return nil
+    struct HandCard: Equatable {
+        let card: String
+        let active: Bool
+    }
+
+    struct ChooseOne: Equatable {
+        let resolvingAction: Card.ActionName
+        let chooser: String
+        let options: [String]
+    }
+
+    var players: [Player] {
+        guard let game else {
+            return []
         }
 
-        players = game.playerItems
-        message = game.message
-        chooseOne = game.chooseOne
-        handCards = game.handCards
-        topDiscard = game.discard.first
-        topDeck = game.deck.first
-        startOrder = game.startOrder
-        deckCount = game.deck.count
-        controlledPlayer = game.manuallyControlledPlayer()
-        startPlayer = game.startPlayerId
-        actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
-        lastEvent = game.lastEvent
-    }
-}
-
-private extension GameFeature.State {
-    var playerItems: [GameView.ViewState.PlayerItem] {
-        self.startOrder.map { playerId in
-            let playerObj = players.get(playerId)
+        return game.startOrder.map { playerId in
+            let playerObj = game.players.get(playerId)
             let health = max(0, playerObj.health)
             let handCount = playerObj.hand.count
             let equipment = playerObj.inPlay
-            let isTurn = playerId == turn
-            let isEliminated = !playOrder.contains(playerId)
-            let isTargeted = isTargeted(playerId)
+            let isTurn = playerId == game.turn
+            let isEliminated = !game.playOrder.contains(playerId)
+            let isTargeted = game.isTargeted(playerId)
             let name = playerObj.figure.first ?? ""
 
             return .init(
@@ -207,16 +174,17 @@ private extension GameFeature.State {
     }
 
     var message: String {
-        if let turn {
+        if let turn = game?.turn {
             "\(turn.uppercased())'s turn"
         } else {
             "-"
         }
     }
 
-    var chooseOne: GameView.ViewState.ChooseOne? {
-        guard let controlledPlayer = manuallyControlledPlayer(),
-              let choice = pendingChoice(for: controlledPlayer) else {
+    var chooseOne: ChooseOne? {
+        guard let game,
+                let controlledPlayer = game.manuallyControlledPlayer(),
+              let choice = game.pendingChoice(for: controlledPlayer) else {
             return  nil
         }
 
@@ -227,20 +195,21 @@ private extension GameFeature.State {
         )
     }
 
-    var handCards: [GameView.ViewState.HandCard] {
-        guard let controlledPlayer = manuallyControlledPlayer() else {
+    var handCards: [HandCard] {
+        guard let game,
+              let controlledPlayer = game.manuallyControlledPlayer() else {
             return []
         }
 
         var playableCards: [String] = []
-        if let playable,
+        if let playable = game.playable,
             playable.player == controlledPlayer {
             playableCards = playable.cards
         }
-        let handCards = players.get(controlledPlayer).hand
+        let handCards = game.players.get(controlledPlayer).hand
 
         let hand = handCards.map { card in
-            GameView.ViewState.HandCard(
+            HandCard(
                 card: card,
                 active: playableCards.contains(card)
             )
@@ -248,7 +217,7 @@ private extension GameFeature.State {
 
         let abilities = playableCards.compactMap { card in
             if !handCards.contains(card) {
-                GameView.ViewState.HandCard(
+                HandCard(
                     card: card,
                     active: true
                 )
@@ -260,16 +229,51 @@ private extension GameFeature.State {
         return hand + abilities
     }
 
-    var startingPlayerId: String {
-        playOrder.first!
-    }
-
-    var startPlayerId: String {
-        guard let playerId = startOrder.first else {
-            fatalError("Missing start player")
+    var topDiscard: String? {
+        guard let game else {
+            return nil
         }
 
-        return playerId
+        return game.discard.last
+    }
+
+    var deckCount: Int {
+        guard let game else {
+            return 0
+        }
+
+        return game.deck.count
+    }
+
+    var startOrder: [String] {
+        guard let game else {
+            return []
+        }
+
+        return game.startOrder
+    }
+
+    var actionDelaySeconds: TimeInterval {
+        guard let game else {
+            return 0
+        }
+
+        return game.actionDelaySeconds
+    }
+
+    var lastEvent: GameFeature.Action? {
+        guard let game else {
+            return nil
+        }
+
+        return game.lastEvent
+    }
+
+    var controlledPlayer: String? {
+        guard let game else {
+            return nil
+        }
+
+        return game.manuallyControlledPlayer()
     }
 }
-*/

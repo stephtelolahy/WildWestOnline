@@ -99,8 +99,10 @@ private extension GameSessionView {
         let players = store.state.players
         let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
 
-        CardView(content: .hidden)
-            .position(positions[.deck]!)
+        if store.state.deckCount > 0 {
+            CardView(content: .hidden)
+                .position(positions[.deck]!)
+        }
 
         if let topDiscard {
             ZStack {
@@ -313,70 +315,38 @@ private struct TurnBadge: View {
 
 private extension GameSessionFeature.State {
     static var previewState: Self {
-        let player1 = GameSessionFeature.State.Player(
-            id: "p1",
-            imageName: "willyTheKid",
-            displayName: "willyTheKid",
-            health: 2,
-            handCount: 5,
-            inPlay: ["scope", "jail"],
-            isTurn: true,
-            isTargeted: false,
-            isEliminated: false,
-            role: nil,
-            userPhotoUrl: nil
-        )
-
-        let player2 = GameSessionFeature.State.Player(
-            id: "p2",
-            imageName: "calamityJanet",
-            displayName: "calamityJanet",
-            health: 1,
-            handCount: 0,
-            inPlay: ["scope", "jail"],
-            isTurn: false,
-            isTargeted: false,
-            isEliminated: false,
-            role: nil,
-            userPhotoUrl: nil
-        )
-
-        let player3 = GameSessionFeature.State.Player(
-            id: "p3",
-            imageName: "elGringo",
-            displayName: "elGringo",
-            health: 0,
-            handCount: 0,
-            inPlay: [],
-            isTurn: false,
-            isTargeted: false,
-            isEliminated: true,
-            role: nil,
-            userPhotoUrl: nil
-        )
-
-        return .init(
-            game: nil,
-            players: [player1, player2, player3],
-            message: "P1's turn",
-            chooseOne: .init(
-                resolvingAction: .counterShot,
-                chooser: "p1",
-                options: ["o1", "o2", .choicePass]
-            ),
-            handCards: [
-                .init(card: "mustang-2♥️", active: false),
-                .init(card: "gatling-4♣️", active: true),
-                .init(card: "endTurn", active: true)
-            ],
-            topDiscard: "bang-A♦️",
-            topDeck: nil,
-            startOrder: [],
-            deckCount: 12,
-            startPlayer: "p1",
-            actionDelaySeconds: 0.5,
-            lastEvent: nil,
-            controlledPlayer: "p1",
+        .init(
+            game: GameFeature.State.makeBuilder()
+                .withPlayer("p1") {
+                    $0.withFigure([.willyTheKid])
+                        .withHealth(2)
+                        .withHand([.backfire, .bandidos, .barrel])
+                        .withInPlay([.scope, .jail])
+                }
+                .withPlayer("p2") {
+                    $0.withFigure([.calamityJanet])
+                        .withHealth(1)
+                        .withHand([.backfire, .bandidos, .barrel])
+                        .withInPlay([.scope, .jail])
+                }
+                .withPlayer("p3") {
+                    $0.withFigure([.elGringo])
+                        .withHealth(0)
+                }
+                .withTurn("p1")
+                .withPendingAction(
+                    name: .counterShot,
+                    prompt: .init(
+                        chooser: "p1",
+                        options: [
+                            .init(id: .missed, label: "o1"),
+                            .init(id: .dodge, label: "o2"),
+                            .init(id: .choicePass, label: .choicePass),
+                        ]
+                    )
+                )
+                .withDiscard(["bang-A♦️"])
+                .build()
         )
     }
 }
