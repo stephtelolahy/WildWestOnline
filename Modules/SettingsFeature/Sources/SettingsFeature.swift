@@ -9,9 +9,8 @@ import Redux
 
 public enum SettingsFeature {
     public struct State: Equatable {
-        public var path: [Destination]
-
         var home: SettingsHomeFeature.State
+        var path: [Destination]
         var figures: SettingsFiguresFeature.State
         var collectibles: SettingsCollectiblesFeature.State
 
@@ -21,8 +20,8 @@ public enum SettingsFeature {
         }
 
         public init(
-            path: [Destination] = [],
             home: SettingsHomeFeature.State = .init(),
+            path: [Destination] = [],
             figures: SettingsFiguresFeature.State = .init(),
             collectibles: SettingsCollectiblesFeature.State = .init()
         ) {
