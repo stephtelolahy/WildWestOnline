@@ -53,7 +53,7 @@ public struct AppView: View {
                 path = newPath
             }
 
-            let newIsSettingsPresented = state.isSettingsPresented
+            let newIsSettingsPresented = state.settings != nil
             if newIsSettingsPresented != isSettingsPresented {
                 isSettingsPresented = newIsSettingsPresented
             }
@@ -66,7 +66,8 @@ public struct AppView: View {
             }
         }
         .onChange(of: isSettingsPresented) { _, newIsSettingsPresented in
-            if newIsSettingsPresented != store.state.isSettingsPresented {
+            let isSettingsPresented = store.state.settings != nil
+            if newIsSettingsPresented != isSettingsPresented {
                 Task {
                     await store.dispatch(.setSettingsPresented(newIsSettingsPresented))
                 }

@@ -7,8 +7,7 @@
 
 import Redux
 
-public enum
-SettingsFeature {
+public enum SettingsFeature {
     public struct State: Equatable {
         public var path: [Destination]
 

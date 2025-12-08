@@ -13,11 +13,10 @@ import GameSessionFeature
 public enum AppFeature {
     public struct State: Equatable {
         var path: [Destination]
-        var isSettingsPresented: Bool
 
         var home: HomeFeature.State
         var gameSession: GameSessionFeature.State
-        var settings: SettingsFeature.State
+        var settings: SettingsFeature.State?
 
         public enum Destination: Hashable {
             case gameSession
@@ -28,13 +27,12 @@ public enum AppFeature {
             isSettingsPresented: Bool = false,
             home: HomeFeature.State = .init(),
             gameSession: GameSessionFeature.State = .init(),
-            settings: SettingsFeature.State = .init()
+            settings: SettingsFeature.State? = nil
         ) {
+            self.path = path
             self.home = home
             self.settings = settings
             self.gameSession = gameSession
-            self.path = path
-            self.isSettingsPresented = isSettingsPresented
         }
     }
 
@@ -82,8 +80,8 @@ public enum AppFeature {
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: { _ in
-                    \.settings
+                state: {
+                    $0.settings != nil ? \.settings! : nil
                 },
                 action: { globalAction in
                     if case let .settings(localAction) = globalAction {
@@ -109,7 +107,11 @@ public enum AppFeature {
             return .none
 
         case .setSettingsPresented(let presented):
-            state.isSettingsPresented = presented
+            if presented {
+                state.settings = .init()
+            } else {
+                state.settings = nil
+            }
             return .none
 
         case .home(.delegate(.settings)):

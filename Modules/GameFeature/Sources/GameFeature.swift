@@ -8,7 +8,6 @@ import Redux
 import CardDefinition
 
 public enum GameFeature {
-    /// All aspects of game state
     public struct State: Equatable, Sendable {
         public var players: [String: Player]
         public var playOrder: [String]
