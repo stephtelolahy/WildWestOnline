@@ -26,8 +26,8 @@ let modules: [Module] = [
     Module(name: "HomeFeature", dependencies: ["Redux", "Theme", "AudioClient", "PreferencesClient"], test: true),
     Module(name: "SettingsFeature", dependencies: ["Redux", "Theme", "PreferencesClient", "CardLibrary", "CardResources"], test: true),
     Module(name: "GameSessionFeature", dependencies: ["GameFeature", "Theme", "CardResources", "AudioClient", "CardLibrary", "PreferencesClient"], resources: true, test: true),
-//    Module("AppFeature", deps: ["HomeFeature","GameSessionFeature","SettingsFeature"]),
-//    Module("AppBuilder", deps: ["AppFeature","PreferencesClientLive","AudioClientLive","CardLibraryLive"])
+    Module(name: "AppFeature", dependencies: ["HomeFeature", "GameSessionFeature", "SettingsFeature"], test: true),
+    Module(name: "AppBuilder", dependencies: ["AppFeature", "PreferencesClientLive", "AudioClientLive", "CardLibraryLive"])
 ]
 
 let lintPlugin: [Target.PluginUsage] = [

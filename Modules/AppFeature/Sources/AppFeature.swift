@@ -12,8 +12,8 @@ import GameSessionFeature
 
 public enum AppFeature {
     public struct State: Equatable {
-        var home: HomeFeature.State
         var path: [Destination]
+        var home: HomeFeature.State
         var gameSession: GameSessionFeature.State
         var settings: SettingsFeature.State?
 
@@ -22,8 +22,8 @@ public enum AppFeature {
         }
 
         public init(
-            home: HomeFeature.State = .init(),
             path: [Destination] = [],
+            home: HomeFeature.State = .init(),
             gameSession: GameSessionFeature.State = .init(),
             settings: SettingsFeature.State? = nil
         ) {
