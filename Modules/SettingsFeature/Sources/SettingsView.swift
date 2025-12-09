@@ -28,7 +28,9 @@ public struct SettingsView: View {
                     action: { .home($0) }
                 )
             }
+#if os(iOS) || os(tvOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
+#endif
             .navigationDestination(for: SettingsFeature.State.Destination.self) {
                 viewForDestination($0)
             }

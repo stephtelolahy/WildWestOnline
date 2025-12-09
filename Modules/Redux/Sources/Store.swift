@@ -11,6 +11,7 @@ public typealias Reducer<State, Action> = (inout State, Action, Dependencies) ->
 
 /// ``Effect`` is an asynchronous `Action`
 public enum Effect<Action> {
+    // swiftlint:disable:next discouraged_none_name
     case none
     case publisher(AnyPublisher<Action, Never>)
     case run(() async -> Action?)
@@ -30,6 +31,7 @@ public struct Dependencies {
 
 public protocol DependencyKey {
     associatedtype Value
+
     static var defaultValue: Value { get }
 }
 
