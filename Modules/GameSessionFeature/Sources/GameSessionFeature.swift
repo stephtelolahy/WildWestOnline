@@ -9,8 +9,8 @@ import Foundation
 import Redux
 import CardDefinition
 import GameFeature
-import PreferencesClient
 import CardLibrary
+import PreferencesClient
 
 public enum GameSessionFeature {
     public struct State: Equatable {

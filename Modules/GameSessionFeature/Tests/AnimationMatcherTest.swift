@@ -6,8 +6,8 @@
 //
 
 import Testing
-@testable import GameUI
 import GameFeature
+@testable import GameSessionFeature
 
 struct AnimationMatcherTest {
     private let sut = AnimationMatcher()

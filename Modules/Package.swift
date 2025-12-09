@@ -21,14 +21,12 @@ let modules: [Module] = [
     Module(name: "CardResources", resources: true),
     Module(name: "CardDefinition"),
     Module(name: "GameFeature", dependencies: ["Redux", "CardDefinition"], test: true),
-
-//    Module("SettingsFeature", deps: ["Redux","Theme","PreferencesClient","CardLibrary","CardResources"]),
+    Module(name: "CardLibrary", dependencies: ["Redux", "CardDefinition", "AudioClient"]),
+    Module(name: "CardLibraryLive", dependencies: ["CardLibrary", "GameFeature", "CardResources"], test: true),
+    Module(name: "HomeFeature", dependencies: ["Redux", "Theme", "AudioClient", "PreferencesClient"], test: true),
+    Module(name: "SettingsFeature", dependencies: ["Redux", "Theme", "PreferencesClient", "CardLibrary", "CardResources"], test: true),
+    Module(name: "GameSessionFeature", dependencies: ["GameFeature", "Theme", "CardResources", "AudioClient", "CardLibrary", "PreferencesClient"], resources: true, test: true),
 //    Module("AppFeature", deps: ["HomeFeature","GameSessionFeature","SettingsFeature"]),
-//    Module("CardLibrary", deps: ["Redux","CardDefinition","AudioClient"]),
-//    Module("CardLibraryLive", deps: ["CardLibrary","GameFeature","CardResources"]),
-//    Module("HomeFeature", deps: ["Redux","Theme","AudioClient"]),
-//    Module("GameSessionFeature", deps: ["GameFeature","Theme","CardResources","AudioClient","CardLibrary"], resources: true),
-
 //    Module("AppBuilder", deps: ["AppFeature","PreferencesClientLive","AudioClientLive","CardLibraryLive"])
 ]
 

@@ -5,9 +5,9 @@
 //  Created by Hugues Stéphano TELOLAHY on 17/10/2025.
 //
 
-@testable import AppFeature
 import Testing
 import GameFeature
+@testable import GameSessionFeature
 
 struct SoundMatcherTest {
     private let sut = SoundMatcher(specialSounds: [:])
