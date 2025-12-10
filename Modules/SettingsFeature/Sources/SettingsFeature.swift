@@ -2,55 +2,122 @@
 //  SettingsFeature.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
+//  Created by Hugues Stéphano TELOLAHY on 04/12/2025.
 //
+
 import Redux
-import PreferencesClient
 
 public enum SettingsFeature {
-    public struct State: Equatable, Codable, Sendable {
-        public var playersCount: Int
-        public var actionDelayMilliSeconds: Int
-        public var simulation: Bool
-        public var preferredFigure: String?
-        public var musicVolume: Float
+    public struct State: Equatable {
+        var path: [Destination]
+
+        var home: SettingsHomeFeature.State
+        var figures: SettingsFiguresFeature.State
+        var collectibles: SettingsCollectiblesFeature.State
+
+        public enum Destination: Hashable, Sendable {
+            case figures
+            case collectibles
+        }
+
+        public init(
+            path: [Destination] = [],
+            home: SettingsHomeFeature.State = .init(),
+            figures: SettingsFiguresFeature.State = .init(),
+            collectibles: SettingsCollectiblesFeature.State = .init()
+        ) {
+            self.path = path
+            self.home = home
+            self.figures = figures
+            self.collectibles = collectibles
+        }
     }
 
     public enum Action {
-        case updatePlayersCount(Int)
-        case updateActionDelayMilliSeconds(Int)
-        case toggleSimulation
-        case updatePreferredFigure(String?)
-        case updateMusicVolume(Float)
+        case setPath([State.Destination])
+
+        case home(SettingsHomeFeature.Action)
+        case figures(SettingsFiguresFeature.Action)
+        case collectibles(SettingsCollectiblesFeature.Action)
     }
 
-    public static func reducer(
-        state: inout State,
+    public static var reducer: Reducer<State, Action> {
+        combine(
+            reducerMain,
+            pullback(
+                SettingsHomeFeature.reducer,
+                state: { _ in
+                    \.home
+                },
+                action: { globalAction in
+                    if case let .home(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .home($0)
+                }
+            ),
+            pullback(
+                SettingsFiguresFeature.reducer,
+                state: { _ in
+                    \.figures
+                },
+                action: { globalAction in
+                    if case let .figures(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .figures($0)
+                }
+            ),
+            pullback(
+                SettingsCollectiblesFeature.reducer,
+                state: { _ in
+                    \.collectibles
+                },
+                action: { globalAction in
+                    if case let .collectibles(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .collectibles($0)
+                }
+            )
+        )
+    }
+
+    private static func reducerMain(
+        into state: inout State,
         action: Action,
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .updatePlayersCount(let value):
-            state.playersCount = value
-            dependencies.preferencesClient.savePlayersCount(value)
+        case .setPath(let path):
+            state.path = path
+            return .none
 
-        case .updateActionDelayMilliSeconds(let value):
-            state.actionDelayMilliSeconds = value
-            dependencies.preferencesClient.saveActionDelayMilliSeconds(value)
+        case .home(.delegate(.selectedCollectibles)):
+            state.path = [.collectibles]
+            return .none
 
-        case .toggleSimulation:
-            state.simulation.toggle()
-            dependencies.preferencesClient.saveSimulationEnabled(state.simulation)
+        case .home(.delegate(.selectedFigures)):
+            state.path = [.figures]
+            return .none
 
-        case .updatePreferredFigure(let value):
-            state.preferredFigure = value
-            dependencies.preferencesClient.savePreferredFigure(value)
+        case .home:
+            return .none
 
-        case .updateMusicVolume(let value):
-            state.musicVolume = value
-            dependencies.preferencesClient.saveMusicVolume(value)
+        case .figures:
+            return .none
+
+        case .collectibles:
+            return .none
         }
-
-        return .none
     }
 }

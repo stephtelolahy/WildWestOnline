@@ -12,11 +12,11 @@ public extension PreferencesClient {
     static func live() -> Self {
         let service = StorageService()
         return .init(
-            savePlayersCount: { service.playersCount = $0 },
-            saveActionDelayMilliSeconds: { service.actionDelayMilliSeconds = $0 },
-            saveSimulationEnabled: { service.simulationEnabled = $0 },
-            savePreferredFigure: { service.preferredFigure = $0 },
-            saveMusicVolume: { service.musicVolume = $0 },
+            setPlayersCount: { service.playersCount = $0 },
+            setActionDelayMilliSeconds: { service.actionDelayMilliSeconds = $0 },
+            setSimulationEnabled: { service.simulationEnabled = $0 },
+            setPreferredFigure: { service.preferredFigure = $0 },
+            setMusicVolume: { service.musicVolume = $0 },
             playersCount: { service.playersCount },
             actionDelayMilliSeconds: { service.actionDelayMilliSeconds },
             isSimulationEnabled: { service.simulationEnabled },

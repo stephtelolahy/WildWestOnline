@@ -17,7 +17,7 @@ public func pullback<
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
     embedAction: @escaping (LocalAction) -> GlobalAction
 ) -> Reducer<GlobalState, GlobalAction> {
-    return { globalState, globalAction, dependencies in
+    { globalState, globalAction, dependencies in
         // Only handle actions that map to the local domain
         guard let localAction = toLocalAction(globalAction) else {
             return .none
@@ -41,8 +41,10 @@ private extension Effect {
         switch self {
         case .none:
             return .none
+
         case .publisher(let publisher):
             return .publisher(publisher.map(transform).eraseToAnyPublisher())
+
         case .run(let asyncWork):
             return .run {
                 if let result = await asyncWork() {
@@ -50,6 +52,7 @@ private extension Effect {
                 }
                 return nil
             }
+
         case .group(let effects):
             return .group(effects.map { $0.map(transform) })
         }

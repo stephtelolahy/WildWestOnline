@@ -6,83 +6,82 @@
 //
 
 import Redux
-import NavigationFeature
+import HomeFeature
 import SettingsFeature
-import GameFeature
-import AudioClient
-import PreferencesClient
-
-public typealias AppStore = Store<AppFeature.State, AppFeature.Action>
+import GameSessionFeature
 
 public enum AppFeature {
-    /// Global app state
-    /// Organize State Structure Based on Data Types, Not Components
-    /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
-    public struct State: Codable, Equatable, Sendable {
-        public let cardLibrary: CardLibrary
-        public var navigation: AppNavigationFeature.State
-        public var settings: SettingsFeature.State
-        public var game: GameFeature.State?
+    public struct State: Equatable {
+        var path: [Destination]
+        var home: HomeFeature.State
+        var gameSession: GameSessionFeature.State
+        var settings: SettingsFeature.State?
 
-        public init(
-            cardLibrary: CardLibrary,
-            navigation: AppNavigationFeature.State,
-            settings: SettingsFeature.State,
-            game: GameFeature.State? = nil
-        ) {
-            self.cardLibrary = cardLibrary
-            self.navigation = navigation
-            self.settings = settings
-            self.game = game
+        public enum Destination: Hashable {
+            case gameSession
         }
 
-        public struct CardLibrary: Codable, Equatable, Sendable {
-            public let cards: [Card]
-            public let deck: [String]
-            public let specialSounds: [Card.ActionName: [String: AudioClient.Sound]]
-
-            public init(
-                cards: [Card] = [],
-                deck: [String] = [],
-                specialSounds: [Card.ActionName: [String: AudioClient.Sound]] = [:]
-            ) {
-                self.cards = cards
-                self.deck = deck
-                self.specialSounds = specialSounds
-            }
+        public init(
+            path: [Destination] = [],
+            home: HomeFeature.State = .init(),
+            gameSession: GameSessionFeature.State = .init(),
+            settings: SettingsFeature.State? = nil
+        ) {
+            self.path = path
+            self.home = home
+            self.settings = settings
+            self.gameSession = gameSession
         }
     }
 
     public enum Action {
-        case start
-        case quit
-        case setGame(GameFeature.State)
-        case unsetGame
-        case navigation(AppNavigationFeature.Action)
+        // View
+        case setPath([State.Destination])
+        case setSettingsPresented(Bool)
+
+        // Internal
+        case home(HomeFeature.Action)
         case settings(SettingsFeature.Action)
-        case game(GameFeature.Action)
+        case gameSession(GameSessionFeature.Action)
     }
 
     public static var reducer: Reducer<State, Action> {
         combine(
             reducerMain,
             pullback(
-                GameFeature.reducer,
-                state: { globalState in
-                    globalState.game != nil ? \.game! : nil
+                HomeFeature.reducer,
+                state: { _ in
+                    \.home
                 },
                 action: { globalAction in
-                    if case let .game(localAction) = globalAction {
+                    if case let .home(localAction) = globalAction {
                         return localAction
                     }
                     return nil
                 },
-                embedAction: Action.game
+                embedAction: {
+                    .home($0)
+                }
+            ),
+            pullback(
+                GameSessionFeature.reducer,
+                state: { _ in
+                    \.gameSession
+                },
+                action: { globalAction in
+                    if case let .gameSession(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: {
+                    .gameSession($0)
+                }
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: { _ in
-                    \.settings
+                state: {
+                    $0.settings != nil ? \.settings! : nil
                 },
                 action: { globalAction in
                     if case let .settings(localAction) = globalAction {
@@ -90,27 +89,51 @@ public enum AppFeature {
                     }
                     return nil
                 },
-                embedAction: Action.settings
-            ),
-            pullback(
-                AppNavigationFeature.reducer,
-                state: { _ in
-                    \.navigation
-                },
-                action: { globalAction in
-                    if case let .navigation(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: Action.navigation
-            ),
-            pullback(
-                reducerSound,
-                state: { _ in \.self },
-                action: { $0 },
-                embedAction: \.self
+                embedAction: {
+                    .settings($0)
+                }
             )
         )
+    }
+
+    private static func reducerMain(
+        into state: inout State,
+        action: Action,
+        dependencies: Dependencies
+    ) -> Effect<Action> {
+        switch action {
+        case .setPath(let path):
+            state.path = path
+            return .none
+
+        case .setSettingsPresented(let presented):
+            if presented {
+                state.settings = .init()
+            } else {
+                state.settings = nil
+            }
+            return .none
+
+        case .home(.delegate(.settings)):
+            return .run { .setSettingsPresented(true) }
+
+        case .home(.delegate(.play)):
+            return .run { .setPath([.gameSession]) }
+
+        case .home:
+            return .none
+
+        case .settings:
+            return .none
+
+        case .gameSession(.delegate(.settings)):
+            return .run { .setSettingsPresented(true) }
+
+        case .gameSession(.delegate(.quit)):
+            return .run { .setPath([]) }
+
+        case .gameSession:
+            return .none
+        }
     }
 }
