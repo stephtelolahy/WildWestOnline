@@ -13,8 +13,9 @@ import GameSessionFeature
 public enum AppFeature {
     public struct State: Equatable {
         var path: [Destination]
+        var isSettingsPresented: Bool
         var home: HomeFeature.State
-        var gameSession: GameSessionFeature.State
+        var gameSession: GameSessionFeature.State?
         var settings: SettingsFeature.State?
 
         public enum Destination: Hashable {
@@ -23,14 +24,16 @@ public enum AppFeature {
 
         public init(
             path: [Destination] = [],
+            isSettingsPresented: Bool = false,
             home: HomeFeature.State = .init(),
-            gameSession: GameSessionFeature.State = .init(),
+            gameSession: GameSessionFeature.State? = nil,
             settings: SettingsFeature.State? = nil
         ) {
             self.path = path
+            self.isSettingsPresented = isSettingsPresented
             self.home = home
-            self.settings = settings
             self.gameSession = gameSession
+            self.settings = settings
         }
     }
 
@@ -65,8 +68,8 @@ public enum AppFeature {
             ),
             pullback(
                 GameSessionFeature.reducer,
-                state: { _ in
-                    \.gameSession
+                state: {
+                    $0.gameSession != nil ? \.gameSession! : nil
                 },
                 action: { globalAction in
                     if case let .gameSession(localAction) = globalAction {
@@ -96,6 +99,7 @@ public enum AppFeature {
         )
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     private static func reducerMain(
         into state: inout State,
         action: Action,
@@ -104,14 +108,23 @@ public enum AppFeature {
         switch action {
         case .setPath(let path):
             state.path = path
+            if state.path.contains(.gameSession) && state.gameSession == nil {
+                state.gameSession = .init()
+            }
+            if !state.path.contains(.gameSession) && state.gameSession != nil {
+                state.gameSession = nil
+            }
             return .none
 
-        case .setSettingsPresented(let presented):
-            if presented {
+        case .setSettingsPresented(let isPresented):
+            state.isSettingsPresented = isPresented
+            if isPresented && state.settings == nil {
                 state.settings = .init()
-            } else {
+            }
+            if !isPresented && state.settings != nil {
                 state.settings = nil
             }
+
             return .none
 
         case .home(.delegate(.settings)):

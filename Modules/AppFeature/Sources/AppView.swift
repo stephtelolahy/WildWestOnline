@@ -15,8 +15,6 @@ public struct AppView: View {
     public typealias ViewStore = Store<AppFeature.State, AppFeature.Action>
 
     @StateObject private var store: ViewStore
-    @State private var path: [AppFeature.State.Destination] = []
-    @State private var isSettingsPresented: Bool = false
 
     @Environment(\.theme) private var theme
 
@@ -27,7 +25,7 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
             HomeView {
                 store.projection(
                     state: \.home,
@@ -38,39 +36,12 @@ public struct AppView: View {
                 viewForDestination($0)
             }
         }
-        .sheet(isPresented: $isSettingsPresented) {
+        .sheet(isPresented: store.binding(\.isSettingsPresented, send: { .setSettingsPresented($0) })) {
             SettingsView {
                 store.projection(
                     state: \.settings,
                     action: { .settings($0) }
                 )
-            }
-        }
-        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-        .onReceive(store.$state) { state in
-            let newPath = state.path
-            if newPath != path {
-                path = newPath
-            }
-
-            let newIsSettingsPresented = state.settings != nil
-            if newIsSettingsPresented != isSettingsPresented {
-                isSettingsPresented = newIsSettingsPresented
-            }
-        }
-        .onChange(of: path) { _, newPath in
-            if newPath != store.state.path {
-                Task {
-                    await store.dispatch(.setPath(newPath))
-                }
-            }
-        }
-        .onChange(of: isSettingsPresented) { _, newIsSettingsPresented in
-            let isSettingsPresented = store.state.settings != nil
-            if newIsSettingsPresented != isSettingsPresented {
-                Task {
-                    await store.dispatch(.setSettingsPresented(newIsSettingsPresented))
-                }
             }
         }
         .onReceive(store.dispatchedAction) { event in
