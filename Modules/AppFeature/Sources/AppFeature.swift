@@ -54,48 +54,21 @@ public enum AppFeature {
             reducerMain,
             pullback(
                 HomeFeature.reducer,
-                state: { _ in
-                    \.home
-                },
-                action: { globalAction in
-                    if case let .home(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .home($0)
-                }
+                state: { _ in \.home },
+                action: { if case let .home(action) = $0 { action } else { nil } },
+                embedAction: Action.home
             ),
             pullback(
                 GameSessionFeature.reducer,
-                state: {
-                    $0.gameSession != nil ? \.gameSession! : nil
-                },
-                action: { globalAction in
-                    if case let .gameSession(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .gameSession($0)
-                }
+                state: { $0.gameSession != nil ? \.gameSession! : nil },
+                action: { if case let .gameSession(action) = $0 { action } else { nil } },
+                embedAction: Action.gameSession
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: {
-                    $0.settings != nil ? \.settings! : nil
-                },
-                action: { globalAction in
-                    if case let .settings(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .settings($0)
-                }
+                state: { $0.settings != nil ? \.settings! : nil },
+                action: { if case let .settings(action) = $0 { action } else { nil } },
+                embedAction: Action.settings
             )
         )
     }

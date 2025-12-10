@@ -47,18 +47,9 @@ public enum GameSessionFeature {
             reducerSound,
             pullback(
                 GameFeature.reducer,
-                state: {
-                    $0.game != nil ? \.game! : nil
-                },
-                action: { globalAction in
-                    if case let .game(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .game($0)
-                }
+                state: { $0.game != nil ? \.game! : nil },
+                action: { if case let .game(action) = $0 { action } else { nil } },
+                embedAction: Action.game
             )
         )
     }

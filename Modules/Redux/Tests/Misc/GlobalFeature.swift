@@ -21,25 +21,15 @@ enum GlobalFeature {
         combine(
             pullback(
                 CounterFeature.reducer,
-                state: { _ in
-                    \.counter
-                },
-                action: { globalAction in
-                    if case let .counter(localAction) = globalAction { return localAction }
-                    return nil
-                },
-                embedAction: GlobalFeature.Action.counter
+                state: { _ in \.counter },
+                action: { if case let .counter(action) = $0 { action } else { nil } },
+                embedAction: Action.counter
             ),
             pullback(
                 FlagFeature.reducer,
-                state: { _ in
-                    \.flag
-                },
-                action: { globalAction in
-                    if case let .flag(localAction) = globalAction { return localAction }
-                    return nil
-                },
-                embedAction: GlobalFeature.Action.flag
+                state: { _ in \.flag },
+                action: { if case let .flag(action) = $0 { action } else { nil } },
+                embedAction: Action.flag
             )
         )
     }

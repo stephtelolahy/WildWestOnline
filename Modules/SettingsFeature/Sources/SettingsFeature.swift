@@ -48,48 +48,21 @@ public enum SettingsFeature {
             reducerMain,
             pullback(
                 SettingsHomeFeature.reducer,
-                state: { _ in
-                    \.home
-                },
-                action: { globalAction in
-                    if case let .home(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .home($0)
-                }
+                state: { _ in \.home },
+                action: { if case let .home(action) = $0 { action } else { nil } },
+                embedAction: Action.home
             ),
             pullback(
                 SettingsFiguresFeature.reducer,
-                state: {
-                    $0.figures != nil ? \.figures! : nil
-                },
-                action: { globalAction in
-                    if case let .figures(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .figures($0)
-                }
+                state: { $0.figures != nil ? \.figures! : nil },
+                action: { if case let .figures(action) = $0 { action } else { nil } },
+                embedAction: Action.figures
             ),
             pullback(
                 SettingsCollectiblesFeature.reducer,
-                state: {
-                    $0.collectibles != nil ? \.collectibles! : nil
-                },
-                action: { globalAction in
-                    if case let .collectibles(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .collectibles($0)
-                }
+                state: { $0.collectibles != nil ? \.collectibles! : nil },
+                action: { if case let .collectibles(action) = $0 { action } else { nil } },
+                embedAction: Action.collectibles
             )
         )
     }
