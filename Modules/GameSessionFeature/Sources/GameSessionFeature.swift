@@ -38,6 +38,7 @@ public enum GameSessionFeature {
     public static var reducer: Reducer<State, Action> {
         combine(
             reducerMain,
+            reducerSound,
             pullback(
                 GameFeature.reducer,
                 state: {
