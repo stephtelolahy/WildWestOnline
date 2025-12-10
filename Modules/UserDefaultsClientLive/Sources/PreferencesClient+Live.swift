@@ -1,14 +1,14 @@
 //
-//  PreferencesClient+Live.swift
+//  UserDefaultsClient+Live.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 // swiftlint:disable no_magic_numbers
 
-import PreferencesClient
+import UserDefaultsClient
 
-public extension PreferencesClient {
+public extension UserDefaultsClient {
     static func live() -> Self {
         let service = StorageService()
         return .init(

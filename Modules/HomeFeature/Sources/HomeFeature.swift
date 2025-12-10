@@ -7,7 +7,7 @@
 
 import Redux
 import AudioClient
-import PreferencesClient
+import UserDefaultsClient
 
 public enum HomeFeature {
     public struct State: Equatable, Sendable {
@@ -42,7 +42,7 @@ public enum HomeFeature {
             if state.isFirstLoad {
                 state.isFirstLoad = false
                 return .run {
-                    await dependencies.audioClient.setMusicVolume(dependencies.preferencesClient.musicVolume())
+                    await dependencies.audioClient.setMusicVolume(dependencies.userDefaultsClient.musicVolume())
                     await dependencies.audioClient.load(AudioClient.Sound.allSfx)
                     await dependencies.audioClient.play(.musicLoneRider)
                     return .none

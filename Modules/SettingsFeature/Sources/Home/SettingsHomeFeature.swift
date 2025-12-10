@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 import Redux
-import PreferencesClient
+import UserDefaultsClient
 import AudioClient
 
 public enum SettingsHomeFeature {
@@ -70,31 +70,31 @@ public enum SettingsHomeFeature {
     ) -> Effect<Action> {
         switch action {
         case .didAppear:
-            state.playersCount = dependencies.preferencesClient.playersCount()
-            state.actionDelayMilliSeconds = dependencies.preferencesClient.actionDelayMilliSeconds()
-            state.simulation = dependencies.preferencesClient.isSimulationEnabled()
-            state.preferredFigure = dependencies.preferencesClient.preferredFigure()
-            state.musicVolume = dependencies.preferencesClient.musicVolume()
+            state.playersCount = dependencies.userDefaultsClient.playersCount()
+            state.actionDelayMilliSeconds = dependencies.userDefaultsClient.actionDelayMilliSeconds()
+            state.simulation = dependencies.userDefaultsClient.isSimulationEnabled()
+            state.preferredFigure = dependencies.userDefaultsClient.preferredFigure()
+            state.musicVolume = dependencies.userDefaultsClient.musicVolume()
 
         case .didUpdatePlayersCount(let value):
             state.playersCount = value
-            dependencies.preferencesClient.setPlayersCount(value)
+            dependencies.userDefaultsClient.setPlayersCount(value)
 
         case .didUpdateActionDelayMilliSeconds(let value):
             state.actionDelayMilliSeconds = value
-            dependencies.preferencesClient.setActionDelayMilliSeconds(value)
+            dependencies.userDefaultsClient.setActionDelayMilliSeconds(value)
 
         case .didToggleSimulation:
             state.simulation.toggle()
-            dependencies.preferencesClient.setSimulationEnabled(state.simulation)
+            dependencies.userDefaultsClient.setSimulationEnabled(state.simulation)
 
         case .didUpdatePreferredFigure(let value):
             state.preferredFigure = value
-            dependencies.preferencesClient.setPreferredFigure(value)
+            dependencies.userDefaultsClient.setPreferredFigure(value)
 
         case .didUpdateMusicVolume(let value):
             state.musicVolume = value
-            dependencies.preferencesClient.setMusicVolume(value)
+            dependencies.userDefaultsClient.setMusicVolume(value)
             return .run {
                 await dependencies.audioClient.setMusicVolume(value)
                 return .none

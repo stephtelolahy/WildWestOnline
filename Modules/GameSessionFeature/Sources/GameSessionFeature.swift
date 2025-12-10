@@ -9,7 +9,7 @@ import Foundation
 import Redux
 import GameCore
 import CardLibrary
-import PreferencesClient
+import UserDefaultsClient
 
 public enum GameSessionFeature {
     public struct State: Equatable {
@@ -85,7 +85,7 @@ public enum GameSessionFeature {
             }
 
         case .didTapCard(let card):
-            guard let controlledPlayer  = state.controlledPlayer else {
+            guard let controlledPlayer = state.controlledPlayer else {
                 return .none
             }
             return .run {
@@ -136,12 +136,12 @@ public enum GameSessionFeature {
 private extension Dependencies {
     func createGame() -> GameFeature.State {
         GameSetup.buildGame(
-            playersCount: preferencesClient.playersCount(),
+            playersCount: userDefaultsClient.playersCount(),
             cards: cardLibrary.cards(),
             deck: cardLibrary.deck(),
-            actionDelayMilliSeconds: preferencesClient.actionDelayMilliSeconds(),
-            preferredFigure: preferencesClient.preferredFigure(),
-            playModeSetup: preferencesClient.isSimulationEnabled() ? .allAuto : .oneManual
+            actionDelayMilliSeconds: userDefaultsClient.actionDelayMilliSeconds(),
+            preferredFigure: userDefaultsClient.preferredFigure(),
+            playModeSetup: userDefaultsClient.isSimulationEnabled() ? .allAuto : .oneManual
         )
     }
 }
