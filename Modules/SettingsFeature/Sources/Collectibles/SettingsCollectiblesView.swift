@@ -29,7 +29,7 @@ struct SettingsCollectiblesView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("Collectibles")
         .task {
-            await store.dispatch(.onAppear)
+            await store.dispatch(.didAppear)
         }
     }
 

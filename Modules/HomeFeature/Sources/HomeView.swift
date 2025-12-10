@@ -36,12 +36,12 @@ public struct HomeView: View {
 #endif
         .onAppear {
             Task {
-                await store.dispatch(.onAppear)
+                await store.dispatch(.didAppear)
             }
         }
         .onDisappear {
             Task {
-                await store.dispatch(.onDisappear)
+                await store.dispatch(.didDisappear)
             }
         }
     }
@@ -62,12 +62,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(.delegate(.play))
+                        await store.dispatch(.didTapPlay)
                     }
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(.delegate(.settings))
+                        await store.dispatch(.didTapSettings)
                     }
                 }
             }

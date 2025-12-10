@@ -25,7 +25,7 @@ struct SettingsFiguresView: View {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
                     Task {
-                        await store.dispatch(.selected(figure.name))
+                        await store.dispatch(.didSelect(figure.name))
                     }
                 }, label: {
                     rowView(figure: figure)
@@ -35,7 +35,7 @@ struct SettingsFiguresView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("Figures")
         .task {
-            await store.dispatch(.onAppear)
+            await store.dispatch(.didAppear)
         }
     }
 

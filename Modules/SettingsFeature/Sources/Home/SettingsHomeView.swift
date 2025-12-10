@@ -40,7 +40,7 @@ struct SettingsHomeView: View {
             }
         }
         .task {
-            await store.dispatch(.onAppear)
+            await store.dispatch(.didAppear)
         }
     }
 
@@ -64,7 +64,7 @@ struct SettingsHomeView: View {
                     get: { store.state.playersCount },
                     set: { newValue in
                         Task {
-                            await store.dispatch(.updatePlayersCount(newValue))
+                            await store.dispatch(.didUpdatePlayersCount(newValue))
                         }
                     }
                 ).animation(),
@@ -83,7 +83,7 @@ struct SettingsHomeView: View {
                     },
                     set: { index in
                         Task {
-                            await store.dispatch(.updateActionDelayMilliSeconds(store.state.speedOptions[index].value))
+                            await store.dispatch(.didUpdateActionDelayMilliSeconds(store.state.speedOptions[index].value))
                         }
                     }
                 ),
@@ -105,7 +105,7 @@ struct SettingsHomeView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(.toggleSimulation)
+                        await store.dispatch(.didToggleSimulation)
                     }
                 }
             ).animation()) {
@@ -124,7 +124,7 @@ struct SettingsHomeView: View {
                         get: { store.state.musicVolume },
                         set: { newValue in
                             Task {
-                                await store.dispatch(.updateMusicVolume(newValue))
+                                await store.dispatch(.didUpdateMusicVolume(newValue))
                             }
                         }
                     ),
@@ -146,7 +146,7 @@ struct SettingsHomeView: View {
     private var figuresView: some View {
         Button(action: {
             Task {
-                await store.dispatch(.delegate(.selectedFigures))
+                await store.dispatch(.didTapFigures)
             }
         }, label: {
             HStack {
@@ -162,7 +162,7 @@ struct SettingsHomeView: View {
     private var collectiblesView: some View {
         Button(action: {
             Task {
-                await store.dispatch(.delegate(.selectedCollectibles))
+                await store.dispatch(.didTapCollectibles)
             }
         }, label: {
             HStack {

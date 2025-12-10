@@ -21,11 +21,18 @@ public enum GameSessionFeature {
     }
 
     public enum Action {
-        case onAppear
+        // View
+        case didAppear
+        case didTapQuit
+        case didTapSettings
+        case didTapCard(String)
+        case didChoose(String, player: String)
 
+        // Internal
         case setGame(GameFeature.State)
         case game(GameFeature.Action)
 
+        // Delegate
         case delegate(Delegate)
 
         public enum Delegate {
@@ -62,9 +69,32 @@ public enum GameSessionFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
+        case .didAppear:
             return .run {
                 .setGame(dependencies.createGame())
+            }
+
+        case .didTapQuit:
+            return .run {
+                .delegate(.quit)
+            }
+
+        case .didTapSettings:
+            return .run {
+                .delegate(.settings)
+            }
+
+        case .didTapCard(let card):
+            guard let controlledPlayer  = state.controlledPlayer else {
+                return .none
+            }
+            return .run {
+                .game(.preparePlay(card, player: controlledPlayer))
+            }
+
+        case .didChoose(let option, let chooser):
+            return .run {
+                .game(.choose(option, player: chooser))
             }
 
         case .setGame(let game):

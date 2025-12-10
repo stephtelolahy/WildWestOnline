@@ -17,9 +17,13 @@ public enum HomeFeature {
     }
 
     public enum Action {
-        case onAppear
-        case onDisappear
+        // View
+        case didAppear
+        case didDisappear
+        case didTapPlay
+        case didTapSettings
 
+        // Delegate
         case delegate(Delegate)
 
         public enum Delegate {
@@ -34,7 +38,7 @@ public enum HomeFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
+        case .didAppear:
             if state.isFirstLoad {
                 state.isFirstLoad = false
                 return .run {
@@ -50,10 +54,20 @@ public enum HomeFeature {
                 }
             }
 
-        case .onDisappear:
+        case .didDisappear:
             return .run {
                 await dependencies.audioClient.pause(AudioClient.Sound.musicLoneRider)
                 return .none
+            }
+
+        case .didTapPlay:
+            return .run {
+                .delegate(.play)
+            }
+
+        case .didTapSettings:
+            return .run {
+                .delegate(.settings)
             }
 
         case .delegate:

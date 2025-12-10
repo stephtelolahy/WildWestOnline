@@ -22,7 +22,7 @@ public enum SettingsCollectiblesFeature {
     }
 
     public enum Action {
-        case onAppear
+        case didAppear
     }
 
     static func reducer(
@@ -31,7 +31,7 @@ public enum SettingsCollectiblesFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
+        case .didAppear:
             state.cards = dependencies.loadCollectibleCards()
         }
 

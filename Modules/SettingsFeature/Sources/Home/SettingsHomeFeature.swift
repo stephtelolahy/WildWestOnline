@@ -44,14 +44,19 @@ public enum SettingsHomeFeature {
     }
 
     public enum Action {
-        case onAppear
-        case updatePlayersCount(Int)
-        case updateActionDelayMilliSeconds(Int)
-        case toggleSimulation
-        case updatePreferredFigure(String?)
-        case updateMusicVolume(Float)
+        // View
+        case didAppear
+        case didUpdatePlayersCount(Int)
+        case didUpdateActionDelayMilliSeconds(Int)
+        case didToggleSimulation
+        case didUpdatePreferredFigure(String?)
+        case didUpdateMusicVolume(Float)
+        case didTapFigures
+        case didTapCollectibles
 
+        // Delegate
         case delegate(Delegate)
+
         public enum Delegate {
             case selectedFigures
             case selectedCollectibles
@@ -64,35 +69,45 @@ public enum SettingsHomeFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
+        case .didAppear:
             state.playersCount = dependencies.preferencesClient.playersCount()
             state.actionDelayMilliSeconds = dependencies.preferencesClient.actionDelayMilliSeconds()
             state.simulation = dependencies.preferencesClient.isSimulationEnabled()
             state.preferredFigure = dependencies.preferencesClient.preferredFigure()
             state.musicVolume = dependencies.preferencesClient.musicVolume()
 
-        case .updatePlayersCount(let value):
+        case .didUpdatePlayersCount(let value):
             state.playersCount = value
             dependencies.preferencesClient.setPlayersCount(value)
 
-        case .updateActionDelayMilliSeconds(let value):
+        case .didUpdateActionDelayMilliSeconds(let value):
             state.actionDelayMilliSeconds = value
             dependencies.preferencesClient.setActionDelayMilliSeconds(value)
 
-        case .toggleSimulation:
+        case .didToggleSimulation:
             state.simulation.toggle()
             dependencies.preferencesClient.setSimulationEnabled(state.simulation)
 
-        case .updatePreferredFigure(let value):
+        case .didUpdatePreferredFigure(let value):
             state.preferredFigure = value
             dependencies.preferencesClient.setPreferredFigure(value)
 
-        case .updateMusicVolume(let value):
+        case .didUpdateMusicVolume(let value):
             state.musicVolume = value
             dependencies.preferencesClient.setMusicVolume(value)
             return .run {
                 await dependencies.audioClient.setMusicVolume(value)
                 return .none
+            }
+
+        case .didTapFigures:
+            return .run {
+                .delegate(.selectedFigures)
+            }
+
+        case .didTapCollectibles:
+            return .run {
+                .delegate(.selectedCollectibles)
             }
 
         case .delegate:

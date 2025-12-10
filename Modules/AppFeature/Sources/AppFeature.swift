@@ -35,9 +35,11 @@ public enum AppFeature {
     }
 
     public enum Action {
+        // View
         case setPath([State.Destination])
         case setSettingsPresented(Bool)
 
+        // Internal
         case home(HomeFeature.Action)
         case settings(SettingsFeature.Action)
         case gameSession(GameSessionFeature.Action)

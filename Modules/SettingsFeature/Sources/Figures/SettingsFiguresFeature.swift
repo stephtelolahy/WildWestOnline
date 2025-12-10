@@ -24,8 +24,8 @@ public enum SettingsFiguresFeature {
     }
 
     public enum Action {
-        case onAppear
-        case selected(String)
+        case didAppear
+        case didSelect(String)
     }
 
     static func reducer(
@@ -34,10 +34,10 @@ public enum SettingsFiguresFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         switch action {
-        case .onAppear:
+        case .didAppear:
             state.figures = dependencies.loadFigures()
 
-        case .selected(let name):
+        case .didSelect(let name):
             dependencies.preferencesClient.setPreferredFigure(name)
             state.figures = dependencies.loadFigures()
         }

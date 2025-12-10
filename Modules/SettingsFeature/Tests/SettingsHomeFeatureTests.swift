@@ -26,7 +26,7 @@ struct SettingsHomeFeatureTests {
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsHomeFeature.Action.updatePlayersCount(5)
+        let action = SettingsHomeFeature.Action.didUpdatePlayersCount(5)
         await sut.dispatch(action)
 
         // Then
@@ -39,7 +39,7 @@ struct SettingsHomeFeatureTests {
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsHomeFeature.Action.toggleSimulation
+        let action = SettingsHomeFeature.Action.didToggleSimulation
         await sut.dispatch(action)
 
         // Then
@@ -52,7 +52,7 @@ struct SettingsHomeFeatureTests {
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsHomeFeature.Action.updateActionDelayMilliSeconds(500)
+        let action = SettingsHomeFeature.Action.didUpdateActionDelayMilliSeconds(500)
         await sut.dispatch(action)
 
         // Then

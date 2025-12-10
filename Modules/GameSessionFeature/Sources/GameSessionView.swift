@@ -56,7 +56,7 @@ public struct GameSessionView: View {
 #endif
             .toolbar { toolBarView }
             .task {
-                await store.dispatch(.onAppear)
+                await store.dispatch(.didAppear)
             }
             .onReceive(store.$state) { state in
                 if let action = state.lastEvent {
@@ -73,7 +73,7 @@ private extension GameSessionView {
             Menu {
                 Button {
                     Task {
-                        await store.dispatch(.delegate(.settings))
+                        await store.dispatch(.didTapSettings)
                     }
                 } label: {
                     Label("Settings", systemImage: "gearshape")
@@ -82,7 +82,7 @@ private extension GameSessionView {
                 Divider()
 
                 Button(role: .destructive) {
-                    Task { await store.dispatch(.delegate(.quit)) }
+                    Task { await store.dispatch(.didTapQuit) }
                 } label: {
                     Label {
                         Text(.gameQuitButton)
@@ -132,51 +132,49 @@ private extension GameSessionView {
     }
 
     @ViewBuilder func controlledHandView() -> some View {
-        if let player = store.state.controlledPlayer {
-            VStack(spacing: 0) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(store.state.handCards, id: \.card) { item in
-                            Button(
-                                action: {
-                                    guard item.active else {
-                                        return
-                                    }
-
-                                    Task {
-                                        await store.dispatch(.game(.preparePlay(item.card, player: player)))
-                                    }
-                                },
-                                label: {
-                                    CardView(
-                                        content: .id(item.card),
-                                        format: .large,
-                                        disabled: !item.active
-                                    )
-                                    .scaleEffect(item.active ? 1.04 : 1.0)
-                                    .shadow(color: (item.active ? Color.accentColor : .black).opacity(item.active ? 0.45 : 0.25), radius: item.active ? 14 : 8, x: 0, y: item.active ? 10 : 6)
-                                    .animation(.spring(response: 0.3, dampingFraction: 0.85), value: item.active)
+        VStack(spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(store.state.handCards, id: \.card) { item in
+                        Button(
+                            action: {
+                                guard item.active else {
+                                    return
                                 }
-                            )
-                            .buttonStyle(PlainButtonStyle())
-                        }
+
+                                Task {
+                                    await store.dispatch(.didTapCard(item.card))
+                                }
+                            },
+                            label: {
+                                CardView(
+                                    content: .id(item.card),
+                                    format: .large,
+                                    disabled: !item.active
+                                )
+                                .scaleEffect(item.active ? 1.04 : 1.0)
+                                .shadow(color: (item.active ? Color.accentColor : .black).opacity(item.active ? 0.45 : 0.25), radius: item.active ? 14 : 8, x: 0, y: item.active ? 10 : 6)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.85), value: item.active)
+                            }
+                        )
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
                 }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
             }
-            .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(.ultraThinMaterial)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .stroke(Color.white.opacity(0.15), lineWidth: 1)
-                    )
-                    .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
-            )
-            .padding(.horizontal, 12)
-            .padding(.bottom, 8)
         }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                )
+                .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
+        )
+        .padding(.horizontal, 12)
+        .padding(.bottom, 8)
     }
 
     func chooseOneAnchorView() -> some View {
@@ -192,7 +190,9 @@ private extension GameSessionView {
                 actions: { chooseOne in
                     ForEach(chooseOne.options, id: \.self) { option in
                         let button = Button(option) {
-                            Task { await self.store.dispatch(.game(.choose(option, player: chooseOne.chooser))) }
+                            Task {
+                                await self.store.dispatch(.didChoose(option, player: chooseOne.chooser))
+                            }
                         }
 
                         if option == .choicePass {
