@@ -70,38 +70,26 @@ public enum GameSessionFeature {
     ) -> Effect<Action> {
         switch action {
         case .didAppear:
-            return .run {
-                .setGame(dependencies.createGame())
-            }
+            return .run { .setGame(dependencies.createGame()) }
 
         case .didTapQuit:
-            return .run {
-                .delegate(.quit)
-            }
+            return .run { .delegate(.quit) }
 
         case .didTapSettings:
-            return .run {
-                .delegate(.settings)
-            }
+            return .run { .delegate(.settings) }
 
         case .didTapCard(let card):
             guard let controlledPlayer = state.controlledPlayer else {
                 return .none
             }
-            return .run {
-                .game(.preparePlay(card, player: controlledPlayer))
-            }
+            return .run { .game(.preparePlay(card, player: controlledPlayer)) }
 
         case .didChoose(let option, let chooser):
-            return .run {
-                .game(.choose(option, player: chooser))
-            }
+            return .run { .game(.choose(option, player: chooser)) }
 
         case .setGame(let game):
             state.game = game
-            return .run {
-                .game(.startTurn(player: game.startOrder[0]))
-            }
+            return .run { .game(.startTurn(player: game.startOrder[0])) }
 
         case .game:
             return .none

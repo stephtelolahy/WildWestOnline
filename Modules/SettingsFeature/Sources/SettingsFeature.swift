@@ -12,8 +12,8 @@ public enum SettingsFeature {
         var path: [Destination]
 
         var home: SettingsHomeFeature.State
-        var figures: SettingsFiguresFeature.State
-        var collectibles: SettingsCollectiblesFeature.State
+        var figures: SettingsFiguresFeature.State?
+        var collectibles: SettingsCollectiblesFeature.State?
 
         public enum Destination: Hashable, Sendable {
             case figures
@@ -23,8 +23,8 @@ public enum SettingsFeature {
         public init(
             path: [Destination] = [],
             home: SettingsHomeFeature.State = .init(),
-            figures: SettingsFiguresFeature.State = .init(),
-            collectibles: SettingsCollectiblesFeature.State = .init()
+            figures: SettingsFiguresFeature.State? = nil,
+            collectibles: SettingsCollectiblesFeature.State? = nil
         ) {
             self.path = path
             self.home = home
@@ -34,8 +34,10 @@ public enum SettingsFeature {
     }
 
     public enum Action {
+        // View
         case setPath([State.Destination])
 
+        // Internal
         case home(SettingsHomeFeature.Action)
         case figures(SettingsFiguresFeature.Action)
         case collectibles(SettingsCollectiblesFeature.Action)
@@ -61,8 +63,8 @@ public enum SettingsFeature {
             ),
             pullback(
                 SettingsFiguresFeature.reducer,
-                state: { _ in
-                    \.figures
+                state: {
+                    $0.figures != nil ? \.figures! : nil
                 },
                 action: { globalAction in
                     if case let .figures(localAction) = globalAction {
@@ -76,8 +78,8 @@ public enum SettingsFeature {
             ),
             pullback(
                 SettingsCollectiblesFeature.reducer,
-                state: { _ in
-                    \.collectibles
+                state: {
+                    $0.collectibles != nil ? \.collectibles! : nil
                 },
                 action: { globalAction in
                     if case let .collectibles(localAction) = globalAction {
@@ -100,15 +102,25 @@ public enum SettingsFeature {
         switch action {
         case .setPath(let path):
             state.path = path
+            if path.contains(.figures) && state.figures == nil {
+                state.figures = .init()
+            }
+            if !path.contains(.figures) && state.figures != nil {
+                state.figures = nil
+            }
+            if path.contains(.collectibles) && state.collectibles == nil {
+                state.collectibles = .init()
+            }
+            if !path.contains(.collectibles) && state.collectibles != nil {
+                state.collectibles = nil
+            }
             return .none
 
         case .home(.delegate(.selectedCollectibles)):
-            state.path = [.collectibles]
-            return .none
+            return .run { .setPath([.collectibles]) }
 
         case .home(.delegate(.selectedFigures)):
-            state.path = [.figures]
-            return .none
+            return .run { .setPath([.figures]) }
 
         case .home:
             return .none

@@ -14,6 +14,7 @@ public enum AppFeature {
     public struct State: Equatable {
         var path: [Destination]
         var isSettingsPresented: Bool
+
         var home: HomeFeature.State
         var gameSession: GameSessionFeature.State?
         var settings: SettingsFeature.State?
@@ -108,10 +109,10 @@ public enum AppFeature {
         switch action {
         case .setPath(let path):
             state.path = path
-            if state.path.contains(.gameSession) && state.gameSession == nil {
+            if path.contains(.gameSession) && state.gameSession == nil {
                 state.gameSession = .init()
             }
-            if !state.path.contains(.gameSession) && state.gameSession != nil {
+            if !path.contains(.gameSession) && state.gameSession != nil {
                 state.gameSession = nil
             }
             return .none
@@ -124,7 +125,6 @@ public enum AppFeature {
             if !isPresented && state.settings != nil {
                 state.settings = nil
             }
-
             return .none
 
         case .home(.delegate(.settings)):
@@ -133,12 +133,6 @@ public enum AppFeature {
         case .home(.delegate(.play)):
             return .run { .setPath([.gameSession]) }
 
-        case .home:
-            return .none
-
-        case .settings:
-            return .none
-
         case .gameSession(.delegate(.settings)):
             return .run { .setSettingsPresented(true) }
 
@@ -146,6 +140,12 @@ public enum AppFeature {
             return .run { .setPath([]) }
 
         case .gameSession:
+            return .none
+
+        case .home:
+            return .none
+
+        case .settings:
             return .none
         }
     }
