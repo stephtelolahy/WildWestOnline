@@ -7,8 +7,8 @@
 import SwiftUI
 import Redux
 import AppFeature
-import UserDefaultsClient
-import UserDefaultsClientLive
+import PreferencesClient
+import PreferencesClientLive
 import AudioClient
 import AudioClientLive
 import CardLibrary
@@ -19,7 +19,7 @@ import GameCore
 public enum AppBuilder {
     public static func build() -> some View {
         var dependencies = Dependencies()
-        dependencies.userDefaultsClient = UserDefaultsClient.live()
+        dependencies.preferencesClient = PreferencesClient.live()
         dependencies.audioClient = AudioClient.live()
         dependencies.queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
         dependencies.cardLibrary = CardLibrary.live()

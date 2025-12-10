@@ -38,7 +38,7 @@ public enum SettingsFiguresFeature {
             state.figures = dependencies.loadFigures()
 
         case .didSelect(let name):
-            dependencies.userDefaultsClient.setPreferredFigure(name)
+            dependencies.preferencesClient.setPreferredFigure(name)
             state.figures = dependencies.loadFigures()
         }
 
@@ -54,7 +54,7 @@ private extension Dependencies {
                 .init(
                     name: $0.name,
                     description: $0.description ?? "",
-                    isFavorite: $0.name == userDefaultsClient.preferredFigure()
+                    isFavorite: $0.name == preferencesClient.preferredFigure()
                 )
             }
     }

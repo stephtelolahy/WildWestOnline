@@ -1,5 +1,5 @@
 //
-//  UserDefaultsClientKey.swift
+//  PreferencesClientKey.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/12/2025.
@@ -8,17 +8,17 @@
 import Redux
 
 public extension Dependencies {
-    var userDefaultsClient: UserDefaultsClient {
-        get { self[UserDefaultsClientKey.self] }
-        set { self[UserDefaultsClientKey.self] = newValue }
+    var userDefaultsClient: PreferencesClient {
+        get { self[PreferencesClientKey.self] }
+        set { self[PreferencesClientKey.self] = newValue }
     }
 }
 
-private enum UserDefaultsClientKey: DependencyKey {
-    nonisolated(unsafe) static let defaultValue: UserDefaultsClient = .noop
+private enum PreferencesClientKey: DependencyKey {
+    nonisolated(unsafe) static let defaultValue: PreferencesClient = .noop
 }
 
-private extension UserDefaultsClient {
+private extension PreferencesClient {
     static var noop: Self {
         .init(
             setPlayersCount: { _ in },

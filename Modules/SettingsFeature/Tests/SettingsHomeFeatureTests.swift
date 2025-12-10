@@ -8,7 +8,7 @@
 import Testing
 import Redux
 @testable import SettingsFeature
-import UserDefaultsClient
+import PreferencesClient
 
 struct SettingsHomeFeatureTests {
     private typealias SettingsStore = Store<SettingsHomeFeature.State, SettingsHomeFeature.Action>

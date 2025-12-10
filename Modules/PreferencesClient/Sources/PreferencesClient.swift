@@ -1,11 +1,11 @@
 //
-//  UserDefaultsClient.swift
+//  PreferencesClient.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2025.
 //
 
-public struct UserDefaultsClient {
+public struct PreferencesClient {
     public var setPlayersCount: (Int) -> Void
     public var setActionDelayMilliSeconds: (Int) -> Void
     public var setSimulationEnabled: (Bool) -> Void
