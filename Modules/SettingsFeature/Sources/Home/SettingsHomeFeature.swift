@@ -101,14 +101,10 @@ public enum SettingsHomeFeature {
             }
 
         case .didTapFigures:
-            return .run {
-                .delegate(.selectedFigures)
-            }
+            return .run { .delegate(.selectedFigures) }
 
         case .didTapCollectibles:
-            return .run {
-                .delegate(.selectedCollectibles)
-            }
+            return .run { .delegate(.selectedCollectibles) }
 
         case .delegate:
             break

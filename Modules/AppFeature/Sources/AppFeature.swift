@@ -13,8 +13,10 @@ import GameSessionFeature
 public enum AppFeature {
     public struct State: Equatable {
         var path: [Destination]
+        var isSettingsPresented: Bool
+
         var home: HomeFeature.State
-        var gameSession: GameSessionFeature.State
+        var gameSession: GameSessionFeature.State?
         var settings: SettingsFeature.State?
 
         public enum Destination: Hashable {
@@ -23,14 +25,16 @@ public enum AppFeature {
 
         public init(
             path: [Destination] = [],
+            isSettingsPresented: Bool = false,
             home: HomeFeature.State = .init(),
-            gameSession: GameSessionFeature.State = .init(),
+            gameSession: GameSessionFeature.State? = nil,
             settings: SettingsFeature.State? = nil
         ) {
             self.path = path
+            self.isSettingsPresented = isSettingsPresented
             self.home = home
-            self.settings = settings
             self.gameSession = gameSession
+            self.settings = settings
         }
     }
 
@@ -50,52 +54,26 @@ public enum AppFeature {
             reducerMain,
             pullback(
                 HomeFeature.reducer,
-                state: { _ in
-                    \.home
-                },
-                action: { globalAction in
-                    if case let .home(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .home($0)
-                }
+                state: { _ in \.home },
+                action: { if case let .home(action) = $0 { action } else { nil } },
+                embedAction: Action.home
             ),
             pullback(
                 GameSessionFeature.reducer,
-                state: { _ in
-                    \.gameSession
-                },
-                action: { globalAction in
-                    if case let .gameSession(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .gameSession($0)
-                }
+                state: { $0.gameSession != nil ? \.gameSession! : nil },
+                action: { if case let .gameSession(action) = $0 { action } else { nil } },
+                embedAction: Action.gameSession
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: {
-                    $0.settings != nil ? \.settings! : nil
-                },
-                action: { globalAction in
-                    if case let .settings(localAction) = globalAction {
-                        return localAction
-                    }
-                    return nil
-                },
-                embedAction: {
-                    .settings($0)
-                }
+                state: { $0.settings != nil ? \.settings! : nil },
+                action: { if case let .settings(action) = $0 { action } else { nil } },
+                embedAction: Action.settings
             )
         )
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     private static func reducerMain(
         into state: inout State,
         action: Action,
@@ -104,12 +82,20 @@ public enum AppFeature {
         switch action {
         case .setPath(let path):
             state.path = path
+            if path.contains(.gameSession) && state.gameSession == nil {
+                state.gameSession = .init()
+            }
+            if !path.contains(.gameSession) && state.gameSession != nil {
+                state.gameSession = nil
+            }
             return .none
 
-        case .setSettingsPresented(let presented):
-            if presented {
+        case .setSettingsPresented(let isPresented):
+            state.isSettingsPresented = isPresented
+            if isPresented && state.settings == nil {
                 state.settings = .init()
-            } else {
+            }
+            if !isPresented && state.settings != nil {
                 state.settings = nil
             }
             return .none
@@ -120,12 +106,6 @@ public enum AppFeature {
         case .home(.delegate(.play)):
             return .run { .setPath([.gameSession]) }
 
-        case .home:
-            return .none
-
-        case .settings:
-            return .none
-
         case .gameSession(.delegate(.settings)):
             return .run { .setSettingsPresented(true) }
 
@@ -133,6 +113,12 @@ public enum AppFeature {
             return .run { .setPath([]) }
 
         case .gameSession:
+            return .none
+
+        case .home:
+            return .none
+
+        case .settings:
             return .none
         }
     }

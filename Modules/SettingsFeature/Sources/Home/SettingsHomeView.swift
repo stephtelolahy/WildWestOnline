@@ -60,14 +60,8 @@ struct SettingsHomeView: View {
             Image(systemName: "person.2")
             Stepper(
                 "Players count: \(store.state.playersCount)",
-                value: Binding<Int>(
-                    get: { store.state.playersCount },
-                    set: { newValue in
-                        Task {
-                            await store.dispatch(.didUpdatePlayersCount(newValue))
-                        }
-                    }
-                ).animation(),
+                value: store.binding(\.playersCount, send: { .didUpdatePlayersCount($0) })
+                    .animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
         }
@@ -101,14 +95,8 @@ struct SettingsHomeView: View {
     private var simulationView: some View {
         HStack {
             Image(systemName: "record.circle")
-            Toggle(isOn: Binding<Bool>(
-                get: { store.state.simulation },
-                set: { _ in
-                    Task {
-                        await store.dispatch(.didToggleSimulation)
-                    }
-                }
-            ).animation()) {
+            Toggle(isOn: store.binding(\.simulation, send: { _ in .didToggleSimulation })
+                .animation()) {
                 Text("Simulation")
             }
         }
@@ -120,14 +108,7 @@ struct SettingsHomeView: View {
             VStack(alignment: .leading) {
                 Text("Sound volume")
                 Slider(
-                    value: Binding<Float>(
-                        get: { store.state.musicVolume },
-                        set: { newValue in
-                            Task {
-                                await store.dispatch(.didUpdateMusicVolume(newValue))
-                            }
-                        }
-                    ),
+                    value: store.binding(\.musicVolume, send: { .didUpdateMusicVolume($0) }),
                     in: 0.0...1.0
                 )
             }

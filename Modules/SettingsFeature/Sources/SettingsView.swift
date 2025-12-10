@@ -18,35 +18,16 @@ public struct SettingsView: View {
         _store = StateObject(wrappedValue: store())
     }
 
-    @State private var path: [SettingsFeature.State.Destination] = []
-
     public var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
             SettingsHomeView {
-                store.projection(
-                    state: \.home,
-                    action: { .home($0) }
-                )
+                store.projection(state: \.home, action: { .home($0) })
             }
 #if os(iOS) || os(tvOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
 #endif
             .navigationDestination(for: SettingsFeature.State.Destination.self) {
                 viewForDestination($0)
-            }
-        }
-        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-        .onReceive(store.$state) { state in
-            let newPath = state.path
-            if newPath != path {
-                path = newPath
-            }
-        }
-        .onChange(of: path) { _, newPath in
-            if newPath != store.state.path {
-                Task {
-                    await store.dispatch(.setPath(newPath))
-                }
             }
         }
         .presentationDetents([.large])
@@ -56,18 +37,12 @@ public struct SettingsView: View {
         switch destination {
         case .figures:
             SettingsFiguresView {
-                store.projection(
-                    state: \.figures,
-                    action: { .figures($0) }
-                )
+                store.projection(state: \.figures, action: { .figures($0) })
             }
 
         case .collectibles:
             SettingsCollectiblesView {
-                store.projection(
-                    state: \.collectibles,
-                    action: { .collectibles($0) }
-                )
+                store.projection(state: \.collectibles, action: { .collectibles($0) })
             }
         }
     }

@@ -61,14 +61,10 @@ public enum HomeFeature {
             }
 
         case .didTapPlay:
-            return .run {
-                .delegate(.play)
-            }
+            return .run { .delegate(.play) }
 
         case .didTapSettings:
-            return .run {
-                .delegate(.settings)
-            }
+            return .run { .delegate(.settings) }
 
         case .delegate:
             return .none
