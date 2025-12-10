@@ -8,7 +8,7 @@
 import Redux
 
 public extension Dependencies {
-    var userDefaultsClient: PreferencesClient {
+    var preferencesClient: PreferencesClient {
         get { self[PreferencesClientKey.self] }
         set { self[PreferencesClientKey.self] = newValue }
     }
