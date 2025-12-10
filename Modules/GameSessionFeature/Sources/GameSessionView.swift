@@ -9,7 +9,7 @@
 import SwiftUI
 import Redux
 import Theme
-import GameFeature
+import GameCore
 
 public struct GameSessionView: View {
     public typealias ViewStore = Store<GameSessionFeature.State, GameSessionFeature.Action>

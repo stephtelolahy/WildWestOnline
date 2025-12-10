@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct WillyTheKidTest {
     @Test func shouldPlayBangIgnoringLimitPerTurn() async throws {

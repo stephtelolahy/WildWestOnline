@@ -8,7 +8,7 @@
 import Testing
 import Redux
 import Combine
-@testable import GameFeature
+@testable import GameCore
 @testable import CardLibraryLive
 
 struct SimulationTest {

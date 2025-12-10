@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 20/11/2023.
 //
 
-import GameFeature
+import GameCore
 import Testing
 
 struct JesseJonesTests {

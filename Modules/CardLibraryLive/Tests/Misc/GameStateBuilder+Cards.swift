@@ -4,8 +4,7 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-import CardDefinition
-import GameFeature
+import GameCore
 @testable import CardLibraryLive
 
 extension GameFeature.State.Builder {

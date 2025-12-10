@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct DiscardBeerOnDamagedLethalTest {
     @Test func beingDamagedLethal_discardingBeer_shouldRestoreHealth() async throws {

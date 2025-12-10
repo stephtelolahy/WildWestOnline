@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct TequilaTest {
     @Test func play_shouldHeal1AnyWoundedPlayer() async throws {

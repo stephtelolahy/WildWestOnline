@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct SpringfieldTest {
     @Test func play_shouldShootAtUnlimitedRange() async throws {

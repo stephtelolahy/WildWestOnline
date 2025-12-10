@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct DodgeTest {
     @Test func beingShot_discardingDodge_shouldCounterAndDrawCard() async throws {

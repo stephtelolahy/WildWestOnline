@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct HideoutTests {
     @Test func play_shouldEquipAndIncreaseRemoteness() async throws {

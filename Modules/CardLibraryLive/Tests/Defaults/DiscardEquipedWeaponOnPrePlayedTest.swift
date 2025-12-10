@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 15/11/2025.
 //
 
-import GameFeature
+import GameCore
 import Testing
 
 struct DiscardEquipedWeaponOnPrePlayedTest {

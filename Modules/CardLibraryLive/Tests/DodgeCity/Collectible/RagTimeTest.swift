@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct RagTimeTest {
     @Test func play_shouldStealHandCardFromAnyPlayer() async throws {

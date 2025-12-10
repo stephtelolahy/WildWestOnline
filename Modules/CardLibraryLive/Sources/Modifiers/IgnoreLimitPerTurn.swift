@@ -5,8 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
 //
 
-import CardDefinition
-@testable import GameFeature
+@testable import GameCore
 
 extension Card.QueueModifier {
     static let ignoreLimitPerTurn = Card.QueueModifier(rawValue: "ignoreLimitPerTurn")

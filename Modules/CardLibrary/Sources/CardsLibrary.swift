@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/12/2025.
 //
 import AudioClient
-import CardDefinition
+import GameCore
 
 public struct CardLibrary {
     public var cards: () -> [Card]

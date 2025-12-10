@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct Draw3CardsOnEliminatingTest {
     @Test func eliminating_shouldDraw2Cards() async throws {

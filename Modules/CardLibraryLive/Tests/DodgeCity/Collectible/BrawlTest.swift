@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct BrawlTest {
     @Test func play_withOthersHavingHandCard_shouldForceThemToDiscardACard() async throws {

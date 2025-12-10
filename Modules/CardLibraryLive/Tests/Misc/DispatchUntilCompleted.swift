@@ -7,7 +7,7 @@
 import Testing
 import Redux
 import Combine
-import GameFeature
+import GameCore
 import CardLibraryLive
 
 typealias ChoiceHandler = ([String]) -> String

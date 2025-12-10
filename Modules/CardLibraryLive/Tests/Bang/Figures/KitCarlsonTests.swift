@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 18/11/2023.
 //
 
-import GameFeature
+import GameCore
 import Testing
 
 struct KitCarlsonTests {

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct JailTest {
     @Test func playAgainstAnyPlayer_shouldHandicap() async throws {

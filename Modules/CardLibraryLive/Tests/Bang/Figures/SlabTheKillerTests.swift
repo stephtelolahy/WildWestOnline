@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 29/05/2024.
 //
 
-import GameFeature
+import GameCore
 import Testing
 
 struct SlabTheKillerTests {

@@ -13,7 +13,7 @@ import AudioClient
 import AudioClientLive
 import CardLibrary
 import CardLibraryLive
-import GameFeature
+import GameCore
 
 @MainActor
 public enum AppBuilder {

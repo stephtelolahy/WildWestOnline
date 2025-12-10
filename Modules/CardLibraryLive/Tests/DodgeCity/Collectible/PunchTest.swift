@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct PunchTest {
     @Test func play_shouldShootAtRange1() async throws {

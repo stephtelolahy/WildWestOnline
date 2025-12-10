@@ -5,8 +5,8 @@
 //  Created by Hugues Stéphano TELOLAHY on 15/11/2025.
 //
 
-import CardDefinition
 import AudioClient
+import GameCore
 
 enum SFX {
     static let specialSounds: [Card.ActionName: [String: AudioClient.Sound]] = [

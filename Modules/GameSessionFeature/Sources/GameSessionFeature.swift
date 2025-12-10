@@ -7,8 +7,7 @@
 
 import Foundation
 import Redux
-import CardDefinition
-import GameFeature
+import GameCore
 import CardLibrary
 import PreferencesClient
 

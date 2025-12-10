@@ -6,7 +6,7 @@
 //
 
 import Testing
-import GameFeature
+import GameCore
 
 struct BinocularTest {
     @Test func play_shouldEquipAndIncreaseMagnifying() async throws {

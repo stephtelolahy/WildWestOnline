@@ -5,8 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 28/09/2025.
 //
 
-import CardDefinition
-import GameFeature
+import GameCore
 import AudioClient
 
 struct SoundMatcher {
