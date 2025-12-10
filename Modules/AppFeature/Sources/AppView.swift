@@ -27,10 +27,7 @@ public struct AppView: View {
     public var body: some View {
         NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
             HomeView {
-                store.projection(
-                    state: \.home,
-                    action: { .home($0) }
-                )
+                store.projection(state: \.home, action: { .home($0) })
             }
             .navigationDestination(for: AppFeature.State.Destination.self) {
                 viewForDestination($0)
@@ -38,10 +35,7 @@ public struct AppView: View {
         }
         .sheet(isPresented: store.binding(\.isSettingsPresented, send: { .setSettingsPresented($0) })) {
             SettingsView {
-                store.projection(
-                    state: \.settings,
-                    action: { .settings($0) }
-                )
+                store.projection(state: \.settings, action: { .settings($0) })
             }
         }
         .onReceive(store.dispatchedAction) { event in
@@ -54,10 +48,7 @@ public struct AppView: View {
         switch destination {
         case .gameSession:
             GameSessionView {
-                store.projection(
-                    state: \.gameSession,
-                    action: { .gameSession($0) }
-                )
+                store.projection(state: \.gameSession, action: { .gameSession($0) })
             }
         }
     }

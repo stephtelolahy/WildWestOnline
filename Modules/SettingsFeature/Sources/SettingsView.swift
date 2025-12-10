@@ -21,10 +21,7 @@ public struct SettingsView: View {
     public var body: some View {
         NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
             SettingsHomeView {
-                store.projection(
-                    state: \.home,
-                    action: { .home($0) }
-                )
+                store.projection(state: \.home, action: { .home($0) })
             }
 #if os(iOS) || os(tvOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -40,18 +37,12 @@ public struct SettingsView: View {
         switch destination {
         case .figures:
             SettingsFiguresView {
-                store.projection(
-                    state: \.figures,
-                    action: { .figures($0) }
-                )
+                store.projection(state: \.figures, action: { .figures($0) })
             }
 
         case .collectibles:
             SettingsCollectiblesView {
-                store.projection(
-                    state: \.collectibles,
-                    action: { .collectibles($0) }
-                )
+                store.projection(state: \.collectibles, action: { .collectibles($0) })
             }
         }
     }
