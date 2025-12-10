@@ -58,8 +58,8 @@ public enum SettingsHomeFeature {
         case delegate(Delegate)
 
         public enum Delegate {
-            case selectedFigures
-            case selectedCollectibles
+            case figures
+            case collectibles
         }
     }
 
