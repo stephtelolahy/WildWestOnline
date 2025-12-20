@@ -15,6 +15,8 @@ public struct AppView: View {
     public typealias ViewStore = Store<AppFeature.State, AppFeature.Action>
 
     @StateObject private var store: ViewStore
+    @State private var path: [AppFeature.State.Destination] = []
+    @State private var isSettingsPresented: Bool = false
 
     @Environment(\.theme) private var theme
 
@@ -25,7 +27,7 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
+        NavigationStack(path: $path) {
             HomeView {
                 store.projection(state: \.home, action: { .home($0) })
             }
@@ -33,9 +35,24 @@ public struct AppView: View {
                 viewForDestination($0)
             }
         }
-        .sheet(isPresented: store.binding(\.isSettingsPresented, send: { .setSettingsPresented($0) })) {
+        .sheet(isPresented: $isSettingsPresented) {
             SettingsView {
                 store.projection(state: \.settings, action: { .settings($0) })
+            }
+        }
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { newValue in
+            path = newValue.path
+            isSettingsPresented = newValue.isSettingsPresented
+        }
+        .onChange(of: path) { _, newValue in
+            Task {
+                await store.dispatch(.setPath(newValue))
+            }
+        }
+        .onChange(of: isSettingsPresented) { _, newValue in
+            Task {
+                await store.dispatch(.setSettingsPresented(newValue))
             }
         }
         .onReceive(store.dispatchedAction) { event in

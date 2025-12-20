@@ -81,6 +81,9 @@ public enum AppFeature {
     ) -> Effect<Action> {
         switch action {
         case .setPath(let path):
+            guard path != state.path else {
+                return .none
+            }
             state.path = path
             if path.contains(.gameSession) && state.gameSession == nil {
                 state.gameSession = .init()
@@ -91,6 +94,9 @@ public enum AppFeature {
             return .none
 
         case .setSettingsPresented(let isPresented):
+            guard isPresented != state.isSettingsPresented else {
+                return .none
+            }
             state.isSettingsPresented = isPresented
             if isPresented && state.settings == nil {
                 state.settings = .init()
