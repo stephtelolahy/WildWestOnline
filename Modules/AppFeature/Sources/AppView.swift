@@ -43,8 +43,12 @@ public struct AppView: View {
         .accentColor(theme.colorAccent)
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { newValue in
-            path = newValue.path
-            isSettingsPresented = newValue.isSettingsPresented
+            if path != newValue.path {
+                path = newValue.path
+            }
+            if isSettingsPresented != newValue.isSettingsPresented {
+                isSettingsPresented = newValue.isSettingsPresented
+            }
         }
         .onChange(of: path) { _, newValue in
             Task {
