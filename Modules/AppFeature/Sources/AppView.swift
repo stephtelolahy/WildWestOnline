@@ -40,6 +40,7 @@ public struct AppView: View {
                 store.projection(state: \.settings, action: { .settings($0) })
             }
         }
+        .accentColor(theme.colorAccent)
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { newValue in
             path = newValue.path
@@ -58,7 +59,6 @@ public struct AppView: View {
         .onReceive(store.dispatchedAction) { event in
             print(event)
         }
-        .accentColor(theme.colorAccent)
     }
 
     @ViewBuilder private func viewForDestination(_ destination: AppFeature.State.Destination) -> some View {

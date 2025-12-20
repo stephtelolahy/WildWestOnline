@@ -67,6 +67,7 @@ public enum SettingsFeature {
         )
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     private static func reducerMain(
         into state: inout State,
         action: Action,
@@ -75,6 +76,9 @@ public enum SettingsFeature {
         switch action {
         case .setPath(let path):
             state.path = path
+            guard path != state.path else {
+                return .none
+            }
             if path.contains(.figures) && state.figures == nil {
                 state.figures = .init()
             }
