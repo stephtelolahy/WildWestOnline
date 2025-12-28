@@ -34,13 +34,15 @@ public struct SettingsView: View {
         .presentationDetents([.large])
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { newValue in
-            if path != newValue.path {
+            if newValue.path != path {
                 path = newValue.path
             }
         }
         .onChange(of: path) { _, newValue in
-            Task {
-                await store.dispatch(.setPath(newValue))
+            if newValue != store.state.path {
+                Task {
+                    await store.dispatch(.setPath(newValue))
+                }
             }
         }
     }
