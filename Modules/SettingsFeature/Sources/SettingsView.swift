@@ -11,6 +11,7 @@ public struct SettingsView: View {
     public typealias ViewStore = Store<SettingsFeature.State, SettingsFeature.Action>
 
     @StateObject private var store: ViewStore
+    @State private var path: [SettingsFeature.State.Destination] = []
 
     public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
@@ -19,7 +20,7 @@ public struct SettingsView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: store.binding(\.path, send: { .setPath($0) })) {
+        NavigationStack(path: $path) {
             SettingsHomeView {
                 store.projection(state: \.home, action: { .home($0) })
             }
@@ -31,6 +32,19 @@ public struct SettingsView: View {
             }
         }
         .presentationDetents([.large])
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { newValue in
+            if newValue.path != path {
+                path = newValue.path
+            }
+        }
+        .onChange(of: path) { _, newValue in
+            if newValue != store.state.path {
+                Task {
+                    await store.dispatch(.setPath(newValue))
+                }
+            }
+        }
     }
 
     @ViewBuilder private func viewForDestination(_ destination: SettingsFeature.State.Destination) -> some View {

@@ -91,6 +91,9 @@ public enum AppFeature {
             return .none
 
         case .setSettingsPresented(let isPresented):
+            guard isPresented != state.isSettingsPresented else {
+                return .none
+            }
             state.isSettingsPresented = isPresented
             if isPresented && state.settings == nil {
                 state.settings = .init()
