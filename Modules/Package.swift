@@ -5,6 +5,7 @@ import PackageDescription
 
 struct Module {
     let name: String
+    var exported: Bool = false
     var dependencies: [String] = []
     var resources: Bool = false
     var test: Bool = false
@@ -26,14 +27,14 @@ let modules: [Module] = [
     Module(name: "SettingsFeature", dependencies: ["Redux", "Theme", "PreferencesClient", "CardLibrary", "CardResources"], test: true),
     Module(name: "GameSessionFeature", dependencies: ["Theme", "GameCore", "AudioClient", "CardLibrary", "PreferencesClient", "CardResources"], resources: true, test: true),
     Module(name: "AppFeature", dependencies: ["HomeFeature", "GameSessionFeature", "SettingsFeature"], test: true),
-    Module(name: "AppBuilder", dependencies: ["AppFeature", "PreferencesClientLive", "AudioClientLive", "CardLibraryLive"])
+    Module(name: "AppBuilder", exported: true, dependencies: ["AppFeature", "PreferencesClientLive", "AudioClientLive", "CardLibraryLive"])
 ]
 
 let lintPlugin: [Target.PluginUsage] = [
     .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
 ]
 
-let products: [Product] = modules.map { .library(name: $0.name, targets: [$0.name]) }
+let products: [Product] = modules.compactMap { $0.exported ? .library(name: $0.name, targets: [$0.name]) : nil }
 
 let targets: [Target] = modules.flatMap { module -> [Target] in
     var result: [Target] = [
