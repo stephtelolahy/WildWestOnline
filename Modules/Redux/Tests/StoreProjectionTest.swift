@@ -11,15 +11,13 @@ import SwiftUI
 struct StoreProjectionTest {
     @Test func dispatchViewAction_shouldEmitNewState() async throws {
         // Given
-        var dependencies = Dependencies()
-        dependencies.apiClient = .init(
-            search: { _ in [] },
-            fetchRecent: { ["recent"] }
-        )
         let store = await Store<SearchFeature.State, SearchFeature.Action>(
             initialState: .init(),
             reducer: SearchFeature.reducer,
-            dependencies: dependencies
+            withDependencies: {
+                $0.apiClient.search = { _ in [] }
+                $0.apiClient.fetchRecent = { ["recent"] }
+            }
         )
 
         let sut = await store.projection(state: SearchView.ViewState.init, action: \.self)

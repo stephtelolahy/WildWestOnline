@@ -12,15 +12,13 @@ import Combine
 struct StoreTest {
     @Test func dispatchValidAction_shouldEmitNewState() async throws {
         // Given
-        var dependencies = Dependencies()
-        dependencies.apiClient = .init(
-            search: { _ in ["result"] },
-            fetchRecent: { ["recent"] }
-        )
         let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
-            dependencies: dependencies
+            withDependencies: {
+                $0.apiClient.search = { _ in ["result"] }
+                $0.apiClient.fetchRecent = { ["recent"] }
+            }
         )
 
         var dispatchedActions: [SearchFeature.Action] = []

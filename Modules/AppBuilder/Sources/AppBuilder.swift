@@ -18,16 +18,15 @@ import GameCore
 @MainActor
 public enum AppBuilder {
     public static func build() -> some View {
-        var dependencies = Dependencies()
-        dependencies.preferencesClient = PreferencesClient.live()
-        dependencies.audioClient = AudioClient.live()
-        dependencies.queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
-        dependencies.cardLibrary = CardLibrary.live()
-
         let store = Store<AppFeature.State, AppFeature.Action>(
             initialState: .init(),
             reducer: AppFeature.reducer,
-            dependencies: dependencies
+            withDependencies: {
+                $0.preferencesClient = PreferencesClient.live()
+                $0.audioClient = AudioClient.live()
+                $0.queueModifierClient = QueueModifierClient.live(handlers: QueueModifiers.allHandlers)
+                $0.cardLibrary = CardLibrary.live()
+            }
         )
 
         return AppView {

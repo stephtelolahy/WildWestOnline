@@ -25,7 +25,9 @@ public extension Store {
                     return .none
                 }
             },
-            dependencies: dependencies
+            withDependencies: {
+                $0 = dependencies
+            }
         )
 
         $state

@@ -32,7 +32,9 @@ struct SimulationTest {
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,
-            dependencies: dependencies
+            withDependencies: {
+                $0.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+            }
         )
 
         var prevState = state

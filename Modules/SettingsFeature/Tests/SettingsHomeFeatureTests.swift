@@ -11,69 +11,80 @@ import Redux
 import PreferencesClient
 
 struct SettingsHomeFeatureTests {
-    private typealias SettingsStore = Store<SettingsHomeFeature.State, SettingsHomeFeature.Action>
+    @Suite("Initialization")
+    struct Initialization {
+        @Test func initializeValues() async throws {
+            // Given
+            let state = SettingsHomeFeature.State()
+            let sut = await Store(
+                initialState: state,
+                reducer: SettingsHomeFeature.reducer,
+                withDependencies: {
+                    $0.preferencesClient.playersCount = { 5 }
+                    $0.preferencesClient.actionDelayMilliSeconds = { 500 }
+                    $0.preferencesClient.isSimulationEnabled = { true }
+                    $0.preferencesClient.musicVolume = { 1.0 }
+                    $0.preferencesClient.preferredFigure = { "Figure1" }
+                }
+            )
 
-    private func createSettingsStore(initialState: SettingsHomeFeature.State) async -> SettingsStore {
-        await .init(
-            initialState: initialState,
-            reducer: SettingsHomeFeature.reducer
-        )
+            // When
+            await sut.dispatch(.didAppear)
+
+            // Then
+            await #expect(sut.state.playersCount == 5)
+            await #expect(sut.state.actionDelayMilliSeconds == 500)
+            await #expect(sut.state.simulation == true)
+            await #expect(sut.state.musicVolume == 1)
+            await #expect(sut.state.preferredFigure == "Figure1")
+        }
     }
+    
+    @Suite("Editing preferences")
+    struct EditingPreferences {
+        @Test func updatePlayersCount() async throws {
+            // Given
+            let state = SettingsHomeFeature.State(playersCount: 2)
+            let sut = await Store(
+                initialState: state,
+                reducer: SettingsHomeFeature.reducer
+            )
 
-    @Test func updatePlayersCount() async throws {
-        // Given
-        let state = SettingsHomeFeature.State.create(playersCount: 2)
-        let sut = await createSettingsStore(initialState: state)
+            // When
+            await sut.dispatch(.didUpdatePlayersCount(5))
 
-        // When
-        let action = SettingsHomeFeature.Action.didUpdatePlayersCount(5)
-        await sut.dispatch(action)
+            // Then
+            await #expect(sut.state.playersCount == 5)
+        }
 
-        // Then
-        await #expect(sut.state.playersCount == 5)
-    }
+        @Test func toggleSimulation() async throws {
+            // Given
+            let state = SettingsHomeFeature.State(simulation: true)
+            let sut = await Store(
+                initialState: state,
+                reducer: SettingsHomeFeature.reducer
+            )
 
-    @Test func toggleSimulation() async throws {
-        // Given
-        let state = SettingsHomeFeature.State.create(simulation: true)
-        let sut = await createSettingsStore(initialState: state)
+            // When
+            await sut.dispatch(.didToggleSimulation)
 
-        // When
-        let action = SettingsHomeFeature.Action.didToggleSimulation
-        await sut.dispatch(action)
+            // Then
+            await #expect(sut.state.simulation == false)
+        }
 
-        // Then
-        await #expect(sut.state.simulation == false)
-    }
+        @Test func updateWaitDelay() async throws {
+            // Given
+            let state = SettingsHomeFeature.State(actionDelayMilliSeconds: 0)
+            let sut = await Store(
+                initialState: state,
+                reducer: SettingsHomeFeature.reducer
+            )
 
-    @Test func updateWaitDelay() async throws {
-        // Given
-        let state = SettingsHomeFeature.State.create(actionDelayMilliSeconds: 0)
-        let sut = await createSettingsStore(initialState: state)
+            // When
+            await sut.dispatch(.didUpdateActionDelayMilliSeconds(500))
 
-        // When
-        let action = SettingsHomeFeature.Action.didUpdateActionDelayMilliSeconds(500)
-        await sut.dispatch(action)
-
-        // Then
-        await #expect(sut.state.actionDelayMilliSeconds == 500)
-    }
-}
-
-extension SettingsHomeFeature.State {
-    static func create(
-        playersCount: Int = 0,
-        actionDelayMilliSeconds: Int = 0,
-        simulation: Bool = false,
-        preferredFigure: String? = nil,
-        musicVolume: Float = 0
-    ) -> Self {
-        .init(
-            playersCount: playersCount,
-            actionDelayMilliSeconds: actionDelayMilliSeconds,
-            simulation: simulation,
-            preferredFigure: preferredFigure,
-            musicVolume: musicVolume
-        )
+            // Then
+            await #expect(sut.state.actionDelayMilliSeconds == 500)
+        }
     }
 }

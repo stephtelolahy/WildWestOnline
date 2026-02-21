@@ -19,13 +19,13 @@ func dispatchUntilCompleted(
     choiceHandler: @escaping ChoiceHandler = choiceHandlerFirstOption(),
     ignoreError: Bool = false
 ) async throws(GameFeature.Error) -> [GameFeature.Action] {
-    var dependencies = Dependencies()
-    dependencies.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
-    dependencies.choiceHandler = .init(handleChoice: choiceHandler)
     let sut = Store(
         initialState: state,
         reducer: combine(GameFeature.reducer, GameFeature.reducerChoice),
-        dependencies: dependencies
+        withDependencies: {
+            $0.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+            $0.choiceHandler = .init(handleChoice: choiceHandler)
+        }
     )
     var receivedActions: [GameFeature.Action] = []
     var receivedErrors: [GameFeature.Error] = []
