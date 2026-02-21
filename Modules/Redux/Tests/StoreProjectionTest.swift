@@ -23,7 +23,7 @@ struct StoreProjectionTest {
         let sut = await store.projection(state: SearchView.ViewState.init, action: \.self)
 
         // When
-        await sut.dispatch(SearchFeature.Action.fetchRecent)
+        await sut.dispatch(.fetchRecent)
 
         // Then
         await #expect(sut.state.items == ["recent"])
