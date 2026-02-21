@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct PedroRamirezTests {
+struct PedroRamirezTest {
     @Test func startTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

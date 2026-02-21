@@ -1,5 +1,5 @@
 //
-//  SettingsHomeFeatureTests.swift
+//  SettingsHomeFeatureTest.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
@@ -10,7 +10,7 @@ import Redux
 @testable import SettingsFeature
 import PreferencesClient
 
-struct SettingsHomeFeatureTests {
+struct SettingsHomeFeatureTest {
     @Suite("Initialization")
     struct Initialization {
         @Test func initializeValues() async throws {

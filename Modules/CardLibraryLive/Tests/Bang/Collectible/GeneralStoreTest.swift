@@ -8,7 +8,7 @@
 import Testing
 import GameCore
 
-struct GeneralStoreTests {
+struct GeneralStoreTest {
     @Test func play_shouldAllowEachPlayerToChooseACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

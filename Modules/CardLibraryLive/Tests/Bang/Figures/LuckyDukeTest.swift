@@ -7,7 +7,7 @@
 import Testing
 import GameCore
 
-struct LuckyDukeTests {
+struct LuckyDukeTest {
     @Test func drawing_shouldFlipped2Cards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

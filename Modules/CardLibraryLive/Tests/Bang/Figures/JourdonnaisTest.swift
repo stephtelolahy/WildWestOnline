@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct JourdonnaisTests {
+struct JourdonnaisTest {
     @Test func beingShot_flippedCardIsHearts_shouldCounterShot() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

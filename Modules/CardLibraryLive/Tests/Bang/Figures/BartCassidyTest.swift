@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct BartCassidyTests {
+struct BartCassidyTest {
     @Test func beingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

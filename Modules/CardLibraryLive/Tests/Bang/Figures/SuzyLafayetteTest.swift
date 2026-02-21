@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct SuzyLafayetteTests {
+struct SuzyLafayetteTest {
     @Test func discardHand_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

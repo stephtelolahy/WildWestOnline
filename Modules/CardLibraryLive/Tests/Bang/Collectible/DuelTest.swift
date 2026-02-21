@@ -8,7 +8,7 @@
 import Testing
 import GameCore
 
-struct DuelTests {
+struct DuelTest {
     // Given
     private var state: GameFeature.State {
         GameFeature.State.makeBuilder()

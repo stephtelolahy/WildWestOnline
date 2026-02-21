@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct VultureSamTests {
+struct VultureSamTest {
     @Test func anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

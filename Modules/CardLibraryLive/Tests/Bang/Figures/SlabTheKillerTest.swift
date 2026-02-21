@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct SlabTheKillerTests {
+struct SlabTheKillerTest {
     @Test func playingBang_withTwoMissed() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct ElGringoTests {
+struct ElGringoTest {
     @Test func damaged_shouldStealHandCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
