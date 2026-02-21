@@ -11,12 +11,12 @@ import Combine
 @testable import GameCore
 @testable import CardLibraryLive
 
+@MainActor
 struct SimulationTest {
     @Test func simulateGame_shouldComplete() async throws {
         try await simulateGame(playersCount: 7)
     }
 
-    @MainActor
     private func simulateGame(playersCount: Int) async throws {
         // Given
         let state = GameSetup.buildGame(
