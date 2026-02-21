@@ -42,8 +42,8 @@ private extension Effect {
         case .none:
             return .none
 
-        case .publisher(let publisher):
-            return .publisher(publisher.map(transform).eraseToAnyPublisher())
+        case .send(let action):
+            return .send(transform(action))
 
         case .run(let asyncWork):
             return .run {
@@ -52,6 +52,9 @@ private extension Effect {
                 }
                 return nil
             }
+
+        case .publisher(let publisher):
+            return .publisher(publisher.map(transform).eraseToAnyPublisher())
 
         case .group(let effects):
             return .group(effects.map { $0.map(transform) })

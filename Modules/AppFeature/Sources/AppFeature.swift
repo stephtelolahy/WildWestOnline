@@ -104,16 +104,16 @@ public enum AppFeature {
             return .none
 
         case .home(.delegate(.settings)):
-            return .run { .setSettingsPresented(true) }
+            return .send(.setSettingsPresented(true))
 
         case .home(.delegate(.play)):
-            return .run { .setPath([.gameSession]) }
+            return .send(.setPath([.gameSession]))
 
         case .gameSession(.delegate(.settings)):
-            return .run { .setSettingsPresented(true) }
+            return .send(.setSettingsPresented(true))
 
         case .gameSession(.delegate(.quit)):
-            return .run { .setPath([]) }
+            return .send(.setPath([]))
 
         case .gameSession:
             return .none

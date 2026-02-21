@@ -45,12 +45,12 @@ public enum HomeFeature {
                     await dependencies.audioClient.setMusicVolume(dependencies.preferencesClient.musicVolume())
                     await dependencies.audioClient.load(AudioClient.Sound.allSfx)
                     await dependencies.audioClient.play(.musicLoneRider)
-                    return .none
+                    return nil
                 }
             } else {
                 return .run {
                     await dependencies.audioClient.resume(AudioClient.Sound.musicLoneRider)
-                    return .none
+                    return nil
                 }
             }
 
@@ -61,10 +61,10 @@ public enum HomeFeature {
             }
 
         case .didTapPlay:
-            return .run { .delegate(.play) }
+            return .send(.delegate(.play))
 
         case .didTapSettings:
-            return .run { .delegate(.settings) }
+            return .send(.delegate(.settings))
 
         case .delegate:
             return .none
