@@ -1,5 +1,5 @@
 //
-//  ReducerCompositionTests.swift
+//  ReducerCompositionTest.swift
 //
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
@@ -7,7 +7,7 @@
 import Testing
 import Redux
 
-struct ReducerCompositionTests {
+struct ReducerCompositionTest {
     @Test func testCombineReducersRunsBoth() {
         var state = GlobalFeature.State(
             counter: CounterFeature.State(count: 5),

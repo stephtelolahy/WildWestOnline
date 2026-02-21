@@ -22,10 +22,12 @@ public extension Store {
             reducer: { _, action, _ in
                 .run {
                     await self.dispatch(embedAction(action))
-                    return .none
+                    return nil
                 }
             },
-            dependencies: dependencies
+            withDependencies: {
+                $0 = dependencies
+            }
         )
 
         $state

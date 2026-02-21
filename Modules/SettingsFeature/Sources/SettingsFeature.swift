@@ -90,10 +90,10 @@ public enum SettingsFeature {
             return .none
 
         case .home(.delegate(.selectedCollectibles)):
-            return .run { .setPath([.collectibles]) }
+            return .send(.setPath([.collectibles]))
 
         case .home(.delegate(.selectedFigures)):
-            return .run { .setPath([.figures]) }
+            return .send(.setPath([.figures]))
 
         case .home:
             return .none

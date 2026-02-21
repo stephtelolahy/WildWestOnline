@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct BlackJackTests {
+struct BlackJackTest {
     @Test func startingTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

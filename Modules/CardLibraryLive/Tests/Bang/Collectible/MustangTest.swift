@@ -1,6 +1,6 @@
 //
-//  HideoutTests.swift
-//
+//  MustangTest.swift
+//  
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -8,24 +8,24 @@
 import Testing
 import GameCore
 
-struct HideoutTests {
+struct MustangTest {
     @Test func play_shouldEquipAndIncreaseRemoteness() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withHand([.hideout])
+                $0.withHand([.mustang])
             }
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.hideout, player: "p1")
+        let action = GameFeature.Action.preparePlay(.mustang, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .preparePlay(.hideout, player: "p1"),
-            .equip(.hideout, player: "p1"),
+            .preparePlay(.mustang, player: "p1"),
+            .equip(.mustang, player: "p1"),
             .increaseRemoteness(1, player: "p1")
         ])
     }
@@ -35,18 +35,18 @@ struct HideoutTests {
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withInPlay([.hideout])
+                $0.withInPlay([.mustang])
                     .withRemoteness(1)
             }
             .build()
 
         // When
-        let action = GameFeature.Action.discardInPlay(.hideout, player: "p1")
+        let action = GameFeature.Action.discardInPlay(.mustang, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .discardInPlay(.hideout, player: "p1"),
+            .discardInPlay(.mustang, player: "p1"),
             .increaseRemoteness(-1, player: "p1")
         ])
     }

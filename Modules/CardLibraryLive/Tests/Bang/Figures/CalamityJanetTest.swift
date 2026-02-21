@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct CalamityJanetTests {
+struct CalamityJanetTest {
     @Test func playingBang_shouldShoot() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

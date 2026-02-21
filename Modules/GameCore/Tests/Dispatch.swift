@@ -8,7 +8,8 @@ import Combine
 import Redux
 @testable import GameCore
 
-@MainActor func dispatch(
+@MainActor
+func dispatch(
     _ action: GameFeature.Action,
     state: GameFeature.State
 ) async throws(GameFeature.Error) -> GameFeature.State {

@@ -97,14 +97,14 @@ public enum SettingsHomeFeature {
             dependencies.preferencesClient.setMusicVolume(value)
             return .run {
                 await dependencies.audioClient.setMusicVolume(value)
-                return .none
+                return nil
             }
 
         case .didTapFigures:
-            return .run { .delegate(.selectedFigures) }
+            return .send(.delegate(.selectedFigures))
 
         case .didTapCollectibles:
-            return .run { .delegate(.selectedCollectibles) }
+            return .send(.delegate(.selectedCollectibles))
 
         case .delegate:
             break

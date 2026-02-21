@@ -13,8 +13,9 @@ public typealias Reducer<State, Action> = (inout State, Action, Dependencies) ->
 public enum Effect<Action> {
     // swiftlint:disable:next discouraged_none_name
     case none
-    case publisher(AnyPublisher<Action, Never>)
+    case send(Action)
     case run(() async -> Action?)
+    case publisher(AnyPublisher<Action, Never>)
     case group([Effect<Action>])
 }
 
@@ -50,10 +51,12 @@ public class Store<State, Action>: ObservableObject {
     public init(
         initialState: State,
         reducer: @escaping Reducer<State, Action> = { _, _, _ in .none },
-        dependencies: Dependencies = .init()
+        withDependencies prepareDependencies: (inout Dependencies) -> Void = { _ in },
     ) {
         self.state = initialState
         self.reducer = reducer
+        var dependencies = Dependencies()
+        prepareDependencies(&dependencies)
         self.dependencies = dependencies
     }
 
@@ -68,13 +71,16 @@ public class Store<State, Action>: ObservableObject {
         case .none:
             return
 
-        case .publisher(let publisher):
-            for await result in publisher.values {
-                await dispatch(result)
-            }
+        case .send(let action):
+            await dispatch(action)
 
         case .run(let asyncWork):
             if let result = await asyncWork() {
+                await dispatch(result)
+            }
+
+        case .publisher(let publisher):
+            for await result in publisher.values {
                 await dispatch(result)
             }
 

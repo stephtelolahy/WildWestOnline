@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct SidKetchumTests {
+struct SidKetchumTest {
     @Test func playing_withTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

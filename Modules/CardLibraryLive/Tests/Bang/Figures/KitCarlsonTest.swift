@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct KitCarlsonTests {
+struct KitCarlsonTest {
     @Test func startingTurn_shouldChooseDeckCards() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()

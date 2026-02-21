@@ -8,7 +8,7 @@
 import GameCore
 import Testing
 
-struct JesseJonesTests {
+struct JesseJonesTest {
     @Test func startingTurn_withNonEmptyDiscard_shouldAskDrawFirstCardFromDiscardThenDraw() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
