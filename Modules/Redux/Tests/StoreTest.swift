@@ -37,7 +37,7 @@ struct StoreTest {
         )
 
         // When
-        let received = await sut.receive(.search(query: ""))
+        await sut.dispatch(.search(query: ""))
 
         // Then
         #expect(sut.state.searchResult.isEmpty)
