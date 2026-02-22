@@ -16,7 +16,7 @@ public enum HomeFeature {
         public init() {}
     }
 
-    public enum Action {
+    public enum Action: Equatable {
         // View
         case didAppear
         case didDisappear
@@ -26,7 +26,7 @@ public enum HomeFeature {
         // Delegate
         case delegate(Delegate)
 
-        public enum Delegate {
+        public enum Delegate: Equatable {
             case play
             case settings
         }

@@ -15,9 +15,8 @@ struct SettingsHomeFeatureTest {
     struct Initialization {
         @Test func initializeValues() async throws {
             // Given
-            let state = SettingsHomeFeature.State()
             let sut = await Store(
-                initialState: state,
+                initialState: SettingsHomeFeature.State(),
                 reducer: SettingsHomeFeature.reducer,
                 withDependencies: {
                     $0.preferencesClient.playersCount = { 5 }
@@ -44,9 +43,8 @@ struct SettingsHomeFeatureTest {
     struct EditingPreferences {
         @Test func updatePlayersCount() async throws {
             // Given
-            let state = SettingsHomeFeature.State(playersCount: 2)
             let sut = await Store(
-                initialState: state,
+                initialState: SettingsHomeFeature.State(playersCount: 2),
                 reducer: SettingsHomeFeature.reducer
             )
 
@@ -59,9 +57,8 @@ struct SettingsHomeFeatureTest {
 
         @Test func toggleSimulation() async throws {
             // Given
-            let state = SettingsHomeFeature.State(simulation: true)
             let sut = await Store(
-                initialState: state,
+                initialState: SettingsHomeFeature.State(simulation: true),
                 reducer: SettingsHomeFeature.reducer
             )
 
@@ -74,9 +71,8 @@ struct SettingsHomeFeatureTest {
 
         @Test func updateWaitDelay() async throws {
             // Given
-            let state = SettingsHomeFeature.State(actionDelayMilliSeconds: 0)
             let sut = await Store(
-                initialState: state,
+                initialState: SettingsHomeFeature.State(actionDelayMilliSeconds: 0),
                 reducer: SettingsHomeFeature.reducer
             )
 
