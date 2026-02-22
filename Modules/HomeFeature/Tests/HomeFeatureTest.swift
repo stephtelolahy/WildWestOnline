@@ -45,18 +45,11 @@ struct HomeFeatureTest {
                 reducer: HomeFeature.reducer
             )
 
-            var dispatchedActions: [HomeFeature.Action] = []
-            var cancellables: Set<AnyCancellable> = []
-            sut.dispatchedAction.sink {
-                dispatchedActions.append($0)
-            }
-            .store(in: &cancellables)
-
             // When
-            await sut.dispatch(.didTapPlay)
+            let received = await sut.receive(.didTapPlay)
 
             // Then
-            #expect(dispatchedActions.last == .delegate(.play))
+            #expect(received == [.delegate(.play)])
         }
 
         @Test func settings() async throws {
@@ -66,18 +59,11 @@ struct HomeFeatureTest {
                 reducer: HomeFeature.reducer
             )
 
-            var dispatchedActions: [HomeFeature.Action] = []
-            var cancellables: Set<AnyCancellable> = []
-            sut.dispatchedAction.sink {
-                dispatchedActions.append($0)
-            }
-            .store(in: &cancellables)
-
             // When
-            await sut.dispatch(.didTapSettings)
+            let received = await sut.receive(.didTapSettings)
 
             // Then
-            #expect(dispatchedActions.last == .delegate(.settings))
+            #expect(received == [.delegate(.settings)])
         }
     }
 
