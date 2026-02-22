@@ -57,7 +57,7 @@ public enum HomeFeature {
         case .didDisappear:
             return .run {
                 await dependencies.audioClient.pause(AudioClient.Sound.musicLoneRider)
-                return .none
+                return nil
             }
 
         case .didTapPlay:
