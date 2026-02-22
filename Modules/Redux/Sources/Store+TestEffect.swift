@@ -6,12 +6,10 @@
 //
 
 import Combine
-import Testing
 
-extension Store {
-
+public extension Store {
     @MainActor
-    public func receive(_ action: Action) async -> [Action] {
+    func receive(_ action: Action) async -> [Action] {
         var dispatchedActions: [Action] = []
         var cancellables: Set<AnyCancellable> = []
         self.dispatchedAction.sink {
