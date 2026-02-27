@@ -99,9 +99,9 @@ public enum GameSessionFeature {
         case .game(let gameAction):
             let soundMatcher = SoundMatcher(specialSounds: dependencies.cardLibrary.specialSounds())
             if let sfx = soundMatcher.sfx(on: gameAction) {
-                let playFunc = dependencies.audioClient.play
-                Task {
-                    await playFunc(sfx)
+                return .run {
+                    await dependencies.audioClient.play(sfx)
+                    return nil
                 }
             }
             return .none

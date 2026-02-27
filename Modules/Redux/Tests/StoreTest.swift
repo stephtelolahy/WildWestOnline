@@ -21,21 +21,12 @@ struct StoreTest {
             }
         )
 
-        var dispatchedActions: [SearchFeature.Action] = []
-        var cancellables: Set<AnyCancellable> = []
-        sut.dispatchedAction
-            .sink { dispatchedActions.append($0) }
-            .store(in: &cancellables)
-
         // When
-        await sut.dispatch(.fetchRecent)
+        let received = await sut.receive(.fetchRecent)
 
         // Then
         #expect(sut.state.searchResult == ["recent"])
-        #expect(dispatchedActions == [
-            .fetchRecent,
-            .setSearchResults(items: ["recent"])
-        ])
+        #expect(received == [.setSearchResults(items: ["recent"])])
     }
 
     @Test func dispatchInvalidAction_shouldNotUpdateState() async throws {
@@ -44,12 +35,6 @@ struct StoreTest {
             initialState: .init(),
             reducer: SearchFeature.reducer
         )
-
-        var dispatchedActions: [SearchFeature.Action] = []
-        var cancellables: Set<AnyCancellable> = []
-        sut.dispatchedAction
-            .sink { dispatchedActions.append($0) }
-            .store(in: &cancellables)
 
         // When
         await sut.dispatch(.search(query: ""))

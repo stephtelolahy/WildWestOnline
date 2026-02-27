@@ -67,7 +67,7 @@ let package = Package(
     products: products,
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.62.2")
+        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.63.2")
     ],
     targets: targets
 )
