@@ -15,7 +15,7 @@ func dispatch(
 ) async throws(GameFeature.Error) -> GameFeature.State {
     let sut = Store(
         initialState: state,
-        reducer: GameFeature.reducerMechanics
+        reducer: GameFeature.reducerMain
     )
     var receivedErrors: [GameFeature.Error] = []
     var cancellables: Set<AnyCancellable> = []

@@ -85,9 +85,8 @@ public enum GameFeature {
 
     public static var reducer: Reducer<State, Action> {
         combine(
-            reducerMechanics,
-            reducerLoop,
-            reducerAI
+            reducerMain,
+            reducerLoop
         )
     }
 }
