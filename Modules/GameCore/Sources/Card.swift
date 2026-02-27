@@ -36,7 +36,7 @@ public struct Card: Equatable, Sendable {
     public struct Effect: Equatable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
-        public let modifier: QueueModifier?
+        public let modifier: ModifierName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]?
@@ -45,7 +45,7 @@ public struct Card: Equatable, Sendable {
         public init(
             trigger: Trigger,
             action: ActionName,
-            modifier: QueueModifier? = nil,
+            modifier: ModifierName? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
@@ -214,7 +214,7 @@ public struct Card: Equatable, Sendable {
         }
     }
 
-    public struct QueueModifier: RawRepresentable, Hashable, Sendable {
+    public struct ModifierName: RawRepresentable, Hashable, Sendable {
         public let rawValue: String
 
         public init (rawValue: String) {

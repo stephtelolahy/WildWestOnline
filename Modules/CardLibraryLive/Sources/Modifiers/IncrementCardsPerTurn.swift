@@ -7,12 +7,12 @@
 
 @testable import GameCore
 
-extension Card.QueueModifier {
-    static let incrementCardsPerTurn = Card.QueueModifier(rawValue: "incrementCardsPerTurn")
+extension Card.ModifierName {
+    static let incrementCardsPerTurn = Card.ModifierName(rawValue: "incrementCardsPerTurn")
 }
 
 struct IncrementCardsPerTurn: QueueModifierHandler {
-    static let id = Card.QueueModifier.incrementCardsPerTurn
+    static let name = Card.ModifierName.incrementCardsPerTurn
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         guard let amount = action.amount else { fatalError("Missing amount") }

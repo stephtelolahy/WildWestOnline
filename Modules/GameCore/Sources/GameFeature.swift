@@ -62,7 +62,7 @@ public enum GameFeature {
         var selection: String?
         var alias: String?
         var playableCards: [String]?
-        var modifier: Card.QueueModifier?
+        var modifier: Card.ModifierName?
         var children: [Self]?
         var selectors: [Card.Selector] = []
 
@@ -85,9 +85,8 @@ public enum GameFeature {
 
     public static var reducer: Reducer<State, Action> {
         combine(
-            reducerMechanics,
-            reducerLoop,
-            reducerAI
+            reducerMain,
+            reducerLoop
         )
     }
 }

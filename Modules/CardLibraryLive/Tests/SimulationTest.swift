@@ -33,7 +33,7 @@ struct SimulationTest {
             initialState: state,
             reducer: GameFeature.reducer,
             withDependencies: {
-                $0.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+                $0 = dependencies
             }
         )
 
@@ -55,7 +55,7 @@ struct SimulationTest {
             .sink {
                 print($0)
                 var nextState = prevState
-                _ = GameFeature.reducerMechanics(into: &nextState, action: $0, dependencies: dependencies)
+                _ = GameFeature.reducerMain(into: &nextState, action: $0, dependencies: dependencies)
                 #expect(nextState == currentState, "Inconsistent state after applying \($0)")
             }
             .store(in: &cancellables)

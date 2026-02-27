@@ -7,12 +7,12 @@
 
 @testable import GameCore
 
-extension Card.QueueModifier {
-    static let ignoreLimitPerTurn = Card.QueueModifier(rawValue: "ignoreLimitPerTurn")
+extension Card.ModifierName {
+    static let ignoreLimitPerTurn = Card.ModifierName(rawValue: "ignoreLimitPerTurn")
 }
 
 struct IgnoreLimitPerTurn: QueueModifierHandler {
-    static let id = Card.QueueModifier.ignoreLimitPerTurn
+    static let name = Card.ModifierName.ignoreLimitPerTurn
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         guard let playIndex = state.queue.firstIndex(where: {

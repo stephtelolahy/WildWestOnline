@@ -7,12 +7,12 @@
 
 @testable import GameCore
 
-extension Card.QueueModifier {
-    static let incrementRequiredMisses = Card.QueueModifier(rawValue: "incrementRequiredMisses")
+extension Card.ModifierName {
+    static let incrementRequiredMisses = Card.ModifierName(rawValue: "incrementRequiredMisses")
 }
 
 struct IncrementRequiredMisses: QueueModifierHandler {
-    static let id = Card.QueueModifier.incrementRequiredMisses
+    static let name = Card.ModifierName.incrementRequiredMisses
 
     static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         guard let amount = action.amount else { fatalError("Missing amount") }

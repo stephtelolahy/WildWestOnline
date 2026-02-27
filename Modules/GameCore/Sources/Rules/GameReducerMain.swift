@@ -1,5 +1,5 @@
 //
-//  GameReducerMechanics.swift
+//  GameReducerMain.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 28/03/2025.
@@ -7,7 +7,7 @@
 import Redux
 
 extension GameFeature {
-    static func reducerMechanics(
+    static func reducerMain(
         into state: inout State,
         action: Action,
         dependencies: Dependencies
@@ -41,7 +41,7 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state, dependencies: dependencies.queueModifierClient)
+                state = try action.name.reduce(action, state: state, dependencies: dependencies)
             }
 
             if action.isResolved {

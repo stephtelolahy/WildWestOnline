@@ -11,9 +11,14 @@ extension GameFeature {
         dependencies: Dependencies
     ) -> Effect<Action> {
         let state = state
-        return .run {
-            await nextAction(state: state, action: action, dependencies: dependencies)
-        }
+        return .group([
+            .run {
+                await nextAction(state: state, action: action, dependencies: dependencies)
+            },
+            .run {
+                await playAIMove(state: state, action: action, dependencies: dependencies)
+            }
+        ])
     }
 
     private static func nextAction(state: State, action: Action, dependencies: Dependencies) async -> Action? {
@@ -44,6 +49,28 @@ extension GameFeature {
         if state.showPlayableCards,
            let activate = state.activatePlayableCards(dependencies: dependencies) {
             return activate
+        }
+
+        return nil
+    }
+
+    private static func playAIMove(state: State, action: Action, dependencies: Dependencies) async -> Action? {
+        if let pendingChoice = state.pendingChoice,
+           state.playMode[pendingChoice.chooser] == .auto {
+            let actions = pendingChoice.options.map { GameFeature.Action.choose($0.label, player: pendingChoice.chooser) }
+            let strategy: AIStrategy = AIStrategy()
+            let bestMove = strategy.evaluateBestMove(actions, state: state)
+            try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+            return bestMove
+        }
+
+        if let playable = state.playable,
+           state.playMode[playable.player] == .auto {
+            let actions = playable.cards.map { GameFeature.Action.preparePlay($0, player: playable.player) }
+            let strategy: AIStrategy = AIStrategy()
+            let bestMove = strategy.evaluateBestMove(actions, state: state)
+            try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+            return bestMove
         }
 
         return nil
@@ -161,7 +188,7 @@ private extension GameFeature.State {
     static func resolveUntilCompleted(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws {
         var newState = state
 
-        _ = GameFeature.reducerMechanics(into: &newState, action: action, dependencies: dependencies)
+        _ = GameFeature.reducerMain(into: &newState, action: action, dependencies: dependencies)
         if let error = newState.lastError {
             throw error
         }

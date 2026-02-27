@@ -1,5 +1,5 @@
 //
-//  Store+TestEffect.swift
+//  Store+Receive.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 22/02/2026.
