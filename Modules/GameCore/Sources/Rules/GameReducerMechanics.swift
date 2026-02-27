@@ -41,7 +41,7 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state, dependencies: dependencies.queueModifierClient)
+                state = try action.name.reduce(action, state: state, dependencies: dependencies)
             }
 
             if action.isResolved {

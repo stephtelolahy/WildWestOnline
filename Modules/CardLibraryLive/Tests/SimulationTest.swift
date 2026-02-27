@@ -33,7 +33,7 @@ struct SimulationTest {
             initialState: state,
             reducer: GameFeature.reducer,
             withDependencies: {
-                $0.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+                $0 = dependencies
             }
         )
 
