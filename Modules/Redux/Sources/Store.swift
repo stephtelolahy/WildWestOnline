@@ -16,7 +16,7 @@ public enum Effect<Action> {
     case send(Action)
     case run(() async -> Action?)
     case publisher(AnyPublisher<Action, Never>)
-    case group([Effect<Action>])
+    case group(Self)
 }
 
 public struct Dependencies {
