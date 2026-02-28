@@ -65,7 +65,11 @@ public struct AppView: View {
             }
         }
         .onReceive(store.dispatchedAction) { event in
-            print(event)
+            LogStore.shared.log(String(describing: event), level: .debug)
+        }
+        .onShake {
+            LogView()
+                .presentOnExtraWindow()
         }
     }
 
