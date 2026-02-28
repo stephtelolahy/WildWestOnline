@@ -34,7 +34,7 @@ struct SettingsCollectiblesView: View {
     }
 
     func rowView(card: SettingsCollectiblesFeature.State.Card) -> some View {
-        HStack {
+        HStack(alignment: .top) {
             Image(card.name, bundle: .cardResources)
                 .resizable()
                 .scaledToFit()
