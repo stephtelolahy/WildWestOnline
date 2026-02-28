@@ -11,19 +11,18 @@ import Combine
 
 @MainActor
 final class LogStore: ObservableObject {
-    
     static let shared = LogStore()
-    
+
     @Published private(set) var logs: [LogEntry] = []
-    
+
     private init() {}
-    
+
     func log(_ message: String, level: LogLevel = .info) {
         let entry = LogEntry(date: Date(), level: level, message: message)
         logs.append(entry)
         print(message)
     }
-    
+
     func clear() {
         logs.removeAll()
     }
@@ -58,8 +57,8 @@ struct LogEntry: Identifiable {
     }
 
     private static let dateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateFormat = "HH:mm:ss.SSS"
-        return df
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss.SSS"
+        return formatter
     }()
 }

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct LogView: View {
-    
+
     @ObservedObject var store: LogStore = .shared
-    
+
     @State private var selectedLevels: Set<LogLevel> = Set(LogLevel.allCases)
 
     @Environment(\.dismiss) private var dismiss
@@ -83,9 +83,8 @@ struct LogView: View {
                 }
             }
         }
-
     }
-    
+
     private func toggle(_ level: LogLevel) {
         if selectedLevels.contains(level) {
             selectedLevels.remove(level)
