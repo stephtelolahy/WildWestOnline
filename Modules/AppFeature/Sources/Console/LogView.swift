@@ -26,7 +26,6 @@ struct LogView: View {
             .navigationTitle("Logs")
 #if os(iOS) || os(tvOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
-#endif
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     filterMenu()
@@ -38,6 +37,7 @@ struct LogView: View {
                     }
                 }
             }
+#endif
         }
     }
 
