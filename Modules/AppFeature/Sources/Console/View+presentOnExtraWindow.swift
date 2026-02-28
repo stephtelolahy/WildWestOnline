@@ -16,7 +16,6 @@ extension View {
 }
 
 private class ViewControllerOverExtraWindow<T: View>: UIHostingController<T> {
-
     func present() {
         guard UIViewController.extraWindow == nil else {
             UIViewController.extraWindow?.rootViewController?.dismiss(animated: true) { [weak self] in

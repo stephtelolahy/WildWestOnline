@@ -13,7 +13,7 @@ import SwiftUI
 extension View {
     /// Calls `action` when a device shake gesture is detected.
     /// - Parameter action: A closure executed on the main thread when a shake is detected.
-    public func onShake(perform action: @escaping () -> Void) -> some View {
+    func onShake(perform action: @escaping () -> Void) -> some View {
         self.modifier(DeviceShakeViewModifier(action: action))
     }
 }

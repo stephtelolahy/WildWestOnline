@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LogView: View {
-
     @ObservedObject var store: LogStore = .shared
 
     @State private var selectedLevels: Set<LogLevel> = Set(LogLevel.allCases)
