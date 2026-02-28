@@ -5,8 +5,10 @@
 //  Created by Hugues Stéphano TELOLAHY on 28/02/2026.
 //
 
-import UIKit
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 // Shake gesture for SwiftUI
 // From: https://www.hackingwithswift.com/quick-start/swiftui/how-to-detect-shake-gestures
@@ -18,6 +20,7 @@ extension View {
     }
 }
 
+#if canImport(UIKit)
 // Strongly-typed notification name to avoid stringly-typed APIs.
 extension Notification.Name {
     static let deviceDidShake = Notification.Name("deviceDidShakeNotification")
@@ -32,13 +35,14 @@ extension UIWindow {
         }
     }
 }
+#endif
 
-// A view modifier that detects shaking and calls a function of our choosing.
 struct DeviceShakeViewModifier: ViewModifier {
     let action: () -> Void
 
     func body(content: Content) -> some View {
-        content
+        #if canImport(UIKit)
+        return content
             .onReceive(
                 NotificationCenter.default
                     .publisher(for: .deviceDidShake)
@@ -46,5 +50,8 @@ struct DeviceShakeViewModifier: ViewModifier {
             ) { _ in
                 action()
             }
+        #else
+        return content
+        #endif
     }
 }
