@@ -12,41 +12,15 @@ struct LogView: View {
     @ObservedObject var store: LogStore = .shared
     
     @State private var selectedLevels: Set<LogLevel> = Set(LogLevel.allCases)
-    
+
+    @Environment(\.dismiss) private var dismiss
+
     var filteredLogs: [LogEntry] {
         store.logs.filter { selectedLevels.contains($0.level) }
     }
-    
+
     var body: some View {
-        VStack(spacing: 0) {
-            
-            // Toolbar
-            HStack {
-                ForEach(LogLevel.allCases) { level in
-                    Button(action: {
-                        toggle(level)
-                    }) {
-                        Text(level.rawValue)
-                            .font(.caption)
-                            .padding(6)
-                            .background(selectedLevels.contains(level) ? level.color.opacity(0.2) : Color.clear)
-                            .cornerRadius(6)
-                    }
-                }
-                
-                Spacer()
-                
-                Button("Clear") {
-                    store.clear()
-                }
-                .font(.caption)
-            }
-            .padding(8)
-            .background(Color(.systemGray6))
-            
-            Divider()
-            
-            // Console
+        NavigationStack {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 4) {
@@ -54,14 +28,14 @@ struct LogView: View {
                             HStack(alignment: .top, spacing: 6) {
                                 Text(log.formattedTimestamp)
                                     .foregroundColor(.secondary)
-                                
+
                                 Text("[\(log.level.rawValue)]")
                                     .foregroundColor(log.level.color)
-                                
+
                                 Text(log.message)
                                     .foregroundColor(log.level.color)
                                     .textSelection(.enabled)
-                                
+
                                 Spacer()
                             }
                             .font(.system(size: 12, weight: .regular, design: .monospaced))
@@ -70,7 +44,6 @@ struct LogView: View {
                     }
                     .padding(8)
                 }
-                .background(Color.black.opacity(0.95))
                 .onChange(of: filteredLogs.count) { _ in
                     if let last = filteredLogs.last {
                         withAnimation(.easeOut(duration: 0.2)) {
@@ -79,7 +52,38 @@ struct LogView: View {
                     }
                 }
             }
+            .navigationTitle("Logs")
+#if os(iOS) || os(tvOS) || os(visionOS)
+            .navigationBarTitleDisplayMode(.inline)
+#endif
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Menu {
+                        ForEach(LogLevel.allCases) { level in
+                            Button {
+                                toggle(level)
+                            } label: {
+                                Label(
+                                    level.rawValue,
+                                    systemImage: selectedLevels.contains(level)
+                                    ? "checkmark.circle.fill"
+                                    : "circle"
+                                )
+                            }
+                        }
+                    } label: {
+                        Label("Filter", systemImage: "slider.horizontal.3")
+                    }
+
+                    Button(role: .destructive) {
+                        store.clear()
+                    } label: {
+                        Image(systemName: "xmark.bin")
+                    }
+                }
+            }
         }
+
     }
     
     private func toggle(_ level: LogLevel) {
@@ -89,4 +93,8 @@ struct LogView: View {
             selectedLevels.insert(level)
         }
     }
+}
+
+#Preview {
+    LogView()
 }
