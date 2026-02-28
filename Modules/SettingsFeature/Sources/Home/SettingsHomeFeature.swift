@@ -53,6 +53,7 @@ public enum SettingsHomeFeature {
         case didUpdateMusicVolume(Float)
         case didTapFigures
         case didTapCollectibles
+        case didTapAbilities
 
         // Delegate
         case delegate(Delegate)
@@ -60,6 +61,7 @@ public enum SettingsHomeFeature {
         public enum Delegate {
             case selectedFigures
             case selectedCollectibles
+            case selectedAbilities
         }
     }
 
@@ -105,6 +107,9 @@ public enum SettingsHomeFeature {
 
         case .didTapCollectibles:
             return .send(.delegate(.selectedCollectibles))
+
+        case .didTapAbilities:
+            return .send(.delegate(.selectedAbilities))
 
         case .delegate:
             break

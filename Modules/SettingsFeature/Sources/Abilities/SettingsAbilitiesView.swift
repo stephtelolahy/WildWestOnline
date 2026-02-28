@@ -1,16 +1,14 @@
 //
-//  SettingsCollectiblesView.swift
+//  SettingsAbilitiesView.swift
 //  WildWestOnline
 //
-//  Created by Stephano Hugues TELOLAHY on 07/09/2024.
+//  Created by Hugues Stéphano TELOLAHY on 28/02/2026.
 //
-
 import SwiftUI
 import Redux
-import CardResources
 
-struct SettingsCollectiblesView: View {
-    typealias ViewStore = Store<SettingsCollectiblesFeature.State, SettingsCollectiblesFeature.Action>
+struct SettingsAbilitiesView: View {
+    typealias ViewStore = Store<SettingsAbilitiesFeature.State, SettingsAbilitiesFeature.Action>
 
     @StateObject private var store: ViewStore
 
@@ -27,15 +25,15 @@ struct SettingsCollectiblesView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .navigationTitle("Collectibles")
+        .navigationTitle("Abilities")
         .task {
             await store.dispatch(.didAppear)
         }
     }
 
-    func rowView(card: SettingsCollectiblesFeature.State.Card) -> some View {
+    func rowView(card: SettingsAbilitiesFeature.State.Card) -> some View {
         HStack(alignment: .top) {
-            Image(card.name, bundle: .cardResources)
+            Image(systemName: "circle.square")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 67, height: 100)
@@ -52,20 +50,20 @@ struct SettingsCollectiblesView: View {
 
 #Preview {
     NavigationStack {
-        SettingsCollectiblesView {
+        SettingsAbilitiesView {
             .init(
                 initialState: .init(
                     cards: [
                         .init(
-                            name: .bang,
+                            name: "ability-1",
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         ),
                         .init(
-                            name: .missed,
+                            name: "ability-2",
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         ),
                         .init(
-                            name: .dodge,
+                            name: "ability-3",
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         )
                     ]
