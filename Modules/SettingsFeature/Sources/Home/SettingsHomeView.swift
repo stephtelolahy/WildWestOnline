@@ -121,6 +121,7 @@ struct SettingsHomeView: View {
         Section(header: Text("LIBRARY")) {
             figuresView
             collectiblesView
+            abilitiesView
         }
     }
 
@@ -149,6 +150,20 @@ struct SettingsHomeView: View {
             HStack {
                 Image(systemName: "moonphase.new.moon.inverse")
                 Text("Collectibles")
+            }
+            .foregroundStyle(.foreground)
+        })
+    }
+
+    private var abilitiesView: some View {
+        Button(action: {
+            Task {
+                await store.dispatch(.didTapAbilities)
+            }
+        }, label: {
+            HStack {
+                Image(systemName: "circle.square")
+                Text("Abilities")
             }
             .foregroundStyle(.foreground)
         })
