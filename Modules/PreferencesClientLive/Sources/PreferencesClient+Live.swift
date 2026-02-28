@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import PreferencesClient
+import SwiftUI
 
 public extension PreferencesClient {
     static func live() -> Self {
@@ -16,31 +17,31 @@ public extension PreferencesClient {
             setActionDelayMilliSeconds: { service.actionDelayMilliSeconds = $0 },
             setSimulationEnabled: { service.simulationEnabled = $0 },
             setPreferredFigure: { service.preferredFigure = $0 },
-            setMusicVolume: { service.musicVolume = $0 },
+            setMusicVolume: { service.musicVolume = Double($0) },
             playersCount: { service.playersCount },
             actionDelayMilliSeconds: { service.actionDelayMilliSeconds },
             isSimulationEnabled: { service.simulationEnabled },
             preferredFigure: { service.preferredFigure },
-            musicVolume: { service.musicVolume }
+            musicVolume: { Float(service.musicVolume) }
         )
     }
 
     private class StorageService {
         init() {}
 
-        @UserDefaultsStored("settings.playersCount", defaultValue: 5)
-        var playersCount: Int
+        @AppStorage("settings.playersCount")
+        var playersCount: Int = 5
 
-        @UserDefaultsStored("settings.actionDelayMilliSeconds", defaultValue: 500)
-        var actionDelayMilliSeconds: Int
+        @AppStorage("settings.actionDelayMilliSeconds")
+        var actionDelayMilliSeconds: Int = 500
 
-        @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
-        var simulationEnabled: Bool
+        @AppStorage("settings.simulationEnabled")
+        var simulationEnabled: Bool = false
 
-        @OptionalUserDefaultsStored("settings.preferredFigure")
+        @AppStorage("settings.preferredFigure")
         var preferredFigure: String?
 
-        @UserDefaultsStored("settings.musicVolume", defaultValue: 1.0)
-        var musicVolume: Float
+        @AppStorage("settings.musicVolume")
+        var musicVolume: Double = 1.0
     }
 }
