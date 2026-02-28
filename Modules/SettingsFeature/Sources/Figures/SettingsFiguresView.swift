@@ -40,7 +40,7 @@ struct SettingsFiguresView: View {
     }
 
     func rowView(figure: SettingsFiguresFeature.State.Figure) -> some View {
-        HStack {
+        HStack(alignment: .top) {
             Image(figure.name, bundle: .cardResources)
                 .resizable()
                 .scaledToFit()
