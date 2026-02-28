@@ -1,11 +1,13 @@
 //
-//  ViewControllerOverExtraWindow.swift
+//  View+presentOnExtraWindow.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 28/02/2026.
 //
 
 import SwiftUI
+
+#if canImport(UIKit)
 import UIKit
 
 extension View {
@@ -55,3 +57,11 @@ private class ViewControllerOverExtraWindow<T: View>: UIHostingController<T> {
 private extension UIViewController {
     static var extraWindow: UIWindow?
 }
+#else
+// Fallback for platforms without UIKit (e.g., macOS)
+extension View {
+    func presentOnExtraWindow() {
+        // No-op on platforms that don't support UIKit windows.
+    }
+}
+#endif

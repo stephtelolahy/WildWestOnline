@@ -1,5 +1,5 @@
 //
-//  DeviceShakeViewModifier.swift
+//  View+onShake.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 28/02/2026.
