@@ -80,7 +80,7 @@ struct LogView: View {
             }
             .padding(8)
         }
-        .onChange(of: filteredLogs.count) { _ in
+        .onChange(of: filteredLogs.count) { _, _ in
             scrollToLast(proxy)
         }
     }
