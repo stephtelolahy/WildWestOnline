@@ -7,8 +7,10 @@
 extension GameFeature.Action: CustomStringConvertible {
     public var description: String {
         [
-            selectors.isEmpty ? name.emoji : "..",
-            name.rawValue,
+            // swiftlint:disable:next force_unwrapping
+            selectors.isEmpty ? name!.emoji : "..",
+            // swiftlint:disable:next force_unwrapping
+            name!.rawValue,
             targetedPlayer,
             targetedCard,
             selection,

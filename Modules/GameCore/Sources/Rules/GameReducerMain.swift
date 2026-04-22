@@ -41,7 +41,11 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state, dependencies: dependencies)
+                if let legacyAction = action.name {
+                    state = try legacyAction.reduce(action, state: state, dependencies: dependencies)
+                } else {
+                    fatalError("Handle actionID")
+                }
             }
 
             if action.isResolved {

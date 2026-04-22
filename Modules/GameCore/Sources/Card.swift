@@ -47,7 +47,7 @@ public struct Card: Equatable, Sendable {
 
         public init(
             // swiftlint:disable:next function_default_parameter_at_end
-            actionID: ActionID = ActionID(rawValue: "undefined"),
+            actionID: ActionID = .init(rawValue: "undefined"),
             trigger: Trigger,
             action: ActionName? = nil,
             modifier: ModifierName? = nil,

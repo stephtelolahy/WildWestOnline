@@ -38,13 +38,15 @@ struct SoundMatcher {
             return nil
         }
 
-        if let special = specialSounds[action.name] {
+        // swiftlint:disable:next force_unwrapping
+        if let special = specialSounds[action.name!] {
             let cardName = Card.name(of: action.playedCard)
             if let sound = special[cardName] {
                 return sound
             }
         }
 
-        return Self.defaultSounds[action.name]
+        // swiftlint:disable:next force_unwrapping
+        return Self.defaultSounds[action.name!]
     }
 }

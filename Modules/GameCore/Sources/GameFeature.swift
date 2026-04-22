@@ -50,7 +50,9 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Sendable {
-        public let name: Card.ActionName
+        public var actionID: Card.ActionID = .init(rawValue: "undefined")
+        @available(*, deprecated, message: "Use actionID instead")
+        public let name: Card.ActionName?
         public var sourcePlayer: String = ""
         public var playedCard: String = ""
         public var targetedPlayer: String?
@@ -62,6 +64,7 @@ public enum GameFeature {
         var selection: String?
         var alias: String?
         var playableCards: [String]?
+        @available(*, deprecated, message: "Use actionID instead")
         var modifier: Card.ModifierName?
         var children: [Self]?
         var selectors: [Card.Selector] = []
