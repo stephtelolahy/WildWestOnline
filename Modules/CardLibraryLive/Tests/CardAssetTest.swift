@@ -8,6 +8,7 @@
 import Testing
 import CardResources
 import UIKit
+@testable import CardLibraryLive
 
 struct CardAssetTest {
     @Test func eachCardHasAnImageAsset() async throws {

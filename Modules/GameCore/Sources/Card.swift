@@ -36,9 +36,9 @@ public struct Card: Equatable, Sendable {
     public struct Effect: Equatable, Sendable {
         public let actionID: ActionID
         public let trigger: Trigger
-        @available(*, deprecated, message: "Use ActionID instead")
+        @available(*, deprecated, message: "Use actionID instead")
         public let action: ActionName?
-        @available(*, deprecated, message: "Use ActionID instead")
+        @available(*, deprecated, message: "Use actionID instead")
         public let modifier: ModifierName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
