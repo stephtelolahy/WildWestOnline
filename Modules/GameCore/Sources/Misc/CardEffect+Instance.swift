@@ -15,8 +15,7 @@ extension Card.Effect {
     ) -> GameFeature.Action {
         .init(
             actionID: actionID,
-            // swiftlint:disable:next force_unwrapping
-            name: action!,
+            name: action,
             sourcePlayer: sourcePlayer,
             playedCard: playedCard,
             targetedPlayer: targetedPlayer,
