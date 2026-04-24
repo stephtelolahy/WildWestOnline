@@ -14,17 +14,17 @@ extension Card.Effect {
         alias: String? = nil
     ) -> GameFeature.Action {
         .init(
-            actionID: actionID,
-            name: action,
+            actionID: self.actionID,
+            name: self.action,
             sourcePlayer: sourcePlayer,
             playedCard: playedCard,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
             triggeredBy: triggeredBy,
-            amount: amount,
+            amount: self.amount,
             alias: alias,
-            modifier: modifier,
-            selectors: selectors
+            modifier: self.modifier,
+            selectors: self.selectors
         )
     }
 }
