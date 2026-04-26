@@ -110,7 +110,7 @@ private extension Card.Selector {
                     withPlayer: pendingAction.sourcePlayer,
                     playedCard: pendingAction.playedCard,
                     triggeredBy: pendingAction.triggeredBy,
-                    targetedPlayer: pendingAction.targetedPlayer,
+                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: pendingAction),
                     targetedCard: pendingAction.targetedCard
                 )
             }
