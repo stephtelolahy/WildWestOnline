@@ -7,7 +7,7 @@
 
 import GameCore
 import Testing
-@testable import CardLibraryLive
+import CardLibraryLive
 
 struct SlabTheKillerTest {
     @Test func playingBang_withTwoMissed() async throws {

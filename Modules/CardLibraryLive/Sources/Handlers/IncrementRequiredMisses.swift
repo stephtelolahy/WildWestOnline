@@ -11,8 +11,8 @@ extension Card.ActionID {
     static let incrementRequiredMisses = Card.ActionID(rawValue: "incrementRequiredMisses")
 }
 
-extension GameFeature.Action {
-    static func incrementRequiredMisses(_ amount: Int, player: String, ) -> Self {
+public extension GameFeature.Action {
+    static func incrementRequiredMisses(_ amount: Int, player: String) -> Self {
         .init(
             actionID: .incrementRequiredMisses,
             targetedPlayer: player,
