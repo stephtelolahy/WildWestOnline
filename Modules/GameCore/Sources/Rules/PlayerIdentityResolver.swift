@@ -5,7 +5,6 @@
 //  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
 
-
 extension Card.Selector.PlayerIdentity {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
         resolver.resolve(pendingAction, state: state)
@@ -36,8 +35,7 @@ private extension Card.Selector.PlayerIdentity {
                 return nil
             }
 
-            let next = orderedPlayers[1]
-            return next
+            return orderedPlayers[1]
         }
     }
 
