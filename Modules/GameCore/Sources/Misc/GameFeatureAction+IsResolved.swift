@@ -12,7 +12,7 @@ public extension GameFeature.Action {
         }
 
         switch name {
-        case .queue, .applyModifier, .dummy:
+        case .queue, .dummy:
             return false
 
         default:

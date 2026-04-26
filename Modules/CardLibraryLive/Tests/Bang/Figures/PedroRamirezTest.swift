@@ -35,6 +35,7 @@ struct PedroRamirezTest {
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .stealHand("c2", target: "p2", player: "p1"),
+            .incrementCardsPerTurn(-1),
             .drawDeck(player: "p1")
         ])
     }

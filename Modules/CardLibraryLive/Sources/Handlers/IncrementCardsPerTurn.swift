@@ -7,14 +7,23 @@
 
 @testable import GameCore
 
-extension Card.ModifierName {
-    static let incrementCardsPerTurn = Card.ModifierName(rawValue: "incrementCardsPerTurn")
+extension Card.ActionID {
+    static let incrementCardsPerTurn = Card.ActionID(rawValue: "incrementCardsPerTurn")
 }
 
-struct IncrementCardsPerTurn: QueueModifierHandler {
-    static let name = Card.ModifierName.incrementCardsPerTurn
+public extension GameFeature.Action {
+    static func incrementCardsPerTurn(_ amount: Int) -> Self {
+        .init(
+            actionID: .incrementCardsPerTurn,
+            amount: amount
+        )
+    }
+}
 
-    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+struct IncrementCardsPerTurn: GameActionHandler {
+    static let id = Card.ActionID.incrementCardsPerTurn
+
+    static func handle(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
         guard let amount = action.amount else { fatalError("Missing amount") }
 
         guard let actionIndex = state.queue.firstIndex(where: {
@@ -33,6 +42,10 @@ struct IncrementCardsPerTurn: QueueModifierHandler {
         value += amount
         updatedAction.selectors[0] = .repeat(.fixed(value))
         queue[actionIndex] = updatedAction
-        return queue
+
+        var state = state
+        state.queue = queue
+
+        return state
     }
 }

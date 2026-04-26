@@ -63,8 +63,6 @@ public enum GameFeature {
         var selection: String?
         var alias: String?
         var playableCards: [String]?
-        @available(*, deprecated, message: "Use actionID instead")
-        var modifier: Card.ModifierName?
         var children: [Self]?
         var selectors: [Card.Selector] = []
 

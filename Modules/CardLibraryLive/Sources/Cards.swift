@@ -981,9 +981,8 @@ private extension Card {
                         .chooseOne(.targetCard([.isFromHand])),
                         .onComplete([
                             .init(
+                                actionID: .incrementCardsPerTurn,
                                 trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
                                 amount: -1
                             )
                         ])
@@ -1007,9 +1006,8 @@ private extension Card {
                         .chooseOne(.discardedCard),
                         .onComplete([
                             .init(
+                                actionID: .incrementCardsPerTurn,
                                 trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
                                 amount: -1,
                             )
                         ])
@@ -1046,9 +1044,8 @@ private extension Card {
                     action: .undiscover
                 ),
                 .init(
+                    actionID: .incrementCardsPerTurn,
                     trigger: .turnStarted,
-                    action: .applyModifier,
-                    modifier: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]

@@ -12,6 +12,7 @@ public enum GameActionHandlers {
         [
             IncrementRequiredMisses.self,
             IgnoreLimitPerTurn.self,
+            IncrementCardsPerTurn.self,
         ]
     }
 }

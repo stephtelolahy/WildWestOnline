@@ -38,8 +38,6 @@ public struct Card: Equatable, Sendable {
         public let trigger: Trigger
         @available(*, deprecated, message: "Use actionID instead")
         public let action: ActionName?
-        @available(*, deprecated, message: "Use actionID instead")
-        public let modifier: ModifierName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]?
@@ -50,7 +48,6 @@ public struct Card: Equatable, Sendable {
             actionID: ActionID = .init(rawValue: "undefined"),
             trigger: Trigger,
             action: ActionName? = nil,
-            modifier: ModifierName? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
@@ -59,7 +56,6 @@ public struct Card: Equatable, Sendable {
             self.actionID = actionID
             self.trigger = trigger
             self.action = action
-            self.modifier = modifier
             self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.alias = alias
@@ -122,7 +118,6 @@ public struct Card: Equatable, Sendable {
         case setMaxHealth
         case setAlias
         case queue
-        case applyModifier
         case dummy
     }
 
@@ -224,14 +219,6 @@ public struct Card: Equatable, Sendable {
         public let rawValue: String
 
         public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-    }
-
-    public struct ModifierName: RawRepresentable, Hashable, Sendable {
-        public let rawValue: String
-
-        public init (rawValue: String) {
             self.rawValue = rawValue
         }
     }
