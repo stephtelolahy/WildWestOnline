@@ -11,6 +11,8 @@ public enum GameActionHandlers {
     public static var all: [GameActionHandler.Type] {
         [
             IncrementRequiredMisses.self,
+            IgnoreLimitPerTurn.self,
+            IncrementCardsPerTurn.self,
         ]
     }
 }

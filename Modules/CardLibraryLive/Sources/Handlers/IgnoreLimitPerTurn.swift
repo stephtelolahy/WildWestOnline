@@ -7,14 +7,22 @@
 
 @testable import GameCore
 
-extension Card.ModifierName {
-    static let ignoreLimitPerTurn = Card.ModifierName(rawValue: "ignoreLimitPerTurn")
+extension Card.ActionID {
+    static let ignoreLimitPerTurn = Card.ActionID(rawValue: "ignoreLimitPerTurn")
 }
 
-struct IgnoreLimitPerTurn: QueueModifierHandler {
-    static let name = Card.ModifierName.ignoreLimitPerTurn
+public extension GameFeature.Action {
+    static var ignoreLimitPerTurn: Self {
+        .init(
+            actionID: .ignoreLimitPerTurn
+        )
+    }
+}
 
-    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+struct IgnoreLimitPerTurn: GameActionHandler {
+    static let id = Card.ActionID.ignoreLimitPerTurn
+
+    static func handle(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
         guard let playIndex = state.queue.firstIndex(where: {
             $0.name == .play
         }) else {
@@ -30,12 +38,16 @@ struct IgnoreLimitPerTurn: QueueModifierHandler {
                 return false
             }
         }) else {
-            return state.queue
+            return state
         }
 
         playAction.selectors.remove(at: limitPerTurnIndex)
         var queue = state.queue
         queue[playIndex] = playAction
-        return queue
+
+        var state = state
+        state.queue = queue
+
+        return state
     }
 }

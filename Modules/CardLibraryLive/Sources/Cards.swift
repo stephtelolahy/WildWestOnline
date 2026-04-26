@@ -610,9 +610,8 @@ private extension Card {
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
                 .init(
-                    trigger: .prePlayingCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .ignoreLimitPerTurn
+                    actionID: .ignoreLimitPerTurn,
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -766,9 +765,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .prePlayingCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .ignoreLimitPerTurn
+                    actionID: .ignoreLimitPerTurn,
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -983,9 +981,8 @@ private extension Card {
                         .chooseOne(.targetCard([.isFromHand])),
                         .onComplete([
                             .init(
+                                actionID: .incrementCardsPerTurn,
                                 trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
                                 amount: -1
                             )
                         ])
@@ -1009,9 +1006,8 @@ private extension Card {
                         .chooseOne(.discardedCard),
                         .onComplete([
                             .init(
+                                actionID: .incrementCardsPerTurn,
                                 trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
                                 amount: -1,
                             )
                         ])
@@ -1048,9 +1044,8 @@ private extension Card {
                     action: .undiscover
                 ),
                 .init(
+                    actionID: .incrementCardsPerTurn,
                     trigger: .turnStarted,
-                    action: .applyModifier,
-                    modifier: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]

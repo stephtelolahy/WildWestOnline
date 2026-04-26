@@ -10,12 +10,17 @@ enum NonStandardLogic {
         name: Card.ActionName?,
         parentAction: GameFeature.Action
     ) -> String? {
-        switch name {
-        case .endGame,
-                .discover,
-                .undiscover:
-            return nil
+        guard let name else {
+            switch actionID.rawValue {
+            case "incrementRequiredMisses":
+                return parentAction.targetedPlayer
 
+            default:
+                return nil
+            }
+        }
+
+        switch name {
         case .drawDeck,
                 .draw,
                 .discardInPlay,
@@ -26,8 +31,38 @@ enum NonStandardLogic {
                 .endTurn:
             return parentAction.targetedPlayer ?? parentAction.sourcePlayer
 
-        default:
+        case .play,
+                .drawDiscard,
+                .discardHand,
+                .shoot,
+                .damage,
+                .stealHand,
+                .stealInPlay,
+                .counterShot,
+                .showHand,
+                .drawDiscovered,
+                .eliminate:
             return parentAction.targetedPlayer
+
+        default:
+            return nil
+        }
+    }
+
+    static func targetedCardForTriggeredEffect(
+        _ actionID: Card.ActionID,
+        name: Card.ActionName?,
+        parentAction: GameFeature.Action
+    ) -> String? {
+        switch name {
+        case .discardHand,
+                .discardInPlay,
+                .stealHand,
+                .stealInPlay:
+            return parentAction.targetedCard
+
+        default:
+            return nil
         }
     }
 
@@ -62,8 +97,8 @@ enum NonStandardLogic {
         && lhs.amount == rhs.amount
         && lhs.selection == rhs.selection
         && lhs.alias == rhs.alias
-        && lhs.children == rhs.children
         && lhs.playableCards == rhs.playableCards
+        && lhs.children == rhs.children
         && lhs.selectors == rhs.selectors
     }
 }

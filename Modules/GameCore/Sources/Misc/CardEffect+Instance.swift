@@ -9,7 +9,7 @@ extension Card.Effect {
         withPlayer sourcePlayer: String,
         playedCard: String,
         triggeredBy: [GameFeature.Action],
-        targetedPlayer: String?,
+        targetedPlayer: String? = nil,
         targetedCard: String? = nil,
         alias: String? = nil
     ) -> GameFeature.Action {
@@ -23,7 +23,6 @@ extension Card.Effect {
             targetedCard: targetedCard,
             amount: self.amount,
             alias: alias,
-            modifier: self.modifier,
             selectors: self.selectors
         )
     }
