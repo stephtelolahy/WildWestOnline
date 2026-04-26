@@ -123,11 +123,12 @@ public struct Card: Equatable, Sendable {
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(PlayerGroup)
-        case setCard(CardGroup)
+        case setTarget(PlayerGroup) // forEachTarget
+        case setCard(CardGroup)     // forEachCard
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
-        case applyIf(PlayRequirement)
+        case applyIf(PlayRequirement)   // when
+        @available(*, deprecated, message: "Use applyIf instead")
         case onComplete([Effect])
 
         public enum RepeatCount: Equatable, Sendable {

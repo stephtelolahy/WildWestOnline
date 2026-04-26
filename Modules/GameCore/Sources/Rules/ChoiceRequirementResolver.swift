@@ -58,7 +58,7 @@ private extension Card.Selector.ChoiceRequirement {
             if selection == .choicePass {
                 []
             } else {
-                [pendingAction.withTarget(selection)]
+                [pendingAction.withTargetedPlayer(selection)]
             }
         }
     }
@@ -96,7 +96,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.withCard(selection)]
+            [pendingAction.withTargetedCard(selection)]
         }
     }
 
@@ -152,7 +152,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.withCard(selection)]
+            [pendingAction.withTargetedCard(selection)]
         }
     }
 

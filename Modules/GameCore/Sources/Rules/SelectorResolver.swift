@@ -44,7 +44,7 @@ private extension Card.Selector {
                 throw .noTarget(targetGroup)
             }
 
-            return targets.map { pendingAction.withTarget($0) }
+            return targets.map { pendingAction.withTargetedPlayer($0) }
         }
     }
 
@@ -53,7 +53,7 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             cardGroup.resolve(pendingAction, state: state)
-                .map { pendingAction.withCard($0) }
+                .map { pendingAction.withTargetedCard($0) }
         }
     }
 
@@ -119,13 +119,13 @@ private extension Card.Selector {
 }
 
 extension GameFeature.Action {
-    func withTarget(_ target: String) -> Self {
+    func withTargetedPlayer(_ target: String) -> Self {
         var copy = self
         copy.targetedPlayer = target
         return copy
     }
 
-    func withCard(_ card: String) -> Self {
+    func withTargetedCard(_ card: String) -> Self {
         var copy = self
         copy.targetedCard = card
         return copy
