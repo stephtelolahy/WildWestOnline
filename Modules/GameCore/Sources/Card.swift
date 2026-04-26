@@ -123,9 +123,9 @@ public struct Card: Equatable, Sendable {
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(PlayerGroup)
-        case setCard(CardGroup)
-        case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
+        case forEachTarget(PlayerGroup)
+        case forEachCard(CardGroup)
+        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
         case onComplete([Effect])
@@ -169,7 +169,7 @@ public struct Card: Equatable, Sendable {
             case targetedCardFromInPlay
         }
 
-        public enum ChoiceRequirement: Equatable, Sendable {
+        public enum ChoiceKind: Equatable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard

@@ -5,6 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/03/2025.
 //
 enum NonStandardLogic {
+    /// Transmitting context data from parent
     static func targetedPlayerForTriggeredEffect(
         _ actionID: Card.ActionID,
         name: Card.ActionName?,
@@ -49,6 +50,7 @@ enum NonStandardLogic {
         }
     }
 
+    /// Transmitting context data from parent
     static func targetedCardForTriggeredEffect(
         _ actionID: Card.ActionID,
         name: Card.ActionName?,
