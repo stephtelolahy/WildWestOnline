@@ -170,7 +170,7 @@ public struct Card: Equatable, Sendable {
             case targetedCardFromInPlay
         }
 
-        public enum ChoiceRequirement: Equatable, Sendable {
+        public enum ChoiceRequirement: Equatable, Sendable { // ChoiceKind
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
