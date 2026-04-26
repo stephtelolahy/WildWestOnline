@@ -17,11 +17,8 @@ private extension Card.Selector.CardGroup {
 
     var resolver: Resolver {
         switch self {
-        case .played: Played()
         case .allInHand: AllInHand()
         case .allInPlay: AllInPlay()
-        case .equippedWeapon: EquippedWeapon()
-        case .lastHand: LastHand()
         }
     }
 
@@ -39,36 +36,5 @@ private extension Card.Selector.CardGroup {
 
             return state.players.get(target).hand
         }
-    }
-
-    struct Played: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
-            [pendingAction.playedCard]
-        }
-    }
-
-    struct EquippedWeapon: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            return state.players.get(target).inPlay.filter { state.isWeapon($0) }
-        }
-    }
-
-    struct LastHand: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = state.players.get(target).hand.last else { fatalError("Missing last card in hand of player \(target)") }
-
-            return [card]
-        }
-    }
-}
-
-private extension GameFeature.State {
-    func isWeapon(_ card: String) -> Bool {
-        let cardName = Card.name(of: card)
-        let cardObj = cards.get(cardName)
-        return cardObj.effects.contains { $0.trigger == .cardEquiped && $0.action == .setWeapon }
     }
 }

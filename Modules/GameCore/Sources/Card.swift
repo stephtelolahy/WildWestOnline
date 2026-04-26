@@ -83,6 +83,8 @@ public struct Card: Equatable, Sendable {
         case shootingWithCard(named: String)
         case prePlayingCard(named: String)
         case requiredToDraw
+        case hasStealHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -118,17 +120,18 @@ public struct Card: Equatable, Sendable {
         case setMaxHealth
         case setAlias
         case queue
-        case dummy
     }
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
         case forEachTarget(PlayerGroup)
+        case setTarget(PlayerIdentity)
         case forEachCard(CardGroup)
+        case setCard(CardIdentity)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        case onComplete([Effect])
+        case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case fixed(Int)
@@ -142,6 +145,9 @@ public struct Card: Equatable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers([PlayerFilter] = [])
+        }
+
+        public enum PlayerIdentity: Equatable, Sendable {
             case nextPlayer
             case damagingPlayer
             case sourcePlayer
@@ -151,6 +157,9 @@ public struct Card: Equatable, Sendable {
         public enum CardGroup: String, Sendable {
             case allInHand
             case allInPlay
+        }
+
+        public enum CardIdentity: String, Sendable {
             case played
             case equippedWeapon
             case lastHand

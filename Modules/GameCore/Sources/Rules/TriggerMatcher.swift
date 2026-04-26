@@ -36,6 +36,8 @@ private extension Card.Trigger {
         case .shootingWithCard(let name): ShootingWithCard(name: name)
         case .requiredToDraw: RequiredToDraw()
         case .prePlayingCard(named: let name): PrePlayingCard(name: name)
+        case .hasStealHandOnTurnStarted: HasStealHandOnTurnStarted()
+        case .hasDrawDiscardOnTurnStarted: HasDrawDiscardOnTurnStarted()
         }
     }
 
@@ -263,6 +265,36 @@ private extension Card.Trigger {
 
             if state.events.count > 1,
                 case .draw = state.events[1].name {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct HasStealHandOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .stealHand = action.name,
+                  action.sourcePlayer == player  else {
+                return false
+            }
+
+            guard case .startTurn = action.triggeredBy.first?.name else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct HasDrawDiscardOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .drawDiscard = action.name,
+                  action.targetedPlayer == player  else {
+                return false
+            }
+
+            guard case .startTurn = action.triggeredBy.first?.name else {
                 return false
             }
 

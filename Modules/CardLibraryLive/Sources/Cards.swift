@@ -161,7 +161,7 @@ private extension Card {
                     trigger: .turnEnded,
                     action: .startTurn,
                     selectors: [
-                        .forEachTarget(.nextPlayer)
+                        .setTarget(.nextPlayer)
                     ]
                 )
             ]
@@ -254,7 +254,7 @@ private extension Card {
                     action: .startTurn,
                     selectors: [
                         .applyIf(.isCurrentTurn),
-                        .forEachTarget(.nextPlayer)
+                        .setTarget(.nextPlayer)
                     ]
                 )
             ]
@@ -271,7 +271,7 @@ private extension Card {
                     trigger: .eliminating,
                     action: .drawDeck,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .repeat(.fixed(3))
                     ]
                 )
@@ -289,7 +289,7 @@ private extension Card {
                     trigger: .weaponPrePlayed,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.equippedWeapon)
+                        .setCard(.equippedWeapon)
                     ]
                 ),
             ]
@@ -697,8 +697,8 @@ private extension Card {
                     action: .passInPlay,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
-                        .forEachCard(.played),
-                        .forEachTarget(.nextPlayer)
+                        .setCard(.played),
+                        .setTarget(.nextPlayer)
                     ]
                 ),
                 .init(
@@ -713,7 +713,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.played),
+                        .setCard(.played),
                         .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 )
@@ -749,7 +749,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.played)
+                        .setCard(.played)
                     ]
                 )
             ]
@@ -832,7 +832,7 @@ private extension Card {
                     trigger: .damaged,
                     action: .stealHand,
                     selectors: [
-                        .forEachTarget(.damagingPlayer),
+                        .setTarget(.damagingPlayer),
                         .repeat(.receivedDamageAmount),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
@@ -909,7 +909,7 @@ private extension Card {
                     trigger: .otherEliminated,
                     action: .stealInPlay,
                     selectors: [
-                        .forEachTarget(.eliminatedPlayer),
+                        .setTarget(.eliminatedPlayer),
                         .forEachCard(.allInPlay)
                     ]
                 ),
@@ -917,7 +917,7 @@ private extension Card {
                     trigger: .otherEliminated,
                     action: .stealHand,
                     selectors: [
-                        .forEachTarget(.eliminatedPlayer),
+                        .setTarget(.eliminatedPlayer),
                         .forEachCard(.allInHand)
                     ]
                 )
@@ -951,7 +951,7 @@ private extension Card {
                     trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
-                        .forEachCard(.lastHand)
+                        .setCard(.lastHand)
                     ]
                 ),
                 .init(
@@ -977,15 +977,13 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand])),
-                        .onComplete([
-                            .init(
-                                actionID: .incrementCardsPerTurn,
-                                trigger: .turnStarted,
-                                amount: -1
-                            )
-                        ])
+                        .chooseOne(.targetCard([.isFromHand]))
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasStealHandOnTurnStarted,
+                    amount: -1
                 )
             ]
         )
@@ -1002,15 +1000,13 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard),
-                        .onComplete([
-                            .init(
-                                actionID: .incrementCardsPerTurn,
-                                trigger: .turnStarted,
-                                amount: -1,
-                            )
-                        ])
+                        .chooseOne(.discardedCard)
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasDrawDiscardOnTurnStarted,
+                    amount: -1,
                 )
             ]
         )
@@ -1181,7 +1177,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.targetPlayer())
                     ]
@@ -1204,7 +1200,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .chooseOne(.costCard([.isFromHand]))
                     ]
                 ),
@@ -1227,7 +1223,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.targetPlayer([.isWounded]))
                     ]
@@ -1251,7 +1247,7 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .chooseOne(.costCard([.isFromHand])),
                         .chooseOne(.targetPlayer([.hasCards])),
                         .chooseOne(.targetCard())
@@ -1285,32 +1281,17 @@ private extension Card {
                     trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
-                        .forEachTarget(.sourcePlayer),
+                        .setTarget(.sourcePlayer),
                         .chooseOne(.costCard([.isFromHand]))
                     ]
                 ),
                 .init(
                     trigger: .cardPlayed,
-                    action: .dummy,
+                    action: .discardHand,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasCards])),
                         .chooseOne(.targetCard()),
-                        .onComplete([
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardHand,
-                                selectors: [
-                                    .applyIf(.targetedCardFromHand)
-                                ]
-                            ),
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardInPlay,
-                                selectors: [
-                                    .applyIf(.targetedCardFromInPlay)
-                                ]
-                            )
-                        ])
+                        .replaceIf(.targetedCardFromInPlay, .discardInPlay)
                     ]
                 )
             ]

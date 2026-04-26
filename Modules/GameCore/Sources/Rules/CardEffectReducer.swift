@@ -50,7 +50,6 @@ private extension Card.ActionName {
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
-        case .dummy: Dummy()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         }
@@ -534,12 +533,6 @@ private extension Card.ActionName {
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
             return state
-        }
-    }
-
-    struct Dummy: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            state
         }
     }
 }

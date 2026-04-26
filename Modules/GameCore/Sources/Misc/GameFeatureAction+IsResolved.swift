@@ -11,12 +11,10 @@ public extension GameFeature.Action {
             return false
         }
 
-        switch name {
-        case .queue, .dummy:
+        guard name != .queue else {
             return false
-
-        default:
-            return true
         }
+
+        return true
     }
 }
