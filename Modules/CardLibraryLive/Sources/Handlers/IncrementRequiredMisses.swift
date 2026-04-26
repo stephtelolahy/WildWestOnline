@@ -26,11 +26,12 @@ struct IncrementRequiredMisses: GameActionHandler {
 
     static func handle(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
         guard let amount = action.amount else { fatalError("Missing amount") }
+        guard let targetedPlayer = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
         guard let damageIndex = state.queue.firstIndex(where: {
             $0.triggeredBy.first?.name == .shoot
             && $0.name == .damage
-            && $0.targetedPlayer == action.targetedPlayer
+            && $0.targetedPlayer == targetedPlayer
         }) else {
             fatalError("Missing .shoot effect on targetedPlayer")
         }
