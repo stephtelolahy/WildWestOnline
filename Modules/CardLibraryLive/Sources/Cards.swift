@@ -1289,7 +1289,7 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .discardHand,
                     selectors: [
-                        .forEachTarget(.otherPlayers([.hasHandCards])),
+                        .forEachTarget(.otherPlayers([.hasCards])),
                         .chooseOne(.targetCard()),
                         .replaceIf(.targetedCardFromInPlay, .discardInPlay)
                     ]
