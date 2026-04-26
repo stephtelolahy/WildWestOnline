@@ -20,6 +20,7 @@ private extension Card.Selector {
         case .forEachTarget(let group): ForEachTarget(group: group)
         case .setTarget(let identity): SetTarget(identity: identity)
         case .forEachCard(let group): ForEachCard(group: group)
+        case .setCard(let identity): SetCard(identity: identity)
         case .chooseOne(let choice, let prompt, let selection): ChooseOne(choice: choice, prompt: prompt, selection: selection)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let requirement): ApplyIf(requirement: requirement)
@@ -66,6 +67,18 @@ private extension Card.Selector {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             group.resolve(pendingAction, state: state)
                 .map { pendingAction.withTargetedCard($0) }
+        }
+    }
+
+    struct SetCard: Resolver {
+        let identity: Card.Selector.CardIdentity
+
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+            guard let card = identity.resolve(pendingAction, state: state) else {
+                return [] // silently skip effect is cannot set card
+            }
+
+            return [pendingAction.withTargetedCard(card)]
         }
     }
 

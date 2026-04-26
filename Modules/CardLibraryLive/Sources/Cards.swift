@@ -289,7 +289,7 @@ private extension Card {
                     trigger: .weaponPrePlayed,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.equippedWeapon)
+                        .setCard(.equippedWeapon)
                     ]
                 ),
             ]
@@ -697,7 +697,7 @@ private extension Card {
                     action: .passInPlay,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
-                        .forEachCard(.played),
+                        .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
                 ),
@@ -713,7 +713,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.played),
+                        .setCard(.played),
                         .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 )
@@ -749,7 +749,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .forEachCard(.played)
+                        .setCard(.played)
                     ]
                 )
             ]
@@ -951,7 +951,7 @@ private extension Card {
                     trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
-                        .forEachCard(.lastHand)
+                        .setCard(.lastHand)
                     ]
                 ),
                 .init(

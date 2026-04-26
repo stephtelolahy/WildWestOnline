@@ -126,7 +126,8 @@ public struct Card: Equatable, Sendable {
         case `repeat`(RepeatCount)
         case forEachTarget(PlayerGroup)
         case setTarget(PlayerIdentity)
-        case forEachCard(CardGroup)         // setTargetCard(CardIdentity)
+        case forEachCard(CardGroup)
+        case setCard(CardIdentity)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
@@ -156,6 +157,9 @@ public struct Card: Equatable, Sendable {
         public enum CardGroup: String, Sendable {
             case allInHand
             case allInPlay
+        }
+
+        public enum CardIdentity: String, Sendable {
             case played
             case equippedWeapon
             case lastHand
