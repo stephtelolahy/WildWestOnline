@@ -131,7 +131,7 @@ public struct Card: Equatable, Sendable {
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        // case replaceIf(PlayRequirement, Card.ActionName)
+        case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case fixed(Int)

@@ -1290,7 +1290,8 @@ private extension Card {
                     action: .discardHand,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
+                        .chooseOne(.targetCard()),
+                        .replaceIf(.targetedCardFromInPlay, .discardInPlay)
                     ]
                 )
             ]
