@@ -10,6 +10,20 @@ enum NonStandardLogic {
         name: Card.ActionName?,
         parentAction: GameFeature.Action
     ) -> String? {
+        switch actionID.rawValue {
+        case "ignoreLimitPerTurn":
+            return nil
+
+        case "incrementCardsPerTurn":
+            return nil
+
+        case "IncrementRequiredMisses":
+            return parentAction.targetedPlayer
+
+        default:
+            break
+        }
+
         switch name {
         case .endGame,
                 .discover,
