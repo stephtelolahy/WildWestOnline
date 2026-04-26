@@ -42,7 +42,7 @@ extension GameFeature {
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
                 if let legacyAction = action.name {
-                    state = try legacyAction.reduce(action, state: state, dependencies: dependencies)
+                    state = try legacyAction.reduce(action, state: state)
                 } else {
                     state = try dependencies.gameActionClient.handle(action, state)
                 }

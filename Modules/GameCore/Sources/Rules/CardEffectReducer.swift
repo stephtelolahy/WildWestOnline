@@ -8,14 +8,14 @@
 import Redux
 
 extension Card.ActionName {
-    func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
-        try reducer.reduce(action, state: state, dependencies: dependencies)
+    func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+        try reducer.reduce(action, state: state)
     }
 }
 
 private extension Card.ActionName {
     protocol Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State
     }
 
     var reducer: Reducer {
@@ -57,7 +57,7 @@ private extension Card.ActionName {
     }
 
     struct Draw: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
             let card = try state.popDeck()
             state.discard.insert(card, at: 0)
@@ -66,7 +66,7 @@ private extension Card.ActionName {
     }
 
     struct DrawDeck: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -77,7 +77,7 @@ private extension Card.ActionName {
     }
 
     struct DrawDiscard: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -88,7 +88,7 @@ private extension Card.ActionName {
     }
 
     struct DrawDiscovered: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
@@ -109,7 +109,7 @@ private extension Card.ActionName {
     }
 
     struct Discover: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
             let discoveredAmount = state.discovered.count
             if discoveredAmount >= state.deck.count {
@@ -122,7 +122,7 @@ private extension Card.ActionName {
     }
 
     struct Undiscover: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
             state.discovered = []
             return state
@@ -130,7 +130,7 @@ private extension Card.ActionName {
     }
 
     struct PreparePlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.playedCard
             var cardName = Card.name(of: card)
             let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .cardPrePlayed)
@@ -162,7 +162,7 @@ private extension Card.ActionName {
     }
 
     struct Play: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let player = action.sourcePlayer
             let card = action.playedCard
             var state = state
@@ -193,7 +193,7 @@ private extension Card.ActionName {
     }
 
     struct Equip: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let player = action.sourcePlayer
             let card = action.playedCard
 
@@ -215,7 +215,7 @@ private extension Card.ActionName {
     }
 
     struct Handicap: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             let player = action.sourcePlayer
             let card = action.playedCard
@@ -238,7 +238,7 @@ private extension Card.ActionName {
     }
 
     struct Heal: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amount = action.amount else { fatalError("Missing amount") }
 
@@ -256,7 +256,7 @@ private extension Card.ActionName {
     }
 
     struct DiscardHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
@@ -275,7 +275,7 @@ private extension Card.ActionName {
     }
 
     struct DiscardInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
@@ -294,7 +294,7 @@ private extension Card.ActionName {
     }
 
     struct ShowHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard action.targetedPlayer != nil else { fatalError("Missing targetedPlayer") }
             guard action.targetedCard != nil else { fatalError("Missing targetedCard") }
 
@@ -303,7 +303,7 @@ private extension Card.ActionName {
     }
 
     struct Choose: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let selection = action.selection else { fatalError("Missing selection") }
 
             guard let nextAction = state.queue.first,
@@ -325,7 +325,7 @@ private extension Card.ActionName {
     }
 
     struct StealHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
@@ -344,7 +344,7 @@ private extension Card.ActionName {
     }
 
     struct StealInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
@@ -363,7 +363,7 @@ private extension Card.ActionName {
     }
 
     struct PassInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
             let player = action.sourcePlayer
@@ -382,7 +382,7 @@ private extension Card.ActionName {
     }
 
     struct Shoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -401,7 +401,7 @@ private extension Card.ActionName {
     }
 
     struct CounterShoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
 
             guard let damageIndex = state.queue.firstIndex(where: {
@@ -431,7 +431,7 @@ private extension Card.ActionName {
     }
 
     struct Damage: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amount = action.amount else { fatalError("Missing amount") }
 
@@ -442,7 +442,7 @@ private extension Card.ActionName {
     }
 
     struct EndTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -453,7 +453,7 @@ private extension Card.ActionName {
     }
 
     struct StartTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -463,7 +463,7 @@ private extension Card.ActionName {
     }
 
     struct Queue: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let children = action.children else { fatalError("Missing children") }
 
             var state = state
@@ -473,7 +473,7 @@ private extension Card.ActionName {
     }
 
     struct Eliminate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             var state = state
@@ -484,7 +484,7 @@ private extension Card.ActionName {
     }
 
     struct EndGame: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             var state = state
             state.isOver = true
             return state
@@ -492,7 +492,7 @@ private extension Card.ActionName {
     }
 
     struct Activate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let cards = action.playableCards else { fatalError("Missing playableCards") }
 
@@ -503,7 +503,7 @@ private extension Card.ActionName {
     }
 
     struct SetWeapon: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amount = action.amount else { fatalError("Missing amount") }
 
@@ -514,7 +514,7 @@ private extension Card.ActionName {
     }
 
     struct IncreaseMagnifying: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amount = action.amount else { fatalError("Missing amount") }
 
@@ -525,7 +525,7 @@ private extension Card.ActionName {
     }
 
     struct IncreaseRemoteness: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let amount = action.amount else { fatalError("Missing amount") }
 
@@ -536,7 +536,7 @@ private extension Card.ActionName {
     }
 
     struct Dummy: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, dependencies: Dependencies) throws(GameFeature.Error) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             state
         }
     }
