@@ -34,44 +34,18 @@ enum NonStandardLogic {
                 .eliminate:
             return parentAction.targetedPlayer
 
+        case .none:
+            switch actionID.rawValue {
+            case "incrementRequiredMisses":
+                return parentAction.targetedPlayer
+
+            default:
+                return nil
+            }
+
         default:
             return nil
         }
-        /*
-        switch actionID.rawValue {
-        case "ignoreLimitPerTurn":
-            return nil
-
-        case "incrementCardsPerTurn":
-            return nil
-
-        case "IncrementRequiredMisses":
-            return parentAction.targetedPlayer
-
-        default:
-            break
-        }
-
-        switch name {
-        case .endGame,
-                .discover,
-                .undiscover:
-            return nil
-
-        case .drawDeck,
-                .draw,
-                .discardInPlay,
-                .heal,
-                .setWeapon,
-                .increaseMagnifying,
-                .increaseRemoteness,
-                .endTurn:
-            return parentAction.targetedPlayer ?? parentAction.sourcePlayer
-
-        default:
-            return parentAction.targetedPlayer
-        }
-        */
     }
 
     static func targetedCardForTriggeredEffect(
