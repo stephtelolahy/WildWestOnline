@@ -5,7 +5,11 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/03/2025.
 //
 enum NonStandardLogic {
-    static func targetedPlayerForTriggeredEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {
+    static func targetedPlayerForTriggeredEffect(
+        _ actionID: Card.ActionID,
+        name: Card.ActionName?,
+        parentAction: GameFeature.Action
+    ) -> String? {
         switch name {
         case .endGame,
                 .discover,

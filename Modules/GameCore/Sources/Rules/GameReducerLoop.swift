@@ -145,8 +145,7 @@ private extension GameFeature.State {
                     withPlayer: player,
                     playedCard: card,
                     triggeredBy: [event],
-                    // swiftlint:disable:next force_unwrapping
-                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.action!, parentAction: event)
+                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: event)
                 )
             }
     }

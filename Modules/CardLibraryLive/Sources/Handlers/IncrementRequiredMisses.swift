@@ -5,11 +5,20 @@
 //  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
 
-
 @testable import GameCore
 
 extension Card.ActionID {
     static let incrementRequiredMisses = Card.ActionID(rawValue: "incrementRequiredMisses")
+}
+
+extension GameFeature.Action {
+    static func incrementRequiredMisses(_ amount: Int, player: String, ) -> Self {
+        .init(
+            actionID: .incrementRequiredMisses,
+            targetedPlayer: player,
+            amount: amount
+        )
+    }
 }
 
 struct IncrementRequiredMisses: GameActionHandler {
@@ -38,4 +47,3 @@ struct IncrementRequiredMisses: GameActionHandler {
         return state
     }
 }
-

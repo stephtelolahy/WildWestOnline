@@ -1065,9 +1065,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
+                    actionID: .incrementRequiredMisses,
                     trigger: .shootingWithCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .incrementRequiredMisses,
                     amount: 1
                 )
             ]
