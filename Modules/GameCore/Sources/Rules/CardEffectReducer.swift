@@ -393,8 +393,8 @@ private extension Card.ActionName {
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
-                targetedPlayer: target,
                 triggeredBy: [action],
+                targetedPlayer: target,
                 amount: 1,
                 requiredMisses: 1
             )

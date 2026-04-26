@@ -55,10 +55,9 @@ public enum GameFeature {
         public let name: Card.ActionName?
         public var sourcePlayer: String = ""
         public var playedCard: String = ""
+        var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
-
-        var triggeredBy: [Self] = []
         var amount: Int?
         var requiredMisses: Int?
         var selection: String?
