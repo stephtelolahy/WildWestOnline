@@ -128,7 +128,6 @@ public struct Card: Equatable, Sendable {
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        @available(*, deprecated, message: "Use applyIf instead")
         case onComplete([Effect])
 
         public enum RepeatCount: Equatable, Sendable {
