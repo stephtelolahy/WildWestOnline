@@ -1000,15 +1000,13 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard),
-                        .onComplete([
-                            .init(
-                                actionID: .incrementCardsPerTurn,
-                                trigger: .turnStarted,
-                                amount: -1,
-                            )
-                        ])
+                        .chooseOne(.discardedCard)
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasDrawDiscardOnTurnStarted,
+                    amount: -1,
                 )
             ]
         )

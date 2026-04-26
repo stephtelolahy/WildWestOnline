@@ -84,6 +84,7 @@ public struct Card: Equatable, Sendable {
         case prePlayingCard(named: String)
         case requiredToDraw
         case hasStealHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
