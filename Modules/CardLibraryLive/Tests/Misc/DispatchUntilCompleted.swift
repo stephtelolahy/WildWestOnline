@@ -23,6 +23,7 @@ func dispatchUntilCompleted(
         initialState: state,
         reducer: combine(GameFeature.reducer, GameFeature.reducerChoice),
         withDependencies: {
+            $0.gameActionClient = .live(handlers: GameActionHandlers.all)
             $0.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
             $0.choiceHandler = .init(handleChoice: choiceHandler)
         }

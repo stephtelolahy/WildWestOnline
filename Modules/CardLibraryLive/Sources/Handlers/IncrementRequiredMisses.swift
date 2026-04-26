@@ -1,20 +1,21 @@
 //
-//  IncrementCardsPerTurn.swift
+//  IncrementRequiredMisses.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 23/11/2025.
+//  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
+
 
 @testable import GameCore
 
-extension Card.ModifierName {
-    static let incrementRequiredMisses = Card.ModifierName(rawValue: "incrementRequiredMisses")
+extension Card.ActionID {
+    static let incrementRequiredMisses = Card.ActionID(rawValue: "incrementRequiredMisses")
 }
 
-struct IncrementRequiredMisses: QueueModifierHandler {
-    static let name = Card.ModifierName.incrementRequiredMisses
+struct IncrementRequiredMisses: GameActionHandler {
+    static let id = Card.ActionID.incrementRequiredMisses
 
-    static func apply(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+    static func handle(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
         guard let amount = action.amount else { fatalError("Missing amount") }
 
         guard let damageIndex = state.queue.firstIndex(where: {
@@ -30,6 +31,11 @@ struct IncrementRequiredMisses: QueueModifierHandler {
 
         var queue = state.queue
         queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses + amount)
-        return queue
+
+        var state = state
+        state.queue = queue
+
+        return state
     }
 }
+

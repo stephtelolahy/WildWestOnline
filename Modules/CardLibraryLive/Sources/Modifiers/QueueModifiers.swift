@@ -10,7 +10,7 @@ public enum QueueModifiers {
     public static var allHandlers: [QueueModifierHandler.Type] {
         [
             IncrementCardsPerTurn.self,
-            IncrementRequiredMisses.self,
+            IncrementRequiredMissesOld.self,
             IgnoreLimitPerTurn.self,
         ]
     }
