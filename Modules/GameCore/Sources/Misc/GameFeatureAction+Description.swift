@@ -7,8 +7,8 @@
 extension GameFeature.Action: CustomStringConvertible {
     public var description: String {
         [
-            selectors.isEmpty ? name.emoji : "..",
-            name.rawValue,
+            selectors.isEmpty ? (name?.emoji ?? "ID") : "..",
+            (name?.rawValue ?? actionID.rawValue),
             targetedPlayer,
             targetedCard,
             selection,
