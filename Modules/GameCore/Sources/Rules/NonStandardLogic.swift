@@ -10,6 +10,16 @@ enum NonStandardLogic {
         name: Card.ActionName?,
         parentAction: GameFeature.Action
     ) -> String? {
+        guard let name else {
+            switch actionID.rawValue {
+            case "incrementRequiredMisses":
+                return parentAction.targetedPlayer
+
+            default:
+                return nil
+            }
+        }
+
         switch name {
         case .drawDeck,
                 .draw,
@@ -33,15 +43,6 @@ enum NonStandardLogic {
                 .drawDiscovered,
                 .eliminate:
             return parentAction.targetedPlayer
-
-        case .none:
-            switch actionID.rawValue {
-            case "incrementRequiredMisses":
-                return parentAction.targetedPlayer
-
-            default:
-                return nil
-            }
 
         default:
             return nil
@@ -96,8 +97,8 @@ enum NonStandardLogic {
         && lhs.amount == rhs.amount
         && lhs.selection == rhs.selection
         && lhs.alias == rhs.alias
-        && lhs.children == rhs.children
         && lhs.playableCards == rhs.playableCards
+        && lhs.children == rhs.children
         && lhs.selectors == rhs.selectors
     }
 }
