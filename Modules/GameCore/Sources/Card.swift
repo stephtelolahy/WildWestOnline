@@ -83,6 +83,7 @@ public struct Card: Equatable, Sendable {
         case shootingWithCard(named: String)
         case prePlayingCard(named: String)
         case requiredToDraw
+        case hasStealHandOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -128,6 +129,7 @@ public struct Card: Equatable, Sendable {
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
+        @available(*, deprecated, message: "Use context data for continuation effects")
         case onComplete([Effect])
 
         public enum RepeatCount: Equatable, Sendable {

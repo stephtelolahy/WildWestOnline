@@ -977,15 +977,13 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand])),
-                        .onComplete([
-                            .init(
-                                actionID: .incrementCardsPerTurn,
-                                trigger: .turnStarted,
-                                amount: -1
-                            )
-                        ])
+                        .chooseOne(.targetCard([.isFromHand]))
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasStealHandOnTurnStarted,
+                    amount: -1
                 )
             ]
         )
