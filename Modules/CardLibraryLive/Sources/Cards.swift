@@ -706,16 +706,15 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
-                        .onComplete([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .discardInPlay,
-                                selectors: [
-                                    .setCard(.played)
-                                ]
-                            )
-                        ])
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.played),
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 )
             ]

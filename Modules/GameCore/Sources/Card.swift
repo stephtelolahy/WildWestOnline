@@ -127,7 +127,7 @@ public struct Card: Equatable, Sendable {
         case setCard(CardGroup)     // forEachCard
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
-        case applyIf(PlayRequirement)   // when
+        case applyIf(PlayRequirement)
         @available(*, deprecated, message: "Use applyIf instead")
         case onComplete([Effect])
 
