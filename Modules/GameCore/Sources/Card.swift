@@ -125,12 +125,12 @@ public struct Card: Equatable, Sendable {
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
         case forEachTarget(PlayerGroup)
-        case forEachCard(CardGroup)
+        case setTarget(PlayerIdentity)
+        case forEachCard(CardGroup)         // setTargetCard(CardIdentity)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        @available(*, deprecated, message: "Use context data for continuation effects")
-        case onComplete([Effect])
+        // case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case fixed(Int)
@@ -144,6 +144,9 @@ public struct Card: Equatable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers([PlayerFilter] = [])
+        }
+
+        public enum PlayerIdentity: Equatable, Sendable {
             case nextPlayer
             case damagingPlayer
             case sourcePlayer

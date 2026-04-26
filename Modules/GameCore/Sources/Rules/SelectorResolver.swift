@@ -17,12 +17,12 @@ private extension Card.Selector {
     var resolver: Resolver {
         switch self {
         case .repeat(let count): Repeat(count: count)
-        case .forEachTarget(let group): ForEachTarget(targetGroup: group)
-        case .forEachCard(let group): ForEachCard(cardGroup: group)
+        case .forEachTarget(let group): ForEachTarget(group: group)
+        case .setTarget(let identity): SetTarget(identity: identity)
+        case .forEachCard(let group): ForEachCard(group: group)
         case .chooseOne(let choice, let prompt, let selection): ChooseOne(choice: choice, prompt: prompt, selection: selection)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let requirement): ApplyIf(requirement: requirement)
-        case .onComplete(let effects): OnComplete(effects: effects)
         }
     }
 
@@ -36,23 +36,35 @@ private extension Card.Selector {
     }
 
     struct ForEachTarget: Resolver {
-        let targetGroup: Card.Selector.PlayerGroup
+        let group: Card.Selector.PlayerGroup
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            let targets = targetGroup.resolve(pendingAction, state: state)
+            let targets = group.resolve(pendingAction, state: state)
             guard targets.isNotEmpty else {
-                throw .noTarget(targetGroup)
+                throw .noTarget(group)
             }
 
             return targets.map { pendingAction.withTargetedPlayer($0) }
         }
     }
 
-    struct ForEachCard: Resolver {
-        let cardGroup: Card.Selector.CardGroup
+    struct SetTarget: Resolver {
+        let identity: Card.Selector.PlayerIdentity
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            cardGroup.resolve(pendingAction, state: state)
+            guard let target = identity.resolve(pendingAction, state: state) else {
+                throw .noPlayer(identity)
+            }
+
+            return [pendingAction.withTargetedPlayer(target)]
+        }
+    }
+
+    struct ForEachCard: Resolver {
+        let group: Card.Selector.CardGroup
+
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+            group.resolve(pendingAction, state: state)
                 .map { pendingAction.withTargetedCard($0) }
         }
     }
@@ -97,23 +109,6 @@ private extension Card.Selector {
             }
 
             return [pendingAction]
-        }
-    }
-
-    struct OnComplete: Resolver {
-        let effects: [Card.Effect]
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            [pendingAction]
-            + effects.map {
-                $0.toInstance(
-                    withPlayer: pendingAction.sourcePlayer,
-                    playedCard: pendingAction.playedCard,
-                    triggeredBy: pendingAction.triggeredBy,
-                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: pendingAction),
-                    targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: pendingAction)
-                )
-            }
         }
     }
 }
