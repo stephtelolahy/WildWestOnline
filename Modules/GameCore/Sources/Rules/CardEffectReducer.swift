@@ -183,7 +183,7 @@ private extension Card.ActionName {
                         playedCard: action.playedCard,
                         triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
-                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, parentAction: action)
+                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: action)
                     )
                 }
 

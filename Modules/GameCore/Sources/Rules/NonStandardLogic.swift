@@ -47,14 +47,18 @@ enum NonStandardLogic {
 
     static func targetedCardForTriggeredEffect(
         _ actionID: Card.ActionID,
+        name: Card.ActionName?,
         parentAction: GameFeature.Action
     ) -> String? {
-        switch actionID.rawValue {
-        case "incrementCardsPerTurn":
-            return nil
+        switch name {
+        case .discardHand,
+                .stealHand,
+                .discardInPlay,
+                .stealInPlay:
+            return parentAction.targetedCard
 
         default:
-            return parentAction.targetedCard
+            return nil
         }
     }
 
