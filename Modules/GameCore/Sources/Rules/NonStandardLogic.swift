@@ -10,6 +10,34 @@ enum NonStandardLogic {
         name: Card.ActionName?,
         parentAction: GameFeature.Action
     ) -> String? {
+        switch name {
+        case .drawDeck,
+                .draw,
+                .discardInPlay,
+                .heal,
+                .setWeapon,
+                .increaseMagnifying,
+                .increaseRemoteness,
+                .endTurn:
+            return parentAction.targetedPlayer ?? parentAction.sourcePlayer
+
+        case .play,
+                .drawDiscard,
+                .discardHand,
+                .shoot,
+                .damage,
+                .stealHand,
+                .stealInPlay,
+                .counterShot,
+                .showHand,
+                .drawDiscovered,
+                .eliminate:
+            return parentAction.targetedPlayer
+
+        default:
+            return nil
+        }
+        /*
         switch actionID.rawValue {
         case "ignoreLimitPerTurn":
             return nil
@@ -43,6 +71,7 @@ enum NonStandardLogic {
         default:
             return parentAction.targetedPlayer
         }
+        */
     }
 
     static func targetedCardForTriggeredEffect(
@@ -52,8 +81,8 @@ enum NonStandardLogic {
     ) -> String? {
         switch name {
         case .discardHand,
-                .stealHand,
                 .discardInPlay,
+                .stealHand,
                 .stealInPlay:
             return parentAction.targetedCard
 

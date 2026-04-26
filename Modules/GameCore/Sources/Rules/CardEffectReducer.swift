@@ -402,12 +402,14 @@ private extension Card.ActionName {
 
     struct CounterShoot: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
             var state = state
 
             guard let damageIndex = state.queue.firstIndex(where: {
                 $0.triggeredBy.first?.name == .shoot
                 && $0.name == .damage
-                && $0.targetedPlayer == action.targetedPlayer
+                && $0.targetedPlayer == target
             }) else {
                 fatalError("Missing .shoot effect on targetedPlayer")
             }
@@ -423,7 +425,7 @@ private extension Card.ActionName {
             // remove all effects triggered by shoot on targetedPlayer
             state.queue.removeAll {
                 $0.triggeredBy.first?.name == .shoot
-                && $0.triggeredBy.first?.targetedPlayer == action.targetedPlayer
+                && $0.triggeredBy.first?.targetedPlayer == target
             }
 
             return state
