@@ -123,8 +123,8 @@ public struct Card: Equatable, Sendable {
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(PlayerGroup) // forEachTarget
-        case setCard(CardGroup)     // forEachCard
+        case forEachTarget(PlayerGroup)
+        case forEachCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)

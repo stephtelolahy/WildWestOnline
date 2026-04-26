@@ -248,7 +248,7 @@
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .setTarget(.all),
+                        .forEachTarget(.all),
                         .chooseCostHandCard(),
                         .repeat(.value(2))
                     ]
@@ -269,7 +269,7 @@
                 .init(
                     name: .shoot,
                     selectors: [
-                        .setTarget(.offender)
+                        .forEachTarget(.offender)
                     ]
                 )
             ]
@@ -338,7 +338,7 @@
                 .init(
                     name: .heal,
                     selectors: [
-                        .setTarget(.damaged)
+                        .forEachTarget(.damaged)
                     ]
                 ),
                 .init(
@@ -361,7 +361,7 @@
                 .init(
                     name: .damage,
                     selectors: [
-                        .setTarget(.others),
+                        .forEachTarget(.others),
                         .chooseEventuallyCounterHandCard(count: 2)
                     ]
                 )
@@ -378,7 +378,7 @@
                 .init(
                     name: .discard,
                     selectors: [
-                        .setTarget(.others),
+                        .forEachTarget(.others),
                         .chooseCard()
                     ]
                 ),
@@ -413,7 +413,7 @@
                 .init(
                     name: .discard,
                     selectors: [
-                        .setTarget(.damaged),
+                        .forEachTarget(.damaged),
                         .chooseCard(.fromHand)
                     ],
                     when: .otherDamagedByYourCard(.bang)
@@ -431,7 +431,7 @@
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .setTarget(.offender)
+                        .forEachTarget(.offender)
                     ],
                     when: .damagedByCard(.bang)
                 )
@@ -494,7 +494,7 @@
                     name: .damage,
                     selectors: [
                         .require(.draw("♠️")),
-                        .setTarget(.targeted)
+                        .forEachTarget(.targeted)
                     ],
                     when: .otherMissedYourShoot(.bang)
                 )
@@ -544,14 +544,14 @@
                 .init(
                     name: .shoot,
                     selectors: [
-                        .setTarget(.offender)
+                        .forEachTarget(.offender)
                     ],
                     when: .cardStolen
                 ),
                 .init(
                     name: .shoot,
                     selectors: [
-                        .setTarget(.offender)
+                        .forEachTarget(.offender)
                     ],
                     when: .cardDiscarded
                 )
@@ -586,7 +586,7 @@
                     selectors: [
                         .require(.limitPerTurn(1)),
                         .chooseCostHandCard(.named(.bang)),
-                        .setTarget(.others)
+                        .forEachTarget(.others)
                     ]
                 )
             ]
