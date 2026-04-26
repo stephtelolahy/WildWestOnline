@@ -44,7 +44,7 @@ extension GameFeature {
                 if let legacyAction = action.name {
                     state = try legacyAction.reduce(action, state: state, dependencies: dependencies)
                 } else {
-                    fatalError("Handle actionID")
+                    state = try dependencies.gameActionClient.handle(action, state)
                 }
             }
 

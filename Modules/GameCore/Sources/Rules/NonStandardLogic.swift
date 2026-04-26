@@ -51,7 +51,8 @@ enum NonStandardLogic {
             break
         }
 
-        return lhs.name == rhs.name
+        return lhs.actionID == rhs.actionID
+        && lhs.name == rhs.name
         && lhs.targetedPlayer == rhs.targetedPlayer
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
