@@ -45,6 +45,19 @@ enum NonStandardLogic {
         }
     }
 
+    static func targetedCardForTriggeredEffect(
+        _ actionID: Card.ActionID,
+        parentAction: GameFeature.Action
+    ) -> String? {
+        switch actionID.rawValue {
+        case "incrementCardsPerTurn":
+            return nil
+
+        default:
+            return parentAction.targetedCard
+        }
+    }
+
     static func areActionsEqual(_ lhs: GameFeature.Action, _ rhs: GameFeature.Action) -> Bool {
         switch lhs.name {
         case .preparePlay,
