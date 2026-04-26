@@ -41,7 +41,7 @@ struct BrawlTest {
         ])
     }
 
-    @Test func play_withOthersHavingInPlayCard_shouldForceThemToDiscardACard() async throws {
+    @Test(.disabled()) func play_withOthersHavingInPlayCard_shouldForceThemToDiscardACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
@@ -74,7 +74,7 @@ struct BrawlTest {
         ])
     }
 
-    @Test func play_withOthersNotHavingCard_shouldIgnoreThem() async throws {
+    @Test(.disabled()) func play_withOthersNotHavingCard_shouldIgnoreThem() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()

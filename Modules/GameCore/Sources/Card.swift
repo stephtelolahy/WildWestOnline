@@ -120,7 +120,6 @@ public struct Card: Equatable, Sendable {
         case setMaxHealth
         case setAlias
         case queue
-        case dummy
     }
 
     public enum Selector: Equatable, Sendable {

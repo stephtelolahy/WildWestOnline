@@ -1287,26 +1287,10 @@ private extension Card {
                 ),
                 .init(
                     trigger: .cardPlayed,
-                    action: .dummy,
+                    action: .discardHand,
                     selectors: [
-                        .forEachTarget(.otherPlayers([.hasCards])),
-                        .chooseOne(.targetCard()),
-                        .onComplete([
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardHand,
-                                selectors: [
-                                    .applyIf(.targetedCardFromHand)
-                                ]
-                            ),
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardInPlay,
-                                selectors: [
-                                    .applyIf(.targetedCardFromInPlay)
-                                ]
-                            )
-                        ])
+                        .forEachTarget(.otherPlayers([.hasHandCards])),
+                        .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
             ]
