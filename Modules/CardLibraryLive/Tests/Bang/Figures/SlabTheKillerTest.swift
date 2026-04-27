@@ -7,7 +7,6 @@
 
 import GameCore
 import Testing
-import CardLibraryLive
 
 struct SlabTheKillerTest {
     @Test func playingBang_withTwoMissed() async throws {
@@ -35,7 +34,6 @@ struct SlabTheKillerTest {
                 .choose("p2", player: "p1"),
                 .play(.bang, player: "p1", target: "p2"),
                 .shoot("p2"),
-                .incrementRequiredMisses(1, player: "p2"),
                 .choose(.missed1, player: "p2"),
                 .play(.missed1, player: "p2", target: "p2"),
                 .counterShoot(player: "p2"),
@@ -72,7 +70,6 @@ struct SlabTheKillerTest {
                 .choose("p2", player: "p1"),
                 .play(.bang, player: "p1", target: "p2"),
                 .shoot("p2"),
-                .incrementRequiredMisses(1, player: "p2"),
                 .draw(player: "p2"),
                 .counterShoot(player: "p2"),
                 .choose(.missed, player: "p2"),
@@ -107,7 +104,6 @@ struct SlabTheKillerTest {
                 .choose("p2", player: "p1"),
                 .play(.bang, player: "p1", target: "p2"),
                 .shoot("p2"),
-                .incrementRequiredMisses(1, player: "p2"),
                 .choose(.missed, player: "p2"),
                 .play(.missed, player: "p2", target: "p2"),
                 .counterShoot(player: "p2"),

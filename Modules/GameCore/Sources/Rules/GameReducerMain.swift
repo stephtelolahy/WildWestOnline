@@ -48,7 +48,7 @@ extension GameFeature {
                 }
             }
 
-            if action.isResolved {
+            if action.isVisible {
                 state.lastEvent = action
                 state.events.insert(action, at: 0)
             } else {

@@ -1,20 +1,16 @@
 //
-//  GameFeatureAction+IsResolved.swift
+//  GameFeatureAction+IsVisible.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 19/11/2025.
 //
 
 public extension GameFeature.Action {
-    var isResolved: Bool {
+    var isVisible: Bool {
         guard selectors.isEmpty else {
             return false
         }
 
-        guard name != .queue else {
-            return false
-        }
-
-        return true
+        return NonStandardLogic.isActionVisible(self)
     }
 }

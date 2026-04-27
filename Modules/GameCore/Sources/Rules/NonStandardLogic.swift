@@ -103,4 +103,26 @@ enum NonStandardLogic {
         && lhs.children == rhs.children
         && lhs.selectors == rhs.selectors
     }
+
+    static func isActionVisible(_ action: GameFeature.Action) -> Bool {
+        switch action.actionID.rawValue {
+        case "incrementRequiredMisses",
+            "ignoreLimitPerTurn",
+            "incrementCardsPerTurn":
+            return false
+
+        default:
+            break
+        }
+
+        switch action.name {
+        case .queue:
+            return false
+
+        default:
+            break
+        }
+
+        return true
+    }
 }

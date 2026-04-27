@@ -29,7 +29,6 @@ struct JesseJonesTest {
             .startTurn(player: "p1"),
             .choose("c1", player: "p1"),
             .drawDiscard(player: "p1"),
-            .incrementCardsPerTurn(-1),
             .drawDeck(player: "p1")
         ])
     }

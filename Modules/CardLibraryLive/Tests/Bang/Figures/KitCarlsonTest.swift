@@ -33,8 +33,7 @@ struct KitCarlsonTest {
             .drawDiscovered("c1", player: "p1"),
             .choose("c2", player: "p1"),
             .drawDiscovered("c2", player: "p1"),
-            .undiscover(),
-            .incrementCardsPerTurn(-2),
+            .undiscover()
         ])
     }
 }
