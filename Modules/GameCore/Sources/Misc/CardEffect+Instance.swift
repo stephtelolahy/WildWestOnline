@@ -9,21 +9,21 @@ extension Card.Effect {
         withPlayer sourcePlayer: String,
         playedCard: String,
         triggeredBy: [GameFeature.Action],
-        targetedPlayer: String?,
+        targetedPlayer: String? = nil,
         targetedCard: String? = nil,
         alias: String? = nil
     ) -> GameFeature.Action {
         .init(
-            name: action,
+            actionID: self.actionID,
+            name: self.action,
             sourcePlayer: sourcePlayer,
             playedCard: playedCard,
+            triggeredBy: triggeredBy,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
-            triggeredBy: triggeredBy,
-            amount: amount,
+            amount: self.amount,
             alias: alias,
-            modifier: modifier,
-            selectors: selectors
+            selectors: self.selectors
         )
     }
 }

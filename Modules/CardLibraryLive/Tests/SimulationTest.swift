@@ -28,7 +28,7 @@ struct SimulationTest {
         )
 
         var dependencies = Dependencies()
-        dependencies.queueModifierClient = .live(handlers: QueueModifiers.allHandlers)
+        dependencies.gameActionClient = .live(handlers: GameActionHandlers.all)
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,

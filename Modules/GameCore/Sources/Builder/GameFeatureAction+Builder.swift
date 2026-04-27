@@ -233,6 +233,9 @@ public extension GameFeature.Action {
     }
 
     static func dummy() -> Self {
-        .init(name: .dummy)
+        .init(
+            name: .queue,
+            children: []
+        )
     }
 }

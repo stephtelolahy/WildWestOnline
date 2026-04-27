@@ -229,14 +229,14 @@ private extension Card {
                     trigger: .eliminated,
                     action: .discardInPlay,
                     selectors: [
-                        .setCard(.allInPlay)
+                        .forEachCard(.allInPlay)
                     ]
                 ),
                 .init(
                     trigger: .eliminated,
                     action: .discardHand,
                     selectors: [
-                        .setCard(.allInHand)
+                        .forEachCard(.allInHand)
                     ]
                 )
             ]
@@ -371,7 +371,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .setTarget(.woundedPlayers)
+                        .forEachTarget(.woundedPlayers)
                     ]
                 )
             ]
@@ -460,7 +460,7 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .drawDiscovered,
                     selectors: [
-                        .setTarget(.activePlayers),
+                        .forEachTarget(.activePlayers),
                         .chooseOne(.discoverCard)
                     ]
                 )
@@ -515,7 +515,7 @@ private extension Card {
                     trigger: .cardPlayed,
                     action: .shoot,
                     selectors: [
-                        .setTarget(.otherPlayers())
+                        .forEachTarget(.otherPlayers())
                     ]
                 )
             ]
@@ -534,7 +534,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .setTarget(.otherPlayers()),
+                        .forEachTarget(.otherPlayers()),
                         .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
@@ -610,9 +610,8 @@ private extension Card {
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
                 .init(
-                    trigger: .prePlayingCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .ignoreLimitPerTurn
+                    actionID: .ignoreLimitPerTurn,
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -707,16 +706,15 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades)),
-                        .onComplete([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .discardInPlay,
-                                selectors: [
-                                    .setCard(.played)
-                                ]
-                            )
-                        ])
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.played),
+                        .applyIf(.drawnCardMatches(.regex2To9Spades))
                     ]
                 )
             ]
@@ -766,9 +764,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .prePlayingCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .ignoreLimitPerTurn
+                    actionID: .ignoreLimitPerTurn,
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -913,7 +910,7 @@ private extension Card {
                     action: .stealInPlay,
                     selectors: [
                         .setTarget(.eliminatedPlayer),
-                        .setCard(.allInPlay)
+                        .forEachCard(.allInPlay)
                     ]
                 ),
                 .init(
@@ -921,7 +918,7 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .setTarget(.eliminatedPlayer),
-                        .setCard(.allInHand)
+                        .forEachCard(.allInHand)
                     ]
                 )
             ]
@@ -980,16 +977,13 @@ private extension Card {
                     action: .stealHand,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand])),
-                        .onComplete([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
-                                amount: -1
-                            )
-                        ])
+                        .chooseOne(.targetCard([.isFromHand]))
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasStealHandOnTurnStarted,
+                    amount: -1
                 )
             ]
         )
@@ -1006,16 +1000,13 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
-                        .chooseOne(.discardedCard),
-                        .onComplete([
-                            .init(
-                                trigger: .turnStarted,
-                                action: .applyModifier,
-                                modifier: .incrementCardsPerTurn,
-                                amount: -1,
-                            )
-                        ])
+                        .chooseOne(.discardedCard)
                     ]
+                ),
+                .init(
+                    actionID: .incrementCardsPerTurn,
+                    trigger: .hasDrawDiscardOnTurnStarted,
+                    amount: -1,
                 )
             ]
         )
@@ -1048,9 +1039,8 @@ private extension Card {
                     action: .undiscover
                 ),
                 .init(
+                    actionID: .incrementCardsPerTurn,
                     trigger: .turnStarted,
-                    action: .applyModifier,
-                    modifier: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]
@@ -1065,9 +1055,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
+                    actionID: .incrementRequiredMisses,
                     trigger: .shootingWithCard(named: .bang),
-                    action: .applyModifier,
-                    modifier: .incrementRequiredMisses,
                     amount: 1
                 )
             ]
@@ -1298,26 +1287,11 @@ private extension Card {
                 ),
                 .init(
                     trigger: .cardPlayed,
-                    action: .dummy,
+                    action: .discardHand,
                     selectors: [
-                        .setTarget(.otherPlayers([.hasCards])),
+                        .forEachTarget(.otherPlayers([.hasCards])),
                         .chooseOne(.targetCard()),
-                        .onComplete([
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardHand,
-                                selectors: [
-                                    .applyIf(.targetedCardFromHand)
-                                ]
-                            ),
-                            .init(
-                                trigger: .cardPlayed,
-                                action: .discardInPlay,
-                                selectors: [
-                                    .applyIf(.targetedCardFromInPlay)
-                                ]
-                            )
-                        ])
+                        .replaceIf(.targetedCardFromInPlay, .discardInPlay)
                     ]
                 )
             ]

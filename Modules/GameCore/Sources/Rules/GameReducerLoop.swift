@@ -145,7 +145,7 @@ private extension GameFeature.State {
                     withPlayer: player,
                     playedCard: card,
                     triggeredBy: [event],
-                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.action, parentAction: event)
+                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: event)
                 )
             }
     }

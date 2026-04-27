@@ -34,26 +34,28 @@ public struct Card: Equatable, Sendable {
     }
 
     public struct Effect: Equatable, Sendable {
+        public let actionID: ActionID
         public let trigger: Trigger
-        public let action: ActionName
-        public let modifier: ModifierName?
+        @available(*, deprecated, message: "Use actionID instead")
+        public let action: ActionName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]?
         public let selectors: [Selector]
 
         public init(
+            // swiftlint:disable:next function_default_parameter_at_end
+            actionID: ActionID = .init(rawValue: "undefined"),
             trigger: Trigger,
-            action: ActionName,
-            modifier: ModifierName? = nil,
+            action: ActionName? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
             selectors: [Selector] = []
         ) {
+            self.actionID = actionID
             self.trigger = trigger
             self.action = action
-            self.modifier = modifier
             self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.alias = alias
@@ -81,6 +83,8 @@ public struct Card: Equatable, Sendable {
         case shootingWithCard(named: String)
         case prePlayingCard(named: String)
         case requiredToDraw
+        case hasStealHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -116,18 +120,18 @@ public struct Card: Equatable, Sendable {
         case setMaxHealth
         case setAlias
         case queue
-        case applyModifier
-        case dummy
     }
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(PlayerGroup)
-        case setCard(CardGroup)
-        case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
+        case forEachTarget(PlayerGroup)
+        case setTarget(PlayerIdentity)
+        case forEachCard(CardGroup)
+        case setCard(CardIdentity)
+        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        case onComplete([Effect])
+        case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case fixed(Int)
@@ -141,6 +145,9 @@ public struct Card: Equatable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers([PlayerFilter] = [])
+        }
+
+        public enum PlayerIdentity: Equatable, Sendable {
             case nextPlayer
             case damagingPlayer
             case sourcePlayer
@@ -150,6 +157,9 @@ public struct Card: Equatable, Sendable {
         public enum CardGroup: String, Sendable {
             case allInHand
             case allInPlay
+        }
+
+        public enum CardIdentity: String, Sendable {
             case played
             case equippedWeapon
             case lastHand
@@ -168,7 +178,7 @@ public struct Card: Equatable, Sendable {
             case targetedCardFromInPlay
         }
 
-        public enum ChoiceRequirement: Equatable, Sendable {
+        public enum ChoiceKind: Equatable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
@@ -214,10 +224,10 @@ public struct Card: Equatable, Sendable {
         }
     }
 
-    public struct ModifierName: RawRepresentable, Hashable, Sendable {
+    public struct ActionID: RawRepresentable, Hashable, Sendable {
         public let rawValue: String
 
-        public init (rawValue: String) {
+        public init(rawValue: String) {
             self.rawValue = rawValue
         }
     }
