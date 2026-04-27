@@ -11,7 +11,7 @@
 ///
 public struct Card: Equatable, Sendable {
     public let name: String
-    public let type: CardType
+    public let type: CardType // kind: Card.Kind
     public let description: String?
     public let effects: [Effect]
 
@@ -28,19 +28,19 @@ public struct Card: Equatable, Sendable {
     }
 
     public enum CardType: String, Sendable {
-        case collectible
-        case figure
-        case ability
+        case collectible    // action
+        case figure         // character
+        case ability        // rule: These are implicit game rules, not something you "activate"
     }
 
     public struct Effect: Equatable, Sendable {
-        public let actionID: ActionID
-        public let trigger: Trigger
+        public let actionID: ActionID   // id
+        public let trigger: Trigger     // event
         @available(*, deprecated, message: "Use actionID instead")
         public let action: ActionName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
-        public let alias: [String: String]?
+        public let alias: [String: String]? // aliases
         public let selectors: [Selector]
 
         public init(
@@ -64,27 +64,27 @@ public struct Card: Equatable, Sendable {
     }
 
     public enum Trigger: Equatable, Sendable {
-        case permanent
-        case cardPrePlayed
-        case cardPlayed
-        case cardEquiped
-        case cardDiscarded
+        case permanent      // always
+        case cardPrePlayed  // playAttempted
+        case cardPlayed     // played
+        case cardEquiped    // equipped
+        case cardDiscarded  // discarded
         case damaged
-        case damagedLethal
+        case damagedLethal  // lethallyDamaged
         case eliminated
         case handEmptied
         case turnStarted
         case turnEnded
         case shot
-        case eliminating
+        case eliminating    // eliminatingOther
         case otherEliminated
         case drawLastCardOnTurnStarted
-        case weaponPrePlayed
-        case shootingWithCard(named: String)
-        case prePlayingCard(named: String)
-        case requiredToDraw
-        case hasStealHandOnTurnStarted
-        case hasDrawDiscardOnTurnStarted
+        case weaponPrePlayed                    // weaponPlayAttempted
+        case shootingWithCard(named: String)    // shootingWith
+        case prePlayingCard(named: String)      // attemptingPlay
+        case requiredToDraw                     // drawRequired
+        case hasStealHandOnTurnStarted          // stoleFromHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted        // drewFromDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -95,18 +95,18 @@ public struct Card: Equatable, Sendable {
         case draw
         case discover
         case undiscover
-        case drawDeck
-        case drawDiscard
-        case drawDiscovered
+        case drawDeck       // drawFromDeck
+        case drawDiscard    // drawFromDiscard
+        case drawDiscovered // drawFromDiscovered
         case stealHand
         case stealInPlay
         case discardHand
         case discardInPlay
         case passInPlay
-        case showHand
+        case showHand       // revealCard
         case heal
         case damage
-        case shoot
+        case shoot          // dodge
         case counterShot
         case endTurn
         case startTurn
@@ -128,58 +128,58 @@ public struct Card: Equatable, Sendable {
         case setTarget(PlayerIdentity)
         case forEachCard(CardGroup)
         case setCard(CardIdentity)
-        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
+        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil) // choose
         case require(PlayRequirement)
-        case applyIf(PlayRequirement)
-        @available(*, deprecated, message: "Use `applyIf(_:)` instead.")
+        case applyIf(PlayRequirement) // if, when
+        @available(*, deprecated, message: "Use `applyIf` instead.")
         case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case times(Int)
-            case activePlayerCount
-            case playerExcessHandSize
-            case receivedDamageAmount
-            case requiredMisses
+            case activePlayerCount // perPlayer
+            case playerExcessHandSize // perExcessHand
+            case receivedDamageAmount   // perDamage
+            case requiredMisses // perRequiredMisses
         }
 
         public enum PlayerGroup: Equatable, Sendable {
-            case activePlayers
-            case woundedPlayers
-            case otherPlayers([PlayerFilter] = [])
+            case activePlayers      // all
+            case woundedPlayers     // wounded
+            case otherPlayers([PlayerFilter] = [])  // others
         }
 
-        public enum PlayerIdentity: Equatable, Sendable {
-            case nextPlayer
-            case damagingPlayer
-            case sourcePlayer
-            case eliminatedPlayer
+        public enum PlayerIdentity: Equatable, Sendable { // PlayerRef
+            case nextPlayer         // next
+            case damagingPlayer     // attacker
+            case sourcePlayer       // self
+            case eliminatedPlayer   // eliminated
         }
 
         public enum CardGroup: String, Sendable {
-            case allInHand
-            case allInPlay
+            case allInHand  // hand
+            case allInPlay  // inPlay
         }
 
         public enum CardIdentity: String, Sendable {
-            case played
-            case equippedWeapon
-            case lastHand
+            case played // this
+            case equippedWeapon // weapon
+            case lastHand   // lastDrawn
         }
 
         public indirect enum PlayRequirement: Equatable, Sendable {
             case not(Self)
-            case minimumPlayers(Int)
-            case playLimitThisTurn(Int)
-            case isHealthZero
-            case isGameOver
+            case minimumPlayers(Int)    // playersAtLeast
+            case playLimitThisTurn(Int) // playLimit
+            case isHealthZero           // isDead
+            case isGameOver             // gameOver
             case isMyTurn
-            case drawnCardMatches(_ regex: String)
-            case lastHandCardMatches(_ regex: String)
+            case drawnCardMatches(_ regex: String) // drawMatches
+            case lastHandCardMatches(_ regex: String) // lastDrawnMatches
             case targetedCardFromHand
             case targetedCardFromInPlay
         }
 
-        public enum ChoiceKind: Equatable, Sendable {
+        public enum ChoiceKind: Equatable, Sendable {   // Choice
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
@@ -187,12 +187,12 @@ public struct Card: Equatable, Sendable {
             case costCard([CardFilter] = [])
             case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])
-            case playedCard([CardFilter] = [])
+            case playedCard([CardFilter] = [])  // playableCard
         }
 
         public enum PlayerFilter: Equatable, Sendable {
-            case hasCards
-            case hasHandCards
+            case hasCards   // hasAnyCard
+            case hasHandCards   // hasHandCard
             case atDistance(Int)
             case reachable
             case isWounded
@@ -201,11 +201,11 @@ public struct Card: Equatable, Sendable {
         public enum CardFilter: Equatable, Sendable {
             case canCounterShot
             case named(String)
-            case isFromHand
+            case isFromHand // fromHand
         }
 
-        public struct ChoicePrompt: Equatable, Sendable {
-            public let chooser: String
+        public struct ChoicePrompt: Equatable, Sendable { // Prompt
+            public let chooser: String // actor
             public let options: [Option]
 
             public init(chooser: String, options: [Option]) {
