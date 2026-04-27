@@ -178,7 +178,7 @@ private extension Card {
                     on: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(2))
+                        .repeat(.times(2))
                     ]
                 )
             ]
@@ -272,7 +272,7 @@ private extension Card {
                     action: .drawDeck,
                     selectors: [
                         .setTarget(.sourcePlayer),
-                        .repeat(.fixed(3))
+                        .repeat(.times(3))
                     ]
                 )
             ]
@@ -309,7 +309,7 @@ private extension Card {
                     on: .cardPlayed,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(2))
+                        .repeat(.times(2))
                     ]
                 )
             ]
@@ -327,7 +327,7 @@ private extension Card {
                     on: .cardPlayed,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(3))
+                        .repeat(.times(3))
                     ]
                 )
             ]
@@ -1023,14 +1023,14 @@ private extension Card {
                     on: .turnStarted,
                     action: .discover,
                     selectors: [
-                        .repeat(.fixed(3))
+                        .repeat(.times(3))
                     ]
                 ),
                 .init(
                     on: .turnStarted,
                     action: .drawDiscovered,
                     selectors: [
-                        .repeat(.fixed(2)),
+                        .repeat(.times(2)),
                         .chooseOne(.discoverCard)
                     ]
                 ),

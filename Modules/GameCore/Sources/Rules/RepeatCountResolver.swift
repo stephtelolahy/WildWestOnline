@@ -17,7 +17,7 @@ private extension Card.Selector.RepeatCount {
 
     var resolver: Resolver {
         switch self {
-        case .fixed(let rawValue): Fixed(rawValue: rawValue)
+        case .times(let rawValue): Times(rawValue: rawValue)
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .receivedDamageAmount: ReceivedDamageAmount()
@@ -25,7 +25,7 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct Fixed: Resolver {
+    struct Times: Resolver {
         let rawValue: Int
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {

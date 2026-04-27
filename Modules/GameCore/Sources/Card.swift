@@ -135,7 +135,7 @@ public struct Card: Equatable, Sendable {
         case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
-            case fixed(Int)
+            case times(Int)
             case activePlayerCount
             case playerExcessHandSize
             case receivedDamageAmount
