@@ -26,7 +26,7 @@ private extension Card.Selector.PlayRequirement {
         case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
         case .isGameOver: IsGameOver()
-        case .isCurrentTurn: IsCurrentTurn()
+        case .isMyTurn: IsMyTurn()
         }
     }
 
@@ -123,7 +123,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct IsCurrentTurn: Matcher {
+    struct IsMyTurn: Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.turn == pendingAction.sourcePlayer
         }

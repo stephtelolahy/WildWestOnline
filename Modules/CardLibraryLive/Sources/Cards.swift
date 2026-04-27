@@ -253,7 +253,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .startTurn,
                     selectors: [
-                        .applyIf(.isCurrentTurn),
+                        .applyIf(.isMyTurn),
                         .setTarget(.nextPlayer)
                     ]
                 )

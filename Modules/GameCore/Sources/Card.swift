@@ -131,6 +131,7 @@ public struct Card: Equatable, Sendable {
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
+        @available(*, deprecated, message: "Use `applyIf(_:)` instead.")
         case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
@@ -171,7 +172,7 @@ public struct Card: Equatable, Sendable {
             case playLimitThisTurn(Int)
             case isHealthZero
             case isGameOver
-            case isCurrentTurn
+            case isMyTurn
             case drawnCardMatches(_ regex: String)
             case lastHandCardMatches(_ regex: String)
             case targetedCardFromHand
