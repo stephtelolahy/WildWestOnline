@@ -19,7 +19,7 @@ extension Card.Effect {
         var instance = GameFeature.Action(
             name: self.action,
             sourcePlayer: sourcePlayer,
-            playedCard: playedCard,
+            sourceCard: playedCard,
             triggeredBy: triggeredBy,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,

@@ -10,7 +10,7 @@ public extension GameFeature.Action {
         .init(
             name: .preparePlay,
             sourcePlayer: player,
-            playedCard: playedCard
+            sourceCard: playedCard
         )
     }
 
@@ -184,7 +184,7 @@ public extension GameFeature.Action {
         .init(
             name: .play,
             sourcePlayer: player,
-            playedCard: playedCard,
+            sourceCard: playedCard,
             targetedPlayer: target,
             targetedCard: card,
             alias: alias
@@ -195,7 +195,7 @@ public extension GameFeature.Action {
         .init(
             name: .equip,
             sourcePlayer: player,
-            playedCard: playedCard
+            sourceCard: playedCard
         )
     }
 
@@ -203,7 +203,7 @@ public extension GameFeature.Action {
         .init(
             name: .handicap,
             sourcePlayer: player,
-            playedCard: playedCard,
+            sourceCard: playedCard,
             targetedPlayer: target
         )
     }

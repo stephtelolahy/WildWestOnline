@@ -51,7 +51,7 @@ private extension Card.Trigger {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .equip = action.name,
                action.sourcePlayer == player,
-               action.playedCard == card {
+               action.sourceCard == card {
                 return true
             }
 
@@ -221,7 +221,7 @@ private extension Card.Trigger {
                 return false
             }
 
-            let cardName = Card.name(of: action.playedCard)
+            let cardName = Card.name(of: action.sourceCard)
             let cardObj = state.cards.get(cardName)
             return cardObj.effects.contains { $0.action == .setWeapon }
         }
@@ -238,7 +238,7 @@ private extension Card.Trigger {
                 return false
             }
 
-            let cardName = Card.name(of: parent.playedCard)
+            let cardName = Card.name(of: parent.sourceCard)
             return cardName == name
         }
     }
@@ -248,7 +248,7 @@ private extension Card.Trigger {
 
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .preparePlay = action.name,
-                  Card.name(of: action.playedCard) == name else {
+                  Card.name(of: action.sourceCard) == name else {
                 return false
             }
 

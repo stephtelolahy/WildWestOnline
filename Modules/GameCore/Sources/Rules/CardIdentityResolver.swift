@@ -26,7 +26,7 @@ private extension Card.Selector.CardIdentity {
 
     struct Played: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
-            pendingAction.playedCard
+            pendingAction.sourceCard
         }
     }
 

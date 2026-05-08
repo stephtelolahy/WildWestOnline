@@ -111,7 +111,7 @@ private extension Card.Selector.ChoiceKind {
 
             let costCards = targetObj.hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
-                && $0 != pendingAction.playedCard
+                && $0 != pendingAction.sourceCard
             }
 
             guard costCards.isNotEmpty else {

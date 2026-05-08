@@ -14,7 +14,7 @@ extension GameFeature.Action: CustomStringConvertible {
             selection,
             amount != nil ? "x\(amount ?? 0)" : nil,
             playableCards?.isNotEmpty == true ? (playableCards ?? []).joined(separator: ", ") : nil,
-            playedCard.isNotEmpty ? "<< \(playedCard):\(sourcePlayer)" : nil
+            sourceCard.isNotEmpty ? "<< \(sourceCard):\(sourcePlayer)" : nil
         ]
             .compactMap { $0 }
             .joined(separator: " ")

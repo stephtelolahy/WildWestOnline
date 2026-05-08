@@ -59,7 +59,7 @@ enum NonStandardLogic {
                 .equip,
                 .handicap:
             guard lhs.sourcePlayer == rhs.sourcePlayer,
-                  lhs.playedCard == rhs.playedCard
+                  lhs.sourceCard == rhs.sourceCard
             else {
                 return false
             }

@@ -48,11 +48,11 @@ private extension Card.Selector.PlayRequirement {
         let limit: Int
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let cardName = Card.name(of: pendingAction.playedCard)
+            let cardName = Card.name(of: pendingAction.sourceCard)
             var playedCount = 0
             for event in state.events {
                 if case .play = event.name {
-                    let playedName = Card.name(of: event.playedCard)
+                    let playedName = Card.name(of: event.sourceCard)
                     if playedName == cardName {
                         playedCount += 1
                     }
