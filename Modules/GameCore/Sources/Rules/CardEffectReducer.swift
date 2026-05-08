@@ -137,13 +137,13 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let card = action.sourceCard
             var cardName = Card.name(of: card)
-            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .playAttempted)
+            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .prePlayed)
             if let alias {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)
 
-            let onPreparePlay = cardObj.effects.filter { $0.trigger == .playAttempted }
+            let onPreparePlay = cardObj.effects.filter { $0.trigger == .prePlayed }
             guard onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }

@@ -60,7 +60,7 @@ public struct Card: Equatable, Sendable {
 
     public enum Trigger: Equatable, Sendable {
         case permanent
-        case playAttempted
+        case prePlayed
         case played
         case equiped
         case discarded
