@@ -55,6 +55,7 @@ private extension Card.ActionName {
         case .discard: fatalError("Unexpected to dispatch discard")
         case .steal: fatalError("Unexpected to dispatch steal")
         case .incrementRequiredMisses: IncrementRequiredMisses()
+        case .ignoreLimitPerTurn: IgnoreLimitPerTurn()
         }
     }
 
@@ -559,6 +560,37 @@ private extension Card.ActionName {
 
             var queue = state.queue
             queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses + amount)
+
+            var state = state
+            state.queue = queue
+
+            return state
+        }
+    }
+
+    struct IgnoreLimitPerTurn: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let playIndex = state.queue.firstIndex(where: {
+                $0.name == .play
+            }) else {
+                fatalError("Missing play action")
+            }
+
+            var playAction = state.queue[playIndex]
+            guard let limitPerTurnIndex = playAction.selectors.firstIndex(where: {
+                if case let .require(requirement) = $0,
+                   case .playLimitThisTurn = requirement {
+                    return true
+                } else {
+                    return false
+                }
+            }) else {
+                return state
+            }
+
+            playAction.selectors.remove(at: limitPerTurnIndex)
+            var queue = state.queue
+            queue[playIndex] = playAction
 
             var state = state
             state.queue = queue

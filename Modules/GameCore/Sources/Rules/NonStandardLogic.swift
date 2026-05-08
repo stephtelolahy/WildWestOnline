@@ -96,8 +96,7 @@ enum NonStandardLogic {
 
     static func isActionVisible(_ action: GameFeature.Action) -> Bool {
         switch action.actionID.rawValue {
-        case "ignoreLimitPerTurn",
-            "incrementCardsPerTurn":
+        case"incrementCardsPerTurn":
             return false
 
         default:
@@ -108,7 +107,8 @@ enum NonStandardLogic {
         case .queue,
                 .discard,
                 .steal,
-                .incrementRequiredMisses:
+                .incrementRequiredMisses,
+                .ignoreLimitPerTurn:
             return false
 
         default:

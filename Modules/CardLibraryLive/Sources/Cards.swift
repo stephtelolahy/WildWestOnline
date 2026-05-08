@@ -604,8 +604,8 @@ private extension Card {
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: .weapon(range: 1) + [
                 .init(
-                    actionID: .ignoreLimitPerTurn,
-                    trigger: .prePlayingCard(named: .bang)
+                    trigger: .prePlayingCard(named: .bang),
+                    action: .ignoreLimitPerTurn
                 )
             ]
         )
@@ -758,8 +758,8 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    actionID: .ignoreLimitPerTurn,
-                    trigger: .prePlayingCard(named: .bang)
+                    trigger: .prePlayingCard(named: .bang),
+                    action: .ignoreLimitPerTurn
                 )
             ]
         )

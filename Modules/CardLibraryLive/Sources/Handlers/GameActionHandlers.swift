@@ -10,7 +10,6 @@ import GameCore
 public enum GameActionHandlers {
     public static var all: [GameActionHandler.Type] {
         [
-            IgnoreLimitPerTurn.self,
             IncrementCardsPerTurn.self,
         ]
     }
