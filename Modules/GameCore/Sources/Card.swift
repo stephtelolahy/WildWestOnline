@@ -132,14 +132,14 @@ public struct Card: Equatable, Sendable {
         case setCard(CardIdentity)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil) // choose
         case require(PlayRequirement)
-        case applyIf(PlayRequirement) // when
+        case applyIf(PlayRequirement)
 
         public enum RepeatCount: Equatable, Sendable {
             case times(Int)
-            case activePlayerCount // perPlayer
-            case playerExcessHandSize // perExcessHand
-            case receivedDamageAmount   // perDamage
-            case requiredMisses // perRequiredMisses
+            case perPlayer
+            case perExcessHand
+            case perDamage
+            case perRequiredMisses
         }
 
         public enum PlayerGroup: Equatable, Sendable {

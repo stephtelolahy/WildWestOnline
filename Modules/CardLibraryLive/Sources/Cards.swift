@@ -106,7 +106,7 @@ private extension Card {
                     trigger: .shot,
                     action: .play,
                     selectors: [
-                        .repeat(.requiredMisses),
+                        .repeat(.perRequiredMisses),
                         .chooseOne(.playedCard([.canCounterShot]))
                     ]
                 )
@@ -143,7 +143,7 @@ private extension Card {
                     trigger: .turnEnded,
                     action: .discard,
                     selectors: [
-                        .repeat(.playerExcessHandSize),
+                        .repeat(.perExcessHand),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
@@ -426,7 +426,7 @@ private extension Card {
                     trigger: .played,
                     action: .discover,
                     selectors: [
-                        .repeat(.activePlayerCount)
+                        .repeat(.perPlayer)
                     ]
                 ),
                 .init(
@@ -787,7 +787,7 @@ private extension Card {
                     trigger: .damaged,
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.receivedDamageAmount)
+                        .repeat(.perDamage)
                     ]
                 )
             ]
@@ -806,7 +806,7 @@ private extension Card {
                     action: .steal,
                     selectors: [
                         .setTarget(.damagingPlayer),
-                        .repeat(.receivedDamageAmount),
+                        .repeat(.perDamage),
                         .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
