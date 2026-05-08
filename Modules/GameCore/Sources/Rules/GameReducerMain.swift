@@ -41,11 +41,7 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                if let legacyAction = action.name {
-                    state = try legacyAction.reduce(action, state: state)
-                } else {
-                    state = try dependencies.gameActionClient.handle(action, state)
-                }
+                state = try action.name.reduce(action, state: state)
             }
 
             if action.isVisible {

@@ -24,7 +24,6 @@ public enum AppBuilder {
             withDependencies: {
                 $0.preferencesClient = PreferencesClient.live()
                 $0.audioClient = AudioClient.live()
-                $0.gameActionClient = GameActionClient.live(handlers: GameActionHandlers.all)
                 $0.cardLibrary = CardLibrary.live()
             }
         )

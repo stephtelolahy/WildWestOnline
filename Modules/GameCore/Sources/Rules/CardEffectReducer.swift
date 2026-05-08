@@ -54,6 +54,9 @@ private extension Card.ActionName {
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         case .discard: fatalError("Unexpected to dispatch discard")
         case .steal: fatalError("Unexpected to dispatch steal")
+        case .incrementRequiredMisses: IncrementRequiredMisses()
+        case .ignoreLimitPerTurn: IgnoreLimitPerTurn()
+        case .incrementCardsPerTurn: IncrementCardsPerTurn()
         }
     }
 
@@ -151,7 +154,7 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
                         alias: alias,
                         state: state
                     )
@@ -184,8 +187,8 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
-                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
+                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect(name: $0.action, parentAction: action),
                         state: state
                     )
                 }
@@ -536,6 +539,91 @@ private extension Card.ActionName {
 
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
+            return state
+        }
+    }
+
+    struct IncrementRequiredMisses: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            guard let damageIndex = state.queue.firstIndex(where: {
+                $0.triggeredBy.first?.name == .shoot
+                && $0.name == .damage
+                && $0.targetedPlayer == target
+            }) else {
+                fatalError("Missing .shoot effect on targetedPlayer")
+            }
+
+            let damageAction = state.queue[damageIndex]
+            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
+
+            var queue = state.queue
+            queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses + amount)
+
+            var state = state
+            state.queue = queue
+
+            return state
+        }
+    }
+
+    struct IgnoreLimitPerTurn: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let playIndex = state.queue.firstIndex(where: {
+                $0.name == .play
+            }) else {
+                fatalError("Missing play action")
+            }
+
+            var playAction = state.queue[playIndex]
+            guard let limitPerTurnIndex = playAction.selectors.firstIndex(where: {
+                if case let .require(requirement) = $0,
+                   case .playLimitThisTurn = requirement {
+                    return true
+                } else {
+                    return false
+                }
+            }) else {
+                return state
+            }
+
+            playAction.selectors.remove(at: limitPerTurnIndex)
+            var queue = state.queue
+            queue[playIndex] = playAction
+
+            var state = state
+            state.queue = queue
+
+            return state
+        }
+    }
+
+    struct IncrementCardsPerTurn: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+
+            guard let actionIndex = state.queue.firstIndex(where: {
+                    $0.name == .drawDeck && $0.triggeredBy.first?.name == .startTurn
+                }) else {
+                fatalError("Missing drawDeck action")
+            }
+
+            var updatedAction = state.queue[actionIndex]
+            guard case .repeat(let repeatCount) = updatedAction.selectors[0],
+                case.times(var value) = repeatCount else {
+                fatalError("Missing repeat count")
+            }
+
+            var queue = state.queue
+            value += amount
+            updatedAction.selectors[0] = .repeat(.times(value))
+            queue[actionIndex] = updatedAction
+
+            var state = state
+            state.queue = queue
+
             return state
         }
     }

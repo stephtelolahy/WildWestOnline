@@ -7,20 +7,9 @@
 enum NonStandardLogic {
     /// Transmitting context data from parent
     static func targetedPlayerForTriggeredEffect(
-        _ actionID: Card.ActionID,
-        name: Card.ActionName?,
+        name: Card.ActionName,
         parentAction: GameFeature.Action
     ) -> String? {
-        guard let name else {
-            switch actionID.rawValue {
-            case "incrementRequiredMisses":
-                return parentAction.targetedPlayer
-
-            default:
-                return nil
-            }
-        }
-
         switch name {
         case .drawDeck,
                 .draw,
@@ -40,7 +29,8 @@ enum NonStandardLogic {
                 .counterShot,
                 .showHand,
                 .drawDiscovered,
-                .eliminate:
+                .eliminate,
+                .incrementRequiredMisses:
             return parentAction.targetedPlayer
 
         default:
@@ -50,8 +40,7 @@ enum NonStandardLogic {
 
     /// Transmitting context data from parent
     static func targetedCardForTriggeredEffect(
-        _ actionID: Card.ActionID,
-        name: Card.ActionName?,
+        name: Card.ActionName,
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
@@ -87,8 +76,7 @@ enum NonStandardLogic {
             break
         }
 
-        return lhs.actionID == rhs.actionID
-        && lhs.name == rhs.name
+        return lhs.name == rhs.name
         && lhs.targetedPlayer == rhs.targetedPlayer
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
@@ -100,20 +88,13 @@ enum NonStandardLogic {
     }
 
     static func isActionVisible(_ action: GameFeature.Action) -> Bool {
-        switch action.actionID.rawValue {
-        case "incrementRequiredMisses",
-            "ignoreLimitPerTurn",
-            "incrementCardsPerTurn":
-            return false
-
-        default:
-            break
-        }
-
         switch action.name {
         case .queue,
                 .discard,
-                .steal:
+                .steal,
+                .incrementRequiredMisses,
+                .ignoreLimitPerTurn,
+                .incrementCardsPerTurn:
             return false
 
         default:
@@ -143,7 +124,7 @@ enum NonStandardLogic {
 
         case .steal:
             guard let player = action.targetedPlayer,
-                    let card = action.targetedCard else {
+                  let card = action.targetedCard else {
                 return
             }
             let playerObj = state.players.get(player)
