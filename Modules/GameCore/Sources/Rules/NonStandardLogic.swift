@@ -37,8 +37,6 @@ enum NonStandardLogic {
                 .shoot,
                 .damage,
                 .steal,
-                .stealHand,
-                .stealInPlay,
                 .counterShot,
                 .showHand,
                 .drawDiscovered,
@@ -57,10 +55,7 @@ enum NonStandardLogic {
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
-        case .discard,
-                .steal,
-                .stealHand,
-                .stealInPlay:
+        case .discard, .steal:
             return parentAction.targetedCard
 
         default:

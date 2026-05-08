@@ -22,8 +22,6 @@ private extension Card.Selector.PlayRequirement {
         case .playLimitThisTurn(let limit): PlayLimitThisTurn(limit: limit)
         case .isHealthZero: IsHealthZero()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
-        case .targetedCardFromHand: TargetedCardFromHand()
-        case .targetedCardFromInPlay: TargetedCardFromInPlay()
         case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
         case .isGameOver: IsGameOver()
         case .isMyTurn: IsMyTurn()
@@ -81,26 +79,6 @@ private extension Card.Selector.PlayRequirement {
             return state.discard
                 .prefix(count)
                 .contains { $0.matches(regex: regex) }
-        }
-    }
-
-    struct TargetedCardFromHand: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return targetObj.hand.contains(card)
-        }
-    }
-
-    struct TargetedCardFromInPlay: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let card = pendingAction.targetedCard else { fatalError("Missing targetedCard") }
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let targetObj = state.players.get(target)
-            return targetObj.inPlay.contains(card)
         }
     }
 
