@@ -29,7 +29,7 @@ private extension Card.Trigger {
         case .shot: Shot()
         case .cardPrePlayed: NeverMatch()
         case .played: NeverMatch()
-        case .eliminating: Eliminating()
+        case .eliminatingOther: Eliminating()
         case .otherEliminated: OtherEliminated()
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
         case .weaponPrePlayed: WeaponPrePlayed()

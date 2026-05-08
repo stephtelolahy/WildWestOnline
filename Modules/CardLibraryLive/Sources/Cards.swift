@@ -261,7 +261,7 @@ private extension Card {
             description: "Draw 3 cards on eliminating an opponent",
             effects: [
                 .init(
-                    trigger: .eliminating,
+                    trigger: .eliminatingOther,
                     action: .drawDeck,
                     selectors: [
                         .setTarget(.sourcePlayer),
