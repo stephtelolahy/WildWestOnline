@@ -154,7 +154,7 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
                         alias: alias,
                         state: state
                     )
@@ -187,8 +187,8 @@ private extension Card.ActionName {
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
                         triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
-                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
+                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect(name: $0.action, parentAction: action),
                         state: state
                     )
                 }

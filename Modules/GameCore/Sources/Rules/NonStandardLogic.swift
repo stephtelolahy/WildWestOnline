@@ -7,14 +7,9 @@
 enum NonStandardLogic {
     /// Transmitting context data from parent
     static func targetedPlayerForTriggeredEffect(
-        _ actionID: Card.ActionID,
-        name: Card.ActionName?,
+        name: Card.ActionName,
         parentAction: GameFeature.Action
     ) -> String? {
-        guard let name else {
-            return nil
-        }
-
         switch name {
         case .drawDeck,
                 .draw,
@@ -45,8 +40,7 @@ enum NonStandardLogic {
 
     /// Transmitting context data from parent
     static func targetedCardForTriggeredEffect(
-        _ actionID: Card.ActionID,
-        name: Card.ActionName?,
+        name: Card.ActionName,
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
@@ -82,8 +76,7 @@ enum NonStandardLogic {
             break
         }
 
-        return lhs.actionID == rhs.actionID
-        && lhs.name == rhs.name
+        return lhs.name == rhs.name
         && lhs.targetedPlayer == rhs.targetedPlayer
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
@@ -95,14 +88,6 @@ enum NonStandardLogic {
     }
 
     static func isActionVisible(_ action: GameFeature.Action) -> Bool {
-        switch action.actionID.rawValue {
-        case"incrementCardsPerTurn":
-            return false
-
-        default:
-            break
-        }
-
         switch action.name {
         case .queue,
                 .discard,
@@ -139,7 +124,7 @@ enum NonStandardLogic {
 
         case .steal:
             guard let player = action.targetedPlayer,
-                    let card = action.targetedCard else {
+                  let card = action.targetedCard else {
                 return
             }
             let playerObj = state.players.get(player)

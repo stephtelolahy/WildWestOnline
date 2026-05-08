@@ -17,7 +17,6 @@ extension Card.Effect {
         state: GameFeature.State
     ) -> GameFeature.Action {
         var instance = GameFeature.Action(
-            actionID: self.actionID,
             name: self.action,
             sourcePlayer: sourcePlayer,
             playedCard: playedCard,

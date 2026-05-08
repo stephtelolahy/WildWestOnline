@@ -50,9 +50,7 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Sendable {
-        public var actionID: Card.ActionID = .init(rawValue: "undefined")
-        @available(*, deprecated, message: "Use actionID instead")
-        public var name: Card.ActionName?
+        public var name: Card.ActionName
         public var sourcePlayer: String = ""    // controller
         public var playedCard: String = ""      // sourceCard
         var triggeredBy: [Self] = []            // triggeringEvent

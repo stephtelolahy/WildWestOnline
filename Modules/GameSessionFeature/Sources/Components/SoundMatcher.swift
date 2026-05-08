@@ -38,10 +38,7 @@ struct SoundMatcher {
             return nil
         }
 
-        guard let actionName = action.name else {
-            return nil
-        }
-
+        let actionName = action.name
         if let special = specialSounds[actionName] {
             let cardName = Card.name(of: action.playedCard)
             if let sound = special[cardName] {

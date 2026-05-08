@@ -28,7 +28,6 @@ struct SimulationTest {
         )
 
         var dependencies = Dependencies()
-        dependencies.gameActionClient = .live(handlers: GameActionHandlers.all)
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,

@@ -34,26 +34,21 @@ public struct Card: Equatable, Sendable {
     }
 
     public struct Effect: Equatable, Sendable {
-        public let actionID: ActionID   // id
-        public let trigger: Trigger     // event
-        @available(*, deprecated, message: "Use actionID instead")
-        public let action: ActionName?
+        public let trigger: Trigger
+        public let action: ActionName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: [String: String]? // aliases
         public let selectors: [Selector]
 
         public init(
-            // swiftlint:disable:next function_default_parameter_at_end
-            actionID: ActionID = .init(rawValue: "undefined"),
             trigger: Trigger,
-            action: ActionName? = nil,
+            action: ActionName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: [String: String]? = nil,
             selectors: [Selector] = []
         ) {
-            self.actionID = actionID
             self.trigger = trigger
             self.action = action
             self.amount = amount
@@ -224,14 +219,6 @@ public struct Card: Equatable, Sendable {
                     self.label = label
                 }
             }
-        }
-    }
-
-    public struct ActionID: RawRepresentable, Hashable, Sendable {
-        public let rawValue: String
-
-        public init(rawValue: String) {
-            self.rawValue = rawValue
         }
     }
 }
