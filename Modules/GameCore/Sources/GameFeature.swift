@@ -51,9 +51,9 @@ public enum GameFeature {
 
     public struct Action: Equatable, Sendable {
         public var name: Card.ActionName
-        public var sourcePlayer: String = ""    // controller
-        public var sourceCard: String = ""      // sourceCard
-        var triggeredBy: [Self] = []            // triggeringEvent
+        public var sourcePlayer: String = ""
+        public var sourceCard: String = ""
+        var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
         var amount: Int?

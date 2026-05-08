@@ -1038,12 +1038,12 @@ private extension Card {
                 .init(
                     trigger: .permanent,
                     action: .setAlias,
-                    alias: [.missed: .bang]
+                    alias: .init(played: .missed, alias: .bang)
                 ),
                 .init(
                     trigger: .permanent,
                     action: .setAlias,
-                    alias: [.bang: .missed]
+                    alias: .init(played: .bang, alias: .missed)
                 )
             ]
         )

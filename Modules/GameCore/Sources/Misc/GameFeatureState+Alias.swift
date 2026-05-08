@@ -19,7 +19,8 @@ extension GameFeature.State {
                 if effect.trigger == .permanent,
                    effect.action == .setAlias,
                    let effectAlias = effect.alias,
-                   let aliasCardName = effectAlias[card] {
+                   effectAlias.played == card {
+                    let aliasCardName = effectAlias.alias
                     let aliasCardObj = cards.get(aliasCardName)
                     if let effectName = aliasCardObj.effects.first(where: { $0.trigger == trigger })?.action,
                        effectName == action {

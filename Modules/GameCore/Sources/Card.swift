@@ -11,9 +11,9 @@
 ///
 public struct Card: Equatable, Sendable {
     public let name: String
-    public let type: CardType // kind: Card.Kind
+    public let type: CardType
     public let description: String?
-    public let effects: [Effect] // let abilities: [TriggeredAbility]
+    public let effects: [Effect]
 
     public init(
         name: String,
@@ -38,7 +38,7 @@ public struct Card: Equatable, Sendable {
         public let action: ActionName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
-        public let alias: [String: String]? // aliases
+        public let alias: PlayedCardAlias?
         public let selectors: [Selector]
 
         public init(
@@ -46,7 +46,7 @@ public struct Card: Equatable, Sendable {
             action: ActionName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
-            alias: [String: String]? = nil,
+            alias: PlayedCardAlias? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
@@ -219,6 +219,16 @@ public struct Card: Equatable, Sendable {
                     self.label = label
                 }
             }
+        }
+    }
+
+    public struct PlayedCardAlias: Equatable, Sendable {
+        public let played: String
+        public let alias: String
+
+        public init(played: String, alias: String) {
+            self.played = played
+            self.alias = alias
         }
     }
 }
