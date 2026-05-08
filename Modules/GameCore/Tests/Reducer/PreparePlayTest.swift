@@ -15,7 +15,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c-2❤️"])
             }
-            .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .cardPrePlayed, action: .play)])])
+            .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(on: .cardPrePlayed, action: .play)])])
             .build()
 
         // When
@@ -32,7 +32,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c-2❤️"])
             }
-            .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .cardPrePlayed, action: .play)])])
+            .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(on: .cardPrePlayed, action: .play)])])
             .withPlayable(["c-2❤️"], player: "p1")
             .build()
 

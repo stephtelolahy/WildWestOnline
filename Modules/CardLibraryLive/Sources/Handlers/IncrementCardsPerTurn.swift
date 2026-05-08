@@ -34,13 +34,13 @@ struct IncrementCardsPerTurn: GameActionHandler {
 
         var updatedAction = state.queue[actionIndex]
         guard case .repeat(let repeatCount) = updatedAction.selectors[0],
-            case.fixed(var value) = repeatCount else {
+            case.times(var value) = repeatCount else {
             fatalError("Missing repeat count")
         }
 
         var queue = state.queue
         value += amount
-        updatedAction.selectors[0] = .repeat(.fixed(value))
+        updatedAction.selectors[0] = .repeat(.times(value))
         queue[actionIndex] = updatedAction
 
         var state = state

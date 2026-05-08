@@ -53,9 +53,9 @@ public enum GameFeature {
         public var actionID: Card.ActionID = .init(rawValue: "undefined")
         @available(*, deprecated, message: "Use actionID instead")
         public var name: Card.ActionName?
-        public var sourcePlayer: String = ""
-        public var playedCard: String = ""
-        var triggeredBy: [Self] = []
+        public var sourcePlayer: String = ""    // controller
+        public var playedCard: String = ""      // sourceCard
+        var triggeredBy: [Self] = []            // triggeringEvent
         public var targetedPlayer: String?
         public var targetedCard: String?
         var amount: Int?
