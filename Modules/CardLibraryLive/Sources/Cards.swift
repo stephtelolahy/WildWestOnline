@@ -364,7 +364,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .forEachTarget(.woundedPlayers)
+                        .forEachTarget(.wounded)
                     ]
                 )
             ]
@@ -433,7 +433,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDiscovered,
                     selectors: [
-                        .forEachTarget(.activePlayers),
+                        .forEachTarget(.all),
                         .chooseOne(.discoverCard)
                     ]
                 )
@@ -488,7 +488,7 @@ private extension Card {
                     trigger: .played,
                     action: .shoot,
                     selectors: [
-                        .forEachTarget(.otherPlayers())
+                        .forEachTarget(.others())
                     ]
                 )
             ]
@@ -507,7 +507,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .forEachTarget(.otherPlayers()),
+                        .forEachTarget(.others()),
                         .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
@@ -1244,7 +1244,7 @@ private extension Card {
                     trigger: .played,
                     action: .discard,
                     selectors: [
-                        .forEachTarget(.otherPlayers([.hasCards])),
+                        .forEachTarget(.others([.hasCards])),
                         .chooseOne(.targetCard())
                     ]
                 )

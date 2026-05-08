@@ -17,13 +17,13 @@ private extension Card.Selector.PlayerGroup {
 
     var resolver: Resolver {
         switch self {
-        case .woundedPlayers: WoundedPlayers()
-        case .activePlayers: ActivePlayers()
-        case .otherPlayers(let conditions): OtherPlayers(conditions: conditions)
+        case .wounded: Wounded()
+        case .all: All()
+        case .others(let conditions): Others(conditions: conditions)
         }
     }
 
-    struct WoundedPlayers: Resolver {
+    struct Wounded: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             state.playOrder
                 .starting(with: pendingAction.sourcePlayer)
@@ -31,14 +31,14 @@ private extension Card.Selector.PlayerGroup {
         }
     }
 
-    struct ActivePlayers: Resolver {
+    struct All: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             state.playOrder
                 .starting(with: pendingAction.sourcePlayer)
         }
     }
 
-    struct OtherPlayers: Resolver {
+    struct Others: Resolver {
         let conditions: [Card.Selector.PlayerFilter]
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {

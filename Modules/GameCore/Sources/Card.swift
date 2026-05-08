@@ -143,9 +143,9 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum PlayerGroup: Equatable, Sendable {
-            case activePlayers      // all
-            case woundedPlayers     // wounded
-            case otherPlayers([PlayerFilter] = [])  // others
+            case all
+            case wounded
+            case others([PlayerFilter] = [])
         }
 
         public enum PlayerIdentity: Equatable, Sendable { // PlayerRef
