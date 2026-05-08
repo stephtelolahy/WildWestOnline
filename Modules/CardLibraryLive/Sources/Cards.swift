@@ -1287,11 +1287,10 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .discardHand,
+                    action: .discard,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasCards])),
-                        .chooseOne(.targetCard()),
-                        .replaceIf(.targetedCardFromInPlay, .discardInPlay)
+                        .chooseOne(.targetCard())
                     ]
                 )
             ]

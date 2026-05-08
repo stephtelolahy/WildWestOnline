@@ -52,6 +52,7 @@ private extension Card.ActionName {
         case .queue: Queue()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
+        case .discard: fatalError("Unexpected to dispatch discard")
         }
     }
 

@@ -125,4 +125,21 @@ enum NonStandardLogic {
 
         return true
     }
+
+    static func updateActionNameByTargetedCard(
+        action: inout  GameFeature.Action,
+        state: GameFeature.State
+    ) {
+        if case .discard = action.name {
+            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
+            let playerObj = state.players.get(player)
+            let isFromHand = playerObj.hand.contains(card)
+            if isFromHand {
+                action.name = .discardHand
+            } else {
+                action.name = .discardInPlay
+            }
+        }
+    }
 }
