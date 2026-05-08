@@ -54,6 +54,7 @@ private extension Card.ActionName {
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         case .discard: fatalError("Unexpected to dispatch discard")
         case .steal: fatalError("Unexpected to dispatch steal")
+        case .incrementRequiredMisses: IncrementRequiredMisses()
         }
     }
 
@@ -536,6 +537,32 @@ private extension Card.ActionName {
 
             var state = state
             state[keyPath: \.players[target]!.remoteness] += amount
+            return state
+        }
+    }
+
+    struct IncrementRequiredMisses: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            guard let damageIndex = state.queue.firstIndex(where: {
+                $0.triggeredBy.first?.name == .shoot
+                && $0.name == .damage
+                && $0.targetedPlayer == target
+            }) else {
+                fatalError("Missing .shoot effect on targetedPlayer")
+            }
+
+            let damageAction = state.queue[damageIndex]
+            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
+
+            var queue = state.queue
+            queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses + amount)
+
+            var state = state
+            state.queue = queue
+
             return state
         }
     }

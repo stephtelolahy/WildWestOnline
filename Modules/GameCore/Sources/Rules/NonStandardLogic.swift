@@ -12,13 +12,7 @@ enum NonStandardLogic {
         parentAction: GameFeature.Action
     ) -> String? {
         guard let name else {
-            switch actionID.rawValue {
-            case "incrementRequiredMisses":
-                return parentAction.targetedPlayer
-
-            default:
-                return nil
-            }
+            return nil
         }
 
         switch name {
@@ -40,7 +34,8 @@ enum NonStandardLogic {
                 .counterShot,
                 .showHand,
                 .drawDiscovered,
-                .eliminate:
+                .eliminate,
+                .incrementRequiredMisses:
             return parentAction.targetedPlayer
 
         default:
@@ -101,8 +96,7 @@ enum NonStandardLogic {
 
     static func isActionVisible(_ action: GameFeature.Action) -> Bool {
         switch action.actionID.rawValue {
-        case "incrementRequiredMisses",
-            "ignoreLimitPerTurn",
+        case "ignoreLimitPerTurn",
             "incrementCardsPerTurn":
             return false
 
@@ -113,7 +107,8 @@ enum NonStandardLogic {
         switch action.name {
         case .queue,
                 .discard,
-                .steal:
+                .steal,
+                .incrementRequiredMisses:
             return false
 
         default:

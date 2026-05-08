@@ -119,6 +119,7 @@ public struct Card: Equatable, Sendable {
         case setWeapon
         case setMaxHealth
         case setAlias
+        case incrementRequiredMisses
 
         // MARK: Invisible
         case queue
