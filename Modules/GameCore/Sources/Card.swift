@@ -130,7 +130,7 @@ public struct Card: Equatable, Sendable {
         case setTarget(PlayerRef)
         case forEachCard(CardGroup)
         case setCard(CardRef)
-        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil) // choose
+        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
 
@@ -167,16 +167,16 @@ public struct Card: Equatable, Sendable {
 
         public indirect enum PlayRequirement: Equatable, Sendable {
             case not(Self)
-            case minimumPlayers(Int)    // playersAtLeast
-            case playLimitThisTurn(Int) // playLimit
-            case isHealthZero           // isDead
-            case isGameOver             // gameOver
+            case playersAtLeast(Int)
+            case playLimit(Int)
+            case isHealthZero
+            case isGameOver
             case isMyTurn
-            case drawnCardMatches(_ regex: String) // drawMatches
-            case lastHandCardMatches(_ regex: String) // lastDrawnMatches
+            case drawMatches(_ regex: String)
+            case lastDrawnMatches(_ regex: String)
         }
 
-        public enum ChoiceKind: Equatable, Sendable {   // Choice
+        public enum ChoiceKind: Equatable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
@@ -184,12 +184,12 @@ public struct Card: Equatable, Sendable {
             case costCard([CardFilter] = [])
             case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])
-            case playedCard([CardFilter] = [])  // playableCard
+            case playedCard([CardFilter] = [])
         }
 
         public enum PlayerFilter: Equatable, Sendable {
-            case hasCards   // hasAnyCard
-            case hasHandCards   // hasHandCard
+            case hasCards
+            case hasHandCards
             case atDistance(Int)
             case reachable
             case isWounded
@@ -198,11 +198,11 @@ public struct Card: Equatable, Sendable {
         public enum CardFilter: Equatable, Sendable {
             case canCounterShot
             case named(String)
-            case isFromHand // fromHand
+            case fromHand
         }
 
-        public struct ChoicePrompt: Equatable, Sendable { // Prompt
-            public let chooser: String // actor
+        public struct ChoicePrompt: Equatable, Sendable {
+            public let chooser: String
             public let options: [Option]
 
             public init(chooser: String, options: [Option]) {

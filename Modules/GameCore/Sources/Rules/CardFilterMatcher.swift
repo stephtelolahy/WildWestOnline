@@ -19,7 +19,7 @@ private extension Card.Selector.CardFilter {
         switch self {
         case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
-        case .isFromHand: IsFromHand()
+        case .fromHand: FromHand()
         }
     }
 
@@ -45,7 +45,7 @@ private extension Card.Selector.CardFilter {
         }
     }
 
-    struct IsFromHand: Matcher {
+    struct FromHand: Matcher {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 

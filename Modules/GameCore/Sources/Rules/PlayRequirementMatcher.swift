@@ -18,11 +18,11 @@ private extension Card.Selector.PlayRequirement {
     var matcher: Matcher {
         switch self {
         case .not(let req): Not(req: req)
-        case .minimumPlayers(let count): MinimumPlayers(count: count)
-        case .playLimitThisTurn(let limit): PlayLimitThisTurn(limit: limit)
+        case .playersAtLeast(let count): PlayersAtLeast(count: count)
+        case .playLimit(let limit): PlayLimit(limit: limit)
         case .isHealthZero: IsHealthZero()
-        case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
-        case .lastHandCardMatches(let regex): LastHandCardMatches(regex: regex)
+        case .drawMatches(let regex): DrawMatches(regex: regex)
+        case .lastDrawnMatches(let regex): LastDrawnMatches(regex: regex)
         case .isGameOver: IsGameOver()
         case .isMyTurn: IsMyTurn()
         }
@@ -36,7 +36,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct MinimumPlayers: Matcher {
+    struct PlayersAtLeast: Matcher {
         let count: Int
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -44,7 +44,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct PlayLimitThisTurn: Matcher {
+    struct PlayLimit: Matcher {
         let limit: Int
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -71,7 +71,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct DrawnCardMatches: Matcher {
+    struct DrawMatches: Matcher {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
@@ -82,7 +82,7 @@ private extension Card.Selector.PlayRequirement {
         }
     }
 
-    struct LastHandCardMatches: Matcher {
+    struct LastDrawnMatches: Matcher {
         let regex: String
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {

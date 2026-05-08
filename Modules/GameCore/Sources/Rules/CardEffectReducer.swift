@@ -580,7 +580,7 @@ private extension Card.ActionName {
             var playAction = state.queue[playIndex]
             guard let limitPerTurnIndex = playAction.selectors.firstIndex(where: {
                 if case let .require(requirement) = $0,
-                   case .playLimitThisTurn = requirement {
+                   case .playLimit = requirement {
                     return true
                 } else {
                     return false

@@ -125,7 +125,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .applyIf(.minimumPlayers(3)),
+                        .applyIf(.playersAtLeast(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
                 )
@@ -144,7 +144,7 @@ private extension Card {
                     action: .discard,
                     selectors: [
                         .repeat(.perExcessHand),
-                        .chooseOne(.targetCard([.isFromHand]))
+                        .chooseOne(.targetCard([.fromHand]))
                     ]
                 )
             ]
@@ -337,7 +337,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .require(.minimumPlayers(3))
+                        .require(.playersAtLeast(3))
                     ]
                 ),
                 .init(
@@ -451,7 +451,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .require(.playLimitThisTurn(1)),
+                        .require(.playLimit(1)),
                         .chooseOne(.targetPlayer([.reachable]))
                     ]
                 ),
@@ -647,7 +647,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regexHearts))
+                        .applyIf(.drawMatches(.regexHearts))
                     ]
                 )
             ]
@@ -669,7 +669,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
+                        .applyIf(.not(.drawMatches(.regex2To9Spades))),
                         .setTarget(.next),
                         .setCard(.played)
                     ]
@@ -679,7 +679,7 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regex2To9Spades))
+                        .applyIf(.drawMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
@@ -687,7 +687,7 @@ private extension Card {
                     action: .discard,
                     selectors: [
                         .setCard(.played),
-                        .applyIf(.drawnCardMatches(.regex2To9Spades))
+                        .applyIf(.drawMatches(.regex2To9Spades))
                     ]
                 )
             ]
@@ -715,7 +715,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
-                        .applyIf(.not(.drawnCardMatches(.regexHearts)))
+                        .applyIf(.not(.drawMatches(.regexHearts)))
                     ]
                 ),
                 .init(
@@ -807,7 +807,7 @@ private extension Card {
                     selectors: [
                         .setTarget(.attacker),
                         .repeat(.perDamage),
-                        .chooseOne(.targetCard([.isFromHand]))
+                        .chooseOne(.targetCard([.fromHand]))
                     ]
                 )
             ]
@@ -844,7 +844,7 @@ private extension Card {
                     trigger: .shot,
                     action: .counterShot,
                     selectors: [
-                        .applyIf(.drawnCardMatches(.regexHearts))
+                        .applyIf(.drawMatches(.regexHearts))
                     ]
                 )
             ]
@@ -863,8 +863,8 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .chooseOne(.costCard([.isFromHand])),
-                        .chooseOne(.costCard([.isFromHand]))
+                        .chooseOne(.costCard([.fromHand])),
+                        .chooseOne(.costCard([.fromHand]))
                     ]
                 )
             ]
@@ -923,7 +923,7 @@ private extension Card {
                     trigger: .drawLastCardOnTurnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .applyIf(.lastHandCardMatches(.regexRed))
+                        .applyIf(.lastDrawnMatches(.regexRed))
                     ]
                 )
             ]
@@ -942,7 +942,7 @@ private extension Card {
                     action: .steal,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
-                        .chooseOne(.targetCard([.isFromHand]))
+                        .chooseOne(.targetCard([.fromHand]))
                     ]
                 ),
                 .init(
@@ -1143,7 +1143,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .setTarget(.source),
-                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer())
                     ]
                 ),
@@ -1166,7 +1166,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .setTarget(.source),
-                        .chooseOne(.costCard([.isFromHand]))
+                        .chooseOne(.costCard([.fromHand]))
                     ]
                 ),
                 .init(
@@ -1189,7 +1189,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .setTarget(.source),
-                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer([.isWounded]))
                     ]
                 ),
@@ -1213,7 +1213,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .setTarget(.source),
-                        .chooseOne(.costCard([.isFromHand])),
+                        .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer([.hasCards])),
                         .chooseOne(.targetCard())
                     ]
@@ -1237,7 +1237,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .setTarget(.source),
-                        .chooseOne(.costCard([.isFromHand]))
+                        .chooseOne(.costCard([.fromHand]))
                     ]
                 ),
                 .init(
