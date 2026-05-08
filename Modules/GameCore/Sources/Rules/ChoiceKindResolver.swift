@@ -58,7 +58,7 @@ private extension Card.Selector.ChoiceKind {
             if selection == .choicePass {
                 []
             } else {
-                [pendingAction.withTargetedPlayer(selection)]
+                [pendingAction.copy(targetedPlayer: selection)]
             }
         }
     }
@@ -96,7 +96,7 @@ private extension Card.Selector.ChoiceKind {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.withTargetedCard(selection)]
+            [pendingAction.copy(targetedCard: selection, state: state)]
         }
     }
 
@@ -152,7 +152,7 @@ private extension Card.Selector.ChoiceKind {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.withTargetedCard(selection)]
+            [pendingAction.copy(targetedCard: selection, state: state)]
         }
     }
 

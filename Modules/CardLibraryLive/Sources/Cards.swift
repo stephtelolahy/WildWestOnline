@@ -141,7 +141,7 @@ private extension Card {
             effects: [
                 .init(
                     on: .turnEnded,
-                    action: .discardHand,
+                    action: .discard,
                     selectors: [
                         .repeat(.playerExcessHandSize),
                         .chooseOne(.targetCard([.isFromHand]))
@@ -227,16 +227,9 @@ private extension Card {
             effects: [
                 .init(
                     on: .eliminated,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
-                        .forEachCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    on: .eliminated,
-                    action: .discardHand,
-                    selectors: [
-                        .forEachCard(.allInHand)
+                        .forEachCard(.all)
                     ]
                 )
             ]
@@ -287,7 +280,7 @@ private extension Card {
             effects: [
                 .init(
                     on: .weaponPrePlayed,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.equippedWeapon)
                     ]
@@ -394,17 +387,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .discardHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .discardInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .discard
                 )
             ]
         )
@@ -426,17 +409,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .stealHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .stealInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .steal
                 )
             ]
         )
@@ -697,8 +670,8 @@ private extension Card {
                     action: .passInPlay,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
-                        .setCard(.played),
-                        .setTarget(.nextPlayer)
+                        .setTarget(.nextPlayer),
+                        .setCard(.played)
                     ]
                 ),
                 .init(
@@ -711,7 +684,7 @@ private extension Card {
                 ),
                 .init(
                     on: .turnStarted,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.played),
                         .applyIf(.drawnCardMatches(.regex2To9Spades))
@@ -747,7 +720,7 @@ private extension Card {
                 ),
                 .init(
                     on: .turnStarted,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.played)
                     ]
@@ -830,7 +803,7 @@ private extension Card {
                 .maxHealth(3),
                 .init(
                     on: .damaged,
-                    action: .stealHand,
+                    action: .steal,
                     selectors: [
                         .setTarget(.damagingPlayer),
                         .repeat(.receivedDamageAmount),
@@ -907,18 +880,10 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     on: .otherEliminated,
-                    action: .stealInPlay,
+                    action: .steal,
                     selectors: [
                         .setTarget(.eliminatedPlayer),
-                        .forEachCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    on: .otherEliminated,
-                    action: .stealHand,
-                    selectors: [
-                        .setTarget(.eliminatedPlayer),
-                        .forEachCard(.allInHand)
+                        .forEachCard(.all)
                     ]
                 )
             ]
@@ -974,7 +939,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     on: .turnStarted,
-                    action: .stealHand,
+                    action: .steal,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
@@ -1255,17 +1220,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .stealHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .stealInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .steal
                 )
             ]
         )
@@ -1287,11 +1242,10 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .discardHand,
+                    action: .discard,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasCards])),
-                        .chooseOne(.targetCard()),
-                        .replaceIf(.targetedCardFromInPlay, .discardInPlay)
+                        .chooseOne(.targetCard())
                     ]
                 )
             ]

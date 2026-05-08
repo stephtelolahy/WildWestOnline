@@ -119,7 +119,11 @@ public struct Card: Equatable, Sendable {
         case setWeapon
         case setMaxHealth
         case setAlias
+
+        // MARK: Invisible
         case queue
+        case discard
+        case steal
     }
 
     public enum Selector: Equatable, Sendable {
@@ -131,8 +135,6 @@ public struct Card: Equatable, Sendable {
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil) // choose
         case require(PlayRequirement)
         case applyIf(PlayRequirement) // when
-        @available(*, deprecated, message: "Use `applyIf` instead.")
-        case replaceIf(PlayRequirement, Card.ActionName)
 
         public enum RepeatCount: Equatable, Sendable {
             case times(Int)
@@ -156,8 +158,7 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum CardGroup: String, Sendable {
-            case allInHand  // hand
-            case allInPlay  // inPlay
+            case all
         }
 
         public enum CardIdentity: String, Sendable {
@@ -175,8 +176,6 @@ public struct Card: Equatable, Sendable {
             case isMyTurn
             case drawnCardMatches(_ regex: String) // drawMatches
             case lastHandCardMatches(_ regex: String) // lastDrawnMatches
-            case targetedCardFromHand
-            case targetedCardFromInPlay
         }
 
         public enum ChoiceKind: Equatable, Sendable {   // Choice

@@ -4,6 +4,8 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 27/10/2025.
 //
+// swiftlint:disable function_default_parameter_at_end
+
 extension Card.Effect {
     func toInstance(
         withPlayer sourcePlayer: String,
@@ -11,9 +13,10 @@ extension Card.Effect {
         triggeredBy: [GameFeature.Action],
         targetedPlayer: String? = nil,
         targetedCard: String? = nil,
-        alias: String? = nil
+        alias: String? = nil,
+        state: GameFeature.State
     ) -> GameFeature.Action {
-        .init(
+        var instance = GameFeature.Action(
             actionID: self.actionID,
             name: self.action,
             sourcePlayer: sourcePlayer,
@@ -25,5 +28,7 @@ extension Card.Effect {
             alias: alias,
             selectors: self.selectors
         )
+        NonStandardLogic.updateActionNameByTargetedCard(action: &instance, state: state)
+        return instance
     }
 }

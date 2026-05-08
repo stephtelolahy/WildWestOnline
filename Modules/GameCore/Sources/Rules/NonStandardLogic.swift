@@ -24,7 +24,7 @@ enum NonStandardLogic {
         switch name {
         case .drawDeck,
                 .draw,
-                .discardInPlay,
+                .discard,
                 .heal,
                 .setWeapon,
                 .increaseMagnifying,
@@ -34,11 +34,9 @@ enum NonStandardLogic {
 
         case .play,
                 .drawDiscard,
-                .discardHand,
                 .shoot,
                 .damage,
-                .stealHand,
-                .stealInPlay,
+                .steal,
                 .counterShot,
                 .showHand,
                 .drawDiscovered,
@@ -57,10 +55,7 @@ enum NonStandardLogic {
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
-        case .discardHand,
-                .discardInPlay,
-                .stealHand,
-                .stealInPlay:
+        case .discard, .steal:
             return parentAction.targetedCard
 
         default:
@@ -116,7 +111,9 @@ enum NonStandardLogic {
         }
 
         switch action.name {
-        case .queue:
+        case .queue,
+                .discard,
+                .steal:
             return false
 
         default:
@@ -124,5 +121,41 @@ enum NonStandardLogic {
         }
 
         return true
+    }
+
+    static func updateActionNameByTargetedCard(
+        action: inout  GameFeature.Action,
+        state: GameFeature.State
+    ) {
+        switch action.name {
+        case .discard:
+            let player = action.targetedPlayer ?? action.sourcePlayer
+            guard let card = action.targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                action.name = .discardHand
+            }
+            if playerObj.inPlay.contains(card) {
+                action.name = .discardInPlay
+            }
+
+        case .steal:
+            guard let player = action.targetedPlayer,
+                    let card = action.targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                action.name = .stealHand
+            }
+            if playerObj.inPlay.contains(card) {
+                action.name = .stealInPlay
+            }
+
+        default:
+            return
+        }
     }
 }

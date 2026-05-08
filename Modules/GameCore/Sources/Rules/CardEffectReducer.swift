@@ -52,6 +52,8 @@ private extension Card.ActionName {
         case .queue: Queue()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
+        case .discard: fatalError("Unexpected to dispatch discard")
+        case .steal: fatalError("Unexpected to dispatch steal")
         }
     }
 
@@ -150,7 +152,8 @@ private extension Card.ActionName {
                         playedCard: action.playedCard,
                         triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
-                        alias: alias
+                        alias: alias,
+                        state: state
                     )
                 }
 
@@ -182,7 +185,8 @@ private extension Card.ActionName {
                         playedCard: action.playedCard,
                         triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
-                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: action)
+                        targetedCard: NonStandardLogic.targetedCardForTriggeredEffect($0.actionID, name: $0.action, parentAction: action),
+                        state: state
                     )
                 }
 

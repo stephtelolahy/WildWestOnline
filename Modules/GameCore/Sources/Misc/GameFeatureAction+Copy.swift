@@ -32,4 +32,14 @@ extension GameFeature.Action {
             selectors: selectors ?? self.selectors,
         )
     }
+
+    func copy(
+        targetedCard: String,
+        state: GameFeature.State
+    ) -> Self {
+        var copy = self
+        copy.targetedCard = targetedCard
+        NonStandardLogic.updateActionNameByTargetedCard(action: &copy, state: state)
+        return copy
+    }
 }
