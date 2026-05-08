@@ -108,7 +108,8 @@ enum NonStandardLogic {
                 .discard,
                 .steal,
                 .incrementRequiredMisses,
-                .ignoreLimitPerTurn:
+                .ignoreLimitPerTurn,
+                .incrementCardsPerTurn:
             return false
 
         default:

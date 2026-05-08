@@ -967,8 +967,8 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    actionID: .incrementCardsPerTurn,
                     trigger: .hasStealHandOnTurnStarted,
+                    action: .incrementCardsPerTurn,
                     amount: -1
                 )
             ]
@@ -990,8 +990,8 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    actionID: .incrementCardsPerTurn,
                     trigger: .hasDrawDiscardOnTurnStarted,
+                    action: .incrementCardsPerTurn,
                     amount: -1,
                 )
             ]
@@ -1025,8 +1025,8 @@ private extension Card {
                     action: .undiscover
                 ),
                 .init(
-                    actionID: .incrementCardsPerTurn,
                     trigger: .turnStarted,
+                    action: .incrementCardsPerTurn,
                     amount: -2
                 )
             ]

@@ -9,8 +9,6 @@ import GameCore
 
 public enum GameActionHandlers {
     public static var all: [GameActionHandler.Type] {
-        [
-            IncrementCardsPerTurn.self,
-        ]
+        []
     }
 }

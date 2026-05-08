@@ -121,6 +121,7 @@ public struct Card: Equatable, Sendable {
         case setAlias
         case incrementRequiredMisses
         case ignoreLimitPerTurn
+        case incrementCardsPerTurn
 
         // MARK: Invisible
         case queue
