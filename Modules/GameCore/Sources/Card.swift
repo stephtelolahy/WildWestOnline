@@ -74,7 +74,7 @@ public struct Card: Equatable, Sendable {
         case eliminatingOther
         case otherEliminated
         case drawLastCardOnTurnStarted
-        case weaponPlayAttempted
+        case weaponPrePlayed
         case shootingWithCard(named: String)
         case prePlayingCard(named: String)
         case drawRequired

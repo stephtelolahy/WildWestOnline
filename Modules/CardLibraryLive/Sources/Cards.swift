@@ -279,7 +279,7 @@ private extension Card {
             description: "Discard your currently equipped weapon before equipping another one.",
             effects: [
                 .init(
-                    trigger: .weaponPlayAttempted,
+                    trigger: .weaponPrePlayed,
                     action: .discard,
                     selectors: [
                         .setCard(.equippedWeapon)

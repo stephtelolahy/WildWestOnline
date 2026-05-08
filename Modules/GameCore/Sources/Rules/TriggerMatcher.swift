@@ -32,7 +32,7 @@ private extension Card.Trigger {
         case .eliminatingOther: EliminatingOther()
         case .otherEliminated: OtherEliminated()
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
-        case .weaponPlayAttempted: WeaponPlayAttempted()
+        case .weaponPrePlayed: WeaponPrePlayed()
         case .shootingWithCard(let name): ShootingWithCard(name: name)
         case .drawRequired: DrawRequired()
         case .prePlayingCard(named: let name): PrePlayingCard(name: name)
@@ -214,7 +214,7 @@ private extension Card.Trigger {
         }
     }
 
-    struct WeaponPlayAttempted: Matcher {
+    struct WeaponPrePlayed: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .preparePlay = action.name,
                   action.sourcePlayer == player else {
