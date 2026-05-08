@@ -60,12 +60,12 @@ public struct Card: Equatable, Sendable {
 
     public enum Trigger: Equatable, Sendable {
         case permanent
-        case cardPrePlayed  // playAttempted
+        case playAttempted
         case played
         case equiped
         case discarded
         case damaged
-        case damagedLethal  // lethallyDamaged
+        case lethallyDamaged
         case eliminated
         case handEmptied
         case turnStarted
@@ -74,12 +74,12 @@ public struct Card: Equatable, Sendable {
         case eliminatingOther
         case otherEliminated
         case drawLastCardOnTurnStarted
-        case weaponPrePlayed                    // weaponPlayAttempted
-        case shootingWithCard(named: String)    // shooting(withCard:)
-        case prePlayingCard(named: String)      // attemptingPlay(card:)
-        case requiredToDraw                     // drawRequired
-        case hasStealHandOnTurnStarted          // stoleFromHandOnTurnStarted
-        case hasDrawDiscardOnTurnStarted        // drewFromDiscardOnTurnStarted
+        case weaponPlayAttempted
+        case shootingWithCard(named: String)
+        case prePlayingCard(named: String)
+        case drawRequired
+        case hasStealHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -90,18 +90,18 @@ public struct Card: Equatable, Sendable {
         case draw
         case discover
         case undiscover
-        case drawDeck       // drawFromDeck
-        case drawDiscard    // drawFromDiscard
-        case drawDiscovered // drawFromDiscovered
-        case stealHand      // stealFromHand
-        case stealInPlay    // stealFromField
+        case drawDeck
+        case drawDiscard
+        case drawDiscovered
+        case stealHand
+        case stealInPlay
         case discardHand
         case discardInPlay
-        case passInPlay     // passLeft
-        case showHand       // revealCard
+        case passInPlay
+        case showHand
         case heal
         case damage
-        case shoot          // dodge
+        case shoot
         case counterShot
         case endTurn
         case startTurn

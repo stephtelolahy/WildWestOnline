@@ -89,7 +89,7 @@ private extension Card {
             description: "End turn",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .endTurn
                 )
             ]
@@ -121,7 +121,7 @@ private extension Card {
             description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
             effects: [
                 .init(
-                    trigger: .damagedLethal,
+                    trigger: .lethallyDamaged,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -192,7 +192,7 @@ private extension Card {
             description: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
                 .init(
-                    trigger: .damagedLethal,
+                    trigger: .lethallyDamaged,
                     action: .eliminate,
                     selectors: [
                         .applyIf(.isHealthZero)
@@ -279,7 +279,7 @@ private extension Card {
             description: "Discard your currently equipped weapon before equipping another one.",
             effects: [
                 .init(
-                    trigger: .weaponPrePlayed,
+                    trigger: .weaponPlayAttempted,
                     action: .discard,
                     selectors: [
                         .setCard(.equippedWeapon)
@@ -334,7 +334,7 @@ private extension Card {
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .require(.minimumPlayers(3))
@@ -356,7 +356,7 @@ private extension Card {
             description: "All players in play regain one life point.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play
                 ),
                 .init(
@@ -378,7 +378,7 @@ private extension Card {
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasCards])),
@@ -400,7 +400,7 @@ private extension Card {
             description: "Draw a card from a player at distance 1",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.atDistance(1), .hasCards])),
@@ -448,7 +448,7 @@ private extension Card {
             description: "reduce other players’s life points",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .require(.playLimitThisTurn(1)),
@@ -522,7 +522,7 @@ private extension Card {
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer())
@@ -701,7 +701,7 @@ private extension Card {
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .handicap,
                     selectors: [
                         .chooseOne(.targetPlayer())
@@ -859,7 +859,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -898,7 +898,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    trigger: .requiredToDraw,
+                    trigger: .drawRequired,
                     action: .draw
                 )
             ]
@@ -1058,7 +1058,7 @@ private extension Card {
             description: "Acts as a Bang! with a range of one.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.atDistance(1)]))
@@ -1139,7 +1139,7 @@ private extension Card {
             description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1162,7 +1162,7 @@ private extension Card {
             description: "The player must discard one additional card, to heal two health.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1185,7 +1185,7 @@ private extension Card {
             description: "The player must discard one additional card, to heal any player one health.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1209,7 +1209,7 @@ private extension Card {
             description: "The player must discard one additional card to steal a card from any other player.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1233,7 +1233,7 @@ private extension Card {
             description: "The player must discard one additional card to cause all other players to discard one card.",
             effects: [
                 .init(
-                    trigger: .cardPrePlayed,
+                    trigger: .playAttempted,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1264,14 +1264,14 @@ private extension String {
 private extension Card.Effect {
     static var playOnPrePlayed: Self {
         .init(
-            trigger: .cardPrePlayed,
+            trigger: .playAttempted,
             action: .play
         )
     }
 
     static var equipOnPrePlayed: Self {
         .init(
-            trigger: .cardPrePlayed,
+            trigger: .playAttempted,
             action: .equip
         )
     }

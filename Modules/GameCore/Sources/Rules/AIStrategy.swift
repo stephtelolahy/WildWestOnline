@@ -66,6 +66,6 @@ private extension AIStrategy {
 private extension Card {
     func mainEffect() -> Card.ActionName? {
         effects.first(where: { $0.trigger == .played })?.action
-        ?? effects.first(where: { $0.trigger == .cardPrePlayed })?.action
+        ?? effects.first(where: { $0.trigger == .playAttempted })?.action
     }
 }
