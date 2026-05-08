@@ -66,7 +66,7 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             group.resolve(pendingAction, state: state)
-                .map { pendingAction.updateWithTargetedCard($0, state: state) }
+                .map { pendingAction.copy(targetedCard: $0, state: state) }
         }
     }
 
@@ -78,7 +78,7 @@ private extension Card.Selector {
                 return [] // silently skip effect is cannot set card
             }
 
-            return [pendingAction.updateWithTargetedCard(card, state: state)]
+            return [pendingAction.copy(targetedCard: card, state: state)]
         }
     }
 
