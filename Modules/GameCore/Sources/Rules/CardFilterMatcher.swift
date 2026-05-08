@@ -19,7 +19,7 @@ private extension Card.Selector.CardFilter {
         switch self {
         case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
-        case .isFromHand: IsFromHand()
+        case .fromHand: FromHand()
         }
     }
 
@@ -27,13 +27,13 @@ private extension Card.Selector.CardFilter {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let cardName = Card.name(of: card)
 
-            if state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .cardPlayed) != nil {
+            if state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .played) != nil {
                 return true
             }
 
             let cardObj = state.cards.get(cardName)
             let effects = cardObj.effects
-            return effects.contains { $0.trigger == .cardPlayed && $0.action == .counterShot }
+            return effects.contains { $0.trigger == .played && $0.action == .counterShot }
         }
     }
 
@@ -45,7 +45,7 @@ private extension Card.Selector.CardFilter {
         }
     }
 
-    struct IsFromHand: Matcher {
+    struct FromHand: Matcher {
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 

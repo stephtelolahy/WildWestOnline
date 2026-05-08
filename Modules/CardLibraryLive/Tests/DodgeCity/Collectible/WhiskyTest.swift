@@ -48,7 +48,7 @@ struct WhiskyTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.whisky, player: "p1")
-        await #expect(throws: GameFeature.Error.noChoosableCard([.isFromHand], player: "p1")) {
+        await #expect(throws: GameFeature.Error.noChoosableCard([.fromHand], player: "p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

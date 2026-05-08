@@ -135,15 +135,15 @@ private extension Card.ActionName {
 
     struct PreparePlay: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let card = action.playedCard
+            let card = action.sourceCard
             var cardName = Card.name(of: card)
-            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .cardPrePlayed)
+            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .prePlayed)
             if let alias {
                 cardName = alias
             }
             let cardObj = state.cards.get(cardName)
 
-            let onPreparePlay = cardObj.effects.filter { $0.trigger == .cardPrePlayed }
+            let onPreparePlay = cardObj.effects.filter { $0.trigger == .prePlayed }
             guard onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
@@ -152,7 +152,7 @@ private extension Card.ActionName {
                 .map {
                     $0.toInstance(
                         withPlayer: action.sourcePlayer,
-                        playedCard: action.playedCard,
+                        playedCard: action.sourceCard,
                         triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
                         alias: alias,
@@ -169,7 +169,7 @@ private extension Card.ActionName {
     struct Play: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let player = action.sourcePlayer
-            let card = action.playedCard
+            let card = action.sourceCard
             var state = state
 
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
@@ -181,11 +181,11 @@ private extension Card.ActionName {
             }
             let cardObj = state.cards.get(cardName)
             let effects = cardObj.effects
-                .filter { $0.trigger == .cardPlayed }
+                .filter { $0.trigger == .played }
                 .map {
                     $0.toInstance(
                         withPlayer: action.sourcePlayer,
-                        playedCard: action.playedCard,
+                        playedCard: action.sourceCard,
                         triggeredBy: [action],
                         targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: action),
                         targetedCard: NonStandardLogic.targetedCardForTriggeredEffect(name: $0.action, parentAction: action),
@@ -201,7 +201,7 @@ private extension Card.ActionName {
     struct Equip: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             let player = action.sourcePlayer
-            let card = action.playedCard
+            let card = action.sourceCard
 
             var state = state
 
@@ -224,7 +224,7 @@ private extension Card.ActionName {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
             let player = action.sourcePlayer
-            let card = action.playedCard
+            let card = action.sourceCard
 
             var state = state
 
@@ -395,7 +395,7 @@ private extension Card.ActionName {
             let damage = GameFeature.Action(
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
-                playedCard: action.playedCard,
+                sourceCard: action.sourceCard,
                 triggeredBy: [action],
                 targetedPlayer: target,
                 amount: 1,
@@ -455,7 +455,7 @@ private extension Card.ActionName {
 
             var state = state
             state.turn = nil
-            state.queue.removeAll { $0.sourcePlayer == target && $0.playedCard != action.playedCard }
+            state.queue.removeAll { $0.sourcePlayer == target && $0.sourceCard != action.sourceCard }
             return state
         }
     }
@@ -580,7 +580,7 @@ private extension Card.ActionName {
             var playAction = state.queue[playIndex]
             guard let limitPerTurnIndex = playAction.selectors.firstIndex(where: {
                 if case let .require(requirement) = $0,
-                   case .playLimitThisTurn = requirement {
+                   case .playLimit = requirement {
                     return true
                 } else {
                     return false

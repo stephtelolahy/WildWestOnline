@@ -1,17 +1,17 @@
 //
-//  CardIdentityResolver.swift
+//  CardRefResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
 
-extension Card.Selector.CardIdentity {
+extension Card.Selector.CardRef {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.CardIdentity {
+private extension Card.Selector.CardRef {
     protocol Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String?
     }
@@ -20,13 +20,13 @@ private extension Card.Selector.CardIdentity {
         switch self {
         case .played: Played()
         case .equippedWeapon: EquippedWeapon()
-        case .lastHand: LastHand()
+        case .lastDrawn: LastDrawn()
         }
     }
 
     struct Played: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
-            pendingAction.playedCard
+            pendingAction.sourceCard
         }
     }
 
@@ -38,7 +38,7 @@ private extension Card.Selector.CardIdentity {
         }
     }
 
-    struct LastHand: Resolver {
+    struct LastDrawn: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
             guard let card = state.players.get(target).hand.last else { fatalError("Missing last card in hand of player \(target)") }
@@ -52,6 +52,6 @@ private extension GameFeature.State {
     func isWeapon(_ card: String) -> Bool {
         let cardName = Card.name(of: card)
         let cardObj = cards.get(cardName)
-        return cardObj.effects.contains { $0.trigger == .cardEquiped && $0.action == .setWeapon }
+        return cardObj.effects.contains { $0.trigger == .equiped && $0.action == .setWeapon }
     }
 }

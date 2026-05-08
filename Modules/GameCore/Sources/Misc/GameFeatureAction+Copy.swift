@@ -19,7 +19,7 @@ extension GameFeature.Action {
         .init(
             name: self.name,
             sourcePlayer: sourcePlayer ?? self.sourcePlayer,
-            playedCard: playedCard ?? self.playedCard,
+            sourceCard: playedCard ?? self.sourceCard,
             triggeredBy: triggeredBy ?? self.triggeredBy,
             targetedPlayer: targetedPlayer ?? self.targetedPlayer,
             targetedCard: targetedCard ?? self.targetedCard,

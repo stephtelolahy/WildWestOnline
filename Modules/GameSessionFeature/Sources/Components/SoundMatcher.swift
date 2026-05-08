@@ -40,7 +40,7 @@ struct SoundMatcher {
 
         let actionName = action.name
         if let special = specialSounds[actionName] {
-            let cardName = Card.name(of: action.playedCard)
+            let cardName = Card.name(of: action.sourceCard)
             if let sound = special[cardName] {
                 return sound
             }

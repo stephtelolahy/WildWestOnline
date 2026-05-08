@@ -111,7 +111,7 @@ private extension Card.Selector.ChoiceKind {
 
             let costCards = targetObj.hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
-                && $0 != pendingAction.playedCard
+                && $0 != pendingAction.sourceCard
             }
 
             guard costCards.isNotEmpty else {
@@ -285,7 +285,7 @@ private extension Card.Selector.ChoiceKind {
                 var alias: String?
                 if conditions.contains(.canCounterShot) {
                     let cardName = Card.name(of: selection)
-                    alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .cardPlayed)
+                    alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .played)
                 }
 
                 return [pendingAction.copy(playedCard: selection, alias: alias)]

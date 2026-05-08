@@ -23,8 +23,8 @@ extension GameFeature {
         if let playable = state.playable {
             guard action.name == .preparePlay,
                   playable.player == action.sourcePlayer,
-                  playable.cards.contains(action.playedCard) else {
-                fatalError("Not playable card \(action.playedCard)")
+                  playable.cards.contains(action.sourceCard) else {
+                fatalError("Not playable card \(action.sourceCard)")
             }
 
             state.playable = nil

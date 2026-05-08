@@ -78,7 +78,7 @@ struct SidKetchumTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        await #expect(throws: GameFeature.Error.noChoosableCard([.isFromHand], player: "p1")) {
+        await #expect(throws: GameFeature.Error.noChoosableCard([.fromHand], player: "p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
