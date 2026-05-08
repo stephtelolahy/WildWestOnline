@@ -50,7 +50,7 @@ private extension Card.Selector {
     }
 
     struct SetTarget: Resolver {
-        let identity: Card.Selector.PlayerIdentity
+        let identity: Card.Selector.PlayerRef
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard let target = identity.resolve(pendingAction, state: state) else {
@@ -71,7 +71,7 @@ private extension Card.Selector {
     }
 
     struct SetCard: Resolver {
-        let identity: Card.Selector.CardIdentity
+        let identity: Card.Selector.CardRef
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard let card = identity.resolve(pendingAction, state: state) else {

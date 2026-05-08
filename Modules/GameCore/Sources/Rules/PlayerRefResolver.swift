@@ -1,31 +1,31 @@
 //
-//  PlayerIdentityResolver.swift
+//  PlayerRefResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
 
-extension Card.Selector.PlayerIdentity {
+extension Card.Selector.PlayerRef {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.PlayerIdentity {
+private extension Card.Selector.PlayerRef {
     protocol Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String?
     }
 
     var resolver: Resolver {
         switch self {
-        case .nextPlayer: NextPlayer()
-        case .damagingPlayer: DamagingPlayer()
-        case .sourcePlayer: SourcePlayer()
-        case .eliminatedPlayer: EliminatedPlayer()
+        case .next: Next()
+        case .attacker: Attacker()
+        case .source: Source()
+        case .eliminated: Eliminated()
         }
     }
 
-    struct NextPlayer: Resolver {
+    struct Next: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             let current = pendingAction.sourcePlayer
             let orderedPlayers = state.startOrder
@@ -39,7 +39,7 @@ private extension Card.Selector.PlayerIdentity {
         }
     }
 
-    struct DamagingPlayer: Resolver {
+    struct Attacker: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage else {
@@ -55,13 +55,13 @@ private extension Card.Selector.PlayerIdentity {
         }
     }
 
-    struct SourcePlayer: Resolver {
+    struct Source: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             pendingAction.sourcePlayer
         }
     }
 
-    struct EliminatedPlayer: Resolver {
+    struct Eliminated: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .eliminate,

@@ -127,9 +127,9 @@ public struct Card: Equatable, Sendable {
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
         case forEachTarget(PlayerGroup)
-        case setTarget(PlayerIdentity)
+        case setTarget(PlayerRef)
         case forEachCard(CardGroup)
-        case setCard(CardIdentity)
+        case setCard(CardRef)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil) // choose
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
@@ -148,21 +148,21 @@ public struct Card: Equatable, Sendable {
             case others([PlayerFilter] = [])
         }
 
-        public enum PlayerIdentity: Equatable, Sendable { // PlayerRef
-            case nextPlayer         // next
-            case damagingPlayer     // attacker
-            case sourcePlayer       // self
-            case eliminatedPlayer   // eliminated
+        public enum PlayerRef: Equatable, Sendable {
+            case next
+            case attacker
+            case source
+            case eliminated
         }
 
         public enum CardGroup: String, Sendable {
             case all
         }
 
-        public enum CardIdentity: String, Sendable {
-            case played // this
-            case equippedWeapon // weapon
-            case lastHand   // lastDrawn
+        public enum CardRef: String, Sendable {
+            case played
+            case equippedWeapon
+            case lastDrawn
         }
 
         public indirect enum PlayRequirement: Equatable, Sendable {
