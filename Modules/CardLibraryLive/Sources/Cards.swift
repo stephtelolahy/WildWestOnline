@@ -394,17 +394,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .discardHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .discardInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .discard
                 )
             ]
         )
