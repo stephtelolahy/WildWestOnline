@@ -697,8 +697,8 @@ private extension Card {
                     action: .passInPlay,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
-                        .setCard(.played),
-                        .setTarget(.nextPlayer)
+                        .setTarget(.nextPlayer),
+                        .setCard(.played)
                     ]
                 ),
                 .init(

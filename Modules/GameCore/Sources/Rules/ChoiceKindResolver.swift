@@ -58,7 +58,7 @@ private extension Card.Selector.ChoiceKind {
             if selection == .choicePass {
                 []
             } else {
-                [pendingAction.withTargetedPlayer(selection)]
+                [pendingAction.copy(targetedPlayer: selection)]
             }
         }
     }

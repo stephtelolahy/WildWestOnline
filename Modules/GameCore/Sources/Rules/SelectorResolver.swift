@@ -46,7 +46,7 @@ private extension Card.Selector {
                 throw .noTarget(group)
             }
 
-            return targets.map { pendingAction.withTargetedPlayer($0) }
+            return targets.map { pendingAction.copy(targetedPlayer: $0) }
         }
     }
 
@@ -58,7 +58,7 @@ private extension Card.Selector {
                 throw .noPlayer(identity)
             }
 
-            return [pendingAction.withTargetedPlayer(target)]
+            return [pendingAction.copy(targetedPlayer: target)]
         }
     }
 
