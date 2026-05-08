@@ -123,6 +123,7 @@ public struct Card: Equatable, Sendable {
         // MARK: Invisible effect
         case queue
         case discard
+        case steal
     }
 
     public enum Selector: Equatable, Sendable {
@@ -157,7 +158,9 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum CardGroup: String, Sendable {
+            @available(*, deprecated, message: "use all")
             case allInHand  // hand
+            @available(*, deprecated, message: "use all")
             case allInPlay  // inPlay
             case all
         }
@@ -177,7 +180,9 @@ public struct Card: Equatable, Sendable {
             case isMyTurn
             case drawnCardMatches(_ regex: String) // drawMatches
             case lastHandCardMatches(_ regex: String) // lastDrawnMatches
+            @available(*, deprecated, message: "use automatic action selector")
             case targetedCardFromHand
+            @available(*, deprecated, message: "use automatic action selector")
             case targetedCardFromInPlay
         }
 

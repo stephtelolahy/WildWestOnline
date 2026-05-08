@@ -34,9 +34,9 @@ enum NonStandardLogic {
 
         case .play,
                 .drawDiscard,
-                .discardHand,
                 .shoot,
                 .damage,
+                .steal,
                 .stealHand,
                 .stealInPlay,
                 .counterShot,
@@ -58,8 +58,7 @@ enum NonStandardLogic {
     ) -> String? {
         switch name {
         case .discard,
-                .discardHand,
-                .discardInPlay,
+                .steal,
                 .stealHand,
                 .stealInPlay:
             return parentAction.targetedCard
@@ -131,7 +130,8 @@ enum NonStandardLogic {
         action: inout  GameFeature.Action,
         state: GameFeature.State
     ) {
-        if case .discard = action.name {
+        switch action.name {
+        case .discard:
             let player = action.targetedPlayer ?? action.sourcePlayer
             guard let card = action.targetedCard else {
                 return
@@ -143,6 +143,22 @@ enum NonStandardLogic {
             if playerObj.inPlay.contains(card) {
                 action.name = .discardInPlay
             }
+
+        case .steal:
+            guard let player = action.targetedPlayer,
+                    let card = action.targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                action.name = .stealHand
+            }
+            if playerObj.inPlay.contains(card) {
+                action.name = .stealInPlay
+            }
+
+        default:
+            return
         }
     }
 }

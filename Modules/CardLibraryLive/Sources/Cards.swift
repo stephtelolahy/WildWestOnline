@@ -409,17 +409,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .stealHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .stealInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .steal
                 )
             ]
         )
@@ -813,7 +803,7 @@ private extension Card {
                 .maxHealth(3),
                 .init(
                     on: .damaged,
-                    action: .stealHand,
+                    action: .steal,
                     selectors: [
                         .setTarget(.damagingPlayer),
                         .repeat(.receivedDamageAmount),
@@ -890,18 +880,10 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     on: .otherEliminated,
-                    action: .stealInPlay,
+                    action: .steal,
                     selectors: [
                         .setTarget(.eliminatedPlayer),
-                        .forEachCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    on: .otherEliminated,
-                    action: .stealHand,
-                    selectors: [
-                        .setTarget(.eliminatedPlayer),
-                        .forEachCard(.allInHand)
+                        .forEachCard(.all)
                     ]
                 )
             ]
@@ -957,7 +939,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     on: .turnStarted,
-                    action: .stealHand,
+                    action: .steal,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
                         .chooseOne(.targetCard([.isFromHand]))
@@ -1238,17 +1220,7 @@ private extension Card {
                 ),
                 .init(
                     on: .cardPlayed,
-                    action: .stealHand,
-                    selectors: [
-                        .applyIf(.targetedCardFromHand)
-                    ]
-                ),
-                .init(
-                    on: .cardPlayed,
-                    action: .stealInPlay,
-                    selectors: [
-                        .applyIf(.targetedCardFromInPlay)
-                    ]
+                    action: .steal
                 )
             ]
         )
