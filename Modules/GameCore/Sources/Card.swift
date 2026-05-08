@@ -120,7 +120,7 @@ public struct Card: Equatable, Sendable {
         case setMaxHealth
         case setAlias
 
-        // MARK: Invisible effect
+        // MARK: Invisible
         case queue
         case discard
         case steal

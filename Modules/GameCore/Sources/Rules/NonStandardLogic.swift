@@ -111,7 +111,9 @@ enum NonStandardLogic {
         }
 
         switch action.name {
-        case .queue:
+        case .queue,
+                .discard,
+                .steal:
             return false
 
         default:
