@@ -19,7 +19,7 @@ private extension Card.Trigger {
         switch self {
         case .permanent: NeverMatch()
         case .equiped: CardEquiped()
-        case .cardDiscarded: CardDiscarded()
+        case .discarded: CardDiscarded()
         case .damaged: Damaged()
         case .damagedLethal: DamagedLethal()
         case .eliminated: Eliminated()

@@ -603,7 +603,7 @@ private extension Card {
                     amount: 1
                 ),
                 .init(
-                    trigger: .cardDiscarded,
+                    trigger: .discarded,
                     action: .increaseMagnifying,
                     amount: -1
                 )
@@ -624,7 +624,7 @@ private extension Card {
                     amount: 1
                 ),
                 .init(
-                    trigger: .cardDiscarded,
+                    trigger: .discarded,
                     action: .increaseRemoteness,
                     amount: -1
                 )
@@ -1103,7 +1103,7 @@ private extension Card {
                     amount: 1
                 ),
                 .init(
-                    trigger: .cardDiscarded,
+                    trigger: .discarded,
                     action: .increaseMagnifying,
                     amount: -1
                 )
@@ -1124,7 +1124,7 @@ private extension Card {
                     amount: 1
                 ),
                 .init(
-                    trigger: .cardDiscarded,
+                    trigger: .discarded,
                     action: .increaseRemoteness,
                     amount: -1
                 )
@@ -1295,7 +1295,7 @@ private extension Array where Element == Card.Effect {
                 amount: range
             ),
             .init(
-                trigger: .cardDiscarded,
+                trigger: .discarded,
                 action: .setWeapon,
                 amount: 1
             )
