@@ -29,7 +29,7 @@ public struct Card: Equatable, Sendable {
 
     public enum CardType: String, Sendable {
         case collectible
-        case figure         // character
+        case figure
         case ability
     }
 
@@ -59,9 +59,9 @@ public struct Card: Equatable, Sendable {
     }
 
     public enum Trigger: Equatable, Sendable {
-        case permanent      // always
+        case permanent
         case cardPrePlayed  // playAttempted
-        case cardPlayed     // played
+        case played
         case cardEquiped    // equipped
         case cardDiscarded  // discarded
         case damaged

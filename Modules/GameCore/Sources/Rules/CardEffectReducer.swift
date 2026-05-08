@@ -181,7 +181,7 @@ private extension Card.ActionName {
             }
             let cardObj = state.cards.get(cardName)
             let effects = cardObj.effects
-                .filter { $0.trigger == .cardPlayed }
+                .filter { $0.trigger == .played }
                 .map {
                     $0.toInstance(
                         withPlayer: action.sourcePlayer,

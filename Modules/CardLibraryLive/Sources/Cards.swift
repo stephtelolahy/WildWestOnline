@@ -299,7 +299,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.times(2))
@@ -317,7 +317,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.times(3))
@@ -341,7 +341,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .heal,
                     amount: 1
                 )
@@ -360,7 +360,7 @@ private extension Card {
                     action: .play
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -386,7 +386,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .discard
                 )
             ]
@@ -408,7 +408,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .steal
                 )
             ]
@@ -423,14 +423,14 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .discover,
                     selectors: [
                         .repeat(.activePlayerCount)
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .drawDiscovered,
                     selectors: [
                         .forEachTarget(.activePlayers),
@@ -456,7 +456,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .shoot
                 )
             ]
@@ -470,7 +470,7 @@ private extension Card {
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .counterShot
                 )
             ]
@@ -485,7 +485,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .shoot,
                     selectors: [
                         .forEachTarget(.otherPlayers())
@@ -503,7 +503,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .damage,
                     amount: 1,
                     selectors: [
@@ -529,7 +529,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .damage,
                     amount: 1,
                     selectors: [
@@ -1065,7 +1065,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .shoot
                 )
             ]
@@ -1079,11 +1079,11 @@ private extension Card {
             description: "Acts as a Missed!, but allows the player to draw a card.",
             effects: [
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .counterShot
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .drawDeck
                 )
             ]
@@ -1148,7 +1148,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .shoot
                 )
             ]
@@ -1170,7 +1170,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .heal,
                     amount: 2
                 )
@@ -1194,7 +1194,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .heal,
                     amount: 1
                 )
@@ -1219,7 +1219,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .steal
                 )
             ]
@@ -1241,7 +1241,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    trigger: .cardPlayed,
+                    trigger: .played,
                     action: .discard,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasCards])),

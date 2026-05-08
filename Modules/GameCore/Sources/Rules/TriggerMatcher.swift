@@ -28,7 +28,7 @@ private extension Card.Trigger {
         case .turnEnded: TurnEnded()
         case .shot: Shot()
         case .cardPrePlayed: NeverMatch()
-        case .cardPlayed: NeverMatch()
+        case .played: NeverMatch()
         case .eliminating: Eliminating()
         case .otherEliminated: OtherEliminated()
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
