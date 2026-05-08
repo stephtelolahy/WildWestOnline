@@ -309,27 +309,6 @@ private extension Card {
         )
     }
 
-    /*
-     static var stagecoach: Self {
-         .init(
-             name: .stagecoach,
-             type: .collectible,
-             description: "Draw two cards from the top of the deck.",
-             effects: [
-                 .playOnPrePlayed,
-                 .init(
-                     action: .drawDeck,
-                     trigger: .cardPlayed,
-                     with: [
-                         .,
-                         .repeat(.times(2))
-                     ]
-                 )
-             ]
-         )
-     }
-     */
-
     static var wellsFargo: Self {
         .init(
             name: .wellsFargo,
