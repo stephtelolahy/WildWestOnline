@@ -70,7 +70,7 @@ struct BeerTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.beer, player: "p1")
-        await #expect(throws: GameFeature.Error.noReq(.minimumPlayers(3))) {
+        await #expect(throws: GameFeature.Error.noReq(.playersAtLeast(3))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

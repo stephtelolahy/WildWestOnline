@@ -82,7 +82,7 @@ struct SaloonTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
-        await #expect(throws: GameFeature.Error.noTarget(.woundedPlayers)) {
+        await #expect(throws: GameFeature.Error.noTarget(.wounded)) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

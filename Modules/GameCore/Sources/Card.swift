@@ -36,24 +36,21 @@ public struct Card: Equatable, Sendable {
     public struct Effect: Equatable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
-        public let modifier: ModifierName?
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
-        public let alias: [String: String]?
+        public let alias: PlayedCardAlias?
         public let selectors: [Selector]
 
         public init(
             trigger: Trigger,
             action: ActionName,
-            modifier: ModifierName? = nil,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
-            alias: [String: String]? = nil,
+            alias: PlayedCardAlias? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
-            self.modifier = modifier
             self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.alias = alias
@@ -63,24 +60,26 @@ public struct Card: Equatable, Sendable {
 
     public enum Trigger: Equatable, Sendable {
         case permanent
-        case cardPrePlayed
-        case cardPlayed
-        case cardEquiped
-        case cardDiscarded
+        case prePlayed
+        case played
+        case equiped
+        case discarded
         case damaged
-        case damagedLethal
+        case lethallyDamaged
         case eliminated
         case handEmptied
         case turnStarted
         case turnEnded
         case shot
-        case eliminating
+        case eliminatingOther
         case otherEliminated
         case drawLastCardOnTurnStarted
         case weaponPrePlayed
         case shootingWithCard(named: String)
         case prePlayingCard(named: String)
-        case requiredToDraw
+        case drawRequired
+        case hasStealHandOnTurnStarted
+        case hasDrawDiscardOnTurnStarted
     }
 
     public enum ActionName: String, Sendable {
@@ -115,60 +114,69 @@ public struct Card: Equatable, Sendable {
         case setWeapon
         case setMaxHealth
         case setAlias
+        case incrementRequiredMisses
+        case ignoreLimitPerTurn
+        case incrementCardsPerTurn
+
+        // MARK: Invisible
         case queue
-        case applyModifier
-        case dummy
+        case discard
+        case steal
     }
 
     public enum Selector: Equatable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(PlayerGroup)
-        case setCard(CardGroup)
-        case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
+        case forEachTarget(PlayerGroup)
+        case setTarget(PlayerRef)
+        case forEachCard(CardGroup)
+        case setCard(CardRef)
+        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
-        case onComplete([Effect])
 
         public enum RepeatCount: Equatable, Sendable {
-            case fixed(Int)
-            case activePlayerCount
-            case playerExcessHandSize
-            case receivedDamageAmount
-            case requiredMisses
+            case times(Int)
+            case perPlayer
+            case perExcessHand
+            case perDamage
+            case perRequiredMisses
         }
 
         public enum PlayerGroup: Equatable, Sendable {
-            case activePlayers
-            case woundedPlayers
-            case otherPlayers([PlayerFilter] = [])
-            case nextPlayer
-            case damagingPlayer
-            case sourcePlayer
-            case eliminatedPlayer
+            case all
+            case wounded
+            case others([PlayerFilter] = [])
+        }
+
+        public enum PlayerRef: Equatable, Sendable {
+            case next
+            case attacker
+            case source
+            case eliminated
         }
 
         public enum CardGroup: String, Sendable {
-            case allInHand
-            case allInPlay
+            case all
+        }
+
+        public enum CardRef: String, Sendable {
             case played
             case equippedWeapon
-            case lastHand
+            case lastDrawn
         }
 
         public indirect enum PlayRequirement: Equatable, Sendable {
             case not(Self)
-            case minimumPlayers(Int)
-            case playLimitThisTurn(Int)
+            case playersAtLeast(Int)
+            case playLimit(Int)
             case isHealthZero
             case isGameOver
-            case isCurrentTurn
-            case drawnCardMatches(_ regex: String)
-            case lastHandCardMatches(_ regex: String)
-            case targetedCardFromHand
-            case targetedCardFromInPlay
+            case isMyTurn
+            case drawMatches(_ regex: String)
+            case lastDrawnMatches(_ regex: String)
         }
 
-        public enum ChoiceRequirement: Equatable, Sendable {
+        public enum ChoiceKind: Equatable, Sendable {
             case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
@@ -190,7 +198,7 @@ public struct Card: Equatable, Sendable {
         public enum CardFilter: Equatable, Sendable {
             case canCounterShot
             case named(String)
-            case isFromHand
+            case fromHand
         }
 
         public struct ChoicePrompt: Equatable, Sendable {
@@ -214,11 +222,13 @@ public struct Card: Equatable, Sendable {
         }
     }
 
-    public struct ModifierName: RawRepresentable, Hashable, Sendable {
-        public let rawValue: String
+    public struct PlayedCardAlias: Equatable, Sendable {
+        public let played: String
+        public let alias: String
 
-        public init (rawValue: String) {
-            self.rawValue = rawValue
+        public init(played: String, alias: String) {
+            self.played = played
+            self.alias = alias
         }
     }
 }

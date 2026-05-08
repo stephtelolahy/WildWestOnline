@@ -53,7 +53,7 @@ struct BangTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: GameFeature.Error.noReq(.playLimitThisTurn(1))) {
+        await #expect(throws: GameFeature.Error.noReq(.playLimit(1))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

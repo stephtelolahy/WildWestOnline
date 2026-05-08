@@ -4,26 +4,30 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 27/10/2025.
 //
+// swiftlint:disable function_default_parameter_at_end
+
 extension Card.Effect {
     func toInstance(
         withPlayer sourcePlayer: String,
         playedCard: String,
         triggeredBy: [GameFeature.Action],
-        targetedPlayer: String?,
+        targetedPlayer: String? = nil,
         targetedCard: String? = nil,
-        alias: String? = nil
+        alias: String? = nil,
+        state: GameFeature.State
     ) -> GameFeature.Action {
-        .init(
-            name: action,
+        var instance = GameFeature.Action(
+            name: self.action,
             sourcePlayer: sourcePlayer,
-            playedCard: playedCard,
+            sourceCard: playedCard,
+            triggeredBy: triggeredBy,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
-            triggeredBy: triggeredBy,
-            amount: amount,
+            amount: self.amount,
             alias: alias,
-            modifier: modifier,
-            selectors: selectors
+            selectors: self.selectors
         )
+        NonStandardLogic.updateActionNameByTargetedCard(action: &instance, state: state)
+        return instance
     }
 }

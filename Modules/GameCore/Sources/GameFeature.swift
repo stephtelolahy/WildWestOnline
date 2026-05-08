@@ -50,19 +50,17 @@ public enum GameFeature {
     }
 
     public struct Action: Equatable, Sendable {
-        public let name: Card.ActionName
+        public var name: Card.ActionName
         public var sourcePlayer: String = ""
-        public var playedCard: String = ""
+        public var sourceCard: String = ""
+        var triggeredBy: [Self] = []
         public var targetedPlayer: String?
         public var targetedCard: String?
-
-        var triggeredBy: [Self] = []
         var amount: Int?
         var requiredMisses: Int?
         var selection: String?
         var alias: String?
         var playableCards: [String]?
-        var modifier: Card.ModifierName?
         var children: [Self]?
         var selectors: [Card.Selector] = []
 
@@ -79,6 +77,7 @@ public enum GameFeature {
         case cardAlreadyInPlay(String, player: String)
         case noReq(Card.Selector.PlayRequirement)
         case noTarget(Card.Selector.PlayerGroup)
+        case noPlayer(Card.Selector.PlayerRef)
         case noChoosableTarget([Card.Selector.PlayerFilter])
         case noChoosableCard([Card.Selector.CardFilter], player: String)
     }

@@ -23,8 +23,8 @@ extension GameFeature {
         if let playable = state.playable {
             guard action.name == .preparePlay,
                   playable.player == action.sourcePlayer,
-                  playable.cards.contains(action.playedCard) else {
-                fatalError("Not playable card \(action.playedCard)")
+                  playable.cards.contains(action.sourceCard) else {
+                fatalError("Not playable card \(action.sourceCard)")
             }
 
             state.playable = nil
@@ -41,10 +41,10 @@ extension GameFeature {
                 let children = try selector.resolve(pendingAction, state: state)
                 state.queue.insert(contentsOf: children, at: 0)
             } else {
-                state = try action.name.reduce(action, state: state, dependencies: dependencies)
+                state = try action.name.reduce(action, state: state)
             }
 
-            if action.isResolved {
+            if action.isVisible {
                 state.lastEvent = action
                 state.events.insert(action, at: 0)
             } else {

@@ -32,7 +32,7 @@ struct EndTurnTest {
                     .init(
                         name: .drawDeck,
                         sourcePlayer: "p1",
-                        playedCard: "c1"
+                        sourceCard: "c1"
                     )
                 ]
             )

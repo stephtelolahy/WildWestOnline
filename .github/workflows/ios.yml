@@ -28,7 +28,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
-          xcode-version: 26.0.1
+          xcode-version: 26.3.0
 
       - name: Clean DerivedData, ModuleCache and SwiftLint caches
         run: |

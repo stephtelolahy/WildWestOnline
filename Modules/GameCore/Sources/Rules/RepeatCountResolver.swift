@@ -17,15 +17,15 @@ private extension Card.Selector.RepeatCount {
 
     var resolver: Resolver {
         switch self {
-        case .fixed(let rawValue): Fixed(rawValue: rawValue)
-        case .activePlayerCount: ActivePlayerCount()
-        case .playerExcessHandSize: PlayerExcessHandSize()
-        case .receivedDamageAmount: ReceivedDamageAmount()
-        case .requiredMisses: RequiredMisses()
+        case .times(let rawValue): Times(rawValue: rawValue)
+        case .perPlayer: PerPlayer()
+        case .perExcessHand: PerExcessHand()
+        case .perDamage: PerDamage()
+        case .perRequiredMisses: PerRequiredMisses()
         }
     }
 
-    struct Fixed: Resolver {
+    struct Times: Resolver {
         let rawValue: Int
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
@@ -33,13 +33,13 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct ActivePlayerCount: Resolver {
+    struct PerPlayer: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             state.playOrder.count
         }
     }
 
-    struct PlayerExcessHandSize: Resolver {
+    struct PerExcessHand: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
@@ -49,7 +49,7 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct ReceivedDamageAmount: Resolver {
+    struct PerDamage: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage,
@@ -61,7 +61,7 @@ private extension Card.Selector.RepeatCount {
         }
     }
 
-    struct RequiredMisses: Resolver {
+    struct PerRequiredMisses: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             guard let damageIndex = state.queue.firstIndex(where: {
                 $0.triggeredBy.first?.name == .shoot

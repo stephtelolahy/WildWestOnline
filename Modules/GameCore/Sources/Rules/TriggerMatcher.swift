@@ -18,24 +18,26 @@ private extension Card.Trigger {
     var matcher: Matcher {
         switch self {
         case .permanent: NeverMatch()
-        case .cardEquiped: CardEquiped()
-        case .cardDiscarded: CardDiscarded()
+        case .equiped: Equiped()
+        case .discarded: Discarded()
         case .damaged: Damaged()
-        case .damagedLethal: DamagedLethal()
+        case .lethallyDamaged: LethallyDamaged()
         case .eliminated: Eliminated()
         case .handEmptied: HandEmptied()
         case .turnStarted: TurnStarted()
         case .turnEnded: TurnEnded()
         case .shot: Shot()
-        case .cardPrePlayed: NeverMatch()
-        case .cardPlayed: NeverMatch()
-        case .eliminating: Eliminating()
+        case .prePlayed: NeverMatch()
+        case .played: NeverMatch()
+        case .eliminatingOther: EliminatingOther()
         case .otherEliminated: OtherEliminated()
         case .drawLastCardOnTurnStarted: DrawLastCardOnTurnStarted()
         case .weaponPrePlayed: WeaponPrePlayed()
         case .shootingWithCard(let name): ShootingWithCard(name: name)
-        case .requiredToDraw: RequiredToDraw()
+        case .drawRequired: DrawRequired()
         case .prePlayingCard(named: let name): PrePlayingCard(name: name)
+        case .hasStealHandOnTurnStarted: HasStealHandOnTurnStarted()
+        case .hasDrawDiscardOnTurnStarted: HasDrawDiscardOnTurnStarted()
         }
     }
 
@@ -45,11 +47,11 @@ private extension Card.Trigger {
         }
     }
 
-    struct CardEquiped: Matcher {
+    struct Equiped: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .equip = action.name,
                action.sourcePlayer == player,
-               action.playedCard == card {
+               action.sourceCard == card {
                 return true
             }
 
@@ -57,7 +59,7 @@ private extension Card.Trigger {
         }
     }
 
-    struct CardDiscarded: Matcher {
+    struct Discarded: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .discardInPlay = action.name,
                action.targetedPlayer == player,
@@ -87,7 +89,7 @@ private extension Card.Trigger {
         }
     }
 
-    struct DamagedLethal: Matcher {
+    struct LethallyDamaged: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .damage = action.name,
                action.targetedPlayer == player,
@@ -173,7 +175,7 @@ private extension Card.Trigger {
         }
     }
 
-    struct Eliminating: Matcher {
+    struct EliminatingOther: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .eliminate = action.name,
                   let parentAction = action.triggeredBy.first,
@@ -219,7 +221,7 @@ private extension Card.Trigger {
                 return false
             }
 
-            let cardName = Card.name(of: action.playedCard)
+            let cardName = Card.name(of: action.sourceCard)
             let cardObj = state.cards.get(cardName)
             return cardObj.effects.contains { $0.action == .setWeapon }
         }
@@ -236,7 +238,7 @@ private extension Card.Trigger {
                 return false
             }
 
-            let cardName = Card.name(of: parent.playedCard)
+            let cardName = Card.name(of: parent.sourceCard)
             return cardName == name
         }
     }
@@ -246,7 +248,7 @@ private extension Card.Trigger {
 
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .preparePlay = action.name,
-                  Card.name(of: action.playedCard) == name else {
+                  Card.name(of: action.sourceCard) == name else {
                 return false
             }
 
@@ -254,7 +256,7 @@ private extension Card.Trigger {
         }
     }
 
-    struct RequiredToDraw: Matcher {
+    struct DrawRequired: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
             guard case .draw = action.name,
                   action.targetedPlayer == player  else {
@@ -263,6 +265,36 @@ private extension Card.Trigger {
 
             if state.events.count > 1,
                 case .draw = state.events[1].name {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct HasStealHandOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .stealHand = action.name,
+                  action.sourcePlayer == player  else {
+                return false
+            }
+
+            guard case .startTurn = action.triggeredBy.first?.name else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct HasDrawDiscardOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .drawDiscard = action.name,
+                  action.targetedPlayer == player  else {
+                return false
+            }
+
+            guard case .startTurn = action.triggeredBy.first?.name else {
                 return false
             }
 

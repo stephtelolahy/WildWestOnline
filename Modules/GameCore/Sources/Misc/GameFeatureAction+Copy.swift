@@ -19,10 +19,10 @@ extension GameFeature.Action {
         .init(
             name: self.name,
             sourcePlayer: sourcePlayer ?? self.sourcePlayer,
-            playedCard: playedCard ?? self.playedCard,
+            sourceCard: playedCard ?? self.sourceCard,
+            triggeredBy: triggeredBy ?? self.triggeredBy,
             targetedPlayer: targetedPlayer ?? self.targetedPlayer,
             targetedCard: targetedCard ?? self.targetedCard,
-            triggeredBy: triggeredBy ?? self.triggeredBy,
             amount: amount ?? self.amount,
             requiredMisses: requiredMisses ?? self.requiredMisses,
             selection: self.selection,
@@ -31,5 +31,15 @@ extension GameFeature.Action {
             children: self.children,
             selectors: selectors ?? self.selectors,
         )
+    }
+
+    func copy(
+        targetedCard: String,
+        state: GameFeature.State
+    ) -> Self {
+        var copy = self
+        copy.targetedCard = targetedCard
+        NonStandardLogic.updateActionNameByTargetedCard(action: &copy, state: state)
+        return copy
     }
 }

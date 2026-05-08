@@ -5,16 +5,15 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/03/2025.
 //
 enum NonStandardLogic {
-    static func targetedPlayerForTriggeredEffect(_ name: Card.ActionName, parentAction: GameFeature.Action) -> String? {
+    /// Transmitting context data from parent
+    static func targetedPlayerForTriggeredEffect(
+        name: Card.ActionName,
+        parentAction: GameFeature.Action
+    ) -> String? {
         switch name {
-        case .endGame,
-                .discover,
-                .undiscover:
-            return nil
-
         case .drawDeck,
                 .draw,
-                .discardInPlay,
+                .discard,
                 .heal,
                 .setWeapon,
                 .increaseMagnifying,
@@ -22,8 +21,34 @@ enum NonStandardLogic {
                 .endTurn:
             return parentAction.targetedPlayer ?? parentAction.sourcePlayer
 
-        default:
+        case .play,
+                .drawDiscard,
+                .shoot,
+                .damage,
+                .steal,
+                .counterShot,
+                .showHand,
+                .drawDiscovered,
+                .eliminate,
+                .incrementRequiredMisses:
             return parentAction.targetedPlayer
+
+        default:
+            return nil
+        }
+    }
+
+    /// Transmitting context data from parent
+    static func targetedCardForTriggeredEffect(
+        name: Card.ActionName,
+        parentAction: GameFeature.Action
+    ) -> String? {
+        switch name {
+        case .discard, .steal:
+            return parentAction.targetedCard
+
+        default:
+            return nil
         }
     }
 
@@ -34,7 +59,7 @@ enum NonStandardLogic {
                 .equip,
                 .handicap:
             guard lhs.sourcePlayer == rhs.sourcePlayer,
-                  lhs.playedCard == rhs.playedCard
+                  lhs.sourceCard == rhs.sourceCard
             else {
                 return false
             }
@@ -57,8 +82,61 @@ enum NonStandardLogic {
         && lhs.amount == rhs.amount
         && lhs.selection == rhs.selection
         && lhs.alias == rhs.alias
-        && lhs.children == rhs.children
         && lhs.playableCards == rhs.playableCards
+        && lhs.children == rhs.children
         && lhs.selectors == rhs.selectors
+    }
+
+    static func isActionVisible(_ action: GameFeature.Action) -> Bool {
+        switch action.name {
+        case .queue,
+                .discard,
+                .steal,
+                .incrementRequiredMisses,
+                .ignoreLimitPerTurn,
+                .incrementCardsPerTurn:
+            return false
+
+        default:
+            break
+        }
+
+        return true
+    }
+
+    static func updateActionNameByTargetedCard(
+        action: inout  GameFeature.Action,
+        state: GameFeature.State
+    ) {
+        switch action.name {
+        case .discard:
+            let player = action.targetedPlayer ?? action.sourcePlayer
+            guard let card = action.targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                action.name = .discardHand
+            }
+            if playerObj.inPlay.contains(card) {
+                action.name = .discardInPlay
+            }
+
+        case .steal:
+            guard let player = action.targetedPlayer,
+                  let card = action.targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                action.name = .stealHand
+            }
+            if playerObj.inPlay.contains(card) {
+                action.name = .stealInPlay
+            }
+
+        default:
+            return
+        }
     }
 }
