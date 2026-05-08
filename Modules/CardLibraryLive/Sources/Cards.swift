@@ -141,7 +141,7 @@ private extension Card {
             effects: [
                 .init(
                     on: .turnEnded,
-                    action: .discardHand,
+                    action: .discard,
                     selectors: [
                         .repeat(.playerExcessHandSize),
                         .chooseOne(.targetCard([.isFromHand]))
@@ -227,16 +227,9 @@ private extension Card {
             effects: [
                 .init(
                     on: .eliminated,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
-                        .forEachCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    on: .eliminated,
-                    action: .discardHand,
-                    selectors: [
-                        .forEachCard(.allInHand)
+                        .forEachCard(.all)
                     ]
                 )
             ]
@@ -287,7 +280,7 @@ private extension Card {
             effects: [
                 .init(
                     on: .weaponPrePlayed,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.equippedWeapon)
                     ]
@@ -701,7 +694,7 @@ private extension Card {
                 ),
                 .init(
                     on: .turnStarted,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.played),
                         .applyIf(.drawnCardMatches(.regex2To9Spades))
@@ -737,7 +730,7 @@ private extension Card {
                 ),
                 .init(
                     on: .turnStarted,
-                    action: .discardInPlay,
+                    action: .discard,
                     selectors: [
                         .setCard(.played)
                     ]

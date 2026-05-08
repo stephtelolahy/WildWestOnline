@@ -159,6 +159,7 @@ public struct Card: Equatable, Sendable {
         public enum CardGroup: String, Sendable {
             case allInHand  // hand
             case allInPlay  // inPlay
+            case all
         }
 
         public enum CardIdentity: String, Sendable {

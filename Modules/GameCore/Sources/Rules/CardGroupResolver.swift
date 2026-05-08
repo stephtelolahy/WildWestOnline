@@ -19,6 +19,7 @@ private extension Card.Selector.CardGroup {
         switch self {
         case .allInHand: AllInHand()
         case .allInPlay: AllInPlay()
+        case .all: All()
         }
     }
 
@@ -35,6 +36,14 @@ private extension Card.Selector.CardGroup {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
             return state.players.get(target).hand
+        }
+    }
+
+    struct All: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            let targetObj = state.players.get(target)
+            return targetObj.inPlay + targetObj.hand
         }
     }
 }
