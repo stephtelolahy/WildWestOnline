@@ -89,7 +89,7 @@ private extension Card {
             description: "End turn",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .endTurn
                 )
             ]
@@ -103,7 +103,7 @@ private extension Card {
             description: "Discard counter card on shot",
             effects: [
                 .init(
-                    on: .shot,
+                    trigger: .shot,
                     action: .play,
                     selectors: [
                         .repeat(.requiredMisses),
@@ -121,7 +121,7 @@ private extension Card {
             description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
             effects: [
                 .init(
-                    on: .damagedLethal,
+                    trigger: .damagedLethal,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -140,7 +140,7 @@ private extension Card {
             description: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             effects: [
                 .init(
-                    on: .turnEnded,
+                    trigger: .turnEnded,
                     action: .discard,
                     selectors: [
                         .repeat(.playerExcessHandSize),
@@ -158,7 +158,7 @@ private extension Card {
             description: "Start next player's turn",
             effects: [
                 .init(
-                    on: .turnEnded,
+                    trigger: .turnEnded,
                     action: .startTurn,
                     selectors: [
                         .setTarget(.nextPlayer)
@@ -175,7 +175,7 @@ private extension Card {
             description: "Draw two cards at the beginning of your turn",
             effects: [
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.times(2))
@@ -192,7 +192,7 @@ private extension Card {
             description: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
                 .init(
-                    on: .damagedLethal,
+                    trigger: .damagedLethal,
                     action: .eliminate,
                     selectors: [
                         .applyIf(.isHealthZero)
@@ -209,7 +209,7 @@ private extension Card {
             description: "End game when last player is eliminated",
             effects: [
                 .init(
-                    on: .eliminated,
+                    trigger: .eliminated,
                     action: .endGame,
                     selectors: [
                         .applyIf(.isGameOver)
@@ -226,7 +226,7 @@ private extension Card {
             description: "Discard all cards when eliminated",
             effects: [
                 .init(
-                    on: .eliminated,
+                    trigger: .eliminated,
                     action: .discard,
                     selectors: [
                         .forEachCard(.all)
@@ -243,7 +243,7 @@ private extension Card {
             description: "End turn when eliminated",
             effects: [
                 .init(
-                    on: .eliminated,
+                    trigger: .eliminated,
                     action: .startTurn,
                     selectors: [
                         .applyIf(.isMyTurn),
@@ -261,7 +261,7 @@ private extension Card {
             description: "Draw 3 cards on eliminating an opponent",
             effects: [
                 .init(
-                    on: .eliminating,
+                    trigger: .eliminating,
                     action: .drawDeck,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -279,7 +279,7 @@ private extension Card {
             description: "Discard your currently equipped weapon before equipping another one.",
             effects: [
                 .init(
-                    on: .weaponPrePlayed,
+                    trigger: .weaponPrePlayed,
                     action: .discard,
                     selectors: [
                         .setCard(.equippedWeapon)
@@ -299,7 +299,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.times(2))
@@ -309,6 +309,27 @@ private extension Card {
         )
     }
 
+    /*
+     static var stagecoach: Self {
+         .init(
+             name: .stagecoach,
+             type: .collectible,
+             description: "Draw two cards from the top of the deck.",
+             effects: [
+                 .playOnPrePlayed,
+                 .init(
+                     action: .drawDeck,
+                     trigger: .cardPlayed,
+                     with: [
+                         .,
+                         .repeat(.times(2))
+                     ]
+                 )
+             ]
+         )
+     }
+     */
+
     static var wellsFargo: Self {
         .init(
             name: .wellsFargo,
@@ -317,7 +338,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.times(3))
@@ -334,14 +355,14 @@ private extension Card {
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .require(.minimumPlayers(3))
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .heal,
                     amount: 1
                 )
@@ -356,11 +377,11 @@ private extension Card {
             description: "All players in play regain one life point.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -378,7 +399,7 @@ private extension Card {
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasCards])),
@@ -386,7 +407,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .discard
                 )
             ]
@@ -400,7 +421,7 @@ private extension Card {
             description: "Draw a card from a player at distance 1",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.atDistance(1), .hasCards])),
@@ -408,7 +429,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .steal
                 )
             ]
@@ -423,14 +444,14 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .discover,
                     selectors: [
                         .repeat(.activePlayerCount)
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .drawDiscovered,
                     selectors: [
                         .forEachTarget(.activePlayers),
@@ -448,7 +469,7 @@ private extension Card {
             description: "reduce other players’s life points",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .require(.playLimitThisTurn(1)),
@@ -456,7 +477,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .shoot
                 )
             ]
@@ -470,7 +491,7 @@ private extension Card {
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .counterShot
                 )
             ]
@@ -485,7 +506,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .shoot,
                     selectors: [
                         .forEachTarget(.otherPlayers())
@@ -503,7 +524,7 @@ private extension Card {
             effects: [
                 .playOnPrePlayed,
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .damage,
                     amount: 1,
                     selectors: [
@@ -522,14 +543,14 @@ private extension Card {
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .damage,
                     amount: 1,
                     selectors: [
@@ -584,7 +605,7 @@ private extension Card {
             effects: .weapon(range: 1) + [
                 .init(
                     actionID: .ignoreLimitPerTurn,
-                    on: .prePlayingCard(named: .bang)
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -598,12 +619,12 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .cardEquiped,
+                    trigger: .cardEquiped,
                     action: .increaseMagnifying,
                     amount: 1
                 ),
                 .init(
-                    on: .cardDiscarded,
+                    trigger: .cardDiscarded,
                     action: .increaseMagnifying,
                     amount: -1
                 )
@@ -619,12 +640,12 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .cardEquiped,
+                    trigger: .cardEquiped,
                     action: .increaseRemoteness,
                     amount: 1
                 ),
                 .init(
-                    on: .cardDiscarded,
+                    trigger: .cardDiscarded,
                     action: .increaseRemoteness,
                     amount: -1
                 )
@@ -640,11 +661,11 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .shot,
+                    trigger: .shot,
                     action: .draw
                 ),
                 .init(
-                    on: .shot,
+                    trigger: .shot,
                     action: .counterShot,
                     selectors: [
                         .applyIf(.drawnCardMatches(.regexHearts))
@@ -662,11 +683,11 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .draw
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regex2To9Spades))),
@@ -675,7 +696,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .damage,
                     amount: 3,
                     selectors: [
@@ -683,7 +704,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .discard,
                     selectors: [
                         .setCard(.played),
@@ -701,25 +722,25 @@ private extension Card {
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .handicap,
                     selectors: [
                         .chooseOne(.targetPlayer())
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .draw
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .endTurn,
                     selectors: [
                         .applyIf(.not(.drawnCardMatches(.regexHearts)))
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .discard,
                     selectors: [
                         .setCard(.played)
@@ -738,7 +759,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     actionID: .ignoreLimitPerTurn,
-                    on: .prePlayingCard(named: .bang)
+                    trigger: .prePlayingCard(named: .bang)
                 )
             ]
         )
@@ -752,7 +773,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .permanent,
+                    trigger: .permanent,
                     action: .increaseMagnifying,
                     amount: 1
                 )
@@ -768,7 +789,7 @@ private extension Card {
             effects: [
                 .maxHealth(3),
                 .init(
-                    on: .permanent,
+                    trigger: .permanent,
                     action: .increaseRemoteness,
                     amount: 1
                 )
@@ -784,7 +805,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .damaged,
+                    trigger: .damaged,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.receivedDamageAmount)
@@ -802,7 +823,7 @@ private extension Card {
             effects: [
                 .maxHealth(3),
                 .init(
-                    on: .damaged,
+                    trigger: .damaged,
                     action: .steal,
                     selectors: [
                         .setTarget(.damagingPlayer),
@@ -822,7 +843,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .handEmptied,
+                    trigger: .handEmptied,
                     action: .drawDeck
                 )
             ]
@@ -837,11 +858,11 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .shot,
+                    trigger: .shot,
                     action: .draw
                 ),
                 .init(
-                    on: .shot,
+                    trigger: .shot,
                     action: .counterShot,
                     selectors: [
                         .applyIf(.drawnCardMatches(.regexHearts))
@@ -859,7 +880,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .heal,
                     amount: 1,
                     selectors: [
@@ -879,7 +900,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .otherEliminated,
+                    trigger: .otherEliminated,
                     action: .steal,
                     selectors: [
                         .setTarget(.eliminatedPlayer),
@@ -898,7 +919,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .requiredToDraw,
+                    trigger: .requiredToDraw,
                     action: .draw
                 )
             ]
@@ -913,14 +934,14 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .drawLastCardOnTurnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
                         .setCard(.lastHand)
                     ]
                 ),
                 .init(
-                    on: .drawLastCardOnTurnStarted,
+                    trigger: .drawLastCardOnTurnStarted,
                     action: .drawDeck,
                     selectors: [
                         .applyIf(.lastHandCardMatches(.regexRed))
@@ -938,7 +959,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .steal,
                     selectors: [
                         .chooseOne(.targetPlayer([.hasHandCards])),
@@ -947,7 +968,7 @@ private extension Card {
                 ),
                 .init(
                     actionID: .incrementCardsPerTurn,
-                    on: .hasStealHandOnTurnStarted,
+                    trigger: .hasStealHandOnTurnStarted,
                     amount: -1
                 )
             ]
@@ -962,7 +983,7 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .drawDiscard,
                     selectors: [
                         .chooseOne(.discardedCard)
@@ -970,7 +991,7 @@ private extension Card {
                 ),
                 .init(
                     actionID: .incrementCardsPerTurn,
-                    on: .hasDrawDiscardOnTurnStarted,
+                    trigger: .hasDrawDiscardOnTurnStarted,
                     amount: -1,
                 )
             ]
@@ -985,14 +1006,14 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .discover,
                     selectors: [
                         .repeat(.times(3))
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .drawDiscovered,
                     selectors: [
                         .repeat(.times(2)),
@@ -1000,12 +1021,12 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     action: .undiscover
                 ),
                 .init(
                     actionID: .incrementCardsPerTurn,
-                    on: .turnStarted,
+                    trigger: .turnStarted,
                     amount: -2
                 )
             ]
@@ -1021,7 +1042,7 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     actionID: .incrementRequiredMisses,
-                    on: .shootingWithCard(named: .bang),
+                    trigger: .shootingWithCard(named: .bang),
                     amount: 1
                 )
             ]
@@ -1036,12 +1057,12 @@ private extension Card {
             effects: [
                 .maxHealth(4),
                 .init(
-                    on: .permanent,
+                    trigger: .permanent,
                     action: .setAlias,
                     alias: [.missed: .bang]
                 ),
                 .init(
-                    on: .permanent,
+                    trigger: .permanent,
                     action: .setAlias,
                     alias: [.bang: .missed]
                 )
@@ -1058,14 +1079,14 @@ private extension Card {
             description: "Acts as a Bang! with a range of one.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .chooseOne(.targetPlayer([.atDistance(1)]))
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .shoot
                 )
             ]
@@ -1079,11 +1100,11 @@ private extension Card {
             description: "Acts as a Missed!, but allows the player to draw a card.",
             effects: [
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .counterShot
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .drawDeck
                 )
             ]
@@ -1098,12 +1119,12 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .cardEquiped,
+                    trigger: .cardEquiped,
                     action: .increaseMagnifying,
                     amount: 1
                 ),
                 .init(
-                    on: .cardDiscarded,
+                    trigger: .cardDiscarded,
                     action: .increaseMagnifying,
                     amount: -1
                 )
@@ -1119,12 +1140,12 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    on: .cardEquiped,
+                    trigger: .cardEquiped,
                     action: .increaseRemoteness,
                     amount: 1
                 ),
                 .init(
-                    on: .cardDiscarded,
+                    trigger: .cardDiscarded,
                     action: .increaseRemoteness,
                     amount: -1
                 )
@@ -1139,7 +1160,7 @@ private extension Card {
             description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1148,7 +1169,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .shoot
                 )
             ]
@@ -1162,7 +1183,7 @@ private extension Card {
             description: "The player must discard one additional card, to heal two health.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1170,7 +1191,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .heal,
                     amount: 2
                 )
@@ -1185,7 +1206,7 @@ private extension Card {
             description: "The player must discard one additional card, to heal any player one health.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1194,7 +1215,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .heal,
                     amount: 1
                 )
@@ -1209,7 +1230,7 @@ private extension Card {
             description: "The player must discard one additional card to steal a card from any other player.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1219,7 +1240,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .steal
                 )
             ]
@@ -1233,7 +1254,7 @@ private extension Card {
             description: "The player must discard one additional card to cause all other players to discard one card.",
             effects: [
                 .init(
-                    on: .cardPrePlayed,
+                    trigger: .cardPrePlayed,
                     action: .play,
                     selectors: [
                         .setTarget(.sourcePlayer),
@@ -1241,7 +1262,7 @@ private extension Card {
                     ]
                 ),
                 .init(
-                    on: .cardPlayed,
+                    trigger: .cardPlayed,
                     action: .discard,
                     selectors: [
                         .forEachTarget(.otherPlayers([.hasCards])),
@@ -1264,21 +1285,21 @@ private extension String {
 private extension Card.Effect {
     static var playOnPrePlayed: Self {
         .init(
-            on: .cardPrePlayed,
+            trigger: .cardPrePlayed,
             action: .play
         )
     }
 
     static var equipOnPrePlayed: Self {
         .init(
-            on: .cardPrePlayed,
+            trigger: .cardPrePlayed,
             action: .equip
         )
     }
 
     static func maxHealth(_ value: Int) -> Self {
         .init(
-            on: .permanent,
+            trigger: .permanent,
             action: .setMaxHealth,
             amount: value
         )
@@ -1290,12 +1311,12 @@ private extension Array where Element == Card.Effect {
         [
             .equipOnPrePlayed,
             .init(
-                on: .cardEquiped,
+                trigger: .cardEquiped,
                 action: .setWeapon,
                 amount: range
             ),
             .init(
-                on: .cardDiscarded,
+                trigger: .cardDiscarded,
                 action: .setWeapon,
                 amount: 1
             )
