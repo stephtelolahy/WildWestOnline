@@ -62,7 +62,7 @@ public struct Card: Equatable, Sendable {
         case permanent
         case cardPrePlayed  // playAttempted
         case played
-        case cardEquiped    // equipped
+        case equiped
         case cardDiscarded  // discarded
         case damaged
         case damagedLethal  // lethallyDamaged

@@ -598,7 +598,7 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    trigger: .cardEquiped,
+                    trigger: .equiped,
                     action: .increaseMagnifying,
                     amount: 1
                 ),
@@ -619,7 +619,7 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    trigger: .cardEquiped,
+                    trigger: .equiped,
                     action: .increaseRemoteness,
                     amount: 1
                 ),
@@ -1098,7 +1098,7 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    trigger: .cardEquiped,
+                    trigger: .equiped,
                     action: .increaseMagnifying,
                     amount: 1
                 ),
@@ -1119,7 +1119,7 @@ private extension Card {
             effects: [
                 .equipOnPrePlayed,
                 .init(
-                    trigger: .cardEquiped,
+                    trigger: .equiped,
                     action: .increaseRemoteness,
                     amount: 1
                 ),
@@ -1290,7 +1290,7 @@ private extension Array where Element == Card.Effect {
         [
             .equipOnPrePlayed,
             .init(
-                trigger: .cardEquiped,
+                trigger: .equiped,
                 action: .setWeapon,
                 amount: range
             ),

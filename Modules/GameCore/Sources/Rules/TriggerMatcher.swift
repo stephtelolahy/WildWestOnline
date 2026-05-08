@@ -18,7 +18,7 @@ private extension Card.Trigger {
     var matcher: Matcher {
         switch self {
         case .permanent: NeverMatch()
-        case .cardEquiped: CardEquiped()
+        case .equiped: CardEquiped()
         case .cardDiscarded: CardDiscarded()
         case .damaged: Damaged()
         case .damagedLethal: DamagedLethal()
