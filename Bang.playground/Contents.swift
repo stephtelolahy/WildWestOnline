@@ -2,26 +2,45 @@ import Foundation
 
 // MARK: - Card definition
 
-struct Card {
-    var onPlay: Effect?
-    var canPlay: Requirement?
-    var onActive: Effect?
-    var onShot: Effect?
-    var onTurnStarted: Effect?
-    var onDamaged: Effect?
-    var onHandEmptied: Effect?
-    var onOtherEliminated: Effect?
-    var onDrawRequired: Effect?
-    var onDrawLastCardOnTurnStarted: Effect?
-    var onShootingWithBangCard: Effect?
-}
-
-struct CardEffect {
+struct CardDefinition {
+    let tag: CardTag
     let trigger: GameEvent
-    let action: Effect
+    let actions: [GameAction] // Flat Actions model
 }
 
-typealias CardDefinition = [CardEffect]
+enum CardTag: String {
+    case brown
+    case equipement
+    case handcap
+}
+
+struct GameAction {
+    let id: GameActionID
+    var selector: [Selector] = []
+}
+
+enum GameActionID: String {
+    // MARK: - Visible Action
+    case drawDeck
+    case dodge
+    case draw
+    case damage
+    case discard
+    case passLeft
+    case heal
+}
+
+enum Selector {
+    // MARK: - Logic
+    case `if`(Requirement)
+    case require(Requirement)
+    case `repeat`(Repeat)
+
+    // MARK: - Payload
+    case setTarget(PlayerRef)
+    case setCard(CardRef)
+    case setAmount(Int)
+}
 
 enum GameEvent {
     case cardPlayed
@@ -36,6 +55,7 @@ enum GameEvent {
 enum PlayerID {}
 enum CardID {}
 
+@available(*, deprecated, message: "Use GameAction instead")
 indirect enum Effect {
     // MARK: - Logic
     case `repeat`(Repeat, Self)
@@ -98,51 +118,98 @@ enum CardRef {
 
 enum Repeat {
     case times(Int)
-    case perPlayerWounded
+    case perTarget(TargetGroup)
     case perPlayerActive
     case perPlayerOther
     case perDamage
     case perCardOfEliminatedPlayer
 }
 
-enum Requirement {
+enum TargetGroup {
+    case woundedPlayers
+}
+
+indirect enum Requirement {
+    case not(Self)
+    case drawMatched(CardSuit)
     case playersAtLeast(Int)
     case playLimit(Int)
+}
+
+enum CardSuit: String {
+    case hearts = "♥️"
+    case red = "(♥️)|(♦️)"
+    case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
 // MARK: - Cards
 
 extension CardDefinition {
     static var stagecoach: Self {
-        [
-            .init(
-                trigger: .cardPlayed,
-                action: .repeat(.times(2), .drawDeck(.me))
-            )
-        ]
+        .init(
+            tag: .brown,
+            trigger: .cardPlayed,
+            actions: [
+                .init(
+                    id: .drawDeck,
+                    selector: [
+                        .setTarget(.me),
+                        .repeat(.times(2))
+                    ]
+                )
+            ]
+        )
     }
-/*
+
     static var wellsFargo: Self {
         .init(
+            tag: .brown,
             trigger: .cardPlayed,
-            action: .repeat(.times(3), .drawDeck(.me))
+            actions: [
+                .init(
+                    id: .drawDeck,
+                    selector: [
+                        .setTarget(.me),
+                        .repeat(.times(3))
+                    ]
+                )
+            ]
         )
     }
 
     static var beer: Self {
         .init(
+            tag: .brown,
             trigger: .cardPlayed,
-            action: .require(.playersAtLeast(3), .heal(1, .me))
+            actions: [
+                .init(
+                    id: .heal,
+                    selector: [
+                        .require(.playersAtLeast(3)),
+                        .setTarget(.me),
+                        .setAmount(1)
+                    ]
+                )
+            ]
         )
     }
 
     static var saloon: Self {
         .init(
+            tag: .brown,
             trigger: .cardPlayed,
-            action: .repeat(.perPlayerWounded, .heal(1, .i))
+            actions: [
+                .init(
+                    id: .heal,
+                    selector: [
+                        .setAmount(1),
+                        .repeat(.perTarget(.woundedPlayers)),
+                    ]
+                )
+            ]
         )
     }
-
+    /*
     static var catBalou: Self {
         .init(
             trigger: .cardPlayed,
@@ -255,39 +322,54 @@ extension CardDefinition {
     }
 */
     static var barrel: Self {
-        [
-            .init(
-                trigger: .cardEquipped,
-                action: .nothing
-            ),
-            .init(
-                trigger: .playerShot,
-                action: .draw("♥️", then: .dodge(.me))
-            )
-        ]
+        .init(
+            tag: .equipement,
+            trigger: .playerShot,
+            actions: [
+                .init(id: .draw),
+                .init(
+                    id: .dodge,
+                    selector: [
+                        .if(.drawMatched(.hearts)),
+                        .setTarget(.me)
+                    ]
+                )
+            ]
+        )
     }
 
     static var dynamite: Self {
-        [
-            .init(
-                trigger: .cardEquipped,
-                action: .nothing
-            ),
-            .init(
-                trigger: .turnStarted,
-                action: .draw(
-                    "([2|3|4|5|6|7|8|9]♠️)",
-                    then: .concat([
-                        .damage(3, .me),
-                        .discard(.me, .sourceCard)
-                    ]) ,
-                    else: .passLeft(.sourceCard)
+        .init(
+            tag: .equipement,
+            trigger: .turnStarted,
+            actions: [
+                .init(id: .draw),
+                .init(
+                    id: .damage,
+                    selector: [
+                        .if(.drawMatched(.twoToNineSpades)),
+                        .setTarget(.me),
+                        .setAmount(3)
+                    ]
+                ),
+                .init(
+                    id: .discard,
+                    selector: [
+                        .if(.drawMatched(.twoToNineSpades)),
+                        .setCard(.sourceCard)
+                    ]
+                ),
+                .init(
+                    id: .passLeft,
+                    selector: [
+                        .if(.not(.drawMatched(.twoToNineSpades))),
+                        .setCard(.sourceCard)
+                    ]
                 )
-            )
-        ]
+            ]
+        )
     }
-
-        /*
+    /*
     static var jail: Self {
         onTurnStarted: .concat([
             .draw(
