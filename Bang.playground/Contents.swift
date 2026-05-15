@@ -53,6 +53,8 @@ enum Selector {
     case `repeat`(Repeat)
     case `if`(Requirement)
     case require(Requirement)
+    case askForCounter(CardCriteria)
+    case askForRedirect(CardCriteria)
 
     // MARK: - Payload
     case withTarget(PlayerRef)
@@ -64,54 +66,11 @@ enum Selector {
 
 enum GameEvent: String {
     case active
-    case cardPlayed
+    case played
     case cardEquipped
     case playerShot
     case turnStarted
     case shootingWithBangCard
-}
-
-enum PlayerID {}
-enum CardID {}
-
-@available(*, deprecated, message: "Use GameAction instead")
-indirect enum Effect {
-    // MARK: - Logic
-    case `repeat`(Repeat, Self)
-    case concat([Self]) // independent effects
-    case chain([Self])
-    case draw(String, then: Self, else: Self? = nil)
-    case askForCounter(String, Self)
-    case askForRedirect(String, Self)
-    case askForCost(Int, Self)
-    case require(Requirement, Self)
-
-    // MARK: - Action
-    case drawDeck(PlayerRef)
-    case heal(Int, PlayerRef)
-    case discard(PlayerRef, CardRef)
-    case steal(PlayerRef, CardRef, PlayerRef)
-    case discover
-    case undiscover
-    case drawDiscovered(CardRef, PlayerRef)
-    case drawDiscared(CardRef, PlayerRef)
-    case shoot(PlayerRef)
-    case dodge(PlayerRef)
-    case damage(Int, PlayerRef)
-    case passLeft(CardRef)
-    case endTurn
-    case showLastHand(PlayerRef)
-
-    // MARK: - Modifier
-    case setWeaponRange(Int)
-    case ignorePlayLimit(String)
-    case incrementMagnifying
-    case incrementRemoteness
-    case incrementDrawCards
-    case setCardsPerTurn(Int)
-    case incrementRequiredMisses
-    case playAs(String, String)
-    case nothing
 }
 
 enum PlayerRef {
@@ -126,6 +85,7 @@ enum PlayerRef {
     case chooseAnyWithHandCard
 
     case forEachPlayers
+    case forEachOtherPlayers
     case forEachWoundedPlayers
 }
 
@@ -158,13 +118,17 @@ enum CardSuit: String {
     case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
+enum CardCriteria: String {
+    case bang
+}
+
 // MARK: - Cards
 
 extension CardDefinition {
     static var stagecoach: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .drawDeck,
@@ -180,7 +144,7 @@ extension CardDefinition {
     static var wellsFargo: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .drawDeck,
@@ -196,7 +160,7 @@ extension CardDefinition {
     static var beer: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .heal,
@@ -213,7 +177,7 @@ extension CardDefinition {
     static var saloon: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .heal,
@@ -229,7 +193,7 @@ extension CardDefinition {
     static var catBalou: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .discard,
@@ -245,7 +209,7 @@ extension CardDefinition {
     static var panic: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .steal,
@@ -261,7 +225,7 @@ extension CardDefinition {
     static var generalStore: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .discover,
@@ -283,7 +247,7 @@ extension CardDefinition {
     static var bang: Self {
         .init(
             tag: .brown,
-            trigger: .cardPlayed,
+            trigger: .played,
             actions: [
                 .init(
                     id: .shoot,
@@ -295,35 +259,69 @@ extension CardDefinition {
             ]
         )
     }
-    /*
+
     static var missed: Self {
         .init(
-            trigger: .cardPlayed,
-            action: .dodge(.me)
+            tag: .brown,
+            trigger: .played,
+            actions: [
+                .init(
+                    id: .dodge,
+                    selector: [.withTarget(.me)]
+                )
+            ]
         )
     }
 
     static var gatling: Self {
         .init(
-            trigger: .cardPlayed,
-            action: .repeat(.perPlayerOther, .shoot(.i))
+            tag: .brown,
+            trigger: .played,
+            actions: [
+                .init(
+                    id: .shoot,
+                    selector: [
+                        .withTarget(.forEachOtherPlayers)
+                    ]
+                )
+            ]
         )
     }
 
     static var indians: Self {
         .init(
-            trigger: .cardPlayed,
-            action: .repeat(.perPlayerOther, .askForCounter("bang", .damage(1, .i)))
+            tag: .brown,
+            trigger: .played,
+            actions: [
+                .init(
+                    id: .damage,
+                    selector: [
+                        .withAmount(1),
+                        .withTarget(.forEachOtherPlayers),
+                        .askForCounter(.bang)
+                    ]
+                )
+            ]
         )
     }
 
     static var duel: Self {
         .init(
-            trigger: .cardPlayed,
-            action: .askForRedirect("bang", .damage(1, .chooseAny))
+            tag: .brown,
+            trigger: .played,
+            actions: [
+                .init(
+                    id: .damage,
+                    selector: [
+                        .withAmount(1),
+                        .withTarget(.chooseAny),
+                        .askForRedirect(.bang)
+                    ]
+                )
+            ]
         )
     }
-*/
+
     static var schofield: Self {
         .init(
             tag: .equipement,
