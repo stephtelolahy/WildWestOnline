@@ -27,7 +27,9 @@ enum GameActionID: String {
     case draw
     case damage
     case discard
+    case steal
     case passLeft
+    case shoot
     case heal
     case endTurn
     case discover
@@ -115,18 +117,21 @@ indirect enum Effect {
 enum PlayerRef {
     case me
     case eliminated
-    case i
     case attacker
+
     case chooseAny
     case chooseAnyAtWeaponRange
     case chooseAnyWithCard
     case chooseAnyWithCardAtRange(Int)
     case chooseAnyWithHandCard
+
+    case forEachPlayers
+    case forEachWoundedPlayers
 }
 
 enum CardRef {
-    case sourceCard
-    case i
+    case source
+
     case chooseAnyTargetCard
     case chooseAnyTargetHandCard
     case chooseAnyDiscoveredCard
@@ -135,15 +140,8 @@ enum CardRef {
 
 enum Repeat {
     case times(Int)
-    case perTarget(TargetGroup)
-    case perPlayerActive
-    case perPlayerOther
+    case perPlayer
     case perDamage
-    case perCardOfEliminatedPlayer
-}
-
-enum TargetGroup {
-    case woundedPlayers
 }
 
 indirect enum Requirement {
@@ -221,44 +219,83 @@ extension CardDefinition {
                     id: .heal,
                     selector: [
                         .withAmount(1),
-                        .repeat(.perTarget(.woundedPlayers)),
+                        .withTarget(.forEachWoundedPlayers)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var catBalou: Self {
+        .init(
+            tag: .brown,
+            trigger: .cardPlayed,
+            actions: [
+                .init(
+                    id: .discard,
+                    selector: [
+                        .withTarget(.chooseAnyWithCard),
+                        .withCard(.chooseAnyTargetCard)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var panic: Self {
+        .init(
+            tag: .brown,
+            trigger: .cardPlayed,
+            actions: [
+                .init(
+                    id: .steal,
+                    selector: [
+                        .withTarget(.chooseAnyWithCardAtRange(1)),
+                        .withCard(.chooseAnyTargetCard)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var generalStore: Self {
+        .init(
+            tag: .brown,
+            trigger: .cardPlayed,
+            actions: [
+                .init(
+                    id: .discover,
+                    selector: [
+                        .repeat(.perPlayer)
+                    ]
+                ),
+                .init(
+                    id: .drawDiscovered,
+                    selector: [
+                        .withTarget(.forEachPlayers),
+                        .withCard(.chooseAnyDiscoveredCard)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bang: Self {
+        .init(
+            tag: .brown,
+            trigger: .cardPlayed,
+            actions: [
+                .init(
+                    id: .shoot,
+                    selector: [
+                        .require(.playLimit(1)),
+                        .withTarget(.chooseAnyAtWeaponRange)
                     ]
                 )
             ]
         )
     }
     /*
-    static var catBalou: Self {
-        .init(
-            trigger: .cardPlayed,
-            action: .discard(.chooseAnyWithCard, .chooseAnyTargetCard)
-        )
-    }
-
-    static var panic: Self {
-        .init(
-            trigger: .cardPlayed,
-            action: .steal(.chooseAnyWithCardAtRange(1), .chooseAnyTargetCard, .me)
-        )
-    }
-
-    static var generalStore: Self {
-        .init(
-            trigger: .cardPlayed,
-            action: .concat([
-                .repeat(.perPlayerActive, .discover),
-                .repeat(.perPlayerActive, .drawDiscovered(.chooseAnyDiscoveredCard, .i))
-            ])
-        )
-    }
-
-    static var bang: Self {
-        .init(
-            trigger: .cardPlayed,
-            action: .require(.playLimit(1), .shoot(.chooseAnyAtWeaponRange))
-        )
-    }
-
     static var missed: Self {
         .init(
             trigger: .cardPlayed,
@@ -286,53 +323,61 @@ extension CardDefinition {
             action: .askForRedirect("bang", .damage(1, .chooseAny))
         )
     }
-
+*/
     static var schofield: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .setWeaponRange(2)
+            actions: [
+                .init(id: .setWeaponRange, selector: [.withAmount(2)])
+            ]
         )
     }
 
     static var remington: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .setWeaponRange(3)
+            actions: [
+                .init(id: .setWeaponRange, selector: [.withAmount(3)])
+            ]
         )
     }
 
     static var revCarabine: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .setWeaponRange(4)
+            actions: [
+                .init(id: .setWeaponRange, selector: [.withAmount(4)])
+            ]
         )
     }
 
     static var winchester: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .setWeaponRange(5)
+            actions: [
+                .init(id: .setWeaponRange, selector: [.withAmount(5)])
+            ]
         )
     }
-*/
+
     static var volcanic: Self {
         .init(
             tag: .equipement,
             trigger: .cardEquipped,
-        actions: [
-            .init(
-                id: .setWeaponRange,
-                selector: [.withAmount(1)]
-            ),
-            .init(
-                id: .ignorePlayLimit,
-                selector: [.withPlayLimitCard("bang")]
-            )
-        ]
-//            action: .concat([
-//                .setWeaponRange(1),
-//                .ignorePlayLimit("bang")
-//            ])
+            actions: [
+                .init(
+                    id: .setWeaponRange,
+                    selector: [.withAmount(1)]
+                ),
+                .init(
+                    id: .ignorePlayLimit,
+                    selector: [.withPlayLimitCard("bang")]
+                )
+            ]
         )
     }
 
@@ -391,14 +436,14 @@ extension CardDefinition {
                     id: .discard,
                     selector: [
                         .if(.drawMatched(.twoToNineSpades)),
-                        .withCard(.sourceCard)
+                        .withCard(.source)
                     ]
                 ),
                 .init(
                     id: .passLeft,
                     selector: [
                         .if(.not(.drawMatched(.twoToNineSpades))),
-                        .withCard(.sourceCard)
+                        .withCard(.source)
                     ]
                 )
             ]
@@ -420,7 +465,7 @@ extension CardDefinition {
                 .init(
                     id: .discard,
                     selector: [
-                        .withCard(.sourceCard)
+                        .withCard(.source)
                     ]
                 )
             ]
