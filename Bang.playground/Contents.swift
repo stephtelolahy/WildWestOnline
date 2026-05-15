@@ -11,32 +11,46 @@ struct Card {
     var onDamaged: Effect?
     var onHandEmptied: Effect?
     var onOtherEliminated: Effect?
+    var onDrawRequired: Effect?
+    var onDrawLastCardOnTurnStarted: Effect?
+    var onShootingWithBangCard: Effect?
 }
 
 indirect enum Effect {
+    // MARK: - Logic
     case `repeat`(Repeat, Self)
-    case concat([Self])
+    case concat([Self]) // independent effects
+    case chain([Self])
+    case draw(String, then: Self, else: Self? = nil)
     case askForCounter(String, Self)
     case askForRedirect(String, Self)
-    case draw(String, then: Self, else: Self? = nil)
-    case cost(Int, Self)
+    case askForCost(Int, Self)
 
+    // MARK: - Action
     case drawDeck(PlayerRef)
     case heal(Int, PlayerRef)
     case discard(PlayerRef, CardRef)
     case steal(PlayerRef, CardRef, PlayerRef)
     case discover
+    case undiscover
     case drawDiscovered(CardRef, PlayerRef)
+    case drawDiscared(CardRef, PlayerRef)
     case shoot(PlayerRef)
     case dodge(PlayerRef)
     case damage(Int, PlayerRef)
     case passLeft(CardRef)
+    case endTurn
+    case showLastHand(PlayerRef)
 
+    // MARK: - Modifier
     case setWeaponRange(Int)
     case ignorePlayLimit(String)
-    case increaseMagnifying(Int)
-    case increaseRemoteness(Int)
-    case endTurn
+    case incrementMagnifying
+    case incrementRemoteness
+    case incrementDrawCards
+    case setCardsPerTurn(Int)
+    case incrementRequiredMisses
+    case playAs(String, String)
 }
 
 enum PlayerRef {
@@ -47,13 +61,16 @@ enum PlayerRef {
     case chooseAny
     case chooseAnyAtWeaponRange
     case chooseAnyWithCard
+    case chooseAnyWithHandCard
 }
 
 enum CardRef {
     case sourceCard
     case i
     case chooseAnyTargetCard
+    case chooseAnyTargetHandCard
     case chooseAnyDiscoveredCard
+    case chooseDiscardedCard
 }
 
 enum Repeat {
@@ -150,11 +167,11 @@ extension Card {
     )
 
     static let scope = Card(
-        onActive: .increaseMagnifying(1)
+        onActive: .incrementMagnifying
     )
 
     static let mustang = Card(
-        onActive: .increaseRemoteness(1)
+        onActive: .incrementRemoteness
     )
 
     static let barrel = Card(
@@ -187,11 +204,11 @@ extension Card {
     )
 
     static let roseDoolan = Card(
-        onActive: .increaseMagnifying(1)
+        onActive: .incrementMagnifying
     )
 
     static let paulRegret = Card(
-        onActive: .increaseRemoteness(1)
+        onActive: .incrementRemoteness
     )
 
     static let bartCassidy = Card(
@@ -211,22 +228,55 @@ extension Card {
     )
 
     static let sidKetchum = Card(
-        onShot: .cost(2, .heal(1, .me))
+        onActive: .askForCost(2, .heal(1, .me))
     )
 
     static let vultureSam = Card(
         onOtherEliminated: .repeat(.perCardOfEliminatedPlayer, .steal(.eliminated, .i, .me))
     )
 
-    /*
-     .sidKetchum,
-     .vultureSam,
-     .luckyDuke,
-     .blackJack,
-     .pedroRamirez,
-     .jesseJones,
-     .kitCarlson,
-     .slabTheKiller,
-     .calamityJanet,
-     */
+    static let luckyDuke = Card(
+        onDrawRequired: .incrementDrawCards
+    )
+
+    static let blackJack = Card(
+        onDrawLastCardOnTurnStarted: .concat([
+            .showLastHand(.me),
+            .draw("(♥️)|(♦️)", then: .drawDeck(.me))
+        ])
+    )
+
+    static let pedroRamirez = Card(
+        onTurnStarted: .chain([
+            .steal(.chooseAnyWithHandCard, .chooseAnyTargetHandCard, .me),
+            .setCardsPerTurn(1)
+        ])
+    )
+
+    static let jesseJones = Card(
+        onTurnStarted: .chain([
+            .drawDiscared(.chooseDiscardedCard, .me),
+            .setCardsPerTurn(1)
+        ])
+    )
+
+    static let kitCarlson = Card(
+        onTurnStarted: .chain([
+            .repeat(.times(3), .discover),
+            .repeat(.times(2), .drawDiscovered(.chooseAnyDiscoveredCard, .me)),
+            .undiscover,
+            .setCardsPerTurn(0)
+        ])
+    )
+
+    static let slabTheKiller = Card(
+        onShootingWithBangCard: .incrementRequiredMisses
+    )
+
+    static let calamityJanet = Card(
+        onActive: .concat([
+            .playAs("missed", "bang"),
+            .playAs("bang", "missed")
+        ])
+    )
 }
