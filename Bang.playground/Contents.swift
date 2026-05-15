@@ -5,13 +5,14 @@ import Foundation
 struct CardDefinition {
     let tag: CardTag
     let trigger: GameEvent
-    let actions: [GameAction] // Flat Actions model
+    let actions: [GameAction] // Flat Actions = independent effects
 }
 
 enum CardTag: String {
     case brown
     case equipement
-    case handcap
+    case handicap
+    case character
 }
 
 struct GameAction {
@@ -28,28 +29,44 @@ enum GameActionID: String {
     case discard
     case passLeft
     case heal
+    case endTurn
+    case discover
+    case undiscover
+    case drawDiscovered
+    case drawDiscared
+
+    // MARK: - Modifiers
+    case incrementRequiredMisses
+    case incrementMagnifying
+    case incrementRemoteness
+    case incrementDrawCards
+    case setPlayAs
+    case setCardsPerTurn
+    case setWeaponRange
+    case ignorePlayLimit
 }
 
 enum Selector {
-    // MARK: - Logic
+    // MARK: - Branching
+    case `repeat`(Repeat)
     case `if`(Requirement)
     case require(Requirement)
-    case `repeat`(Repeat)
 
     // MARK: - Payload
-    case setTarget(PlayerRef)
-    case setCard(CardRef)
-    case setAmount(Int)
+    case withTarget(PlayerRef)
+    case withCard(CardRef)
+    case withAmount(Int)
+    case withAlias([String: String])
+    case withPlayLimitCard(String)
 }
 
-enum GameEvent {
+enum GameEvent: String {
+    case active
     case cardPlayed
     case cardEquipped
     case playerShot
     case turnStarted
-
-    case playerDamaged(target: PlayerID, source: PlayerID)
-    case playerEliminated(target: PlayerID, source: PlayerID)
+    case shootingWithBangCard
 }
 
 enum PlayerID {}
@@ -134,6 +151,7 @@ indirect enum Requirement {
     case drawMatched(CardSuit)
     case playersAtLeast(Int)
     case playLimit(Int)
+    case hasDrawDiscardOnTurnStarted
 }
 
 enum CardSuit: String {
@@ -153,7 +171,7 @@ extension CardDefinition {
                 .init(
                     id: .drawDeck,
                     selector: [
-                        .setTarget(.me),
+                        .withTarget(.me),
                         .repeat(.times(2))
                     ]
                 )
@@ -169,7 +187,7 @@ extension CardDefinition {
                 .init(
                     id: .drawDeck,
                     selector: [
-                        .setTarget(.me),
+                        .withTarget(.me),
                         .repeat(.times(3))
                     ]
                 )
@@ -186,8 +204,8 @@ extension CardDefinition {
                     id: .heal,
                     selector: [
                         .require(.playersAtLeast(3)),
-                        .setTarget(.me),
-                        .setAmount(1)
+                        .withTarget(.me),
+                        .withAmount(1)
                     ]
                 )
             ]
@@ -202,7 +220,7 @@ extension CardDefinition {
                 .init(
                     id: .heal,
                     selector: [
-                        .setAmount(1),
+                        .withAmount(1),
                         .repeat(.perTarget(.woundedPlayers)),
                     ]
                 )
@@ -296,31 +314,48 @@ extension CardDefinition {
             action: .setWeaponRange(5)
         )
     }
-
+*/
     static var volcanic: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .concat([
-                .setWeaponRange(1),
-                .ignorePlayLimit("bang")
-            ])
+        actions: [
+            .init(
+                id: .setWeaponRange,
+                selector: [.withAmount(1)]
+            ),
+            .init(
+                id: .ignorePlayLimit,
+                selector: [.withPlayLimitCard("bang")]
+            )
+        ]
+//            action: .concat([
+//                .setWeaponRange(1),
+//                .ignorePlayLimit("bang")
+//            ])
         )
     }
 
     static var scope: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .incrementMagnifying
+            actions: [
+                .init(id: .incrementMagnifying)
+            ]
         )
     }
 
     static var mustang: Self {
         .init(
+            tag: .equipement,
             trigger: .cardEquipped,
-            action: .incrementRemoteness
+            actions: [
+                .init(id: .incrementRemoteness)
+            ]
         )
     }
-*/
+
     static var barrel: Self {
         .init(
             tag: .equipement,
@@ -331,7 +366,7 @@ extension CardDefinition {
                     id: .dodge,
                     selector: [
                         .if(.drawMatched(.hearts)),
-                        .setTarget(.me)
+                        .withTarget(.me)
                     ]
                 )
             ]
@@ -348,38 +383,51 @@ extension CardDefinition {
                     id: .damage,
                     selector: [
                         .if(.drawMatched(.twoToNineSpades)),
-                        .setTarget(.me),
-                        .setAmount(3)
+                        .withTarget(.me),
+                        .withAmount(3)
                     ]
                 ),
                 .init(
                     id: .discard,
                     selector: [
                         .if(.drawMatched(.twoToNineSpades)),
-                        .setCard(.sourceCard)
+                        .withCard(.sourceCard)
                     ]
                 ),
                 .init(
                     id: .passLeft,
                     selector: [
                         .if(.not(.drawMatched(.twoToNineSpades))),
-                        .setCard(.sourceCard)
+                        .withCard(.sourceCard)
                     ]
                 )
             ]
         )
     }
-    /*
-    static var jail: Self {
-        onTurnStarted: .concat([
-            .draw(
-                "not(♥️)",
-                then: .endTurn
-            ),
-            .discard(.me, .sourceCard)
-        ])
-    )
 
+    static var jail: Self {
+        .init(
+            tag: .handicap,
+            trigger: .turnStarted,
+            actions: [
+                .init(id: .draw),
+                .init(
+                    id: .endTurn,
+                    selector: [
+                        .if(.drawMatched(.hearts))
+                    ]
+                ),
+                .init(
+                    id: .discard,
+                    selector: [
+                        .withCard(.sourceCard)
+                    ]
+                )
+            ]
+        )
+    }
+
+        /*
     static var willyTheKid: Self {
         onActive: .ignorePlayLimit("bang")
     )
@@ -433,32 +481,79 @@ extension CardDefinition {
             .setCardsPerTurn(1)
         ])
     )
-
+         */
     static var jesseJones: Self {
-        onTurnStarted: .chain([
-            .drawDiscared(.chooseDiscardedCard, .me),
-            .setCardsPerTurn(1)
-        ])
-    )
+        .init(
+            tag: .character,
+            trigger: .turnStarted,
+            actions: [
+                .init(
+                    id: .drawDiscared,
+                    selector: [
+                        .withTarget(.me),
+                        .withCard(.chooseDiscardedCard)
+                    ]
+                ),
+                .init(
+                    id: .setCardsPerTurn,
+                    selector: [
+                        .if(.hasDrawDiscardOnTurnStarted),
+                        .withAmount(1)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var kitCarlson: Self {
-        onTurnStarted: .chain([
-            .repeat(.times(3), .discover),
-            .repeat(.times(2), .drawDiscovered(.chooseAnyDiscoveredCard, .me)),
-            .undiscover,
-            .setCardsPerTurn(0)
-        ])
-    )
+        .init(
+            tag: .character,
+            trigger: .turnStarted,
+            actions: [
+                .init(
+                    id: .discover,
+                    selector: [
+                        .repeat(.times(3))
+                    ]
+                ),
+                .init(
+                    id: .drawDiscovered,
+                    selector: [
+                        .withTarget(.me),
+                        .repeat(.times(2)),
+                        .withCard(.chooseAnyDiscoveredCard)
+                    ]
+                ),
+                .init(id: .undiscover),
+                .init(
+                    id: .setCardsPerTurn,
+                    selector: [
+                        .withAmount(0)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var slabTheKiller: Self {
-        onShootingWithBangCard: .incrementRequiredMisses
-    )
+        .init(
+            tag: .character,
+            trigger: .shootingWithBangCard,
+            actions: [
+                .init(id: .incrementRequiredMisses)
+            ]
+        )
+    }
 
     static var calamityJanet: Self {
-        onActive: .concat([
-            .playAs("missed", "bang"),
-            .playAs("bang", "missed")
-        ])
-    )
-        */
+        .init(
+            tag: .character,
+            trigger: .active,
+            actions: [
+                .init(id: .setPlayAs, selector: [
+                    .withAlias(["missed": "bang", "bang": "missed"])
+                ])
+            ]
+        )
+    }
 }
