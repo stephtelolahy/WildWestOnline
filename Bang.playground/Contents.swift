@@ -51,12 +51,12 @@ enum GameActionID: String {
 
 enum Selector {
     // MARK: - Branching
-    case `repeat`(Repeat)
+    case `repeat`(RepeatCount)
     case `if`(Requirement)
     case require(Requirement)
-    case askForCounter(CardCriteria)
-    case askForRedirect(CardCriteria)
-    case askForCost(CardCriteria)
+    case askForCounter(HandCardCriteria)
+    case askForRedirect(HandCardCriteria)
+    case askForCost(HandCardCriteria)
 
     // MARK: - Payload
     case withTarget(PlayerRef)
@@ -69,7 +69,6 @@ enum Selector {
 enum GameEvent: String {
     case active
     case played
-    case cardEquipped
     case shot
     case turnStarted
     case shootingWithBangCard
@@ -106,14 +105,16 @@ enum CardRef {
     case forEachCards
 }
 
-enum Repeat {
+enum RepeatCount {
     case times(Int)
+
     case perPlayer
     case perDamage
 }
 
 indirect enum Requirement {
     case not(Self)
+
     case drawMatched(CardSuit)
     case lastHandMatched(CardSuit)
     case playersAtLeast(Int)
@@ -128,7 +129,7 @@ enum CardSuit: String {
     case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
-enum CardCriteria: String {
+enum HandCardCriteria: String {
     case bang
     case any
 }
@@ -336,7 +337,7 @@ extension CardDefinition {
     static var schofield: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .setWeaponRange, selector: [.withAmount(2)])
             ]
@@ -346,7 +347,7 @@ extension CardDefinition {
     static var remington: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .setWeaponRange, selector: [.withAmount(3)])
             ]
@@ -356,7 +357,7 @@ extension CardDefinition {
     static var revCarabine: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .setWeaponRange, selector: [.withAmount(4)])
             ]
@@ -366,7 +367,7 @@ extension CardDefinition {
     static var winchester: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .setWeaponRange, selector: [.withAmount(5)])
             ]
@@ -376,7 +377,7 @@ extension CardDefinition {
     static var volcanic: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(
                     id: .setWeaponRange,
@@ -393,7 +394,7 @@ extension CardDefinition {
     static var scope: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .incrementMagnifying)
             ]
@@ -403,7 +404,7 @@ extension CardDefinition {
     static var mustang: Self {
         .init(
             tag: .equipement,
-            trigger: .cardEquipped,
+            trigger: .active,
             actions: [
                 .init(id: .incrementRemoteness)
             ]
