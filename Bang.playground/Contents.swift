@@ -77,6 +77,13 @@ enum Selector {
     case withAlias([String: String])
     case withPlayLimitCard(String)
 
+    enum RepeatCount {
+        case times(Int)
+
+        case perPlayer
+        case perDamage
+    }
+
     enum PlayerRef {
         case me
         case eliminated
@@ -102,13 +109,6 @@ enum Selector {
         case chooseDiscardedCard
 
         case forEachCards
-    }
-
-    enum RepeatCount {
-        case times(Int)
-
-        case perPlayer
-        case perDamage
     }
 
     indirect enum Requirement {
