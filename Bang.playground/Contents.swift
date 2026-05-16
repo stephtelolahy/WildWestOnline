@@ -36,6 +36,7 @@ enum GameActionID: String {
     case undiscover
     case drawDiscovered
     case drawDiscared
+    case showLastHand
 
     // MARK: - Modifiers
     case incrementRequiredMisses
@@ -55,6 +56,7 @@ enum Selector {
     case require(Requirement)
     case askForCounter(CardCriteria)
     case askForRedirect(CardCriteria)
+    case askForCost(CardCriteria)
 
     // MARK: - Payload
     case withTarget(PlayerRef)
@@ -68,9 +70,13 @@ enum GameEvent: String {
     case active
     case played
     case cardEquipped
-    case playerShot
+    case shot
     case turnStarted
     case shootingWithBangCard
+    case damaged
+    case handEmptied
+    case otherEliminated
+    case drawLastCardOnTurnStarted
 }
 
 enum PlayerRef {
@@ -96,6 +102,8 @@ enum CardRef {
     case chooseAnyTargetHandCard
     case chooseAnyDiscoveredCard
     case chooseDiscardedCard
+
+    case forEachCards
 }
 
 enum Repeat {
@@ -107,9 +115,11 @@ enum Repeat {
 indirect enum Requirement {
     case not(Self)
     case drawMatched(CardSuit)
+    case lastHandMatched(CardSuit)
     case playersAtLeast(Int)
     case playLimit(Int)
     case hasDrawDiscardOnTurnStarted
+    case hasStealCardOnTurnStarted
 }
 
 enum CardSuit: String {
@@ -120,6 +130,7 @@ enum CardSuit: String {
 
 enum CardCriteria: String {
     case bang
+    case any
 }
 
 // MARK: - Cards
@@ -402,7 +413,7 @@ extension CardDefinition {
     static var barrel: Self {
         .init(
             tag: .equipement,
-            trigger: .playerShot,
+            trigger: .shot,
             actions: [
                 .init(id: .draw),
                 .init(
@@ -470,61 +481,182 @@ extension CardDefinition {
         )
     }
 
-        /*
     static var willyTheKid: Self {
-        onActive: .ignorePlayLimit("bang")
-    )
+        .init(
+            tag: .character,
+            trigger: .active,
+            actions: [
+                .init(id: .ignorePlayLimit, selector: [.withPlayLimitCard("bang")])
+            ]
+        )
+    }
 
     static var roseDoolan: Self {
-        onActive: .incrementMagnifying
-    )
+        .init(
+            tag: .character,
+            trigger: .active,
+            actions: [.init(id: .incrementMagnifying)]
+        )
+    }
 
     static var paulRegret: Self {
-        onActive: .incrementRemoteness
-    )
+        .init(
+            tag: .character,
+            trigger: .active,
+            actions: [
+                .init(id: .incrementRemoteness)
+            ]
+        )
+    }
 
     static var bartCassidy: Self {
-        onDamaged: .repeat(.perDamage, .drawDeck(.me))
-    )
+        .init(
+            tag: .character,
+            trigger: .damaged,
+            actions: [
+                .init(
+                    id: .drawDeck,
+                    selector: [
+                        .withTarget(.me),
+                        .repeat(.perDamage)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var elGringo: Self {
-        onDamaged: .repeat(.perDamage, .steal(.attacker, .chooseAnyTargetCard, .me))
-    )
+        .init(
+            tag: .character,
+            trigger: .damaged,
+            actions: [
+                .init(
+                    id: .steal,
+                    selector: [
+                        .withTarget(.attacker),
+                        .repeat(.perDamage),
+                        .withCard(.chooseAnyTargetCard)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var suzyLafayette: Self {
-        onHandEmptied: .drawDeck(.me)
-    )
+        .init(
+            tag: .character,
+            trigger: .handEmptied,
+            actions: [
+                .init(
+                    id: .drawDeck,
+                    selector: [.withTarget(.me)]
+                )
+            ]
+        )
+    }
 
     static var jourdonnais: Self {
-        onShot: .draw("♥️", then: .dodge(.me))
-    )
+        .init(
+            tag: .character,
+            trigger: .shot,
+            actions: [
+                .init(id: .draw),
+                .init(
+                    id: .dodge,
+                    selector: [
+                        .if(.drawMatched(.hearts)),
+                        .withTarget(.me)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var sidKetchum: Self {
-        onActive: .askForCost(2, .heal(1, .me))
-    )
+        .init(
+            tag: .character,
+            trigger: .played,
+            actions: [
+                .init(
+                    id: .heal,
+                    selector: [
+                        .askForCost(.any),
+                        .askForCost(.any),
+                        .withTarget(.me),
+                        .withAmount(1)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var vultureSam: Self {
-        onOtherEliminated: .repeat(.perCardOfEliminatedPlayer, .steal(.eliminated, .i, .me))
-    )
+        .init(
+            tag: .character,
+            trigger: .otherEliminated,
+            actions: [
+                .init(
+                    id: .steal,
+                    selector: [
+                        .withTarget(.eliminated),
+                        .withCard(.forEachCards)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var luckyDuke: Self {
-        onDrawRequired: .incrementDrawCards
-    )
+        .init(
+            tag: .character,
+            trigger: .active,
+            actions: [.init(id: .incrementDrawCards)]
+        )
+    }
 
     static var blackJack: Self {
-        onDrawLastCardOnTurnStarted: .concat([
-            .showLastHand(.me),
-            .draw("(♥️)|(♦️)", then: .drawDeck(.me))
-        ])
-    )
+        .init(
+            tag: .character,
+            trigger: .drawLastCardOnTurnStarted,
+            actions: [
+                .init(
+                    id: .showLastHand,
+                    selector: [.withTarget(.me)]
+                ),
+                .init(
+                    id: .drawDeck,
+                    selector: [
+                        .if(.lastHandMatched(.red)),
+                        .withTarget(.me)
+                    ]
+                )
+            ]
+        )
+    }
 
     static var pedroRamirez: Self {
-        onTurnStarted: .chain([
-            .steal(.chooseAnyWithHandCard, .chooseAnyTargetHandCard, .me),
-            .setCardsPerTurn(1)
-        ])
-    )
-         */
+        .init(
+            tag: .character,
+            trigger: .turnStarted,
+            actions: [
+                .init(
+                    id: .steal,
+                    selector: [
+                        .withTarget(.chooseAnyWithHandCard),
+                        .withCard(.chooseAnyTargetHandCard)
+                    ]
+                ),
+                .init(
+                    id: .setCardsPerTurn,
+                    selector: [
+                        .if(.hasStealCardOnTurnStarted),
+                        .withAmount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
     static var jesseJones: Self {
         .init(
             tag: .character,
