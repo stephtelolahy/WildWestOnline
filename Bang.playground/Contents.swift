@@ -15,6 +15,18 @@ enum CardTag: String {
     case character
 }
 
+enum GameEvent: String {
+    case active
+    case played
+    case shot
+    case turnStarted
+    case shootingWithBangCard
+    case damaged
+    case handEmptied
+    case otherEliminated
+    case drawLastCardOnTurnStarted
+}
+
 struct GameAction {
     let id: GameActionID
     var selector: [Selector] = []
@@ -64,74 +76,62 @@ enum Selector {
     case withAmount(Int)
     case withAlias([String: String])
     case withPlayLimitCard(String)
-}
 
-enum GameEvent: String {
-    case active
-    case played
-    case shot
-    case turnStarted
-    case shootingWithBangCard
-    case damaged
-    case handEmptied
-    case otherEliminated
-    case drawLastCardOnTurnStarted
-}
+    enum PlayerRef {
+        case me
+        case eliminated
+        case attacker
 
-enum PlayerRef {
-    case me
-    case eliminated
-    case attacker
+        case chooseAny
+        case chooseAnyAtWeaponRange
+        case chooseAnyWithCard
+        case chooseAnyWithCardAtRange(Int)
+        case chooseAnyWithHandCard
 
-    case chooseAny
-    case chooseAnyAtWeaponRange
-    case chooseAnyWithCard
-    case chooseAnyWithCardAtRange(Int)
-    case chooseAnyWithHandCard
+        case forEachPlayers
+        case forEachOtherPlayers
+        case forEachWoundedPlayers
+    }
 
-    case forEachPlayers
-    case forEachOtherPlayers
-    case forEachWoundedPlayers
-}
+    enum CardRef {
+        case source
 
-enum CardRef {
-    case source
+        case chooseAnyTargetCard
+        case chooseAnyTargetHandCard
+        case chooseAnyDiscoveredCard
+        case chooseDiscardedCard
 
-    case chooseAnyTargetCard
-    case chooseAnyTargetHandCard
-    case chooseAnyDiscoveredCard
-    case chooseDiscardedCard
+        case forEachCards
+    }
 
-    case forEachCards
-}
+    enum RepeatCount {
+        case times(Int)
 
-enum RepeatCount {
-    case times(Int)
+        case perPlayer
+        case perDamage
+    }
 
-    case perPlayer
-    case perDamage
-}
+    indirect enum Requirement {
+        case not(Self)
 
-indirect enum Requirement {
-    case not(Self)
+        case drawMatched(CardSuit)
+        case lastHandMatched(CardSuit)
+        case playersAtLeast(Int)
+        case playLimit(Int)
+        case hasDrawDiscardOnTurnStarted
+        case hasStealCardOnTurnStarted
+    }
 
-    case drawMatched(CardSuit)
-    case lastHandMatched(CardSuit)
-    case playersAtLeast(Int)
-    case playLimit(Int)
-    case hasDrawDiscardOnTurnStarted
-    case hasStealCardOnTurnStarted
-}
+    enum CardSuit: String {
+        case hearts = "♥️"
+        case red = "(♥️)|(♦️)"
+        case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
+    }
 
-enum CardSuit: String {
-    case hearts = "♥️"
-    case red = "(♥️)|(♦️)"
-    case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
-}
-
-enum HandCardCriteria: String {
-    case bang
-    case any
+    enum HandCardCriteria: String {
+        case bang
+        case any
+    }
 }
 
 // MARK: - Cards
