@@ -98,10 +98,8 @@ enum NonStandardLogic {
             return false
 
         default:
-            break
+            return true
         }
-
-        return true
     }
 
     static func updateActionNameByTargetedCard(
@@ -136,7 +134,7 @@ enum NonStandardLogic {
             }
 
         default:
-            return
+            break
         }
     }
 }
