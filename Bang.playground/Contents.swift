@@ -66,9 +66,9 @@ enum Selector {
     case `repeat`(RepeatCount)
     case `if`(Requirement)
     case require(Requirement)
-    case askForCounter(HandCardCriteria)
-    case askForRedirect(HandCardCriteria)
-    case askForCost(HandCardCriteria)
+    case askForCounter(HandCardCriteria) // discard hand to counter effect
+    case askForRedirect(HandCardCriteria) // discard hand to redirect effect
+    case askForCost(HandCardCriteria) // discard hand to apply effect
 
     // MARK: - Payload
     case withTarget(PlayerRef)
@@ -79,7 +79,6 @@ enum Selector {
 
     enum RepeatCount {
         case times(Int)
-
         case perPlayer
         case perDamage
     }
@@ -88,27 +87,39 @@ enum Selector {
         case me
         case eliminated
         case attacker
+        case chooseAny([PlayerFilter])
+        case forEach(PlayerGroup)
+    }
 
-        case chooseAny
-        case chooseAnyAtWeaponRange
-        case chooseAnyWithCard
-        case chooseAnyWithCardAtRange(Int)
-        case chooseAnyWithHandCard
+    enum PlayerFilter {
+        case hasCards
+        case hasHandCards
+        case atDistance(Int)
+        case atWeaponRange
+        case isWounded
+    }
 
-        case forEachPlayers
-        case forEachOtherPlayers
-        case forEachWoundedPlayers
+    enum PlayerGroup {
+        case all
+        case wounded
+        case others
     }
 
     enum CardRef {
         case source
+        case chooseAny(CardFilter)
+        case forEach(CardGroup)
+    }
 
-        case chooseAnyTargetCard
-        case chooseAnyTargetHandCard
-        case chooseAnyDiscoveredCard
-        case chooseDiscardedCard
+    enum CardFilter {
+        case targetCard
+        case targetHandCard
+        case discoveredCard
+        case discardedCard
+    }
 
-        case forEachCards
+    enum CardGroup {
+        case targetCards
     }
 
     indirect enum Requirement {
@@ -129,8 +140,9 @@ enum Selector {
     }
 
     enum HandCardCriteria: String {
-        case bang
         case any
+        case blue
+        case bang
     }
 }
 
@@ -195,7 +207,7 @@ extension CardDefinition {
                     id: .heal,
                     selector: [
                         .withAmount(1),
-                        .withTarget(.forEachWoundedPlayers)
+                        .withTarget(.forEach(.wounded))
                     ]
                 )
             ]
@@ -210,8 +222,8 @@ extension CardDefinition {
                 .init(
                     id: .discard,
                     selector: [
-                        .withTarget(.chooseAnyWithCard),
-                        .withCard(.chooseAnyTargetCard)
+                        .withTarget(.chooseAny([.hasCards])),
+                        .withCard(.chooseAny(.targetCard))
                     ]
                 )
             ]
@@ -226,8 +238,8 @@ extension CardDefinition {
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.chooseAnyWithCardAtRange(1)),
-                        .withCard(.chooseAnyTargetCard)
+                        .withTarget(.chooseAny([.atDistance(1), .hasCards])),
+                        .withCard(.chooseAny(.targetCard))
                     ]
                 )
             ]
@@ -248,8 +260,8 @@ extension CardDefinition {
                 .init(
                     id: .drawDiscovered,
                     selector: [
-                        .withTarget(.forEachPlayers),
-                        .withCard(.chooseAnyDiscoveredCard)
+                        .withTarget(.forEach(.all)),
+                        .withCard(.chooseAny(.discoveredCard))
                     ]
                 )
             ]
@@ -265,7 +277,7 @@ extension CardDefinition {
                     id: .shoot,
                     selector: [
                         .require(.playLimit(1)),
-                        .withTarget(.chooseAnyAtWeaponRange)
+                        .withTarget(.chooseAny([.atWeaponRange]))
                     ]
                 )
             ]
@@ -293,7 +305,7 @@ extension CardDefinition {
                 .init(
                     id: .shoot,
                     selector: [
-                        .withTarget(.forEachOtherPlayers)
+                        .withTarget(.forEach(.others))
                     ]
                 )
             ]
@@ -309,7 +321,7 @@ extension CardDefinition {
                     id: .damage,
                     selector: [
                         .withAmount(1),
-                        .withTarget(.forEachOtherPlayers),
+                        .withTarget(.forEach(.others)),
                         .askForCounter(.bang)
                     ]
                 )
@@ -326,7 +338,7 @@ extension CardDefinition {
                     id: .damage,
                     selector: [
                         .withAmount(1),
-                        .withTarget(.chooseAny),
+                        .withTarget(.chooseAny([])),
                         .askForRedirect(.bang)
                     ]
                 )
@@ -536,7 +548,7 @@ extension CardDefinition {
                     selector: [
                         .withTarget(.attacker),
                         .repeat(.perDamage),
-                        .withCard(.chooseAnyTargetCard)
+                        .withCard(.chooseAny(.targetCard))
                     ]
                 )
             ]
@@ -600,7 +612,7 @@ extension CardDefinition {
                     id: .steal,
                     selector: [
                         .withTarget(.eliminated),
-                        .withCard(.forEachCards)
+                        .withCard(.forEach(.targetCards))
                     ]
                 )
             ]
@@ -643,8 +655,8 @@ extension CardDefinition {
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.chooseAnyWithHandCard),
-                        .withCard(.chooseAnyTargetHandCard)
+                        .withTarget(.chooseAny([.hasHandCards])),
+                        .withCard(.chooseAny(.targetHandCard))
                     ]
                 ),
                 .init(
@@ -667,7 +679,7 @@ extension CardDefinition {
                     id: .drawDiscared,
                     selector: [
                         .withTarget(.me),
-                        .withCard(.chooseDiscardedCard)
+                        .withCard(.chooseAny(.discardedCard))
                     ]
                 ),
                 .init(
@@ -697,7 +709,7 @@ extension CardDefinition {
                     selector: [
                         .withTarget(.me),
                         .repeat(.times(2)),
-                        .withCard(.chooseAnyDiscoveredCard)
+                        .withCard(.chooseAny(.discardedCard))
                     ]
                 ),
                 .init(id: .undiscover),
