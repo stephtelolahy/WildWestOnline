@@ -738,9 +738,12 @@ extension CardDefinition {
             tag: .character,
             when: .active,
             actions: [
-                .init(id: .allowCardToBePlayedAsAnother, selector: [
-                    .aliases(["missed": "bang", "bang": "missed"])
-                ])
+                .init(
+                    id: .allowCardToBePlayedAsAnother,
+                    selector: [
+                        .aliases(["missed": "bang", "bang": "missed"])
+                    ]
+                )
             ]
         )
     }
