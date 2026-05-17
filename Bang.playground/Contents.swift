@@ -4,8 +4,8 @@ import Foundation
 
 struct CardDefinition {
     let tag: CardTag
-    let trigger: GameEvent
-    let actions: [GameAction] // Flat Actions = independent effects
+    let when: GameEvent
+    let actions: [GameAction]
 }
 
 enum CardTag: String {
@@ -20,11 +20,11 @@ enum GameEvent: String {
     case played
     case shot
     case turnStarted
-    case shootingWithBangCard
+    case shootingWithBang
     case damaged
-    case handEmptied
-    case otherEliminated
-    case drawLastCardOnTurnStarted
+    case emptiedHand
+    case anotherPlayerEliminated
+    case drawnLastCardOnTurnStarted
 }
 
 struct GameAction {
@@ -33,8 +33,8 @@ struct GameAction {
 }
 
 enum GameActionID: String {
-    // MARK: - Visible Action
-    case drawDeck
+    // MARK: - Visible gameplay
+    case drawFromDeck
     case dodge
     case draw
     case damage
@@ -45,37 +45,40 @@ enum GameActionID: String {
     case heal
     case endTurn
     case discover
-    case undiscover
+    case clearDiscovered
     case drawDiscovered
     case drawDiscared
-    case showLastHand
+    case revealLastDrawnCard
 
-    // MARK: - Modifiers
-    case incrementRequiredMisses
-    case incrementMagnifying
-    case incrementRemoteness
-    case incrementDrawCards
-    case setPlayAs
-    case setCardsPerTurn
+    // MARK: - Passive Modifiers
+    case increaseRequiredMisses
+    case increaseMagnifying
+    case increaseRemoteness
+    case increaseCardsDrawn
     case setWeaponRange
-    case ignorePlayLimit
+    case ignoreBangPlayLimit
+    case setCardsPerTurn
+    case allowCardToBePlayedAsAnother
 }
 
 enum Selector {
-    // MARK: - Branching
-    case `repeat`(RepeatCount)
+    // MARK: - Conditions
     case `if`(Requirement)
     case require(Requirement)
-    case askForCounter(HandCardCriteria) // discard hand to counter effect
-    case askForRedirect(HandCardCriteria) // discard hand to redirect effect
-    case askForCost(HandCardCriteria) // discard hand to apply effect
+
+    // MARK: - Repeaters
+    case `repeat`(RepeatCount)
+
+    // MARK: - Reactions
+    case targetMayCounter(with: HandCardRequirement)
+    case targetMayRedirect(with: HandCardRequirement)
+    case playerMustPay(with: HandCardRequirement)
 
     // MARK: - Payload
-    case withTarget(PlayerRef)
-    case withCard(CardRef)
-    case withAmount(Int)
-    case withAlias([String: String])
-    case withPlayLimitCard(String)
+    case target(PlayerTarget)
+    case card(CardTarget)
+    case amount(Int)
+    case aliases([String: String])
 
     enum RepeatCount {
         case times(Int)
@@ -83,20 +86,20 @@ enum Selector {
         case perDamage
     }
 
-    enum PlayerRef {
+    enum PlayerTarget {
         case me
         case eliminated
         case attacker
-        case chooseAny([PlayerFilter])
-        case forEach(PlayerGroup)
+        case choose([PlayerRequirement])
+        case every(PlayerGroup)
     }
 
-    enum PlayerFilter {
+    enum PlayerRequirement {
         case hasCards
         case hasHandCards
+        case wounded
         case atDistance(Int)
         case atWeaponRange
-        case isWounded
     }
 
     enum PlayerGroup {
@@ -105,13 +108,13 @@ enum Selector {
         case others
     }
 
-    enum CardRef {
+    enum CardTarget {
         case source
-        case chooseAny(CardFilter)
-        case forEach(CardGroup)
+        case choose(CardRequirement)
+        case every(CardGroup)
     }
 
-    enum CardFilter {
+    enum CardRequirement {
         case targetCard
         case targetHandCard
         case discoveredCard
@@ -119,27 +122,27 @@ enum Selector {
     }
 
     enum CardGroup {
-        case targetCards
+        case allTargetCards
     }
 
     indirect enum Requirement {
         case not(Self)
 
-        case drawMatched(CardSuit)
-        case lastHandMatched(CardSuit)
+        case drawnCardMatches(SuitPattern)
+        case lastHandMatches(SuitPattern)
         case playersAtLeast(Int)
-        case playLimit(Int)
+        case bangPlayLimit(Int)
         case hasDrawDiscardOnTurnStarted
         case hasStealCardOnTurnStarted
     }
 
-    enum CardSuit: String {
+    enum SuitPattern: String {
         case hearts = "♥️"
         case red = "(♥️)|(♦️)"
         case twoToNineSpades = "([2|3|4|5|6|7|8|9]♠️)"
     }
 
-    enum HandCardCriteria: String {
+    enum HandCardRequirement: String {
         case any
         case blue
         case bang
@@ -152,12 +155,12 @@ extension CardDefinition {
     static var stagecoach: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
-                    id: .drawDeck,
+                    id: .drawFromDeck,
                     selector: [
-                        .withTarget(.me),
+                        .target(.me),
                         .repeat(.times(2))
                     ]
                 )
@@ -168,12 +171,12 @@ extension CardDefinition {
     static var wellsFargo: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
-                    id: .drawDeck,
+                    id: .drawFromDeck,
                     selector: [
-                        .withTarget(.me),
+                        .target(.me),
                         .repeat(.times(3))
                     ]
                 )
@@ -184,14 +187,14 @@ extension CardDefinition {
     static var beer: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .heal,
                     selector: [
                         .require(.playersAtLeast(3)),
-                        .withTarget(.me),
-                        .withAmount(1)
+                        .target(.me),
+                        .amount(1)
                     ]
                 )
             ]
@@ -201,13 +204,13 @@ extension CardDefinition {
     static var saloon: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .heal,
                     selector: [
-                        .withAmount(1),
-                        .withTarget(.forEach(.wounded))
+                        .amount(1),
+                        .target(.every(.wounded))
                     ]
                 )
             ]
@@ -217,13 +220,13 @@ extension CardDefinition {
     static var catBalou: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .discard,
                     selector: [
-                        .withTarget(.chooseAny([.hasCards])),
-                        .withCard(.chooseAny(.targetCard))
+                        .target(.choose([.hasCards])),
+                        .card(.choose(.targetCard))
                     ]
                 )
             ]
@@ -233,13 +236,13 @@ extension CardDefinition {
     static var panic: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.chooseAny([.atDistance(1), .hasCards])),
-                        .withCard(.chooseAny(.targetCard))
+                        .target(.choose([.atDistance(1), .hasCards])),
+                        .card(.choose(.targetCard))
                     ]
                 )
             ]
@@ -249,7 +252,7 @@ extension CardDefinition {
     static var generalStore: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .discover,
@@ -260,8 +263,8 @@ extension CardDefinition {
                 .init(
                     id: .drawDiscovered,
                     selector: [
-                        .withTarget(.forEach(.all)),
-                        .withCard(.chooseAny(.discoveredCard))
+                        .target(.every(.all)),
+                        .card(.choose(.discoveredCard))
                     ]
                 )
             ]
@@ -271,13 +274,13 @@ extension CardDefinition {
     static var bang: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .shoot,
                     selector: [
-                        .require(.playLimit(1)),
-                        .withTarget(.chooseAny([.atWeaponRange]))
+                        .require(.bangPlayLimit(1)),
+                        .target(.choose([.atWeaponRange]))
                     ]
                 )
             ]
@@ -287,11 +290,11 @@ extension CardDefinition {
     static var missed: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .dodge,
-                    selector: [.withTarget(.me)]
+                    selector: [.target(.me)]
                 )
             ]
         )
@@ -300,12 +303,12 @@ extension CardDefinition {
     static var gatling: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .shoot,
                     selector: [
-                        .withTarget(.forEach(.others))
+                        .target(.every(.others))
                     ]
                 )
             ]
@@ -315,14 +318,14 @@ extension CardDefinition {
     static var indians: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .damage,
                     selector: [
-                        .withAmount(1),
-                        .withTarget(.forEach(.others)),
-                        .askForCounter(.bang)
+                        .target(.every(.others)),
+                        .amount(1),
+                        .targetMayCounter(with: .bang)
                     ]
                 )
             ]
@@ -332,14 +335,14 @@ extension CardDefinition {
     static var duel: Self {
         .init(
             tag: .brown,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .damage,
                     selector: [
-                        .withAmount(1),
-                        .withTarget(.chooseAny([])),
-                        .askForRedirect(.bang)
+                        .target(.choose([])),
+                        .amount(1),
+                        .targetMayRedirect(with: .bang)
                     ]
                 )
             ]
@@ -349,9 +352,9 @@ extension CardDefinition {
     static var schofield: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .setWeaponRange, selector: [.withAmount(2)])
+                .init(id: .setWeaponRange, selector: [.amount(2)])
             ]
         )
     }
@@ -359,9 +362,9 @@ extension CardDefinition {
     static var remington: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .setWeaponRange, selector: [.withAmount(3)])
+                .init(id: .setWeaponRange, selector: [.amount(3)])
             ]
         )
     }
@@ -369,9 +372,9 @@ extension CardDefinition {
     static var revCarabine: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .setWeaponRange, selector: [.withAmount(4)])
+                .init(id: .setWeaponRange, selector: [.amount(4)])
             ]
         )
     }
@@ -379,9 +382,9 @@ extension CardDefinition {
     static var winchester: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .setWeaponRange, selector: [.withAmount(5)])
+                .init(id: .setWeaponRange, selector: [.amount(5)])
             ]
         )
     }
@@ -389,16 +392,13 @@ extension CardDefinition {
     static var volcanic: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
                 .init(
                     id: .setWeaponRange,
-                    selector: [.withAmount(1)]
+                    selector: [.amount(1)]
                 ),
-                .init(
-                    id: .ignorePlayLimit,
-                    selector: [.withPlayLimitCard("bang")]
-                )
+                .init(id: .ignoreBangPlayLimit)
             ]
         )
     }
@@ -406,9 +406,9 @@ extension CardDefinition {
     static var scope: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .incrementMagnifying)
+                .init(id: .increaseMagnifying)
             ]
         )
     }
@@ -416,9 +416,9 @@ extension CardDefinition {
     static var mustang: Self {
         .init(
             tag: .equipement,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .incrementRemoteness)
+                .init(id: .increaseRemoteness)
             ]
         )
     }
@@ -426,14 +426,14 @@ extension CardDefinition {
     static var barrel: Self {
         .init(
             tag: .equipement,
-            trigger: .shot,
+            when: .shot,
             actions: [
                 .init(id: .draw),
                 .init(
                     id: .dodge,
                     selector: [
-                        .if(.drawMatched(.hearts)),
-                        .withTarget(.me)
+                        .if(.drawnCardMatches(.hearts)),
+                        .target(.me)
                     ]
                 )
             ]
@@ -443,29 +443,29 @@ extension CardDefinition {
     static var dynamite: Self {
         .init(
             tag: .equipement,
-            trigger: .turnStarted,
+            when: .turnStarted,
             actions: [
                 .init(id: .draw),
                 .init(
                     id: .damage,
                     selector: [
-                        .if(.drawMatched(.twoToNineSpades)),
-                        .withTarget(.me),
-                        .withAmount(3)
+                        .if(.drawnCardMatches(.twoToNineSpades)),
+                        .target(.me),
+                        .amount(3)
                     ]
                 ),
                 .init(
                     id: .discard,
                     selector: [
-                        .if(.drawMatched(.twoToNineSpades)),
-                        .withCard(.source)
+                        .if(.drawnCardMatches(.twoToNineSpades)),
+                        .card(.source)
                     ]
                 ),
                 .init(
                     id: .passLeft,
                     selector: [
-                        .if(.not(.drawMatched(.twoToNineSpades))),
-                        .withCard(.source)
+                        .if(.not(.drawnCardMatches(.twoToNineSpades))),
+                        .card(.source)
                     ]
                 )
             ]
@@ -475,19 +475,19 @@ extension CardDefinition {
     static var jail: Self {
         .init(
             tag: .handicap,
-            trigger: .turnStarted,
+            when: .turnStarted,
             actions: [
                 .init(id: .draw),
                 .init(
                     id: .endTurn,
                     selector: [
-                        .if(.drawMatched(.hearts))
+                        .if(.drawnCardMatches(.hearts))
                     ]
                 ),
                 .init(
                     id: .discard,
                     selector: [
-                        .withCard(.source)
+                        .card(.source)
                     ]
                 )
             ]
@@ -497,9 +497,9 @@ extension CardDefinition {
     static var willyTheKid: Self {
         .init(
             tag: .character,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .ignorePlayLimit, selector: [.withPlayLimitCard("bang")])
+                .init(id: .ignoreBangPlayLimit)
             ]
         )
     }
@@ -507,17 +507,17 @@ extension CardDefinition {
     static var roseDoolan: Self {
         .init(
             tag: .character,
-            trigger: .active,
-            actions: [.init(id: .incrementMagnifying)]
+            when: .active,
+            actions: [.init(id: .increaseMagnifying)]
         )
     }
 
     static var paulRegret: Self {
         .init(
             tag: .character,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .incrementRemoteness)
+                .init(id: .increaseRemoteness)
             ]
         )
     }
@@ -525,12 +525,12 @@ extension CardDefinition {
     static var bartCassidy: Self {
         .init(
             tag: .character,
-            trigger: .damaged,
+            when: .damaged,
             actions: [
                 .init(
-                    id: .drawDeck,
+                    id: .drawFromDeck,
                     selector: [
-                        .withTarget(.me),
+                        .target(.me),
                         .repeat(.perDamage)
                     ]
                 )
@@ -541,14 +541,14 @@ extension CardDefinition {
     static var elGringo: Self {
         .init(
             tag: .character,
-            trigger: .damaged,
+            when: .damaged,
             actions: [
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.attacker),
+                        .target(.attacker),
                         .repeat(.perDamage),
-                        .withCard(.chooseAny(.targetCard))
+                        .card(.choose(.targetCard))
                     ]
                 )
             ]
@@ -558,11 +558,11 @@ extension CardDefinition {
     static var suzyLafayette: Self {
         .init(
             tag: .character,
-            trigger: .handEmptied,
+            when: .emptiedHand,
             actions: [
                 .init(
-                    id: .drawDeck,
-                    selector: [.withTarget(.me)]
+                    id: .drawFromDeck,
+                    selector: [.target(.me)]
                 )
             ]
         )
@@ -571,14 +571,14 @@ extension CardDefinition {
     static var jourdonnais: Self {
         .init(
             tag: .character,
-            trigger: .shot,
+            when: .shot,
             actions: [
                 .init(id: .draw),
                 .init(
                     id: .dodge,
                     selector: [
-                        .if(.drawMatched(.hearts)),
-                        .withTarget(.me)
+                        .if(.drawnCardMatches(.hearts)),
+                        .target(.me)
                     ]
                 )
             ]
@@ -588,15 +588,15 @@ extension CardDefinition {
     static var sidKetchum: Self {
         .init(
             tag: .character,
-            trigger: .played,
+            when: .played,
             actions: [
                 .init(
                     id: .heal,
                     selector: [
-                        .askForCost(.any),
-                        .askForCost(.any),
-                        .withTarget(.me),
-                        .withAmount(1)
+                        .playerMustPay(with: .any),
+                        .playerMustPay(with: .any),
+                        .target(.me),
+                        .amount(1)
                     ]
                 )
             ]
@@ -606,13 +606,13 @@ extension CardDefinition {
     static var vultureSam: Self {
         .init(
             tag: .character,
-            trigger: .otherEliminated,
+            when: .anotherPlayerEliminated,
             actions: [
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.eliminated),
-                        .withCard(.forEach(.targetCards))
+                        .target(.eliminated),
+                        .card(.every(.allTargetCards))
                     ]
                 )
             ]
@@ -622,25 +622,25 @@ extension CardDefinition {
     static var luckyDuke: Self {
         .init(
             tag: .character,
-            trigger: .active,
-            actions: [.init(id: .incrementDrawCards)]
+            when: .active,
+            actions: [.init(id: .increaseCardsDrawn)]
         )
     }
 
     static var blackJack: Self {
         .init(
             tag: .character,
-            trigger: .drawLastCardOnTurnStarted,
+            when: .drawnLastCardOnTurnStarted,
             actions: [
                 .init(
-                    id: .showLastHand,
-                    selector: [.withTarget(.me)]
+                    id: .revealLastDrawnCard,
+                    selector: [.target(.me)]
                 ),
                 .init(
-                    id: .drawDeck,
+                    id: .drawFromDeck,
                     selector: [
-                        .if(.lastHandMatched(.red)),
-                        .withTarget(.me)
+                        .if(.lastHandMatches(.red)),
+                        .target(.me)
                     ]
                 )
             ]
@@ -650,20 +650,20 @@ extension CardDefinition {
     static var pedroRamirez: Self {
         .init(
             tag: .character,
-            trigger: .turnStarted,
+            when: .turnStarted,
             actions: [
                 .init(
                     id: .steal,
                     selector: [
-                        .withTarget(.chooseAny([.hasHandCards])),
-                        .withCard(.chooseAny(.targetHandCard))
+                        .target(.choose([.hasHandCards])),
+                        .card(.choose(.targetHandCard))
                     ]
                 ),
                 .init(
                     id: .setCardsPerTurn,
                     selector: [
                         .if(.hasStealCardOnTurnStarted),
-                        .withAmount(1)
+                        .amount(1)
                     ]
                 )
             ]
@@ -673,20 +673,20 @@ extension CardDefinition {
     static var jesseJones: Self {
         .init(
             tag: .character,
-            trigger: .turnStarted,
+            when: .turnStarted,
             actions: [
                 .init(
                     id: .drawDiscared,
                     selector: [
-                        .withTarget(.me),
-                        .withCard(.chooseAny(.discardedCard))
+                        .target(.me),
+                        .card(.choose(.discardedCard))
                     ]
                 ),
                 .init(
                     id: .setCardsPerTurn,
                     selector: [
                         .if(.hasDrawDiscardOnTurnStarted),
-                        .withAmount(1)
+                        .amount(1)
                     ]
                 )
             ]
@@ -696,7 +696,7 @@ extension CardDefinition {
     static var kitCarlson: Self {
         .init(
             tag: .character,
-            trigger: .turnStarted,
+            when: .turnStarted,
             actions: [
                 .init(
                     id: .discover,
@@ -707,16 +707,16 @@ extension CardDefinition {
                 .init(
                     id: .drawDiscovered,
                     selector: [
-                        .withTarget(.me),
+                        .target(.me),
                         .repeat(.times(2)),
-                        .withCard(.chooseAny(.discardedCard))
+                        .card(.choose(.discardedCard))
                     ]
                 ),
-                .init(id: .undiscover),
+                .init(id: .clearDiscovered),
                 .init(
                     id: .setCardsPerTurn,
                     selector: [
-                        .withAmount(0)
+                        .amount(0)
                     ]
                 )
             ]
@@ -726,9 +726,9 @@ extension CardDefinition {
     static var slabTheKiller: Self {
         .init(
             tag: .character,
-            trigger: .shootingWithBangCard,
+            when: .shootingWithBang,
             actions: [
-                .init(id: .incrementRequiredMisses)
+                .init(id: .increaseRequiredMisses)
             ]
         )
     }
@@ -736,10 +736,10 @@ extension CardDefinition {
     static var calamityJanet: Self {
         .init(
             tag: .character,
-            trigger: .active,
+            when: .active,
             actions: [
-                .init(id: .setPlayAs, selector: [
-                    .withAlias(["missed": "bang", "bang": "missed"])
+                .init(id: .allowCardToBePlayedAsAnother, selector: [
+                    .aliases(["missed": "bang", "bang": "missed"])
                 ])
             ]
         )
