@@ -1,17 +1,17 @@
 //
-//  PlayerRefResolver.swift
+//  PlayerTargetResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 26/04/2026.
 //
 
-extension Card.Selector.PlayerRef {
+extension Card.Selector.PlayerTarget {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.PlayerRef {
+private extension Card.Selector.PlayerTarget {
     protocol Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String?
     }
@@ -20,7 +20,7 @@ private extension Card.Selector.PlayerRef {
         switch self {
         case .next: Next()
         case .attacker: Attacker()
-        case .source: Source()
+        case .me: Myself()
         case .eliminated: Eliminated()
         }
     }
@@ -55,7 +55,7 @@ private extension Card.Selector.PlayerRef {
         }
     }
 
-    struct Source: Resolver {
+    struct Myself: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             pendingAction.sourcePlayer
         }

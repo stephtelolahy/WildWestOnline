@@ -125,9 +125,13 @@ public struct Card: Equatable, Sendable {
     }
 
     public enum Selector: Equatable, Sendable {
+        // MARK: - Repeaters
         case `repeat`(RepeatCount)
+
+        // MARK: - Payload
+        case target(PlayerTarget)
+
         case forEachTarget(PlayerGroup)
-        case setTarget(PlayerRef)
         case forEachCard(CardGroup)
         case setCard(CardRef)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
@@ -148,10 +152,12 @@ public struct Card: Equatable, Sendable {
             case others([PlayerFilter] = [])
         }
 
-        public enum PlayerRef: Equatable, Sendable {
+        public enum PlayerTarget: Equatable, Sendable {
+            // swiftlint:disable:next identifier_name
+            case me
+
             case next
             case attacker
-            case source
             case eliminated
         }
 

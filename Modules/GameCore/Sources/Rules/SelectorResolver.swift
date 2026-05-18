@@ -18,7 +18,7 @@ private extension Card.Selector {
         switch self {
         case .repeat(let count): Repeat(count: count)
         case .forEachTarget(let group): ForEachTarget(group: group)
-        case .setTarget(let identity): SetTarget(identity: identity)
+        case .target(let identity): SetTarget(identity: identity)
         case .forEachCard(let group): ForEachCard(group: group)
         case .setCard(let identity): SetCard(identity: identity)
         case .chooseOne(let choice, let prompt, let selection): ChooseOne(choice: choice, prompt: prompt, selection: selection)
@@ -50,7 +50,7 @@ private extension Card.Selector {
     }
 
     struct SetTarget: Resolver {
-        let identity: Card.Selector.PlayerRef
+        let identity: Card.Selector.PlayerTarget
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard let target = identity.resolve(pendingAction, state: state) else {
