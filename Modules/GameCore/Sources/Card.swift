@@ -114,14 +114,14 @@ public struct Card: Equatable, Sendable {
         case setWeapon
         case setMaxHealth
         case setAlias
-        case incrementRequiredMisses
-        case ignoreLimitPerTurn
-        case incrementCardsPerTurn
 
         // MARK: Invisible
         case queue
         case discard
         case steal
+        case incrementRequiredMisses
+        case ignoreLimitPerTurn
+        case incrementCardsPerTurn
     }
 
     public enum Selector: Equatable, Sendable {
