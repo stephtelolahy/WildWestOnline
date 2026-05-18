@@ -11,8 +11,7 @@ enum NonStandardLogic {
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
-        case .drawDeck,
-                .draw,
+        case .draw,
                 .discard,
                 .heal,
                 .setWeapon,

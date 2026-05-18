@@ -178,6 +178,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
+                        .target(.me),
                         .repeat(.times(2))
                     ]
                 )
@@ -302,6 +303,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDeck,
                     selectors: [
+                        .target(.me),
                         .repeat(.times(2))
                     ]
                 )
@@ -320,6 +322,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDeck,
                     selectors: [
+                        .target(.me),
                         .repeat(.times(3))
                     ]
                 )
@@ -787,6 +790,7 @@ private extension Card {
                     trigger: .damaged,
                     action: .drawDeck,
                     selectors: [
+                        .target(.me),
                         .repeat(.perDamage)
                     ]
                 )
@@ -823,7 +827,10 @@ private extension Card {
                 .maxHealth(4),
                 .init(
                     trigger: .handEmptied,
-                    action: .drawDeck
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.me)
+                    ]
                 )
             ]
         )
@@ -923,7 +930,8 @@ private extension Card {
                     trigger: .drawLastCardOnTurnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .applyIf(.lastDrawnMatches(.regexRed))
+                        .applyIf(.lastDrawnMatches(.regexRed)),
+                        .target(.me)
                     ]
                 )
             ]
@@ -1084,7 +1092,10 @@ private extension Card {
                 ),
                 .init(
                     trigger: .played,
-                    action: .drawDeck
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.me)
+                    ]
                 )
             ]
         )
