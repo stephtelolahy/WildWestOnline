@@ -125,6 +125,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
+                        .target(.me),
                         .applyIf(.playersAtLeast(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
@@ -346,7 +347,10 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 1
+                    amount: 1,
+                    selectors: [
+                        .target(.me)
+                    ]
                 )
             ]
         )
@@ -870,6 +874,7 @@ private extension Card {
                     action: .heal,
                     amount: 1,
                     selectors: [
+                        .target(.me),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.costCard([.fromHand]))
                     ]
@@ -1183,7 +1188,10 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 2
+                    amount: 2,
+                    selectors: [
+                        .target(.me)
+                    ]
                 )
             ]
         )
@@ -1207,7 +1215,10 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 1
+                    amount: 1,
+                    selectors: [
+                        .target(.triggerTarget)
+                    ]
                 )
             ]
         )

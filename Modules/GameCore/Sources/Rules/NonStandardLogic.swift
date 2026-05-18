@@ -13,7 +13,6 @@ enum NonStandardLogic {
         switch name {
         case .draw,
                 .discard,
-                .heal,
                 .setWeapon,
                 .increaseMagnifying,
                 .increaseRemoteness,

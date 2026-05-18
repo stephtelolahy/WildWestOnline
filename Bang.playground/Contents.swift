@@ -152,6 +152,7 @@ enum Selector {
 // MARK: - Cards
 
 extension CardDefinition {
+    /*
     static var stagecoach: Self {
         .init(
             tag: .brown,
@@ -200,7 +201,7 @@ extension CardDefinition {
             ]
         )
     }
-
+     */
     static var saloon: Self {
         .init(
             tag: .brown,

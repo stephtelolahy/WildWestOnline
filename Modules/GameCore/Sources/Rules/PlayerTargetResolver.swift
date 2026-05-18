@@ -21,6 +21,7 @@ private extension Card.Selector.PlayerTarget {
         case .next: Next()
         case .attacker: Attacker()
         case .me: Myself()
+        case .triggerTarget: TriggerTarget()
         case .eliminated: Eliminated()
         }
     }
@@ -58,6 +59,20 @@ private extension Card.Selector.PlayerTarget {
     struct Myself: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
             pendingAction.sourcePlayer
+        }
+    }
+
+    struct TriggerTarget: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+            guard let parentAction = pendingAction.triggeredBy.first else {
+                fatalError("Missing parent action")
+            }
+
+            guard let targetedPlayer = parentAction.targetedPlayer else {
+                fatalError("Expected parent action to have a targeted player")
+            }
+
+            return targetedPlayer
         }
     }
 
