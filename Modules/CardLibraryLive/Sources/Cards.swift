@@ -362,16 +362,13 @@ private extension Card {
             type: .collectible,
             description: "All players in play regain one life point.",
             effects: [
-                .init(
-                    trigger: .prePlayed,
-                    action: .play
-                ),
+                .playOnPrePlayed,
                 .init(
                     trigger: .played,
                     action: .heal,
                     amount: 1,
                     selectors: [
-                        .forEachTarget(.wounded)
+                        .target(.every(.wounded))
                     ]
                 )
             ]
@@ -440,7 +437,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDiscovered,
                     selectors: [
-                        .forEachTarget(.all),
+                        .target(.every(.all)),
                         .chooseOne(.discoverCard)
                     ]
                 )
@@ -495,7 +492,7 @@ private extension Card {
                     trigger: .played,
                     action: .shoot,
                     selectors: [
-                        .forEachTarget(.others())
+                        .target(.every(.others()))
                     ]
                 )
             ]
@@ -514,7 +511,7 @@ private extension Card {
                     action: .damage,
                     amount: 1,
                     selectors: [
-                        .forEachTarget(.others()),
+                        .target(.every(.others())),
                         .chooseOne(.counterCard([.named(.bang)]))
                     ]
                 )
@@ -1266,7 +1263,7 @@ private extension Card {
                     trigger: .played,
                     action: .discard,
                     selectors: [
-                        .forEachTarget(.others([.hasCards])),
+                        .target(.every(.others([.hasCards]))),
                         .chooseOne(.targetCard())
                     ]
                 )

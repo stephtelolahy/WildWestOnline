@@ -201,7 +201,7 @@ extension CardDefinition {
             ]
         )
     }
-     */
+
     static var saloon: Self {
         .init(
             tag: .brown,
@@ -217,7 +217,7 @@ extension CardDefinition {
             ]
         )
     }
-
+     */
     static var catBalou: Self {
         .init(
             tag: .brown,

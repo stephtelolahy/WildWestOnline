@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.PlayerTarget {
-    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.PlayerTarget {
     protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String?
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]?
     }
 
     var resolver: Resolver {
@@ -23,11 +23,12 @@ private extension Card.Selector.PlayerTarget {
         case .me: Myself()
         case .triggerTarget: TriggerTarget()
         case .eliminated: Eliminated()
+        case .every(let group): Every(group: group)
         }
     }
 
     struct Next: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             let current = pendingAction.sourcePlayer
             let orderedPlayers = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
@@ -36,12 +37,12 @@ private extension Card.Selector.PlayerTarget {
                 return nil
             }
 
-            return orderedPlayers[1]
+            return [orderedPlayers[1]]
         }
     }
 
     struct Attacker: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage else {
                 fatalError("Expected trigger from damage")
@@ -52,18 +53,18 @@ private extension Card.Selector.PlayerTarget {
                 return nil
             }
 
-            return damagingPlayer
+            return [damagingPlayer]
         }
     }
 
     struct Myself: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
-            pendingAction.sourcePlayer
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
+            [pendingAction.sourcePlayer]
         }
     }
 
     struct TriggerTarget: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             guard let parentAction = pendingAction.triggeredBy.first else {
                 fatalError("Missing parent action")
             }
@@ -72,19 +73,32 @@ private extension Card.Selector.PlayerTarget {
                 fatalError("Expected parent action to have a targeted player")
             }
 
-            return targetedPlayer
+            return [targetedPlayer]
         }
     }
 
     struct Eliminated: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> String? {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .eliminate,
                   let targetedPlayer = parentAction.targetedPlayer else {
                 fatalError("Expected trigger from eliminate")
             }
 
-            return targetedPlayer
+            return [targetedPlayer]
+        }
+    }
+
+    struct Every: Resolver {
+        let group: Card.Selector.PlayerGroup
+
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
+            let targets = group.resolve(pendingAction, state: state)
+            guard targets.isNotEmpty else {
+                return nil
+            }
+
+            return targets
         }
     }
 }

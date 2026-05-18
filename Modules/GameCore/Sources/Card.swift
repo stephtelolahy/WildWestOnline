@@ -131,7 +131,6 @@ public struct Card: Equatable, Sendable {
         // MARK: - Payload
         case target(PlayerTarget)
 
-        case forEachTarget(PlayerGroup)
         case forEachCard(CardGroup)
         case setCard(CardRef)
         case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
@@ -146,20 +145,20 @@ public struct Card: Equatable, Sendable {
             case perRequiredMisses
         }
 
-        public enum PlayerGroup: Equatable, Sendable {
-            case all
-            case wounded
-            case others([PlayerFilter] = [])
-        }
-
         public enum PlayerTarget: Equatable, Sendable {
             // swiftlint:disable:next identifier_name
             case me
             case triggerTarget
-
             case next
             case attacker
             case eliminated
+            case every(PlayerGroup)
+        }
+
+        public enum PlayerGroup: Equatable, Sendable {
+            case all
+            case wounded
+            case others([PlayerFilter] = [])
         }
 
         public enum CardGroup: String, Sendable {

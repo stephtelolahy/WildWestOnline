@@ -17,7 +17,6 @@ private extension Card.Selector {
     var resolver: Resolver {
         switch self {
         case .repeat(let count): Repeat(count: count)
-        case .forEachTarget(let group): ForEachTarget(group: group)
         case .target(let identity): SetTarget(identity: identity)
         case .forEachCard(let group): ForEachCard(group: group)
         case .setCard(let identity): SetCard(identity: identity)
@@ -36,28 +35,15 @@ private extension Card.Selector {
         }
     }
 
-    struct ForEachTarget: Resolver {
-        let group: Card.Selector.PlayerGroup
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            let targets = group.resolve(pendingAction, state: state)
-            guard targets.isNotEmpty else {
-                throw .noTarget(group)
-            }
-
-            return targets.map { pendingAction.copy(targetedPlayer: $0) }
-        }
-    }
-
     struct SetTarget: Resolver {
         let identity: Card.Selector.PlayerTarget
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = identity.resolve(pendingAction, state: state) else {
+            guard let targets = identity.resolve(pendingAction, state: state) else {
                 throw .noPlayer(identity)
             }
 
-            return [pendingAction.copy(targetedPlayer: target)]
+            return targets.map { pendingAction.copy(targetedPlayer: $0) }
         }
     }
 

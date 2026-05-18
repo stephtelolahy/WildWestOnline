@@ -76,7 +76,6 @@ public enum GameFeature {
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String, player: String)
         case noReq(Card.Selector.PlayRequirement)
-        case noTarget(Card.Selector.PlayerGroup)
         case noPlayer(Card.Selector.PlayerTarget)
         case noChoosableTarget([Card.Selector.PlayerFilter])
         case noChoosableCard([Card.Selector.CardFilter], player: String)
