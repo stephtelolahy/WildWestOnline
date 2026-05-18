@@ -57,7 +57,7 @@ enum GameActionID: String {
     case increaseCardsDrawn
     case setWeaponRange
     case ignoreBangPlayLimit
-    case setCardsPerTurn
+    case decreaseCardsPerTurn
     case allowCardToBePlayedAsAnother
 }
 
@@ -72,7 +72,7 @@ enum Selector {
     // MARK: - Reactions
     case targetMayCounter(with: HandCardRequirement)
     case targetMayRedirect(with: HandCardRequirement)
-    case playerMustPay(with: HandCardRequirement)
+    case playerMustDiscard(HandCardRequirement)
 
     // MARK: - Payload
     case target(PlayerTarget)
@@ -115,14 +115,14 @@ enum Selector {
     }
 
     enum CardRequirement {
-        case targetCard
-        case targetHandCard
-        case discoveredCard
-        case discardedCard
+        case fromTarget
+        case fromTargetHand
+        case fromDiscovered
+        case topDiscard
     }
 
     enum CardGroup {
-        case allTargetCards
+        case allFromTarget
     }
 
     indirect enum Requirement {
@@ -131,7 +131,7 @@ enum Selector {
         case drawnCardMatches(SuitPattern)
         case lastHandMatches(SuitPattern)
         case playersAtLeast(Int)
-        case bangPlayLimit(Int)
+        case playLimit(Int)
         case hasDrawDiscardOnTurnStarted
         case hasStealCardOnTurnStarted
     }
@@ -226,7 +226,7 @@ extension CardDefinition {
                     id: .discard,
                     selector: [
                         .target(.choose([.hasCards])),
-                        .card(.choose(.targetCard))
+                        .card(.choose(.fromTarget))
                     ]
                 )
             ]
@@ -242,7 +242,7 @@ extension CardDefinition {
                     id: .steal,
                     selector: [
                         .target(.choose([.atDistance(1), .hasCards])),
-                        .card(.choose(.targetCard))
+                        .card(.choose(.fromTarget))
                     ]
                 )
             ]
@@ -264,7 +264,7 @@ extension CardDefinition {
                     id: .drawDiscovered,
                     selector: [
                         .target(.every(.all)),
-                        .card(.choose(.discoveredCard))
+                        .card(.choose(.fromDiscovered))
                     ]
                 )
             ]
@@ -279,7 +279,7 @@ extension CardDefinition {
                 .init(
                     id: .shoot,
                     selector: [
-                        .require(.bangPlayLimit(1)),
+                        .require(.playLimit(1)),
                         .target(.choose([.atWeaponRange]))
                     ]
                 )
@@ -548,7 +548,7 @@ extension CardDefinition {
                     selector: [
                         .target(.attacker),
                         .repeat(.perDamage),
-                        .card(.choose(.targetCard))
+                        .card(.choose(.fromTarget))
                     ]
                 )
             ]
@@ -593,8 +593,8 @@ extension CardDefinition {
                 .init(
                     id: .heal,
                     selector: [
-                        .playerMustPay(with: .any),
-                        .playerMustPay(with: .any),
+                        .playerMustDiscard(.any),
+                        .playerMustDiscard(.any),
                         .target(.me),
                         .amount(1)
                     ]
@@ -612,7 +612,7 @@ extension CardDefinition {
                     id: .steal,
                     selector: [
                         .target(.eliminated),
-                        .card(.every(.allTargetCards))
+                        .card(.every(.allFromTarget))
                     ]
                 )
             ]
@@ -656,11 +656,11 @@ extension CardDefinition {
                     id: .steal,
                     selector: [
                         .target(.choose([.hasHandCards])),
-                        .card(.choose(.targetHandCard))
+                        .card(.choose(.fromTargetHand))
                     ]
                 ),
                 .init(
-                    id: .setCardsPerTurn,
+                    id: .decreaseCardsPerTurn,
                     selector: [
                         .if(.hasStealCardOnTurnStarted),
                         .amount(1)
@@ -679,11 +679,11 @@ extension CardDefinition {
                     id: .drawDiscared,
                     selector: [
                         .target(.me),
-                        .card(.choose(.discardedCard))
+                        .card(.choose(.topDiscard))
                     ]
                 ),
                 .init(
-                    id: .setCardsPerTurn,
+                    id: .decreaseCardsPerTurn,
                     selector: [
                         .if(.hasDrawDiscardOnTurnStarted),
                         .amount(1)
@@ -709,14 +709,14 @@ extension CardDefinition {
                     selector: [
                         .target(.me),
                         .repeat(.times(2)),
-                        .card(.choose(.discardedCard))
+                        .card(.choose(.fromDiscovered))
                     ]
                 ),
                 .init(id: .clearDiscovered),
                 .init(
-                    id: .setCardsPerTurn,
+                    id: .decreaseCardsPerTurn,
                     selector: [
-                        .amount(0)
+                        .amount(2)
                     ]
                 )
             ]
