@@ -36,7 +36,6 @@ public struct Card: Equatable, Sendable {
     public struct Effect: Equatable, Sendable {
         public let trigger: Trigger
         public let action: ActionName
-        public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let alias: PlayedCardAlias?
         public let selectors: [Selector]
@@ -44,14 +43,12 @@ public struct Card: Equatable, Sendable {
         public init(
             trigger: Trigger,
             action: ActionName,
-            amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             alias: PlayedCardAlias? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
-            self.amount = amount
             self.amountPerTurn = amountPerTurn
             self.alias = alias
             self.selectors = selectors
@@ -130,6 +127,7 @@ public struct Card: Equatable, Sendable {
 
         // MARK: - Payload
         case target(PlayerTarget)
+        case amount(Int)
 
         case forEachCard(CardGroup)
         case setCard(CardRef)

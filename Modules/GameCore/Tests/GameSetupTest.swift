@@ -18,16 +18,40 @@ struct GameSetupTest {
                 name: "p1",
                 type: .figure,
                 effects: [
-                    .init(trigger: .permanent, action: .setMaxHealth, amount: 4),
-                    .init(trigger: .permanent, action: .increaseMagnifying, amount: 1)
+                    .init(
+                        trigger: .permanent,
+                        action: .setMaxHealth,
+                        selectors: [
+                            .amount(4)
+                        ]
+                    ),
+                    .init(
+                        trigger: .permanent,
+                        action: .increaseMagnifying,
+                        selectors: [
+                            .amount(1)
+                        ]
+                    )
                 ]
             ),
             "p2": .init(
                 name: "p2",
                 type: .figure,
                 effects: [
-                    .init(trigger: .permanent, action: .setMaxHealth, amount: 3),
-                    .init(trigger: .permanent, action: .increaseRemoteness, amount: 1)
+                    .init(
+                        trigger: .permanent,
+                        action: .setMaxHealth,
+                        selectors: [
+                            .amount(3)
+                        ]
+                    ),
+                    .init(
+                        trigger: .permanent,
+                        action: .increaseRemoteness,
+                        selectors: [
+                            .amount(1)
+                        ]
+                    )
                 ]
             )
         ]

@@ -23,7 +23,6 @@ extension Card.Effect {
             triggeredBy: triggeredBy,
             targetedPlayer: targetedPlayer,
             targetedCard: targetedCard,
-            amount: self.amount,
             alias: alias,
             selectors: self.selectors
         )

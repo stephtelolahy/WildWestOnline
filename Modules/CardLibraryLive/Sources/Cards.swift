@@ -123,9 +123,9 @@ private extension Card {
                 .init(
                     trigger: .lethallyDamaged,
                     action: .heal,
-                    amount: 1,
                     selectors: [
                         .target(.me),
+                        .amount(1),
                         .applyIf(.playersAtLeast(3)),
                         .chooseOne(.costCard([.named(.beer)]))
                     ]
@@ -347,8 +347,8 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 1,
                     selectors: [
+                        .amount(1),
                         .target(.me)
                     ]
                 )
@@ -366,8 +366,8 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 1,
                     selectors: [
+                        .amount(1),
                         .target(.every(.wounded))
                     ]
                 )
@@ -509,8 +509,8 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .damage,
-                    amount: 1,
                     selectors: [
+                        .amount(1),
                         .target(.every(.others())),
                         .chooseOne(.counterCard([.named(.bang)]))
                     ]
@@ -535,8 +535,8 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .damage,
-                    amount: 1,
                     selectors: [
+                        .amount(1),
                         .chooseOne(.redirectCard([.named(.bang)]))
                     ]
                 )
@@ -604,12 +604,16 @@ private extension Card {
                 .init(
                     trigger: .equiped,
                     action: .increaseMagnifying,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 ),
                 .init(
                     trigger: .discarded,
                     action: .increaseMagnifying,
-                    amount: -1
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -625,12 +629,16 @@ private extension Card {
                 .init(
                     trigger: .equiped,
                     action: .increaseRemoteness,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 ),
                 .init(
                     trigger: .discarded,
                     action: .increaseRemoteness,
-                    amount: -1
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -681,8 +689,8 @@ private extension Card {
                 .init(
                     trigger: .turnStarted,
                     action: .damage,
-                    amount: 3,
                     selectors: [
+                        .amount(3),
                         .applyIf(.drawMatches(.regex2To9Spades))
                     ]
                 ),
@@ -758,7 +766,9 @@ private extension Card {
                 .init(
                     trigger: .permanent,
                     action: .increaseMagnifying,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 )
             ]
         )
@@ -774,7 +784,9 @@ private extension Card {
                 .init(
                     trigger: .permanent,
                     action: .increaseRemoteness,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 )
             ]
         )
@@ -869,9 +881,9 @@ private extension Card {
                 .init(
                     trigger: .prePlayed,
                     action: .heal,
-                    amount: 1,
                     selectors: [
                         .target(.me),
+                        .amount(1),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.costCard([.fromHand]))
                     ]
@@ -958,7 +970,9 @@ private extension Card {
                 .init(
                     trigger: .hasStealHandOnTurnStarted,
                     action: .incrementCardsPerTurn,
-                    amount: -1
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -981,7 +995,9 @@ private extension Card {
                 .init(
                     trigger: .hasDrawDiscardOnTurnStarted,
                     action: .incrementCardsPerTurn,
-                    amount: -1,
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -1016,7 +1032,9 @@ private extension Card {
                 .init(
                     trigger: .turnStarted,
                     action: .incrementCardsPerTurn,
-                    amount: -2
+                    selectors: [
+                        .amount(-2)
+                    ]
                 )
             ]
         )
@@ -1032,7 +1050,9 @@ private extension Card {
                 .init(
                     trigger: .shootingWithCard(named: .bang),
                     action: .incrementRequiredMisses,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 )
             ]
         )
@@ -1113,12 +1133,16 @@ private extension Card {
                 .init(
                     trigger: .equiped,
                     action: .increaseMagnifying,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 ),
                 .init(
                     trigger: .discarded,
                     action: .increaseMagnifying,
-                    amount: -1
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -1134,12 +1158,16 @@ private extension Card {
                 .init(
                     trigger: .equiped,
                     action: .increaseRemoteness,
-                    amount: 1
+                    selectors: [
+                        .amount(1)
+                    ]
                 ),
                 .init(
                     trigger: .discarded,
                     action: .increaseRemoteness,
-                    amount: -1
+                    selectors: [
+                        .amount(-1)
+                    ]
                 )
             ]
         )
@@ -1185,9 +1213,9 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 2,
                     selectors: [
-                        .target(.me)
+                        .target(.me),
+                        .amount(2)
                     ]
                 )
             ]
@@ -1212,8 +1240,8 @@ private extension Card {
                 .init(
                     trigger: .played,
                     action: .heal,
-                    amount: 1,
                     selectors: [
+                        .amount(1),
                         .target(.triggerTarget)
                     ]
                 )
@@ -1299,7 +1327,9 @@ private extension Card.Effect {
         .init(
             trigger: .permanent,
             action: .setMaxHealth,
-            amount: value
+            selectors: [
+                .amount(value)
+            ]
         )
     }
 }
@@ -1311,12 +1341,16 @@ private extension Array where Element == Card.Effect {
             .init(
                 trigger: .equiped,
                 action: .setWeapon,
-                amount: range
+                selectors: [
+                    .amount(range)
+                ]
             ),
             .init(
                 trigger: .discarded,
                 action: .setWeapon,
-                amount: 1
+                selectors: [
+                    .amount(1)
+                ]
             )
         ]
     }
