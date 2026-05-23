@@ -65,12 +65,9 @@ private extension Card.Selector.PlayerTarget {
 
     struct TriggerTarget: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let parentAction = pendingAction.triggeredBy.first else {
-                fatalError("Missing parent action")
-            }
-
-            guard let targetedPlayer = parentAction.targetedPlayer else {
-                fatalError("Expected parent action to have a targeted player")
+            guard let parentAction = pendingAction.triggeredBy.first,
+                  let targetedPlayer = parentAction.targetedPlayer else {
+                return nil
             }
 
             return [targetedPlayer]
@@ -82,7 +79,7 @@ private extension Card.Selector.PlayerTarget {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .eliminate,
                   let targetedPlayer = parentAction.targetedPlayer else {
-                fatalError("Expected trigger from eliminate")
+                return nil
             }
 
             return [targetedPlayer]

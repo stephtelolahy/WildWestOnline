@@ -20,7 +20,7 @@ private extension Card.Selector {
         case .target(let identity): SetTarget(identity: identity)
         case .forEachCard(let group): ForEachCard(group: group)
         case .setCard(let identity): SetCard(identity: identity)
-        case .chooseOne(let choice, let prompt, let selection): ChooseOne(choice: choice, prompt: prompt, selection: selection)
+        case .choose(let choice, let status): Choose(choice: choice, status: status)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let requirement): ApplyIf(requirement: requirement)
         case .amount(let amount): Amount(amount: amount)
@@ -69,22 +69,12 @@ private extension Card.Selector {
         }
     }
 
-    struct ChooseOne: Resolver {
+    struct Choose: Resolver {
         let choice: ChoiceKind
-        let prompt: ChoicePrompt?
-        let selection: String?
+        let status: ChoiceStatus
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let prompt else {
-                return try choice.resolveOptions(pendingAction, state: state)
-            }
-
-            guard let selection,
-                  let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
-                fatalError("Selection \(String(describing: selection)) not found in options")
-            }
-
-            return choice.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
+            try choice.resolve(status: status, pendingAction: pendingAction, state: state)
         }
     }
 

@@ -5,6 +5,25 @@
 //  Created by Hugues Telolahy on 01/11/2024.
 //
 extension Card.Selector.ChoiceKind {
+    func resolve(status: Card.Selector.ChoiceStatus, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+        switch status {
+        case .notDetermined:
+            return try resolveOptions(pendingAction, state: state)
+
+        case .prompted:
+            fatalError("Should not resolve a prompted choice")
+
+        case .selected(let selection, let prompt):
+            guard let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
+                fatalError("Selection \(selection) not found in prompted choice")
+            }
+
+            return resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
+        }
+    }
+}
+
+extension Card.Selector.ChoiceKind {
     func resolveOptions(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
         try resolver.resolveOptions(self, pendingAction: pendingAction, state: state)
     }
@@ -246,7 +265,7 @@ private extension Card.Selector.ChoiceKind {
                 let reversedAction = pendingAction.copy(
                     withPlayer: pendingAction.targetedPlayer,
                     targetedPlayer: pendingAction.sourcePlayer,
-                    selectors: [.chooseOne(.redirectCard(conditions))] + pendingAction.selectors
+                    selectors: [.choose(.redirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
                     .discardHand(selection, player: target),
@@ -316,7 +335,7 @@ private extension GameFeature.Action {
         prompt: Card.Selector.ChoicePrompt
     ) -> Self {
         var copy = self
-        copy.selectors.insert(.chooseOne(choice, prompt: prompt), at: 0)
+        copy.selectors.insert(.choose(choice, status: .prompted(prompt)), at: 0)
         return copy
     }
 }

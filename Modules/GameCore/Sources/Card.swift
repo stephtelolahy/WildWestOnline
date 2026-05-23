@@ -129,9 +129,12 @@ public struct Card: Equatable, Sendable {
         case target(PlayerTarget)
         case amount(Int)
 
+        // MARK: - User selection
+        case choose(ChoiceKind, status: ChoiceStatus = .notDetermined)
+
+        // MARK: - Deprecated
         case forEachCard(CardGroup)
         case setCard(CardRef)
-        case chooseOne(ChoiceKind, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayRequirement)
         case applyIf(PlayRequirement)
 
@@ -141,6 +144,12 @@ public struct Card: Equatable, Sendable {
             case perExcessHand
             case perDamage
             case perRequiredMisses
+        }
+
+        public enum ChoiceStatus: Equatable, Sendable {
+            case notDetermined
+            case prompted(ChoicePrompt)
+            case selected(String, ChoicePrompt)
         }
 
         public enum PlayerTarget: Equatable, Sendable {

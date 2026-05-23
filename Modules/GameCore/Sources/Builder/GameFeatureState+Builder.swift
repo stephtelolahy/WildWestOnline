@@ -108,7 +108,7 @@ public extension GameFeature.State {
         public func withPendingAction(name: Card.ActionName, prompt: Card.Selector.ChoicePrompt) -> Self {
             let nextAction = GameFeature.Action(
                 name: name,
-                selectors: [.chooseOne(.targetCard(), prompt: prompt, selection: nil)]
+                selectors: [.choose(.targetCard(), status: .prompted(prompt))]
             )
             queue.insert(nextAction, at: 0)
             return self
