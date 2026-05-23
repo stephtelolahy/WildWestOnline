@@ -193,7 +193,6 @@ public struct Card: Equatable, Sendable {
             case target([PlayerRequirement] = [])
             case card(CardRequirement)
 
-            case targetCard([CardFilter] = [])
             case discoverCard
             case discardedCard
             case costCard([CardFilter] = [])
@@ -212,10 +211,14 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum CardRequirement: Equatable, Sendable {
-            case fromTarget
-            case fromTargetHand
+            case fromTarget(TargetCardRequirement = .any)
             case fromDiscovered
             case topDiscard
+        }
+
+        public enum TargetCardRequirement: Equatable, Sendable {
+            case any
+            case inHand
         }
 
         public enum CardFilter: Equatable, Sendable {

@@ -18,17 +18,15 @@ private extension Card.Selector.CardRequirement {
 
     var resolver: Resolver {
         switch self {
-        case .fromTarget: FromTarget()
-        case .fromTargetHand:
-            fatalError("Unimplemented")
-        case .fromDiscovered:
-            fatalError("Unimplemented")
-        case .topDiscard:
-            fatalError("Unimplemented")
+        case .fromTarget(let condition): FromTarget(condition: condition)
+        case .fromDiscovered: fatalError("Unimplemented")
+        case .topDiscard: fatalError("Unimplemented")
         }
     }
 
     struct FromTarget: Resolver {
+        let condition: Card.Selector.TargetCardRequirement
+
         func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
@@ -36,27 +34,32 @@ private extension Card.Selector.CardRequirement {
             let targetObj = state.players.get(target)
 
             var options: [Card.Selector.ChoicePrompt.Option] = []
-            options += targetObj.inPlay.map {
-                .init(id: $0, label: $0)
+
+            switch condition {
+            case .any:
+                options += targetObj.inPlay.map {
+                    .init(id: $0, label: $0)
+                }
+
+                options += targetObj.hand.indices.map {
+                    let value = targetObj.hand[$0]
+                    let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
+                    return .init(id: value, label: label)
+                }
+
+            case .inHand:
+                options += targetObj.hand.indices.map {
+                    let value = targetObj.hand[$0]
+                    let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
+                    return .init(id: value, label: label)
+                }
             }
-            options += targetObj.hand.indices.map {
-                let value = targetObj.hand[$0]
-                let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
-                return .init(id: value, label: label)
-            }
-//            options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
 
             guard options.isNotEmpty else {
                 throw .noChoosableCard([], player: target)
-//                throw .noChoosableCard(conditions, player: target)
             }
 
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: player,
-                options: options
-            )
-
-            return prompt
+            return Card.Selector.ChoicePrompt(chooser: player, options: options)
         }
     }
 }

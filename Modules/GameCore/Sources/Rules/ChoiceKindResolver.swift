@@ -43,7 +43,6 @@ private extension Card.Selector.ChoiceKind {
         switch self {
         case .target(let requirements): Target(requirements: requirements)
         case .card(let requirement): CardResolver(requirement: requirement)
-        case .targetCard(let conditions): TargetCard(conditions: conditions)
         case .costCard(let conditions): CostCard(conditions: conditions)
         case .discoverCard: DiscoverCard()
         case .discardedCard: DiscardedCard()
@@ -88,43 +87,6 @@ private extension Card.Selector.ChoiceKind {
 
         func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             let prompt = try requirement.resolve(pendingAction: pendingAction, state: state)
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.copy(targetedCard: selection, state: state)]
-        }
-    }
-
-    struct TargetCard: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let player = pendingAction.sourcePlayer
-            let targetObj = state.players.get(target)
-
-            var options: [Card.Selector.ChoicePrompt.Option] = []
-            options += targetObj.inPlay.map {
-                .init(id: $0, label: $0)
-            }
-            options += targetObj.hand.indices.map {
-                let value = targetObj.hand[$0]
-                let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
-                return .init(id: value, label: label)
-            }
-            options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
-
-            guard options.isNotEmpty else {
-                throw .noChoosableCard(conditions, player: target)
-            }
-
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: player,
-                options: options
-            )
-
             return [pendingAction.withChoice(choice, prompt: prompt)]
         }
 
@@ -335,7 +297,7 @@ extension Array where Element == Card.Selector.PlayerRequirement {
     }
 }
 
-private extension Array where Element == Card.Selector.CardFilter {
+extension Array where Element == Card.Selector.CardFilter {
     func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(card, pendingAction: pendingAction, state: state)

@@ -145,7 +145,7 @@ private extension Card {
                     action: .discard,
                     selectors: [
                         .repeat(.perExcessHand),
-                        .choose(.targetCard([.fromHand]))
+                        .choose(.card(.fromTarget(.inHand)))
                     ]
                 )
             ]
@@ -386,7 +386,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .choose(.target([.hasCards])),
-                        .choose(.card(.fromTarget))
+                        .choose(.card(.fromTarget()))
                     ]
                 ),
                 .init(
@@ -408,7 +408,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .choose(.target([.atDistance(1), .hasCards])),
-                        .choose(.targetCard())
+                        .choose(.card(.fromTarget()))
                     ]
                 ),
                 .init(
@@ -824,7 +824,7 @@ private extension Card {
                     selectors: [
                         .target(.attacker),
                         .repeat(.perDamage),
-                        .choose(.targetCard([.fromHand]))
+                        .choose(.card(.fromTarget(.inHand)))
                     ]
                 )
             ]
@@ -964,7 +964,7 @@ private extension Card {
                     action: .steal,
                     selectors: [
                         .choose(.target([.hasHandCards])),
-                        .choose(.targetCard([.fromHand]))
+                        .choose(.card(.fromTarget(.inHand)))
                     ]
                 ),
                 .init(
@@ -1262,7 +1262,7 @@ private extension Card {
                         .target(.myself),
                         .choose(.costCard([.fromHand])),
                         .choose(.target([.hasCards])),
-                        .choose(.targetCard())
+                        .choose(.card(.fromTarget()))
                     ]
                 ),
                 .init(
@@ -1292,7 +1292,7 @@ private extension Card {
                     action: .discard,
                     selectors: [
                         .target(.every(.others([.hasCards]))),
-                        .choose(.targetCard())
+                        .choose(.card(.fromTarget()))
                     ]
                 )
             ]
