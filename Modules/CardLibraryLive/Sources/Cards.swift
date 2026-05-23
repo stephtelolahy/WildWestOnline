@@ -386,7 +386,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .choose(.target([.hasCards])),
-                        .choose(.targetCard())
+                        .choose(.card(.fromTarget))
                     ]
                 ),
                 .init(

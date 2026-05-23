@@ -191,6 +191,8 @@ public struct Card: Equatable, Sendable {
 
         public enum ChoiceKind: Equatable, Sendable {
             case target([PlayerRequirement] = [])
+            case card(CardRequirement)
+
             case targetCard([CardFilter] = [])
             case discoverCard
             case discardedCard
@@ -207,6 +209,13 @@ public struct Card: Equatable, Sendable {
             case atDistance(Int)
             case reachable
             case isWounded
+        }
+
+        public enum CardRequirement: Equatable, Sendable {
+            case fromTarget
+            case fromTargetHand
+            case fromDiscovered
+            case topDiscard
         }
 
         public enum CardFilter: Equatable, Sendable {

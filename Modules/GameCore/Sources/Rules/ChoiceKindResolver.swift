@@ -41,7 +41,8 @@ private extension Card.Selector.ChoiceKind {
 
     var resolver: Resolver {
         switch self {
-        case .target(let conditions): Target(conditions: conditions)
+        case .target(let requirements): Target(requirements: requirements)
+        case .card(let requirement): CardResolver(requirement: requirement)
         case .targetCard(let conditions): TargetCard(conditions: conditions)
         case .costCard(let conditions): CostCard(conditions: conditions)
         case .discoverCard: DiscoverCard()
@@ -53,17 +54,17 @@ private extension Card.Selector.ChoiceKind {
     }
 
     struct Target: Resolver {
-        let conditions: [Card.Selector.PlayerRequirement]
+        let requirements: [Card.Selector.PlayerRequirement]
 
         func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
             let targetPlayers = state.playOrder
                 .starting(with: player)
                 .dropFirst()
-                .filter { conditions.match($0, pendingAction: pendingAction, state: state) }
+                .filter { requirements.match($0, pendingAction: pendingAction, state: state) }
 
             guard targetPlayers.isNotEmpty else {
-                throw .noChoosableTarget(conditions)
+                throw .noChoosableTarget(requirements)
             }
 
             let options: [Card.Selector.ChoicePrompt.Option] = targetPlayers.map { .init(id: $0, label: $0) }
@@ -79,6 +80,19 @@ private extension Card.Selector.ChoiceKind {
             } else {
                 [pendingAction.copy(targetedPlayer: selection)]
             }
+        }
+    }
+
+    struct CardResolver: Resolver {
+        let requirement: Card.Selector.CardRequirement
+
+        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+            let prompt = try requirement.resolve(pendingAction: pendingAction, state: state)
+            return [pendingAction.withChoice(choice, prompt: prompt)]
+        }
+
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
+            [pendingAction.copy(targetedCard: selection, state: state)]
         }
     }
 
@@ -330,10 +344,7 @@ private extension Array where Element == Card.Selector.CardFilter {
 }
 
 private extension GameFeature.Action {
-    func withChoice(
-        _ choice: Card.Selector.ChoiceKind,
-        prompt: Card.Selector.ChoicePrompt
-    ) -> Self {
+    func withChoice(_ choice: Card.Selector.ChoiceKind, prompt: Card.Selector.ChoicePrompt) -> Self {
         var copy = self
         copy.selectors.insert(.choose(choice, status: .prompted(prompt)), at: 0)
         return copy
