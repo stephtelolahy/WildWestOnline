@@ -144,8 +144,7 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum PlayerTarget: Equatable, Sendable {
-            // swiftlint:disable:next identifier_name
-            case me
+            case myself
             case triggerTarget
             case next
             case attacker

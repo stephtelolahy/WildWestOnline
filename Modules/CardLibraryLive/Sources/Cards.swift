@@ -124,7 +124,7 @@ private extension Card {
                     trigger: .lethallyDamaged,
                     action: .heal,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .amount(1),
                         .applyIf(.playersAtLeast(3)),
                         .chooseOne(.costCard([.named(.beer)]))
@@ -179,7 +179,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .repeat(.times(2))
                     ]
                 )
@@ -266,7 +266,7 @@ private extension Card {
                     trigger: .eliminatingOther,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .repeat(.times(3))
                     ]
                 )
@@ -304,7 +304,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .repeat(.times(2))
                     ]
                 )
@@ -323,7 +323,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .repeat(.times(3))
                     ]
                 )
@@ -349,7 +349,7 @@ private extension Card {
                     action: .heal,
                     selectors: [
                         .amount(1),
-                        .target(.me)
+                        .target(.myself)
                     ]
                 )
             ]
@@ -803,7 +803,7 @@ private extension Card {
                     trigger: .damaged,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .repeat(.perDamage)
                     ]
                 )
@@ -842,7 +842,7 @@ private extension Card {
                     trigger: .handEmptied,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me)
+                        .target(.myself)
                     ]
                 )
             ]
@@ -882,7 +882,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .heal,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .amount(1),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.costCard([.fromHand]))
@@ -945,7 +945,7 @@ private extension Card {
                     action: .drawDeck,
                     selectors: [
                         .applyIf(.lastDrawnMatches(.regexRed)),
-                        .target(.me)
+                        .target(.myself)
                     ]
                 )
             ]
@@ -1116,7 +1116,7 @@ private extension Card {
                     trigger: .played,
                     action: .drawDeck,
                     selectors: [
-                        .target(.me)
+                        .target(.myself)
                     ]
                 )
             ]
@@ -1183,7 +1183,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer())
                     ]
@@ -1206,7 +1206,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .chooseOne(.costCard([.fromHand]))
                     ]
                 ),
@@ -1214,7 +1214,7 @@ private extension Card {
                     trigger: .played,
                     action: .heal,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .amount(2)
                     ]
                 )
@@ -1232,7 +1232,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer([.isWounded]))
                     ]
@@ -1259,7 +1259,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .chooseOne(.costCard([.fromHand])),
                         .chooseOne(.targetPlayer([.hasCards])),
                         .chooseOne(.targetCard())
@@ -1283,7 +1283,7 @@ private extension Card {
                     trigger: .prePlayed,
                     action: .play,
                     selectors: [
-                        .target(.me),
+                        .target(.myself),
                         .chooseOne(.costCard([.fromHand]))
                     ]
                 ),

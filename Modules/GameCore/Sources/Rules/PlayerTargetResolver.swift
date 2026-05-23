@@ -20,7 +20,7 @@ private extension Card.Selector.PlayerTarget {
         switch self {
         case .next: Next()
         case .attacker: Attacker()
-        case .me: Myself()
+        case .myself: Myself()
         case .triggerTarget: TriggerTarget()
         case .eliminated: Eliminated()
         case .every(let group): Every(group: group)
