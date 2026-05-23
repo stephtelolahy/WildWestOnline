@@ -75,9 +75,9 @@ public enum GameFeature {
         case playerAlreadyMaxHealth(String)
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String, player: String)
-        case noReq(Card.Selector.PlayRequirement)
+        case noReq(Card.Selector.Requirement)
         case noPlayer(Card.Selector.PlayerTarget)
-        case noChoosableTarget([Card.Selector.PlayerFilter])
+        case noChoosableTarget([Card.Selector.PlayerRequirement])
         case noChoosableCard([Card.Selector.CardFilter], player: String)
     }
 

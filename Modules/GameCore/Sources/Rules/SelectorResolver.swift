@@ -79,7 +79,7 @@ private extension Card.Selector {
     }
 
     struct Require: Resolver {
-        let requirement: Card.Selector.PlayRequirement
+        let requirement: Card.Selector.Requirement
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard requirement.match(pendingAction, state: state) else {
@@ -91,7 +91,7 @@ private extension Card.Selector {
     }
 
     struct ApplyIf: Resolver {
-        let requirement: Card.Selector.PlayRequirement
+        let requirement: Card.Selector.Requirement
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard requirement.match(pendingAction, state: state) else {

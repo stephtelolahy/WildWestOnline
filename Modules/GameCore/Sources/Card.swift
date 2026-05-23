@@ -122,6 +122,10 @@ public struct Card: Equatable, Sendable {
     }
 
     public enum Selector: Equatable, Sendable {
+        // MARK: - Conditions
+        case applyIf(Requirement)
+        case require(Requirement)
+
         // MARK: - Repeaters
         case `repeat`(RepeatCount)
 
@@ -129,14 +133,11 @@ public struct Card: Equatable, Sendable {
         case target(PlayerTarget)
         case amount(Int)
 
-        // MARK: - User selection
+        // MARK: - Choice
         case choose(ChoiceKind, status: ChoiceStatus = .notDetermined)
 
-        // MARK: - Deprecated
         case forEachCard(CardGroup)
         case setCard(CardRef)
-        case require(PlayRequirement)
-        case applyIf(PlayRequirement)
 
         public enum RepeatCount: Equatable, Sendable {
             case times(Int)
@@ -164,7 +165,7 @@ public struct Card: Equatable, Sendable {
         public enum PlayerGroup: Equatable, Sendable {
             case all
             case wounded
-            case others([PlayerFilter] = [])
+            case others([PlayerRequirement] = [])
         }
 
         public enum CardGroup: String, Sendable {
@@ -177,7 +178,7 @@ public struct Card: Equatable, Sendable {
             case lastDrawn
         }
 
-        public indirect enum PlayRequirement: Equatable, Sendable {
+        public indirect enum Requirement: Equatable, Sendable {
             case not(Self)
             case playersAtLeast(Int)
             case playLimit(Int)
@@ -189,7 +190,7 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum ChoiceKind: Equatable, Sendable {
-            case targetPlayer([PlayerFilter] = [])
+            case target([PlayerRequirement] = [])
             case targetCard([CardFilter] = [])
             case discoverCard
             case discardedCard
@@ -199,8 +200,9 @@ public struct Card: Equatable, Sendable {
             case playedCard([CardFilter] = [])
         }
 
-        public enum PlayerFilter: Equatable, Sendable {
+        public enum PlayerRequirement: Equatable, Sendable {
             case hasCards
+
             case hasHandCards
             case atDistance(Int)
             case reachable

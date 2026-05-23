@@ -41,7 +41,7 @@ private extension Card.Selector.ChoiceKind {
 
     var resolver: Resolver {
         switch self {
-        case .targetPlayer(let conditions): TargetPlayer(conditions: conditions)
+        case .target(let conditions): Target(conditions: conditions)
         case .targetCard(let conditions): TargetCard(conditions: conditions)
         case .costCard(let conditions): CostCard(conditions: conditions)
         case .discoverCard: DiscoverCard()
@@ -52,8 +52,8 @@ private extension Card.Selector.ChoiceKind {
         }
     }
 
-    struct TargetPlayer: Resolver {
-        let conditions: [Card.Selector.PlayerFilter]
+    struct Target: Resolver {
+        let conditions: [Card.Selector.PlayerRequirement]
 
         func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
@@ -313,7 +313,7 @@ private extension Card.Selector.ChoiceKind {
     }
 }
 
-extension Array where Element == Card.Selector.PlayerFilter {
+extension Array where Element == Card.Selector.PlayerRequirement {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(player, pendingAction: pendingAction, state: state)
