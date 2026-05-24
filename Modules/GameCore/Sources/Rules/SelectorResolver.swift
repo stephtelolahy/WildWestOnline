@@ -17,9 +17,8 @@ private extension Card.Selector {
     var resolver: Resolver {
         switch self {
         case .repeat(let count): Repeat(count: count)
-        case .target(let identity): SetTarget(identity: identity)
-        case .forEachCard(let group): ForEachCard(group: group)
-        case .setCard(let identity): SetCard(identity: identity)
+        case .target(let identity): Target(identity: identity)
+        case .card(let identity): CardResolver(identity: identity)
         case .choose(let choice, let status): Choose(choice: choice, status: status)
         case .require(let requirement): Require(requirement: requirement)
         case .applyIf(let requirement): ApplyIf(requirement: requirement)
@@ -36,7 +35,7 @@ private extension Card.Selector {
         }
     }
 
-    struct SetTarget: Resolver {
+    struct Target: Resolver {
         let identity: Card.Selector.PlayerTarget
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
@@ -48,24 +47,15 @@ private extension Card.Selector {
         }
     }
 
-    struct ForEachCard: Resolver {
-        let group: Card.Selector.CardGroup
+    struct CardResolver: Resolver {
+        let identity: Card.Selector.CardTarget
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            group.resolve(pendingAction, state: state)
-                .map { pendingAction.copy(targetedCard: $0, state: state) }
-        }
-    }
-
-    struct SetCard: Resolver {
-        let identity: Card.Selector.CardRef
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let card = identity.resolve(pendingAction, state: state) else {
-                return [] // silently skip effect is cannot set card
+            guard let cards = identity.resolve(pendingAction, state: state) else {
+                return [] // silently skip effect if cannot set card
             }
 
-            return [pendingAction.copy(targetedCard: card, state: state)]
+            return cards.map { pendingAction.copy(targetedCard: $0, state: state) }
         }
     }
 

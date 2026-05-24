@@ -231,7 +231,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .discard,
                     selectors: [
-                        .forEachCard(.all)
+                        .card(.every(.all))
                     ]
                 )
             ]
@@ -284,7 +284,7 @@ private extension Card {
                     trigger: .weaponPrePlayed,
                     action: .discard,
                     selectors: [
-                        .setCard(.equippedWeapon)
+                        .card(.equippedWeapon)
                     ]
                 ),
             ]
@@ -391,7 +391,11 @@ private extension Card {
                 ),
                 .init(
                     trigger: .played,
-                    action: .discard
+                    action: .discard,
+                    selectors: [
+                        .target(.triggerTarget),
+                        .card(.triggerTarget)
+                    ]
                 )
             ]
         )
@@ -683,7 +687,7 @@ private extension Card {
                     selectors: [
                         .applyIf(.not(.drawMatches(.regex2To9Spades))),
                         .target(.next),
-                        .setCard(.played)
+                        .card(.source)
                     ]
                 ),
                 .init(
@@ -698,7 +702,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discard,
                     selectors: [
-                        .setCard(.played),
+                        .card(.source),
                         .applyIf(.drawMatches(.regex2To9Spades))
                     ]
                 )
@@ -734,7 +738,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discard,
                     selectors: [
-                        .setCard(.played)
+                        .card(.source)
                     ]
                 )
             ]
@@ -904,7 +908,7 @@ private extension Card {
                     action: .steal,
                     selectors: [
                         .target(.eliminated),
-                        .forEachCard(.all)
+                        .card(.every(.all))
                     ]
                 )
             ]
@@ -937,7 +941,7 @@ private extension Card {
                     trigger: .drawLastCardOnTurnStarted,
                     action: .showHand,
                     selectors: [
-                        .setCard(.lastDrawn)
+                        .card(.lastDrawn)
                     ]
                 ),
                 .init(
