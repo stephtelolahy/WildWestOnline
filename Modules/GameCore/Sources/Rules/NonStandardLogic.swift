@@ -12,7 +12,6 @@ enum NonStandardLogic {
     ) -> String? {
         switch name {
         case .draw,
-                .discard,
                 .setWeapon,
                 .increaseMagnifying,
                 .increaseRemoteness,

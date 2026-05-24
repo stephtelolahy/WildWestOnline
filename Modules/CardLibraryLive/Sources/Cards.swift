@@ -144,6 +144,7 @@ private extension Card {
                     trigger: .turnEnded,
                     action: .discard,
                     selectors: [
+                        .target(.myself),
                         .repeat(.perExcessHand),
                         .choose(.card(.fromTarget([.inHand])))
                     ]
@@ -231,6 +232,7 @@ private extension Card {
                     trigger: .eliminated,
                     action: .discard,
                     selectors: [
+                        .target(.myself),
                         .card(.every(.all))
                     ]
                 )
@@ -284,6 +286,7 @@ private extension Card {
                     trigger: .weaponPrePlayed,
                     action: .discard,
                     selectors: [
+                        .target(.myself),
                         .card(.equippedWeapon)
                     ]
                 ),
@@ -702,6 +705,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discard,
                     selectors: [
+                        .target(.myself),
                         .card(.source),
                         .applyIf(.drawMatches(.regex2To9Spades))
                     ]
@@ -738,6 +742,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .discard,
                     selectors: [
+                        .target(.myself),
                         .card(.source)
                     ]
                 )
