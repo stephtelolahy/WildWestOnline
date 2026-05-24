@@ -145,7 +145,7 @@ private extension Card {
                     action: .discard,
                     selectors: [
                         .repeat(.perExcessHand),
-                        .choose(.card(.fromTarget(.inHand)))
+                        .choose(.card(.fromTarget([.inHand])))
                     ]
                 )
             ]
@@ -824,7 +824,7 @@ private extension Card {
                     selectors: [
                         .target(.attacker),
                         .repeat(.perDamage),
-                        .choose(.card(.fromTarget(.inHand)))
+                        .choose(.card(.fromTarget([.inHand])))
                     ]
                 )
             ]
@@ -884,8 +884,8 @@ private extension Card {
                     selectors: [
                         .target(.myself),
                         .amount(1),
-                        .choose(.costCard([.fromHand])),
-                        .choose(.costCard([.fromHand]))
+                        .choose(.costCard([.inHand])),
+                        .choose(.costCard([.inHand]))
                     ]
                 )
             ]
@@ -964,7 +964,7 @@ private extension Card {
                     action: .steal,
                     selectors: [
                         .choose(.target([.hasHandCards])),
-                        .choose(.card(.fromTarget(.inHand)))
+                        .choose(.card(.fromTarget([.inHand])))
                     ]
                 ),
                 .init(
@@ -1184,7 +1184,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .target(.myself),
-                        .choose(.costCard([.fromHand])),
+                        .choose(.costCard([.inHand])),
                         .choose(.target())
                     ]
                 ),
@@ -1207,7 +1207,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .target(.myself),
-                        .choose(.costCard([.fromHand]))
+                        .choose(.costCard([.inHand]))
                     ]
                 ),
                 .init(
@@ -1233,7 +1233,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .target(.myself),
-                        .choose(.costCard([.fromHand])),
+                        .choose(.costCard([.inHand])),
                         .choose(.target([.isWounded]))
                     ]
                 ),
@@ -1260,7 +1260,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .target(.myself),
-                        .choose(.costCard([.fromHand])),
+                        .choose(.costCard([.inHand])),
                         .choose(.target([.hasCards])),
                         .choose(.card(.fromTarget()))
                     ]
@@ -1284,7 +1284,7 @@ private extension Card {
                     action: .play,
                     selectors: [
                         .target(.myself),
-                        .choose(.costCard([.fromHand]))
+                        .choose(.costCard([.inHand]))
                     ]
                 ),
                 .init(

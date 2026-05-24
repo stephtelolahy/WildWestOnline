@@ -211,20 +211,15 @@ public struct Card: Equatable, Sendable {
         }
 
         public enum CardRequirement: Equatable, Sendable {
-            case fromTarget(TargetCardRequirement = .any)
+            case fromTarget([CardFilter] = [])
             case fromDiscovered
             case topDiscard
         }
 
-        public enum TargetCardRequirement: Equatable, Sendable {
-            case any
-            case inHand
-        }
-
         public enum CardFilter: Equatable, Sendable {
+            case inHand
             case canCounterShot
             case named(String)
-            case fromHand
         }
 
         public struct ChoicePrompt: Equatable, Sendable {

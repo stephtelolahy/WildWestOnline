@@ -123,7 +123,7 @@ struct BrawlTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.brawl, player: "p1")
-        await #expect(throws: GameFeature.Error.noChoosableCard([.fromHand], player: "p1")) {
+        await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
