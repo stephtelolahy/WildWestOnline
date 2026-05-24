@@ -21,7 +21,7 @@ private extension Card.Selector.PlayerTarget {
         case .next: Next()
         case .attacker: Attacker()
         case .myself: Myself()
-        case .triggerTarget: TriggerTarget()
+        case .trigger: Trigger()
         case .eliminated: Eliminated()
         case .every(let group): Every(group: group)
         }
@@ -63,7 +63,7 @@ private extension Card.Selector.PlayerTarget {
         }
     }
 
-    struct TriggerTarget: Resolver {
+    struct Trigger: Resolver {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             guard let parentAction = pendingAction.triggeredBy.first,
                   let targetedPlayer = parentAction.targetedPlayer else {

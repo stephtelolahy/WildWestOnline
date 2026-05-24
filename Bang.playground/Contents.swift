@@ -152,22 +152,6 @@ enum Selector {
 // MARK: - Cards
 
 extension CardDefinition {
-    static var catBalou: Self {
-        .init(
-            tag: .brown,
-            when: .played,
-            actions: [
-                .init(
-                    id: .discard,
-                    selector: [
-                        .target(.choose([.hasCards])),
-                        .card(.choose(.fromTarget))
-                    ]
-                )
-            ]
-        )
-    }
-
     static var panic: Self {
         .init(
             tag: .brown,

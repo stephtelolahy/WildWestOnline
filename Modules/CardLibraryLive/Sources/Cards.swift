@@ -396,8 +396,8 @@ private extension Card {
                     trigger: .played,
                     action: .discard,
                     selectors: [
-                        .target(.triggerTarget),
-                        .card(.triggerTarget)
+                        .target(.trigger),
+                        .card(.trigger)
                     ]
                 )
             ]
@@ -1251,7 +1251,7 @@ private extension Card {
                     action: .heal,
                     selectors: [
                         .amount(1),
-                        .target(.triggerTarget)
+                        .target(.trigger)
                     ]
                 )
             ]

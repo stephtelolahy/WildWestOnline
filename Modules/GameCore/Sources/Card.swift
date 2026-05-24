@@ -147,7 +147,7 @@ public struct Card: Equatable, Sendable {
 
         public enum PlayerTarget: Equatable, Sendable {
             case myself
-            case triggerTarget
+            case trigger
             case next
             case attacker
             case eliminated
@@ -162,7 +162,7 @@ public struct Card: Equatable, Sendable {
 
         public enum CardTarget: Equatable, Sendable {
             case source
-            case triggerTarget
+            case trigger
             case equippedWeapon
             case lastDrawn
             case every(CardGroup)
