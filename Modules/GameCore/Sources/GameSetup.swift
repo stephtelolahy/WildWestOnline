@@ -125,6 +125,16 @@ private extension GameSetup {
 
 private extension Card {
     func amountOfPermanentEffect(named action: Card.ActionName) -> Int? {
-        effects.first { $0.trigger == .permanent && $0.action == action }?.amount
+        guard let effect = effects.first(where: {
+            $0.trigger == .permanent && $0.action == action
+        }) else {
+            return nil
+        }
+
+        guard case .amount(let value) = effect.selectors.first else {
+            fatalError("Expected amount selector")
+        }
+
+        return value
     }
 }

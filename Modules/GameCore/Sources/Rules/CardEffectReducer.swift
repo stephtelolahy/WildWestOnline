@@ -314,16 +314,15 @@ private extension Card.ActionName {
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.selectors.first,
-                  case let .chooseOne(element, prompt, prevSelection) = selector,
-                  let choice = prompt,
-                  choice.options.map(\.label).contains(selection),
-                  prevSelection == nil else {
-                fatalError("Missing prompt")
+                  case .choose(let element, let status) = selector,
+                  case .prompted(let prompt) = status,
+                  prompt.options.map(\.label).contains(selection) else {
+                fatalError("Missing pending choice")
             }
 
             var state = state
             var updatedAction = nextAction
-            updatedAction.selectors[0] = .chooseOne(element, prompt: prompt, selection: selection)
+            updatedAction.selectors[0] = .choose(element, status: .selected(selection, prompt))
             state.queue[0] = updatedAction
 
             return state
@@ -611,14 +610,25 @@ private extension Card.ActionName {
             }
 
             var updatedAction = state.queue[actionIndex]
-            guard case .repeat(let repeatCount) = updatedAction.selectors[0],
+
+            guard let repeatIndex = updatedAction.selectors.firstIndex(where: {
+                if case .repeat = $0 {
+                    return true
+                } else {
+                    return false
+                }
+            }) else {
+                fatalError("Missing repeat selector")
+            }
+
+            guard case .repeat(let repeatCount) = updatedAction.selectors[repeatIndex],
                 case.times(var value) = repeatCount else {
                 fatalError("Missing repeat count")
             }
 
             var queue = state.queue
             value += amount
-            updatedAction.selectors[0] = .repeat(.times(value))
+            updatedAction.selectors[repeatIndex] = .repeat(.times(value))
             queue[actionIndex] = updatedAction
 
             var state = state

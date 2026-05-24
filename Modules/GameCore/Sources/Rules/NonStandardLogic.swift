@@ -5,16 +5,13 @@
 //  Created by Hugues Stéphano TELOLAHY on 23/03/2025.
 //
 enum NonStandardLogic {
-    /// Transmitting context data from parent
+    @available(*, deprecated, message: "Do not implicitly transmit payload from parent. Use selector instead.")
     static func targetedPlayerForTriggeredEffect(
         name: Card.ActionName,
         parentAction: GameFeature.Action
     ) -> String? {
         switch name {
-        case .drawDeck,
-                .draw,
-                .discard,
-                .heal,
+        case .draw,
                 .setWeapon,
                 .increaseMagnifying,
                 .increaseRemoteness,
@@ -38,7 +35,7 @@ enum NonStandardLogic {
         }
     }
 
-    /// Transmitting context data from parent
+    @available(*, deprecated, message: "Do not implicitly transmit payload from parent. Use selector instead.")
     static func targetedCardForTriggeredEffect(
         name: Card.ActionName,
         parentAction: GameFeature.Action
@@ -98,10 +95,8 @@ enum NonStandardLogic {
             return false
 
         default:
-            break
+            return true
         }
-
-        return true
     }
 
     static func updateActionNameByTargetedCard(
@@ -136,7 +131,7 @@ enum NonStandardLogic {
             }
 
         default:
-            return
+            break
         }
     }
 }
