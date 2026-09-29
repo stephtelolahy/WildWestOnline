@@ -60,34 +60,54 @@ public class Store<State, Action>: ObservableObject {
         self.dependencies = dependencies
     }
 
+    /// Reduces `action` then runs the returned effect, and every action it produces, until nothing is left.
+    /// Actions are handled depth-first, in the order effects produce them,
+    /// using an explicit work stack rather than recursion,
+    /// so a long chain of actions (e.g. a whole game) does not nest one async call per action.
     public func dispatch(_ action: Action) async {
-        let effect = reducer(&state, action, dependencies)
-        dispatchedAction.send(action)
-        await runEffect(effect)
+        var stack: [Work] = [.action(action)]
+        while let work = stack.popLast() {
+            switch work {
+            case .action(let action):
+                let effect = reducer(&state, action, dependencies)
+                dispatchedAction.send(action)
+                stack.append(.effect(effect))
+
+            case .effect(let effect):
+                stack.append(contentsOf: await pendingWork(of: effect))
+            }
+        }
     }
 
-    private func runEffect(_ effect: Effect<Action>) async {
+    /// Work left to do, in stack order: the last element is handled first.
+    private func pendingWork(of effect: Effect<Action>) async -> [Work] {
         switch effect {
         case .none:
-            return
+            return []
 
         case .send(let action):
-            await dispatch(action)
+            return [.action(action)]
 
         case .run(let asyncWork):
-            if let result = await asyncWork() {
-                await dispatch(result)
+            guard let result = await asyncWork() else {
+                return []
             }
+            return [.action(result)]
 
         case .publisher(let publisher):
+            // Each emitted value is fully handled before the next one is awaited
             for await result in publisher.values {
                 await dispatch(result)
             }
+            return []
 
         case .group(let effects):
-            for subEffect in effects {
-                await runEffect(subEffect)
-            }
+            return effects.reversed().map { .effect($0) }
         }
+    }
+
+    private enum Work {
+        case action(Action)
+        case effect(Effect<Action>)
     }
 }
