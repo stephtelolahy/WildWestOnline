@@ -1,16 +1,16 @@
 //
-//  PlayRequirementMatcher.swift
+//  RequirementMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
-extension Card.Selector.PlayRequirement {
+extension Card.Selector.Requirement {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.PlayRequirement {
+private extension Card.Selector.Requirement {
     protocol Matcher {
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }
@@ -29,7 +29,7 @@ private extension Card.Selector.PlayRequirement {
     }
 
     struct Not: Matcher {
-        let req: Card.Selector.PlayRequirement
+        let req: Card.Selector.Requirement
 
         func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             !req.match(pendingAction, state: state)

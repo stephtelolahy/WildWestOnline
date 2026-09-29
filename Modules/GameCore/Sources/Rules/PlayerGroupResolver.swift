@@ -39,7 +39,7 @@ private extension Card.Selector.PlayerGroup {
     }
 
     struct Others: Resolver {
-        let conditions: [Card.Selector.PlayerFilter]
+        let conditions: [Card.Selector.PlayerRequirement]
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String] {
             let targetPlayers = state.playOrder

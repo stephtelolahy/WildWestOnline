@@ -39,7 +39,42 @@ extension GameFeature.Action {
     ) -> Self {
         var copy = self
         copy.targetedCard = targetedCard
-        NonStandardLogic.updateActionNameByTargetedCard(action: &copy, state: state)
+        copy.resolveGenericActionIntoHandOrInPlayVariant(state: state)
         return copy
+    }
+}
+
+private extension GameFeature.Action {
+    mutating func resolveGenericActionIntoHandOrInPlayVariant(state: GameFeature.State) {
+        switch name {
+        case .discard:
+            guard let player = targetedPlayer,
+                  let card = targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                name = .discardHand
+            }
+            if playerObj.inPlay.contains(card) {
+                name = .discardInPlay
+            }
+
+        case .steal:
+            guard let player = targetedPlayer,
+                  let card = targetedCard else {
+                return
+            }
+            let playerObj = state.players.get(player)
+            if playerObj.hand.contains(card) {
+                name = .stealHand
+            }
+            if playerObj.inPlay.contains(card) {
+                name = .stealInPlay
+            }
+
+        default:
+            break
+        }
     }
 }

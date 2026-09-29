@@ -27,7 +27,7 @@ struct SimulationTest {
             playModeSetup: .allAuto
         )
 
-        var dependencies = Dependencies()
+        let dependencies = Dependencies()
         let store = Store(
             initialState: state,
             reducer: GameFeature.reducer,

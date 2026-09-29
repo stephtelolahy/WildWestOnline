@@ -144,9 +144,7 @@ private extension GameFeature.State {
                 $0.toInstance(
                     withPlayer: player,
                     playedCard: card,
-                    triggeredBy: [event],
-                    targetedPlayer: NonStandardLogic.targetedPlayerForTriggeredEffect(name: $0.action, parentAction: event),
-                    state: self
+                    triggeredBy: [event]
                 )
             }
     }

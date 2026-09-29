@@ -103,14 +103,13 @@ struct AnimationMatcherTest {
 
     @Test func animateDrawDiscard() async throws {
         // Given
-        let event = GameFeature.Action.drawDiscard(player: "p1")
+        let event = GameFeature.Action.drawDiscard("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
 
         // Then
-        // TODO: card id = last hand
-        #expect(animation == .moveCard(.hidden, from: .discard, to: .playerHand("p1")))
+        #expect(animation == .moveCard(.id("c1"), from: .discard, to: .playerHand("p1")))
     }
 
     @Test func animatePassInPlay() async throws {

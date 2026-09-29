@@ -65,7 +65,38 @@ public enum GameFeature {
         var selectors: [Card.Selector] = []
 
         public static func == (lhs: Self, rhs: Self) -> Bool {
-            NonStandardLogic.areActionsEqual(lhs, rhs)
+            switch lhs.name {
+            case .preparePlay,
+                    .play,
+                    .equip,
+                    .handicap:
+                guard lhs.sourcePlayer == rhs.sourcePlayer,
+                      lhs.sourceCard == rhs.sourceCard
+                else {
+                    return false
+                }
+
+            case .stealHand,
+                    .stealInPlay,
+                    .passInPlay:
+                guard lhs.sourcePlayer == rhs.sourcePlayer
+                else {
+                    return false
+                }
+
+            default:
+                break
+            }
+
+            return lhs.name == rhs.name
+            && lhs.targetedPlayer == rhs.targetedPlayer
+            && lhs.targetedCard == rhs.targetedCard
+            && lhs.amount == rhs.amount
+            && lhs.selection == rhs.selection
+            && lhs.alias == rhs.alias
+            && lhs.playableCards == rhs.playableCards
+            && lhs.children == rhs.children
+            && lhs.selectors == rhs.selectors
         }
     }
 
@@ -75,10 +106,10 @@ public enum GameFeature {
         case playerAlreadyMaxHealth(String)
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String, player: String)
-        case noReq(Card.Selector.PlayRequirement)
-        case noTarget(Card.Selector.PlayerGroup)
-        case noPlayer(Card.Selector.PlayerRef)
-        case noChoosableTarget([Card.Selector.PlayerFilter])
+        case noReq(Card.Selector.Requirement)
+        case noPlayer(Card.Selector.PlayerTarget)
+        case noCard(Card.Selector.CardTarget)
+        case noChoosableTarget([Card.Selector.PlayerRequirement])
         case noChoosableCard([Card.Selector.CardFilter], player: String)
     }
 

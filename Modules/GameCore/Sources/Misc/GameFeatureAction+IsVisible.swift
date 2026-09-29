@@ -11,6 +11,17 @@ public extension GameFeature.Action {
             return false
         }
 
-        return NonStandardLogic.isActionVisible(self)
+        switch name {
+        case .queue,
+                .discard,
+                .steal,
+                .incrementRequiredMisses,
+                .ignoreLimitPerTurn,
+                .incrementCardsPerTurn:
+            return false
+
+        default:
+            return true
+        }
     }
 }

@@ -17,9 +17,18 @@ private extension Card.Selector.CardFilter {
 
     var matcher: Matcher {
         switch self {
+        case .inHand: InHand()
         case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
-        case .fromHand: FromHand()
+        }
+    }
+
+    struct InHand: Matcher {
+        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            let playerObj = state.players.get(player)
+            return playerObj.hand.contains(card)
         }
     }
 
@@ -42,15 +51,6 @@ private extension Card.Selector.CardFilter {
 
         func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             Card.name(of: card) == name
-        }
-    }
-
-    struct FromHand: Matcher {
-        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let playerObj = state.players.get(player)
-            return playerObj.hand.contains(card)
         }
     }
 }
