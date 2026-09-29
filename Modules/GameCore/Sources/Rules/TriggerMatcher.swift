@@ -38,6 +38,9 @@ private extension Card.Trigger {
         case .prePlayingCard(named: let name): PrePlayingCard(name: name)
         case .hasStealHandOnTurnStarted: HasStealHandOnTurnStarted()
         case .hasDrawDiscardOnTurnStarted: HasDrawDiscardOnTurnStarted()
+        case .hasStealInPlayOnTurnStarted: HasStealInPlayOnTurnStarted()
+        case .playedCard(named: let name): PlayedCard(name: name)
+        case .usedCardOutOfTurn: UsedCardOutOfTurn()
         }
     }
 
@@ -299,6 +302,57 @@ private extension Card.Trigger {
             }
 
             return true
+        }
+    }
+
+    struct HasStealInPlayOnTurnStarted: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .stealInPlay = action.name,
+                  action.sourcePlayer == player  else {
+                return false
+            }
+
+            guard case .startTurn = action.triggeredBy.first?.name else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    struct PlayedCard: Matcher {
+        let name: String
+
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard case .play = action.name,
+                  action.sourcePlayer == player,
+                  Card.name(of: action.sourceCard) == name else {
+                return false
+            }
+
+            return true
+        }
+    }
+
+    /// Playing or voluntarily discarding a hand card while it is another player's turn
+    struct UsedCardOutOfTurn: Matcher {
+        func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
+            guard let turn = state.turn,
+                  turn != player,
+                  action.sourcePlayer == player else {
+                return false
+            }
+
+            switch action.name {
+            case .play:
+                return true
+
+            case .discardHand:
+                return action.targetedPlayer == player
+
+            default:
+                return false
+            }
         }
     }
 }

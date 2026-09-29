@@ -51,12 +51,14 @@ private extension Card.ActionName {
         case .increaseRemoteness: IncreaseRemoteness()
         case .queue: Queue()
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
+        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setAlias: fatalError("Unexpected to dispatch setAlias")
         case .discard: fatalError("Unexpected to dispatch discard")
         case .steal: fatalError("Unexpected to dispatch steal")
         case .incrementRequiredMisses: IncrementRequiredMisses()
         case .ignoreLimitPerTurn: IgnoreLimitPerTurn()
         case .incrementCardsPerTurn: IncrementCardsPerTurn()
+        case .incrementHealAmount: IncrementHealAmount()
         }
     }
 
@@ -632,6 +634,46 @@ private extension Card.ActionName {
             var state = state
             state.queue = queue
 
+            return state
+        }
+    }
+
+    /// Increase the amount of the pending heal effect of the played card that triggered this action
+    struct IncrementHealAmount: Reducer {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
+            guard let amount = action.amount else { fatalError("Missing amount") }
+            guard let playAction = action.triggeredBy.first,
+                  playAction.name == .play else {
+                fatalError("Expected trigger from play")
+            }
+
+            guard let healIndex = state.queue.firstIndex(where: {
+                $0.name == .heal
+                && $0.sourceCard == playAction.sourceCard
+            }) else {
+                fatalError("Missing heal action")
+            }
+
+            var healAction = state.queue[healIndex]
+            let amountIndex = healAction.selectors.firstIndex {
+                if case .amount = $0 {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
+            if let amountIndex,
+               case .amount(let value) = healAction.selectors[amountIndex] {
+                healAction.selectors[amountIndex] = .amount(value + amount)
+            } else if let value = healAction.amount {
+                healAction.amount = value + amount
+            } else {
+                fatalError("Missing heal amount")
+            }
+
+            var state = state
+            state.queue[healIndex] = healAction
             return state
         }
     }

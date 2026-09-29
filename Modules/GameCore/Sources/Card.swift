@@ -77,6 +77,9 @@ public struct Card: Equatable, Sendable {
         case drawRequired
         case hasStealHandOnTurnStarted
         case hasDrawDiscardOnTurnStarted
+        case hasStealInPlayOnTurnStarted
+        case playedCard(named: String)
+        case usedCardOutOfTurn
     }
 
     public enum ActionName: String, Sendable {
@@ -110,6 +113,7 @@ public struct Card: Equatable, Sendable {
         case increaseRemoteness
         case setWeapon
         case setMaxHealth
+        case setHandLimit
         case setAlias
 
         // MARK: Invisible
@@ -119,6 +123,7 @@ public struct Card: Equatable, Sendable {
         case incrementRequiredMisses
         case ignoreLimitPerTurn
         case incrementCardsPerTurn
+        case incrementHealAmount
     }
 
     public enum Selector: Equatable, Sendable {
@@ -143,6 +148,7 @@ public struct Card: Equatable, Sendable {
             case perExcessHand
             case perDamage
             case perRequiredMisses
+            case perWound
         }
 
         public enum PlayerTarget: Equatable, Sendable {
@@ -175,6 +181,9 @@ public struct Card: Equatable, Sendable {
             case not(Self)
             case playersAtLeast(Int)
             case playLimit(Int)
+            case useLimit(Int)
+            case healthAtLeast(Int)
+            case isWounded
             case isHealthZero
             case isGameOver
             case isMyTurn
@@ -204,6 +213,7 @@ public struct Card: Equatable, Sendable {
             case atDistance(Int)
             case reachable
             case isWounded
+            case hasInPlayCards
         }
 
         public enum CardRequirement: Equatable, Sendable {
@@ -214,6 +224,8 @@ public struct Card: Equatable, Sendable {
 
         public enum CardFilter: Equatable, Sendable {
             case inHand
+            case inPlay
+            case isBlue
             case canCounterShot
             case named(String)
         }
@@ -253,4 +265,7 @@ public struct Card: Equatable, Sendable {
 public extension String {
     static let choiceHiddenHand = "hiddenHand"
     static let choicePass = "pass"
+
+    /// Wildcard matching any card, e.g. as `CardAlias.played`
+    static let anyCard = "*"
 }

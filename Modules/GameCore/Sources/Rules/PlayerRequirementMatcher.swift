@@ -22,6 +22,7 @@ private extension Card.Selector.PlayerRequirement {
         case .atDistance(let distance): AtDistance(distance: distance)
         case .reachable: Reachable()
         case .isWounded: IsWounded()
+        case .hasInPlayCards: HasInPlayCards()
         }
     }
 
@@ -40,6 +41,13 @@ private extension Card.Selector.PlayerRequirement {
         func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let playerObj = state.players.get(player)
             return playerObj.hand.isNotEmpty
+        }
+    }
+
+    struct HasInPlayCards: Matcher {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            let playerObj = state.players.get(player)
+            return playerObj.inPlay.isNotEmpty
         }
     }
 

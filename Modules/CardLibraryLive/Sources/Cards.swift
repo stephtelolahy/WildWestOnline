@@ -76,6 +76,18 @@ enum Cards {
         .tequila,
         .ragTime,
         .brawl,
+        .elenaFuente,
+        .seanMallory,
+        .tequilaJoe,
+        .pixiePete,
+        .billNoface,
+        .gregDigger,
+        .herbHunter,
+        .mollyStark,
+        .joseDelgado,
+        .chuckWengam,
+        .docHolyday,
+        .patBrennan,
     ]
 }
 
@@ -1362,6 +1374,257 @@ private extension Card {
                     selectors: [
                         .target(.every(.others([.hasCards]))),
                         .choose(.card(.fromTarget()))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var elenaFuente: Self {
+        .init(
+            name: .elenaFuente,
+            type: .figure,
+            description: "she can use any card in her hand as a Missed!.",
+            effects: [
+                .maxHealth(3),
+                .init(
+                    trigger: .permanent,
+                    action: .setAlias,
+                    alias: .init(played: .anyCard, alias: .missed)
+                )
+            ]
+        )
+    }
+
+    static var seanMallory: Self {
+        .init(
+            name: .seanMallory,
+            type: .figure,
+            description: "he can hold up to 10 cards in his hand.",
+            effects: [
+                .maxHealth(3),
+                .init(
+                    trigger: .permanent,
+                    action: .setHandLimit,
+                    selectors: [
+                        .amount(10)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var tequilaJoe: Self {
+        .init(
+            name: .tequilaJoe,
+            type: .figure,
+            description: "each time he plays a Beer, he regains 2 life points instead of 1.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .playedCard(named: .beer),
+                    action: .incrementHealAmount,
+                    selectors: [
+                        .amount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var pixiePete: Self {
+        .init(
+            name: .pixiePete,
+            type: .figure,
+            description: "during phase 1 of his turn, he draws 3 cards instead of 2.",
+            effects: [
+                .maxHealth(3),
+                .init(
+                    trigger: .turnStarted,
+                    action: .incrementCardsPerTurn,
+                    selectors: [
+                        .amount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var billNoface: Self {
+        .init(
+            name: .billNoface,
+            type: .figure,
+            description: "during phase 1 of his turn, he draws 1 card, plus 1 card for each wound he has.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .incrementCardsPerTurn,
+                    selectors: [
+                        .amount(-1)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .incrementCardsPerTurn,
+                    selectors: [
+                        .repeat(.perWound),
+                        .amount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var gregDigger: Self {
+        .init(
+            name: .gregDigger,
+            type: .figure,
+            description: "each time another character is eliminated, he regains 2 life points.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .otherEliminated,
+                    action: .heal,
+                    selectors: [
+                        .applyIf(.isWounded),
+                        .target(.myself),
+                        .amount(2)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var herbHunter: Self {
+        .init(
+            name: .herbHunter,
+            type: .figure,
+            description: "each time another character is eliminated, he draws 2 extra cards from the deck.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .otherEliminated,
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.myself),
+                        .repeat(.times(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var mollyStark: Self {
+        .init(
+            name: .mollyStark,
+            type: .figure,
+            description: "each time she plays or voluntarily discards a card from her hand when it is not her turn, she draws a card from the deck.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .usedCardOutOfTurn,
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.myself)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var joseDelgado: Self {
+        .init(
+            name: .joseDelgado,
+            type: .figure,
+            description: "twice in his turn, he may discard a blue card from his hand to draw 2 cards from the deck.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .prePlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .require(.useLimit(2)),
+                        .target(.myself),
+                        .choose(.costCard([.isBlue])),
+                        .repeat(.times(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var chuckWengam: Self {
+        .init(
+            name: .chuckWengam,
+            type: .figure,
+            description: "during his turn, he may choose to lose 1 life point to draw 2 cards from the deck. He cannot use this ability to lose his last life point. He can use it more than once.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .prePlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .require(.healthAtLeast(2)),
+                        .target(.myself),
+                        .repeat(.times(2))
+                    ]
+                ),
+                .init(
+                    trigger: .prePlayed,
+                    action: .damage,
+                    selectors: [
+                        .require(.healthAtLeast(2)),
+                        .target(.myself),
+                        .amount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var docHolyday: Self {
+        .init(
+            name: .docHolyday,
+            type: .figure,
+            description: "once during his turn, he may discard 2 cards from his hand to shoot a BANG! at a player within reach. This does not count as a BANG! card.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .prePlayed,
+                    action: .shoot,
+                    selectors: [
+                        .require(.useLimit(1)),
+                        .target(.myself),
+                        .choose(.costCard([.inHand])),
+                        .choose(.costCard([.inHand])),
+                        .choose(.target([.reachable]))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var patBrennan: Self {
+        .init(
+            name: .patBrennan,
+            type: .figure,
+            description: "during phase 1 of his turn, instead of drawing normally, he may draw one card in play in front of any player.",
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .turnStarted,
+                    action: .steal,
+                    selectors: [
+                        .choose(.target([.hasInPlayCards])),
+                        .choose(.card(.fromTarget([.inPlay])))
+                    ]
+                ),
+                .init(
+                    trigger: .hasStealInPlayOnTurnStarted,
+                    action: .incrementCardsPerTurn,
+                    selectors: [
+                        .amount(-2)
                     ]
                 )
             ]

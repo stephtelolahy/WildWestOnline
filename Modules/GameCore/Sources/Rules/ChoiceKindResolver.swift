@@ -129,7 +129,7 @@ private extension Card.Selector.ChoiceKind {
                 []
             } else {
                 [
-                    .discardHand(selection, player: target),
+                    .discardHand(selection, player: target).copy(withPlayer: target),
                     pendingAction
                 ]
             }
@@ -163,7 +163,7 @@ private extension Card.Selector.ChoiceKind {
             return if selection == .choicePass {
                 [pendingAction]
             } else {
-                [.discardHand(selection, player: target)]
+                [.discardHand(selection, player: target).copy(withPlayer: target)]
             }
         }
     }
@@ -201,7 +201,7 @@ private extension Card.Selector.ChoiceKind {
                     selectors: [.choose(.redirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
-                    .discardHand(selection, player: target),
+                    .discardHand(selection, player: target).copy(withPlayer: target),
                     reversedAction
                 ]
             }

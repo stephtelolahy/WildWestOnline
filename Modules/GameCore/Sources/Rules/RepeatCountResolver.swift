@@ -22,6 +22,7 @@ private extension Card.Selector.RepeatCount {
         case .perExcessHand: PerExcessHand()
         case .perDamage: PerDamage()
         case .perRequiredMisses: PerRequiredMisses()
+        case .perWound: PerWound()
         }
     }
 
@@ -43,7 +44,7 @@ private extension Card.Selector.RepeatCount {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
-            let handlLimit = playerObj.health
+            let handlLimit = state.permanentAmount(of: .setHandLimit, player: player) ?? playerObj.health
             let handCount = playerObj.hand.count
             return max(handCount - handlLimit, 0)
         }
@@ -75,6 +76,13 @@ private extension Card.Selector.RepeatCount {
             guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
 
             return requiredMisses
+        }
+    }
+
+    struct PerWound: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
+            let playerObj = state.players.get(pendingAction.sourcePlayer)
+            return max(playerObj.maxHealth - playerObj.health, 0)
         }
     }
 }
