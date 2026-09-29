@@ -70,6 +70,25 @@ struct ReducerCompositionTest {
         _ = GlobalFeature.reducer(&state, nextAction!, dependencies)
         #expect(state.counter.count == 1)
     }
+
+    @Test func testPullbackOnOptionalStateRunsOnlyWhilePresent() {
+        let reducer: Reducer<CounterFeature.State?, CounterFeature.Action> = pullback(
+            CounterFeature.reducer,
+            state: \.self,
+            action: { $0 },
+            embedAction: { $0 }
+        )
+        var dependencies = Dependencies()
+        dependencies.stepClient = .init(step: { 1 })
+
+        var absent: CounterFeature.State?
+        _ = reducer(&absent, .increment, dependencies)
+        #expect(absent == nil)
+
+        var present: CounterFeature.State? = .init(count: 2)
+        _ = reducer(&present, .increment, dependencies)
+        #expect(present == .init(count: 3))
+    }
 }
 
 private extension Effect where Action == GlobalFeature.Action {
