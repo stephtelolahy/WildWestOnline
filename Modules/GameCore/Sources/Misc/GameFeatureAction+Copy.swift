@@ -39,14 +39,13 @@ extension GameFeature.Action {
     ) -> Self {
         var copy = self
         copy.targetedCard = targetedCard
-        copy.resolveNameByTargetedCard(state: state)
+        copy.resolveGenericActionIntoHandOrInPlayVariant(state: state)
         return copy
     }
 }
 
 private extension GameFeature.Action {
-    // Resolve generic `.discard` and `.steal` into the hand or inPlay variant
-    mutating func resolveNameByTargetedCard(state: GameFeature.State) {
+    mutating func resolveGenericActionIntoHandOrInPlayVariant(state: GameFeature.State) {
         switch name {
         case .discard:
             let player = targetedPlayer ?? sourcePlayer
