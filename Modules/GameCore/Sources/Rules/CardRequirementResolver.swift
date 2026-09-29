@@ -19,8 +19,8 @@ private extension Card.Selector.CardRequirement {
     var resolver: Resolver {
         switch self {
         case .fromTarget(let conditions): FromTarget(conditions: conditions)
-        case .fromDiscovered: fatalError("Unimplemented")
-        case .topDiscard: fatalError("Unimplemented")
+        case .fromDiscovered: FromDiscovered()
+        case .topDiscard: TopDiscard()
         }
     }
 
@@ -52,6 +52,35 @@ private extension Card.Selector.CardRequirement {
             }
 
             return Card.Selector.ChoicePrompt(chooser: player, options: options)
+        }
+    }
+
+    struct FromDiscovered: Resolver {
+        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            return Card.Selector.ChoicePrompt(
+                chooser: target,
+                options: state.discovered.map { .init(id: $0, label: $0) }
+            )
+        }
+    }
+
+    struct TopDiscard: Resolver {
+        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
+            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            guard let topDiscard = state.discard.first else {
+                throw .insufficientDiscard
+            }
+
+            return Card.Selector.ChoicePrompt(
+                chooser: target,
+                options: [
+                    .init(id: topDiscard, label: topDiscard),
+                    .init(id: .choicePass, label: .choicePass)
+                ]
+            )
         }
     }
 }

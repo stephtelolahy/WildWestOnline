@@ -52,7 +52,7 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
             guard let cards = identity.resolve(pendingAction, state: state) else {
-                return [] // silently skip effect if cannot set card
+                throw .noCard(identity)
             }
 
             return cards.map { pendingAction.copy(targetedCard: $0, state: state) }

@@ -454,7 +454,7 @@ private extension Card {
                     action: .drawDiscovered,
                     selectors: [
                         .target(.every(.all)),
-                        .choose(.discoverCard)
+                        .choose(.card(.fromDiscovered))
                     ]
                 )
             ]
@@ -948,7 +948,7 @@ private extension Card {
                     trigger: .otherEliminated,
                     action: .steal,
                     selectors: [
-                        .target(.eliminated),
+                        .target(.trigger),
                         .card(.every(.all))
                     ]
                 )
@@ -1039,7 +1039,7 @@ private extension Card {
                     action: .drawDiscard,
                     selectors: [
                         .target(.myself),
-                        .choose(.discardedCard)
+                        .choose(.card(.topDiscard))
                     ]
                 ),
                 .init(
@@ -1073,7 +1073,7 @@ private extension Card {
                     selectors: [
                         .target(.myself),
                         .repeat(.times(2)),
-                        .choose(.discoverCard)
+                        .choose(.card(.fromDiscovered))
                     ]
                 ),
                 .init(

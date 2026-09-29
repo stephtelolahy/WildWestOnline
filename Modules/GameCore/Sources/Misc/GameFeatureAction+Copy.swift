@@ -48,8 +48,8 @@ private extension GameFeature.Action {
     mutating func resolveGenericActionIntoHandOrInPlayVariant(state: GameFeature.State) {
         switch name {
         case .discard:
-            let player = targetedPlayer ?? sourcePlayer
-            guard let card = targetedCard else {
+            guard let player = targetedPlayer,
+                  let card = targetedCard else {
                 return
             }
             let playerObj = state.players.get(player)

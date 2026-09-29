@@ -36,11 +36,7 @@ private extension Card.Selector.CardTarget {
         func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
             guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
 
-            guard let weapon = state.players.get(target).inPlay.first(where: { state.isWeapon($0) }) else {
-                return nil
-            }
-
-            return [weapon]
+            return state.players.get(target).inPlay.filter { state.isWeapon($0) }
         }
     }
 

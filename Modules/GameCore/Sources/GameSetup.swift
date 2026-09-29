@@ -131,10 +131,10 @@ private extension Card {
             return nil
         }
 
-        guard case .amount(let value) = effect.selectors.first else {
-            fatalError("Expected amount selector")
+        for case .amount(let value) in effect.selectors {
+            return value
         }
 
-        return value
+        fatalError("Expected amount selector")
     }
 }

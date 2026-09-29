@@ -150,7 +150,6 @@ public struct Card: Equatable, Sendable {
             case trigger
             case next
             case attacker
-            case eliminated
             case every(PlayerGroup)
         }
 
@@ -186,9 +185,6 @@ public struct Card: Equatable, Sendable {
         public enum ChoiceKind: Equatable, Sendable {
             case target([PlayerRequirement] = [])
             case card(CardRequirement)
-
-            case discoverCard
-            case discardedCard
             case costCard([CardFilter] = [])
             case counterCard([CardFilter] = [])
             case redirectCard([CardFilter] = [])

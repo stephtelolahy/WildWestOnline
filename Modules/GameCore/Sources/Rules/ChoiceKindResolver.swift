@@ -44,8 +44,6 @@ private extension Card.Selector.ChoiceKind {
         case .target(let requirements): Target(requirements: requirements)
         case .card(let requirement): CardResolver(requirement: requirement)
         case .costCard(let conditions): CostCard(conditions: conditions)
-        case .discoverCard: DiscoverCard()
-        case .discardedCard: DiscardedCard()
         case .counterCard(let conditions): CounterCard(conditions: conditions)
         case .redirectCard(let conditions): RedirectCard(conditions: conditions)
         case .playedCard(let conditions): PlayedCard(conditions: conditions)
@@ -91,7 +89,11 @@ private extension Card.Selector.ChoiceKind {
         }
 
         func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.copy(targetedCard: selection, state: state)]
+            if selection == .choicePass {
+                []
+            } else {
+                [pendingAction.copy(targetedCard: selection, state: state)]
+            }
         }
     }
 
@@ -130,51 +132,6 @@ private extension Card.Selector.ChoiceKind {
                     .discardHand(selection, player: target),
                     pendingAction
                 ]
-            }
-        }
-    }
-
-    struct DiscoverCard: Resolver {
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: state.discovered.map { .init(id: $0, label: $0) }
-            )
-
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            [pendingAction.copy(targetedCard: selection, state: state)]
-        }
-    }
-
-    struct DiscardedCard: Resolver {
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            guard let topDiscard = state.discard.first else {
-                throw .insufficientDiscard
-            }
-
-            let prompt = Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: [
-                    .init(id: topDiscard, label: topDiscard),
-                    .init(id: .choicePass, label: .choicePass)
-                ]
-            )
-
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            if selection == .choicePass {
-                []
-            } else {
-                [pendingAction]
             }
         }
     }

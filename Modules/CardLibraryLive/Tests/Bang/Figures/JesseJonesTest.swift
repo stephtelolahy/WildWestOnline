@@ -28,7 +28,7 @@ struct JesseJonesTest {
         #expect(result == [
             .startTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .drawDiscard(player: "p1"),
+            .drawDiscard("c1", player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
