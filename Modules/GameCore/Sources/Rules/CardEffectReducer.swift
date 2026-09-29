@@ -83,9 +83,12 @@ private extension Card.ActionName {
     struct DrawDiscard: Reducer {
         func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
             guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
+            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
 
             var state = state
-            let card = try state.popDiscard()
+            let topDiscard = try state.popDiscard()
+            guard topDiscard == card else { fatalError("Card \(card) is not the top discard") }
+
             state[keyPath: \.players[target]!.hand].append(card)
             return state
         }

@@ -37,13 +37,6 @@ public extension GameFeature.Action {
         )
     }
 
-    static func drawDiscard(player: String) -> Self {
-        .init(
-            name: .drawDiscard,
-            targetedPlayer: player
-        )
-    }
-
     static func drawDiscard(_ card: String, player: String) -> Self {
         .init(
             name: .drawDiscard,

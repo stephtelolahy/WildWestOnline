@@ -17,7 +17,7 @@ struct DrawDiscardTest {
             .build()
 
         // When
-        let action = GameFeature.Action.drawDiscard(player: "p1")
+        let action = GameFeature.Action.drawDiscard("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -33,7 +33,7 @@ struct DrawDiscardTest {
 
         // When
         // Then
-        let action = GameFeature.Action.drawDiscard(player: "p1")
+        let action = GameFeature.Action.drawDiscard("c1", player: "p1")
         await #expect(throws: GameFeature.Error.insufficientDiscard) {
             try await dispatch(action, state: state)
         }

@@ -49,7 +49,7 @@ struct AnimationMatcher {
 
         case .drawDiscard:
                 .moveCard(
-                    .hidden,
+                    .id(action.targetedCard!),
                     from: .discard,
                     to: .playerHand(action.targetedPlayer!)
                 )
