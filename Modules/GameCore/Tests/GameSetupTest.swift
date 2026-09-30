@@ -9,6 +9,7 @@ import Testing
 @testable import GameCore
 
 struct GameSetupTest {
+    // swiftlint:disable:next function_body_length
     @Test func setupGame() async throws {
         // Given
         let deck = Array(1...80).map { "c\($0)" }

@@ -20,7 +20,7 @@ struct ActivateTest {
 
         // Then
         let playable = try #require(result.playable)
-        #expect(playable.player ==  "p1")
-        #expect(playable.cards ==  ["c1", "c2"])
+        #expect(playable.player == "p1")
+        #expect(playable.cards == ["c1", "c2"])
     }
 }

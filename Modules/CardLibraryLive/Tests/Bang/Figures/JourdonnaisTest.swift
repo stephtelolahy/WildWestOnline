@@ -23,7 +23,6 @@ struct JourdonnaisTest {
         let action = GameFeature.Action.shoot("p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
-
         // Then
         #expect(result == [
             .shoot("p1"),
