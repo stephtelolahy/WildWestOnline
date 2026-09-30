@@ -66,5 +66,4 @@ enum HomeFeatureTest {
             #expect(received == [.delegate(.settings)])
         }
     }
-
 }
