@@ -62,6 +62,7 @@ jobs:
             build-for-testing
 
       - name: Scan SwiftPM package
+        # AppBuilder is the entry point the app target calls, so retain it as the root
         working-directory: Modules
         shell: bash
         run: |
@@ -70,6 +71,7 @@ jobs:
           periphery scan \
             --skip-build \
             --index-store-path ../.build/DerivedData/Index.noindex/DataStore \
+            --retain-files "$PWD/AppBuilder/Sources/*.swift" \
             --relative-results \
             --format github-actions | tee ../periphery.txt
           {
