@@ -1,0 +1,66 @@
+name: Code Quality
+
+# Report-only checks: they annotate findings and write a summary,
+# but don't fail the build. Add thresholds once the baseline is cleaned up.
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
+
+concurrency:
+  group: code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  duplication:
+    name: Duplicated code (jscpd)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect copy-pasted code
+        run: |
+          npx --yes jscpd@4.3.0 Modules App \
+            --format swift \
+            --min-tokens 70 \
+            --reporters console,markdown \
+            --output jscpd-report
+          cat jscpd-report/jscpd-report.md >> "$GITHUB_STEP_SUMMARY"
+
+  unused-code:
+    name: Unused code (Periphery)
+    runs-on: macos-15
+    env:
+      PERIPHERY_VERSION: 3.8.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: 26.3.0
+
+      - name: Install Periphery
+        run: |
+          curl -sSL -o periphery.zip "https://github.com/peripheryapp/periphery/releases/download/${PERIPHERY_VERSION}/periphery-${PERIPHERY_VERSION}.zip"
+          unzip -q periphery.zip -d periphery-bin
+          echo "$PWD/periphery-bin" >> "$GITHUB_PATH"
+
+      - name: Scan SwiftPM package
+        working-directory: Modules
+        run: |
+          periphery version
+          periphery scan --relative-results --format github-actions | tee ../periphery.txt
+          {
+            echo "## Unused code (Periphery)"
+            echo
+            echo "$(grep -c '::warning' ../periphery.txt || true) findings"
+            echo
+            echo '```'
+            sed -E 's/^::warning file=([^,]*),line=([0-9]*)(,col=[0-9]*)?[^:]*::/\1:\2 /' ../periphery.txt | grep -v '^::' || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
