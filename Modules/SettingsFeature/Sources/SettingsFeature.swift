@@ -53,25 +53,25 @@ public enum SettingsFeature {
             reducerMain,
             pullback(
                 SettingsHomeFeature.reducer,
-                state: { _ in \.home },
+                state: \.home,
                 action: { if case let .home(action) = $0 { action } else { nil } },
                 embedAction: Action.home
             ),
             pullback(
                 SettingsFiguresFeature.reducer,
-                state: { $0.figures != nil ? \.figures! : nil },
+                state: \.figures,
                 action: { if case let .figures(action) = $0 { action } else { nil } },
                 embedAction: Action.figures
             ),
             pullback(
                 SettingsCollectiblesFeature.reducer,
-                state: { $0.collectibles != nil ? \.collectibles! : nil },
+                state: \.collectibles,
                 action: { if case let .collectibles(action) = $0 { action } else { nil } },
                 embedAction: Action.collectibles
             ),
             pullback(
                 SettingsAbilitiesFeature.reducer,
-                state: { $0.abilities != nil ? \.abilities! : nil },
+                state: \.abilities,
                 action: { if case let .abilities(action) = $0 { action } else { nil } },
                 embedAction: Action.abilities
             )

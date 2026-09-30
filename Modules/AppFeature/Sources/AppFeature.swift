@@ -54,19 +54,19 @@ public enum AppFeature {
             reducerMain,
             pullback(
                 HomeFeature.reducer,
-                state: { _ in \.home },
+                state: \.home,
                 action: { if case let .home(action) = $0 { action } else { nil } },
                 embedAction: Action.home
             ),
             pullback(
                 GameSessionFeature.reducer,
-                state: { $0.gameSession != nil ? \.gameSession! : nil },
+                state: \.gameSession,
                 action: { if case let .gameSession(action) = $0 { action } else { nil } },
                 embedAction: Action.gameSession
             ),
             pullback(
                 SettingsFeature.reducer,
-                state: { $0.settings != nil ? \.settings! : nil },
+                state: \.settings,
                 action: { if case let .settings(action) = $0 { action } else { nil } },
                 embedAction: Action.settings
             )

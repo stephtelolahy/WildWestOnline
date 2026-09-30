@@ -13,7 +13,7 @@ public func pullback<
     GlobalAction
 >(
     _ localReducer: @escaping Reducer<LocalState, LocalAction>,
-    state toLocalState: @escaping (GlobalState) -> WritableKeyPath<GlobalState, LocalState>?,
+    state toLocalState: WritableKeyPath<GlobalState, LocalState>,
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
     embedAction: @escaping (LocalAction) -> GlobalAction
 ) -> Reducer<GlobalState, GlobalAction> {
@@ -23,20 +23,46 @@ public func pullback<
             return .none
         }
 
-        // Try to obtain the optional key path into local state
-        guard let localKeyPath = toLocalState(globalState) else {
+        // Run the local reducer directly on that portion of state
+        return localReducer(&globalState[keyPath: toLocalState], localAction, dependencies)
+            .map(embedAction)
+    }
+}
+
+/// Pull back reducers on optional state —
+/// the local reducer only runs while the local state is present.
+public func pullback<
+    LocalState,
+    LocalAction,
+    GlobalState,
+    GlobalAction
+>(
+    _ localReducer: @escaping Reducer<LocalState, LocalAction>,
+    state toLocalState: WritableKeyPath<GlobalState, LocalState?>,
+    action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
+    embedAction: @escaping (LocalAction) -> GlobalAction
+) -> Reducer<GlobalState, GlobalAction> {
+    { globalState, globalAction, dependencies in
+        // Only handle actions that map to the local domain
+        guard let localAction = toLocalAction(globalAction) else {
             return .none
         }
 
-        // Run the local reducer directly on that portion of state
-        let localEffect = localReducer(&globalState[keyPath: localKeyPath], localAction, dependencies)
+        // Ignore actions while the local state is absent
+        guard var localState = globalState[keyPath: toLocalState] else {
+            return .none
+        }
 
-        // Map local effect’s actions back into global ones
+        // Detach the local state while reducing so it stays uniquely referenced and mutates without copying
+        globalState[keyPath: toLocalState] = nil
+        let localEffect = localReducer(&localState, localAction, dependencies)
+        globalState[keyPath: toLocalState] = localState
         return localEffect.map(embedAction)
     }
 }
 
-private extension Effect {
+public extension Effect {
+    /// Transform the actions this effect produces
     func map<NewAction>(_ transform: @escaping (Action) -> NewAction) -> Effect<NewAction> {
         switch self {
         case .none:

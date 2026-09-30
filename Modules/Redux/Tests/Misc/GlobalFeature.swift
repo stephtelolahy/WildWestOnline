@@ -21,13 +21,13 @@ enum GlobalFeature {
         combine(
             pullback(
                 CounterFeature.reducer,
-                state: { _ in \.counter },
+                state: \.counter,
                 action: { if case let .counter(action) = $0 { action } else { nil } },
                 embedAction: Action.counter
             ),
             pullback(
                 FlagFeature.reducer,
-                state: { _ in \.flag },
+                state: \.flag,
                 action: { if case let .flag(action) = $0 { action } else { nil } },
                 embedAction: Action.flag
             )

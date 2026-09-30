@@ -47,7 +47,7 @@ public enum GameSessionFeature {
             reducerSound,
             pullback(
                 GameFeature.reducer,
-                state: { $0.game != nil ? \.game! : nil },
+                state: \.game,
                 action: { if case let .game(action) = $0 { action } else { nil } },
                 embedAction: Action.game
             )
