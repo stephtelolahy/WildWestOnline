@@ -64,7 +64,6 @@ struct AnimationMatcherTest {
         let animation = try #require(sut.animation(on: event))
 
         // Then
-        // swiftlint:disable:next todo
         // TODO: card id = top discard
         #expect(animation == .moveCard(.hidden, from: .deck, to: .discard))
     }
@@ -154,7 +153,6 @@ struct AnimationMatcherTest {
         let animation = try #require(sut.animation(on: event))
 
         // Then
-        // swiftlint:disable:next todo
         // TODO: card id = last discovered
         #expect(animation == .moveCard(.hidden, from: .deck, to: .discovered))
     }

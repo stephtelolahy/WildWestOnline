@@ -9,6 +9,7 @@ analyzer_rules:
   - unused_import
 disabled_rules:
 - blanket_disable_command
+- todo
 - strong_iboutlet
 - nesting
 - trailing_comma
