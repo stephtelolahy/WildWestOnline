@@ -50,11 +50,28 @@ jobs:
           unzip -q periphery.zip -d periphery-bin
           echo "$PWD/periphery-bin" >> "$GITHUB_PATH"
 
+      - name: Build SwiftPM package
+        # swift build can't compile asset catalogs, so index with xcodebuild
+        run: |
+          xcodebuild \
+            -workspace "Modules/" \
+            -scheme "WildWestOnline-Package" \
+            -destination "platform=macOS" \
+            -derivedDataPath .build/DerivedData \
+            -skipPackagePluginValidation \
+            build-for-testing
+
       - name: Scan SwiftPM package
         working-directory: Modules
+        shell: bash
         run: |
+          set -o pipefail
           periphery version
-          periphery scan --relative-results --format github-actions | tee ../periphery.txt
+          periphery scan \
+            --skip-build \
+            --index-store-path ../.build/DerivedData/Index.noindex/DataStore \
+            --relative-results \
+            --format github-actions | tee ../periphery.txt
           {
             echo "## Unused code (Periphery)"
             echo
