@@ -48,7 +48,7 @@ struct ReducerCompositionTest {
         #expect(effect2.isGroup())
     }
 
-    @Test func testAsyncEffectRunsCorrectly() async {
+    @Test func testAsyncEffectRunsCorrectly() async throws {
         var state = GlobalFeature.State(counter: .init(), flag: .init())
         var dependencies = Dependencies()
         dependencies.stepClient = .init(step: { 1 })
@@ -63,11 +63,11 @@ struct ReducerCompositionTest {
             return
         }
 
-        let nextAction = await asyncWork()
+        let nextAction = try #require(await asyncWork())
         #expect(nextAction == .counter(.incremented(1)))
 
         // Apply returned action manually to simulate dispatch
-        _ = GlobalFeature.reducer(&state, nextAction!, dependencies)
+        _ = GlobalFeature.reducer(&state, nextAction, dependencies)
         #expect(state.counter.count == 1)
     }
 

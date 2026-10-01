@@ -60,7 +60,7 @@ func dispatchUntilCompleted(
 
 private extension GameFeature {
     static var reducerChoice: Reducer<State, Action> {
-        { state, action, dependencies in
+        { state, _, dependencies in
             let state = state
             return .run {
                 guard let pendingChoice = state.pendingChoice else {
@@ -75,11 +75,11 @@ private extension GameFeature {
 }
 
 private func choiceHandlerFirstOption() -> ChoiceHandler {
-    return { $0[0] }
+    { $0[0] }
 }
 
 func choiceHandlerWithResponses(_ responses: [ChoiceResponse]) -> ChoiceHandler {
-    return { options in
+    { options in
         guard let matchingResponse = responses.first(where: { $0.options == options }) else {
             fatalError("Unexpected options: \(options)")
         }
