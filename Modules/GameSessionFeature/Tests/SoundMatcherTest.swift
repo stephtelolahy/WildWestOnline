@@ -12,107 +12,22 @@ import GameCore
 struct SoundMatcherTest {
     private let sut = SoundMatcher(specialSounds: [:])
 
-    @Test func soundOnEquip() async throws {
-        let event = GameFeature.Action.equip("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxShotGun)
-    }
-
-    @Test func soundOnHandicap() async throws {
-        let event = GameFeature.Action.handicap("c1", target: "p2", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxMetalLatch)
-    }
-
-    @Test func soundOnDrawDeck() async throws {
-        let event = GameFeature.Action.drawDeck(player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
-    }
-
-    @Test func soundOnDraw() async throws {
-        let event = GameFeature.Action.draw(player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
-    }
-
-    @Test func soundOnStealHand() async throws {
-        let event = GameFeature.Action.stealHand("c1", target: "p2", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlap)
-    }
-
-    @Test func soundOnStealInPlay() async throws {
-        let event = GameFeature.Action.stealInPlay("c1", target: "p2", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlap)
-    }
-
-    @Test func soundOnDrawDiscovered() async throws {
-        let event = GameFeature.Action.drawDiscovered("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
-    }
-
-    @Test func soundOnDrawDiscard() async throws {
-        let event = GameFeature.Action.drawDiscard("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
-    }
-
-    @Test func soundOnPassInPlay() async throws {
-        let event = GameFeature.Action.passInPlay("c1", target: "p2", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxFuseBurning)
-    }
-
-    @Test func soundOnDiscardHand() async throws {
-        let event = GameFeature.Action.discardHand("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxFly)
-    }
-
-    @Test func soundOnDiscardInPlay() async throws {
-        let event = GameFeature.Action.discardInPlay("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxFly)
-    }
-
-    @Test func soundOnDiscover() async throws {
-        let event = GameFeature.Action.discover()
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
-    }
-
-    @Test func soundOnShowHand() async throws {
-        let event = GameFeature.Action.showHand("c1", player: "p1")
-
-        let sound = try #require(sut.sfx(on: event))
-
-        #expect(sound == .sfxSlideClosed)
+    @Test(arguments: [
+        (.equip("c1", player: "p1"), .sfxShotGun),
+        (.handicap("c1", target: "p2", player: "p1"), .sfxMetalLatch),
+        (.drawDeck(player: "p1"), .sfxSlideClosed),
+        (.draw(player: "p1"), .sfxSlideClosed),
+        (.stealHand("c1", target: "p2", player: "p1"), .sfxSlap),
+        (.stealInPlay("c1", target: "p2", player: "p1"), .sfxSlap),
+        (.drawDiscovered("c1", player: "p1"), .sfxSlideClosed),
+        (.drawDiscard("c1", player: "p1"), .sfxSlideClosed),
+        (.passInPlay("c1", target: "p2", player: "p1"), .sfxFuseBurning),
+        (.discardHand("c1", player: "p1"), .sfxFly),
+        (.discardInPlay("c1", player: "p1"), .sfxFly),
+        (.discover(), .sfxSlideClosed),
+        (.showHand("c1", player: "p1"), .sfxSlideClosed)
+    ] as [(GameFeature.Action, String)])
+    func soundOnEvent(event: GameFeature.Action, expected: String) {
+        #expect(sut.sfx(on: event) == expected)
     }
 }
