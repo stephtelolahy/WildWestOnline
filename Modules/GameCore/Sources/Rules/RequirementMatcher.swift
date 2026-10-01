@@ -6,116 +6,51 @@
 //
 extension Card.Selector.Requirement {
     func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-        matcher.match(pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.Requirement {
-    protocol Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
-    }
-
-    var matcher: Matcher {
         switch self {
-        case .not(let req): Not(req: req)
-        case .playersAtLeast(let count): PlayersAtLeast(count: count)
-        case .playLimit(let limit): PlayLimit(limit: limit)
-        case .isHealthZero: IsHealthZero()
-        case .drawMatches(let regex): DrawMatches(regex: regex)
-        case .lastDrawnMatches(let regex): LastDrawnMatches(regex: regex)
-        case .isGameOver: IsGameOver()
-        case .isMyTurn: IsMyTurn()
-        }
-    }
+        case .not(let requirement):
+            return !requirement.match(pendingAction, state: state)
 
-    struct Not: Matcher {
-        let req: Card.Selector.Requirement
+        case .playersAtLeast(let count):
+            return state.playOrder.count >= count
 
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            !req.match(pendingAction, state: state)
-        }
-    }
-
-    struct PlayersAtLeast: Matcher {
-        let count: Int
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.playOrder.count >= count
-        }
-    }
-
-    struct PlayLimit: Matcher {
-        let limit: Int
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+        case .playLimit(let limit):
             let cardName = Card.name(of: pendingAction.sourceCard)
-            var playedCount = 0
-            for event in state.events {
-                if case .play = event.name {
-                    let playedName = Card.name(of: event.sourceCard)
-                    if playedName == cardName {
-                        playedCount += 1
-                    }
-                } else if case .startTurn = event.name {
-                    break
-                }
-            }
-
+            let playedCount = state.events
+                .prefix { $0.name != .startTurn }
+                .count { $0.name == .play && Card.name(of: $0.sourceCard) == cardName }
             return playedCount < limit
-        }
-    }
 
-    struct IsHealthZero: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.players.get(pendingAction.sourcePlayer).health <= 0
-        }
-    }
+        case .isHealthZero:
+            return state.players.get(pendingAction.sourcePlayer).health <= 0
 
-    struct DrawMatches: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let count = state.drawnCardsCount()
+        case .drawMatches(let regex):
             return state.discard
-                .prefix(count)
+                .prefix(state.drawnCardsCount())
                 .contains { $0.matches(regex: regex) }
-        }
-    }
 
-    struct LastDrawnMatches: Matcher {
-        let regex: String
-
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer
-            guard let card = state.players.get(player).hand.last else {
+        case .lastDrawnMatches(let regex):
+            guard let card = state.players.get(pendingAction.sourcePlayer).hand.last else {
                 fatalError("Missing last card in hand")
             }
 
             return card.matches(regex: regex)
-        }
-    }
 
-    struct IsGameOver: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.playOrder.count <= 1
-        }
-    }
+        case .isGameOver:
+            return state.playOrder.count <= 1
 
-    struct IsMyTurn: Matcher {
-        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.turn == pendingAction.sourcePlayer
+        case .isMyTurn:
+            return state.turn == pendingAction.sourcePlayer
         }
     }
 }
 
 private extension String {
     func matches(regex pattern: String) -> Bool {
-        if let regex = try? Regex(pattern),
-           ranges(of: regex).isNotEmpty {
-            return true
-        } else {
+        guard let regex = try? Regex(pattern) else {
             return false
         }
+
+        return ranges(of: regex).isNotEmpty
     }
 }
 

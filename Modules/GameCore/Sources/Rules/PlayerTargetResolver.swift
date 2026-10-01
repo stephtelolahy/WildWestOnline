@@ -7,82 +7,32 @@
 
 extension Card.Selector.PlayerTarget {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-        resolver.resolve(pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.PlayerTarget {
-    protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]?
-    }
-
-    var resolver: Resolver {
+        let current = pendingAction.sourcePlayer
+        let parentAction = pendingAction.triggeredBy.first
         switch self {
-        case .next: Next()
-        case .attacker: Attacker()
-        case .myself: Myself()
-        case .trigger: Trigger()
-        case .every(let group): Every(group: group)
-        }
-    }
-
-    struct Next: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            let current = pendingAction.sourcePlayer
+        case .next:
             let orderedPlayers = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)
-            guard orderedPlayers.count >= 2 else {
-                return nil
-            }
+            return orderedPlayers.count >= 2 ? [orderedPlayers[1]] : nil
 
-            return [orderedPlayers[1]]
-        }
-    }
-
-    struct Attacker: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let parentAction = pendingAction.triggeredBy.first,
-                  parentAction.name == .damage else {
+        case .attacker:
+            guard let parentAction, parentAction.name == .damage else {
                 fatalError("Expected trigger from damage")
             }
 
             let damagingPlayer = parentAction.sourcePlayer
-            guard damagingPlayer != parentAction.targetedPlayer else {
-                return nil
-            }
+            return damagingPlayer != parentAction.targetedPlayer ? [damagingPlayer] : nil
 
-            return [damagingPlayer]
-        }
-    }
+        case .myself:
+            return [current]
 
-    struct Myself: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            [pendingAction.sourcePlayer]
-        }
-    }
+        case .trigger:
+            return parentAction?.targetedPlayer.map { [$0] }
 
-    struct Trigger: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let parentAction = pendingAction.triggeredBy.first,
-                  let targetedPlayer = parentAction.targetedPlayer else {
-                return nil
-            }
-
-            return [targetedPlayer]
-        }
-    }
-
-    struct Every: Resolver {
-        let group: Card.Selector.PlayerGroup
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
+        case .every(let group):
             let targets = group.resolve(pendingAction, state: state)
-            guard targets.isNotEmpty else {
-                return nil
-            }
-
-            return targets
+            return targets.isNotEmpty ? targets : nil
         }
     }
 }

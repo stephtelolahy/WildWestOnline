@@ -1,14 +1,16 @@
 //
-//  SettingsAbilitiesView.swift
+//  SettingsCardsView.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 28/02/2026.
+//  Created by Stephano Hugues TELOLAHY on 07/09/2024.
 //
+
 import SwiftUI
 import Redux
+import CardResources
 
-struct SettingsAbilitiesView: View {
-    typealias ViewStore = Store<SettingsAbilitiesFeature.State, SettingsAbilitiesFeature.Action>
+struct SettingsCardsView: View {
+    typealias ViewStore = Store<SettingsCardsFeature.State, SettingsCardsFeature.Action>
 
     @StateObject private var store: ViewStore
 
@@ -25,15 +27,15 @@ struct SettingsAbilitiesView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .navigationTitle("Abilities")
+        .navigationTitle(store.state.kind == .abilities ? "Abilities" : "Collectibles")
         .task {
             await store.dispatch(.didAppear)
         }
     }
 
-    func rowView(card: SettingsAbilitiesFeature.State.Card) -> some View {
+    func rowView(card: SettingsCardsFeature.State.Card) -> some View {
         HStack(alignment: .top) {
-            Image(systemName: "circle.square")
+            image(for: card)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 67, height: 100)
@@ -46,24 +48,32 @@ struct SettingsAbilitiesView: View {
         }
         .foregroundStyle(.foreground)
     }
+
+    private func image(for card: SettingsCardsFeature.State.Card) -> Image {
+        switch store.state.kind {
+        case .collectibles: Image(card.name, bundle: .cardResources)
+        case .abilities: Image(systemName: "circle.square")
+        }
+    }
 }
 
 #Preview {
     NavigationStack {
-        SettingsAbilitiesView {
+        SettingsCardsView {
             .init(
                 initialState: .init(
+                    kind: .collectibles,
                     cards: [
                         .init(
-                            name: "ability-1",
+                            name: .bang,
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         ),
                         .init(
-                            name: "ability-2",
+                            name: .missed,
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         ),
                         .init(
-                            name: "ability-3",
+                            name: .dodge,
                             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                         )
                     ]

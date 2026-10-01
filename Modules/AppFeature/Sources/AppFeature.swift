@@ -73,7 +73,6 @@ public enum AppFeature {
         )
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     private static func reducerMain(
         into state: inout State,
         action: Action,

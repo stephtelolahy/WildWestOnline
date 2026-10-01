@@ -7,80 +7,38 @@
 
 extension Card.Selector.CardRequirement {
     func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
-        try resolver.resolve(pendingAction: pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.CardRequirement {
-    protocol Resolver {
-        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt
-    }
-
-    var resolver: Resolver {
+        let target = pendingAction.requiredTarget
         switch self {
-        case .fromTarget(let conditions): FromTarget(conditions: conditions)
-        case .fromDiscovered: FromDiscovered()
-        case .topDiscard: TopDiscard()
-        }
-    }
-
-    struct FromTarget: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
+        case .fromTarget(let conditions):
             let player = pendingAction.sourcePlayer
             let targetObj = state.players.get(target)
-
-            var options: [Card.Selector.ChoicePrompt.Option] = []
-
-            options += targetObj.inPlay.map {
-                .init(id: $0, label: $0)
+            let inPlayOptions: [Card.Selector.ChoicePrompt.Option] = targetObj.inPlay.map { .init(id: $0, label: $0) }
+            let handOptions: [Card.Selector.ChoicePrompt.Option] = targetObj.hand.enumerated().map { index, card in
+                .init(id: card, label: player == target ? card : "\(String.choiceHiddenHand)-\(index)")
             }
-
-            options += targetObj.hand.indices.map {
-                let value = targetObj.hand[$0]
-                let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
-                return .init(id: value, label: label)
-            }
-
-            options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
-
+            let options = (inPlayOptions + handOptions).filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
             guard options.isNotEmpty else {
                 throw .noChoosableCard(conditions, player: target)
             }
 
-            return Card.Selector.ChoicePrompt(chooser: player, options: options)
-        }
-    }
+            return .init(chooser: player, options: options)
 
-    struct FromDiscovered: Resolver {
-        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+        case .fromDiscovered:
+            return .init(chooser: target, options: state.discovered.map { .init(id: $0, label: $0) })
 
-            return Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: state.discovered.map { .init(id: $0, label: $0) }
-            )
-        }
-    }
-
-    struct TopDiscard: Resolver {
-        func resolve(pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> Card.Selector.ChoicePrompt {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
+        case .topDiscard:
             guard let topDiscard = state.discard.first else {
                 throw .insufficientDiscard
             }
 
-            return Card.Selector.ChoicePrompt(
-                chooser: target,
-                options: [
-                    .init(id: topDiscard, label: topDiscard),
-                    .init(id: .choicePass, label: .choicePass)
-                ]
-            )
+            return .init(chooser: target, choices: [topDiscard])
         }
+    }
+}
+
+extension Card.Selector.ChoicePrompt {
+    /// Prompt where each choice is its own label, followed by a pass option
+    init(chooser: String, choices: [String]) {
+        self.init(chooser: chooser, options: (choices + [.choicePass]).map { .init(id: $0, label: $0) })
     }
 }

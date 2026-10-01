@@ -13,8 +13,8 @@ public enum SettingsFeature {
 
         var home: SettingsHomeFeature.State
         var figures: SettingsFiguresFeature.State?
-        var collectibles: SettingsCollectiblesFeature.State?
-        var abilities: SettingsAbilitiesFeature.State?
+        var collectibles: SettingsCardsFeature.State?
+        var abilities: SettingsCardsFeature.State?
 
         public enum Destination: Hashable, Sendable {
             case figures
@@ -26,8 +26,8 @@ public enum SettingsFeature {
             path: [Destination] = [],
             home: SettingsHomeFeature.State = .init(),
             figures: SettingsFiguresFeature.State? = nil,
-            collectibles: SettingsCollectiblesFeature.State? = nil,
-            abilities: SettingsAbilitiesFeature.State? = nil,
+            collectibles: SettingsCardsFeature.State? = nil,
+            abilities: SettingsCardsFeature.State? = nil,
         ) {
             self.path = path
             self.home = home
@@ -44,8 +44,8 @@ public enum SettingsFeature {
         // Internal
         case home(SettingsHomeFeature.Action)
         case figures(SettingsFiguresFeature.Action)
-        case collectibles(SettingsCollectiblesFeature.Action)
-        case abilities(SettingsAbilitiesFeature.Action)
+        case collectibles(SettingsCardsFeature.Action)
+        case abilities(SettingsCardsFeature.Action)
     }
 
     public static var reducer: Reducer<State, Action> {
@@ -64,13 +64,13 @@ public enum SettingsFeature {
                 embedAction: Action.figures
             ),
             pullback(
-                SettingsCollectiblesFeature.reducer,
+                SettingsCardsFeature.reducer,
                 state: \.collectibles,
                 action: { if case let .collectibles(action) = $0 { action } else { nil } },
                 embedAction: Action.collectibles
             ),
             pullback(
-                SettingsAbilitiesFeature.reducer,
+                SettingsCardsFeature.reducer,
                 state: \.abilities,
                 action: { if case let .abilities(action) = $0 { action } else { nil } },
                 embedAction: Action.abilities
@@ -78,7 +78,6 @@ public enum SettingsFeature {
         )
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     private static func reducerMain(
         into state: inout State,
         action: Action,
@@ -94,13 +93,13 @@ public enum SettingsFeature {
                 state.figures = nil
             }
             if path.contains(.collectibles) && state.collectibles == nil {
-                state.collectibles = .init()
+                state.collectibles = .init(kind: .collectibles)
             }
             if !path.contains(.collectibles) && state.collectibles != nil {
                 state.collectibles = nil
             }
             if path.contains(.abilities) && state.abilities == nil {
-                state.abilities = .init()
+                state.abilities = .init(kind: .abilities)
             }
             if !path.contains(.abilities) && state.abilities != nil {
                 state.abilities = nil

@@ -55,12 +55,12 @@ public struct SettingsView: View {
             }
 
         case .collectibles:
-            SettingsCollectiblesView {
+            SettingsCardsView {
                 store.projection(state: \.collectibles, action: { .collectibles($0) })
             }
 
         case .abilities:
-            SettingsAbilitiesView {
+            SettingsCardsView {
                 store.projection(state: \.abilities, action: { .abilities($0) })
             }
         }
