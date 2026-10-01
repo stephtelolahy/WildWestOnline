@@ -59,10 +59,20 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder = { $0 }) -> Self {
+        public func withPlayer(
+            _ id: String,
+            figure: [String] = [],
+            health: Int = 0,
+            hand: [String] = [],
+            inPlay: [String] = [],
+            builderFunc: (Player.Builder) -> Player.Builder = { $0 }
+        ) -> Self {
             let builder = Player.makeBuilder()
-            _ = builderFunc(builder)
-            players[id] = builder.build()
+                .withFigure(figure)
+                .withHealth(health)
+                .withHand(hand)
+                .withInPlay(inPlay)
+            players[id] = builderFunc(builder).build()
             playOrder.append(id)
             startOrder.append(id)
             return self

@@ -10,37 +10,24 @@ import GameCore
 
 struct EquipTest {
     @Test func equip_shouldPutCardInPlay() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-            }
+            .withPlayer("p1", hand: ["c1", "c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.equip("c1", player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.equip("c1", player: "p1"), state: state)
 
-        // Then
         #expect(result.players.get("p1").hand == ["c2"])
         #expect(result.players.get("p1").inPlay == ["c1"])
         #expect(result.discard.isEmpty)
     }
 
     @Test func equip_withCardAlreadyInPlay_shouldThrowError() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c-1"])
-                    .withInPlay(["c-2"])
-            }
+            .withPlayer("p1", hand: ["c-1"], inPlay: ["c-2"])
             .build()
 
-        // When
-        // Then
-        let action = GameFeature.Action.equip("c-1", player: "p1")
         await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c", player: "p1")) {
-            try await dispatch(action, state: state)
+            try await dispatch(.equip("c-1", player: "p1"), state: state)
         }
     }
 }

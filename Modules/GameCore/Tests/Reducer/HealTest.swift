@@ -10,7 +10,6 @@ import GameCore
 
 struct HealTest {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
@@ -18,16 +17,12 @@ struct HealTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.heal(1, player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.heal(1, player: "p1"), state: state)
 
-        // Then
         #expect(result.players.get("p1").health == 3)
     }
 
     @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
@@ -35,16 +30,12 @@ struct HealTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.heal(2, player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.heal(2, player: "p1"), state: state)
 
-        // Then
         #expect(result.players.get("p1").health == 4)
     }
 
     @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
@@ -52,16 +43,12 @@ struct HealTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.heal(3, player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.heal(3, player: "p1"), state: state)
 
-        // Then
         #expect(result.players.get("p1").health == 4)
     }
 
     @Test func heal_alreadyMaxHealth_shouldThrowError() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(4)
@@ -69,11 +56,8 @@ struct HealTest {
             }
             .build()
 
-        // When
-        // Then
-        let action = GameFeature.Action.heal(1, player: "p1")
         await #expect(throws: GameFeature.Error.playerAlreadyMaxHealth("p1")) {
-            try await dispatch(action, state: state)
+            try await dispatch(.heal(1, player: "p1"), state: state)
         }
     }
 }

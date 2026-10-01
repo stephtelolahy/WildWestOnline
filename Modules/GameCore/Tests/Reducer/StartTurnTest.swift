@@ -10,15 +10,11 @@ import GameCore
 
 struct StartTurnTest {
     @Test func startTurn_shouldSetTurn() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .build()
 
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.startTurn(player: "p1"), state: state)
 
-        // Then
         #expect(result.turn == "p1")
     }
 }

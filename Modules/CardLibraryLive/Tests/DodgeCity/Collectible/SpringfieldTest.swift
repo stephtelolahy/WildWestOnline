@@ -10,22 +10,15 @@ import GameCore
 
 struct SpringfieldTest {
     @Test func play_shouldShootAtUnlimitedRange() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand(["c1", .springfield])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: ["c1", .springfield])
             .withPlayer("p2") {
                 $0.withRemoteness(1)
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.springfield, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.springfield, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.springfield, player: "p1"),
             .choose("c1", player: "p1"),
@@ -38,22 +31,16 @@ struct SpringfieldTest {
     }
 
     @Test func play_withoutCostCard_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.springfield])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.springfield])
             .withPlayer("p2") {
                 $0.withRemoteness(1)
             }
             .build()
 
-        // When
         // Assert
-        let action = GameFeature.Action.preparePlay(.springfield, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.springfield, player: "p1"), state: state)
         }
     }
 }

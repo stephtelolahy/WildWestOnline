@@ -10,19 +10,12 @@ import GameCore
 
 struct MustangTest {
     @Test func play_shouldEquipAndIncreaseRemoteness() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.mustang])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.mustang])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.mustang, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.mustang, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.mustang, player: "p1"),
             .equip(.mustang, player: "p1"),
@@ -31,20 +24,15 @@ struct MustangTest {
     }
 
     @Test func discard_shouldDecreaseRemoteness() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.mustang])
                     .withRemoteness(1)
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.discardInPlay(.mustang, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.discardInPlay(.mustang, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .discardInPlay(.mustang, player: "p1"),
             .increaseRemoteness(-1, player: "p1")

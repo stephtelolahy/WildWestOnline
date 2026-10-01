@@ -11,7 +11,6 @@ import CardResources
 
 struct ActivatePlayableCardsTest {
     @Test func idle_withPlayableCards_shouldActivate() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
@@ -25,20 +24,15 @@ struct ActivatePlayableCardsTest {
             .withShowPlayableCards(true)
             .build()
 
-        // When
-        let action = GameFeature.Action.dummy()
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.dummy(), state: state)
 
-        // Then
         #expect(result == [
             .activate([.saloon, .gatling, .endTurn], player: "p1")
         ])
     }
 
     @Test func idle_withoutPlayableCards_shouldDoNothing() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer, .missed])
                     .withMaxHealth(4)
@@ -50,11 +44,8 @@ struct ActivatePlayableCardsTest {
             .withShowPlayableCards(true)
             .build()
 
-        // When
-        let action = GameFeature.Action.dummy()
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.dummy(), state: state)
 
-        // Then
         #expect(result.isEmpty)
     }
 }

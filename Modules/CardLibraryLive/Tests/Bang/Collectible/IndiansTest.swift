@@ -10,23 +10,14 @@ import GameCore
 
 struct IndiansTest {
     @Test func play_shouldAllowEachPlayerToCounterOrPass() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.indians])
-            }
-            .withPlayer("p2") {
-                $0.withHand([.bang])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.indians])
+            .withPlayer("p2", hand: [.bang])
             .withPlayer("p3")
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.indians, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.indians, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.indians, player: "p1"),
             .play(.indians, player: "p1"),

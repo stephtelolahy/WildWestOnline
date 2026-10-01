@@ -10,22 +10,13 @@ import GameCore
 
 struct PanicTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.panic])
-            }
-            .withPlayer("p2") {
-                $0.withHand(["c21"])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.panic])
+            .withPlayer("p2", hand: ["c21"])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.panic, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.panic, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
@@ -36,27 +27,18 @@ struct PanicTest {
     }
 
     @Test func play_targetHavingInPlayCards_shouldChooseInPlayCard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c21", "c22"])
-            .withPlayer("p1") {
-                $0.withHand([.panic])
-            }
-            .withPlayer("p2") {
-                $0.withInPlay(["c21", "c22"])
-            }
+            .withPlayer("p1", hand: [.panic])
+            .withPlayer("p2", inPlay: ["c21", "c22"])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.panic, player: "p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: ["p2", .choicePass], selection: "p2"),
             .init(options: ["c21", "c22"], selection: "c22")
         ])
-        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(.preparePlay(.panic, player: "p1"), state: state, choiceHandler: choiceHandler)
 
-        // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
@@ -67,28 +49,18 @@ struct PanicTest {
     }
 
     @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c22", "c23"])
-            .withPlayer("p1") {
-                $0.withHand([.panic])
-            }
-            .withPlayer("p2") {
-                $0.withHand(["c21"])
-                    .withInPlay(["c22", "c23"])
-            }
+            .withPlayer("p1", hand: [.panic])
+            .withPlayer("p2", hand: ["c21"], inPlay: ["c22", "c23"])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.panic, player: "p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: ["p2", .choicePass], selection: "p2"),
             .init(options: ["c22", "c23", "hiddenHand-0"], selection: "c23")
         ])
-        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(.preparePlay(.panic, player: "p1"), state: state, choiceHandler: choiceHandler)
 
-        // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
             .choose("p2", player: "p1"),
@@ -99,19 +71,12 @@ struct PanicTest {
     }
 
     @Test func play_noTarget_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.panic])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.panic])
             .build()
 
-        // When
-        // Then
-        let action = GameFeature.Action.preparePlay(.panic, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableTarget([.atDistance(1), .hasCards])) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.panic, player: "p1"), state: state)
         }
     }
 }

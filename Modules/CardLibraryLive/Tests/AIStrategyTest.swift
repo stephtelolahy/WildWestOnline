@@ -11,9 +11,7 @@ import CardResources
 
 struct AIStrategyTest {
     @Test func evaluateBestMove_amongPlayingCard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .build()
         let possibleMoves: [GameFeature.Action] = [
@@ -23,17 +21,13 @@ struct AIStrategyTest {
         ]
         let sut = AIStrategy()
 
-        // When
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
-        // Then
         #expect(bestMove == .preparePlay(.bang, player: "p1"))
     }
 
     @Test func evaluateBestMove_amongChoosingAnItem() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .build()
         let possibleMoves: [GameFeature.Action] = [
             .choose(.choicePass, player: "p1"),
@@ -41,10 +35,8 @@ struct AIStrategyTest {
         ]
         let sut = AIStrategy()
 
-        // When
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
-        // Then
         #expect(bestMove == .choose(.missed, player: "p1"))
     }
 }

@@ -10,19 +10,13 @@ import GameCore
 
 struct PlayTest {
     @Test func play_shouldRemoveCardFromHand() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-            }
+            .withPlayer("p1", hand: ["c1", "c2"])
             .withCards(["c1": Card(name: "c1", type: .collectible)])
             .build()
 
-        // When
-        let action = GameFeature.Action.play("c1", player: "p1")
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.play("c1", player: "p1"), state: state)
 
-        // Then
         #expect(result.players.get("p1").hand == ["c2"])
         #expect(result.discard == ["c1"])
     }

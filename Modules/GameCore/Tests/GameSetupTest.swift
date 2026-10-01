@@ -11,7 +11,6 @@ import Testing
 struct GameSetupTest {
     // swiftlint:disable:next function_body_length
     @Test func setupGame() async throws {
-        // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
         let cards: [String: Card] = [
@@ -57,7 +56,6 @@ struct GameSetupTest {
             )
         ]
 
-        // When
         let state = GameSetup.buildGame(
             figures: figures,
             deck: deck,
@@ -65,7 +63,6 @@ struct GameSetupTest {
             auras: ["a1", "a2"]
         )
 
-        // Then
         // should create a game with given player number
         #expect(state.players.count == 2)
         #expect(state.playOrder.contains(["p1", "p2"]))

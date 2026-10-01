@@ -10,54 +10,39 @@ import Testing
 
 struct PreparePlayTest {
     @Test func preparePlay_shouldQueueEffects() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c-2❤️"])
-            }
+            .withPlayer("p1", hand: ["c-2❤️"])
             .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .prePlayed, action: .play)])])
             .build()
 
-        // When
         let action = GameFeature.Action.preparePlay("c-2❤️", player: "p1")
         let result = try await dispatch(action, state: state)
 
-        // Then
         #expect(result.queue.count == 1)
     }
 
     @Test func preparePlay_shouldResetPlayable() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c-2❤️"])
-            }
+            .withPlayer("p1", hand: ["c-2❤️"])
             .withCards(["c": Card(name: "c", type: .collectible, effects: [.init(trigger: .prePlayed, action: .play)])])
             .withPlayable(["c-2❤️"], player: "p1")
             .build()
 
-        // When
         let action = GameFeature.Action.preparePlay("c-2❤️", player: "p1")
         let result = try await dispatch(action, state: state)
 
-        // Then
         #expect(result.playable == nil)
     }
 
     @Test func preparePlay_withoutEffects_shouldThrowError() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-            }
+            .withPlayer("p1", hand: ["c1", "c2"])
             .withCards(["c1": Card(name: "c1", type: .collectible)])
             .build()
 
-        // When
         // Assert
-        let action = GameFeature.Action.preparePlay("c1", player: "p1")
         await #expect(throws: GameFeature.Error.cardNotPlayable("c1")) {
-            try await dispatch(action, state: state)
+            try await dispatch(.preparePlay("c1", player: "p1"), state: state)
         }
     }
 }

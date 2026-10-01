@@ -9,16 +9,12 @@ import GameCore
 
 struct UndiscoverTest {
     @Test func undiscover_shouldResetDiscoveredCards() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withDiscovered(["c1", "c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.undiscover()
-        let result = try await dispatch(action, state: state)
+        let result = try await dispatch(.undiscover(), state: state)
 
-        // Then
         #expect(result.discovered.isEmpty)
     }
 }

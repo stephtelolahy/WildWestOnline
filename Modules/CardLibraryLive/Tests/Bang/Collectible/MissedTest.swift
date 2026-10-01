@@ -10,22 +10,16 @@ import GameCore
 
 struct MissedTest {
     @Test func beingShot_discardingMissed_shouldCounter() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHand([.missed1, .missed2])
-            }
+            .withPlayer("p1", hand: [.missed1, .missed2])
             .build()
 
-        // When
-        let action = GameFeature.Action.shoot("p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: [.missed1, .missed2, .choicePass], selection: .missed2)
         ])
-        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state, choiceHandler: choiceHandler)
 
-        // Then
         #expect(result == [
             .shoot("p1"),
             .choose(.missed2, player: "p1"),
@@ -35,23 +29,16 @@ struct MissedTest {
     }
 
     @Test func beingShot_choosingPass_shouldDealDamage() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHealth(2)
-                    .withHand([.missed])
-            }
+            .withPlayer("p1", health: 2, hand: [.missed])
             .build()
 
-        // When
-        let action = GameFeature.Action.shoot("p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: [.missed, .choicePass], selection: .choicePass)
         ])
-        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state, choiceHandler: choiceHandler)
 
-        // Then
         #expect(result == [
             .shoot("p1"),
             .choose(.choicePass, player: "p1"),
@@ -60,19 +47,13 @@ struct MissedTest {
     }
 
     @Test func beingShot_noCounterCard_shouldDealDamage() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHealth(2)
-            }
+            .withPlayer("p1", health: 2)
             .build()
 
-        // When
-        let action = GameFeature.Action.shoot("p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state, ignoreError: true)
 
-        // Then
         #expect(result == [
             .shoot("p1"),
             .damage(1, player: "p1")

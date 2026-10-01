@@ -10,18 +10,14 @@ import GameCore
 
 struct Draw2CardsOnTurnStartedTest {
     @Test func startTurn_shouldDraw2Cards() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1")
             .withDeck(["c1", "c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),

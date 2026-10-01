@@ -10,19 +10,12 @@ import GameCore
 
 struct ScopeTest {
     @Test func play_shouldEquipAndIncreaseMagnifying() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.scope])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.scope])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.scope, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.scope, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.scope, player: "p1"),
             .equip(.scope, player: "p1"),
@@ -31,20 +24,15 @@ struct ScopeTest {
     }
 
     @Test func discard_shouldDecreaseMagnifying() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.scope])
                     .withMagnifying(1)
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.discardInPlay(.scope, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.discardInPlay(.scope, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .discardInPlay(.scope, player: "p1"),
             .increaseMagnifying(-1, player: "p1")

@@ -11,7 +11,6 @@ import Combine
 @MainActor
 struct StoreTest {
     @Test func dispatchValidAction_shouldEmitNewState() async throws {
-        // Given
         let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
@@ -21,25 +20,20 @@ struct StoreTest {
             }
         )
 
-        // When
         let received = await sut.receive(.fetchRecent)
 
-        // Then
         #expect(sut.state.searchResult == ["recent"])
         #expect(received == [.setSearchResults(items: ["recent"])])
     }
 
     @Test func dispatchInvalidAction_shouldNotUpdateState() async throws {
-        // Given
         let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer
         )
 
-        // When
         await sut.dispatch(.search(query: ""))
 
-        // Then
         #expect(sut.state.searchResult.isEmpty)
     }
 

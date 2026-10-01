@@ -10,21 +10,14 @@ import GameCore
 
 struct GatlingTest {
     @Test func play_shouldDamageOtherPlayers() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.gatling])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.gatling])
             .withPlayer("p2")
             .withPlayer("p3")
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.gatling, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.gatling, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.gatling, player: "p1"),
             .play(.gatling, player: "p1"),

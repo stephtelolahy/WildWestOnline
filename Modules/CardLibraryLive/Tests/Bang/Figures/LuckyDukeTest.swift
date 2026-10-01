@@ -9,20 +9,13 @@ import GameCore
 
 struct LuckyDukeTest {
     @Test func drawing_shouldFlipped2Cards() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withFigure([.luckyDuke])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", figure: [.luckyDuke])
             .withDeck(["c1", "c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.draw(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.draw(player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .draw(player: "p1"),
             .draw(player: "p1")

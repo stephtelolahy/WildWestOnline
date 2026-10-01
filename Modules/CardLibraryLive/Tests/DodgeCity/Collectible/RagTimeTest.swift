@@ -10,22 +10,13 @@ import GameCore
 
 struct RagTimeTest {
     @Test func play_shouldStealHandCardFromAnyPlayer() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand(["c1", .ragTime])
-            }
-            .withPlayer("p2") {
-                $0.withHand(["c2"])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: ["c1", .ragTime])
+            .withPlayer("p2", hand: ["c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.ragTime, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.ragTime, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.ragTime, player: "p1"),
             .choose("c1", player: "p1"),
@@ -38,23 +29,14 @@ struct RagTimeTest {
     }
 
     @Test func play_shouldStealInPlayCardFromAnyPlayer() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand(["c1", .ragTime])
-            }
-            .withPlayer("p2") {
-                $0.withInPlay(["c2"])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: ["c1", .ragTime])
+            .withPlayer("p2", inPlay: ["c2"])
             .withDummyCards(["c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.ragTime, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.ragTime, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.ragTime, player: "p1"),
             .choose("c1", player: "p1"),
@@ -67,22 +49,14 @@ struct RagTimeTest {
     }
 
     @Test func play_withoutCostCard_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.ragTime])
-            }
-            .withPlayer("p2") {
-                $0.withHand(["c2"])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.ragTime])
+            .withPlayer("p2", hand: ["c2"])
             .build()
 
-        // When
         // Assert
-        let action = GameFeature.Action.preparePlay(.ragTime, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.ragTime, player: "p1"), state: state)
         }
     }
 }

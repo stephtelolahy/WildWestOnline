@@ -10,9 +10,7 @@ import Testing
 
 struct CalamityJanetTest {
     @Test func playingBang_shouldShoot() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.calamityJanet])
                     .withHand([.bang])
@@ -21,11 +19,8 @@ struct CalamityJanetTest {
             .withPlayer("p2")
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.bang, player: "p1"),
             .choose("p2", player: "p1"),
@@ -36,9 +31,7 @@ struct CalamityJanetTest {
     }
 
     @Test func playingMissed_shouldShoot() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.calamityJanet])
                     .withHand([.missed])
@@ -47,11 +40,8 @@ struct CalamityJanetTest {
             .withPlayer("p2")
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.missed, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.missed, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.missed, player: "p1"),
             .choose("p2", player: "p1"),
@@ -62,20 +52,13 @@ struct CalamityJanetTest {
     }
 
     @Test func beingShot_holdingMissed_shouldAskToCounter() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withFigure([.calamityJanet])
-                .withHand([.missed])
-            }
+            .withPlayer("p1", figure: [.calamityJanet], hand: [.missed])
             .build()
 
-        // When
-        let action = GameFeature.Action.shoot("p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
 
-        // Then
         #expect(result == [
             .shoot("p1"),
             .choose(.missed, player: "p1"),
@@ -85,20 +68,13 @@ struct CalamityJanetTest {
     }
 
     @Test func beingShot_holdingBang_shouldAskToCounter() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withFigure([.calamityJanet])
-                .withHand([.bang])
-            }
+            .withPlayer("p1", figure: [.calamityJanet], hand: [.bang])
             .build()
 
-        // When
-        let action = GameFeature.Action.shoot("p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
 
-        // Then
         #expect(result == [
             .shoot("p1"),
             .choose(.bang, player: "p1"),

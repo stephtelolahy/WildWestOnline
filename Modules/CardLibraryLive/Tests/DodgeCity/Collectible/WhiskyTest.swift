@@ -10,9 +10,7 @@ import GameCore
 
 struct WhiskyTest {
     @Test func play_shouldHeal2() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", .whisky])
                     .withHealth(1)
@@ -20,11 +18,8 @@ struct WhiskyTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.whisky, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.whisky, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.whisky, player: "p1"),
             .choose("c1", player: "p1"),
@@ -35,9 +30,7 @@ struct WhiskyTest {
     }
 
     @Test func play_withoutCostCard_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.whisky])
                     .withHealth(1)
@@ -45,11 +38,9 @@ struct WhiskyTest {
             }
             .build()
 
-        // When
         // Assert
-        let action = GameFeature.Action.preparePlay(.whisky, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.whisky, player: "p1"), state: state)
         }
     }
 }

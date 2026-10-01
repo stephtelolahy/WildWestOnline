@@ -10,20 +10,14 @@ import Testing
 
 struct BlackJackTest {
     @Test func startingTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withFigure([.blackJack])
-            }
+            .withPlayer("p1", figure: [.blackJack])
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
 
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
@@ -34,20 +28,14 @@ struct BlackJackTest {
     }
 
     @Test func startingTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withFigure([.blackJack])
-            }
+            .withPlayer("p1", figure: [.blackJack])
             .withDeck(["c1", "c2-A♠️"])
             .build()
 
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),

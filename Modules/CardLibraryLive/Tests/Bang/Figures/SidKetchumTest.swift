@@ -10,9 +10,7 @@ import Testing
 
 struct SidKetchumTest {
     @Test func playing_withTwoCards_shouldDiscardThemAndGainHealth() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
@@ -21,11 +19,8 @@ struct SidKetchumTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.sidKetchum, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.sidKetchum, player: "p1"),
             .choose("c1", player: "p1"),
@@ -37,9 +32,7 @@ struct SidKetchumTest {
     }
 
     @Test func playing_withThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
@@ -48,11 +41,8 @@ struct SidKetchumTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.sidKetchum, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.sidKetchum, player: "p1"),
             .choose("c1", player: "p1"),
@@ -64,9 +54,7 @@ struct SidKetchumTest {
     }
 
     @Test func playing_withoutCard_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
@@ -74,18 +62,13 @@ struct SidKetchumTest {
             }
             .build()
 
-        // When
-        // Then
-        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.sidKetchum, player: "p1"), state: state)
         }
     }
 
     @Test func playing_alreadyMaxHealth_shouldThrowError() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.sidKetchum])
                     .withMaxHealth(4)
@@ -94,11 +77,8 @@ struct SidKetchumTest {
             }
             .build()
 
-        // When
-        // Then
-        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         await #expect(throws: GameFeature.Error.playerAlreadyMaxHealth("p1")) {
-            try await dispatchUntilCompleted(action, state: state)
+            try await dispatchUntilCompleted(.preparePlay(.sidKetchum, player: "p1"), state: state)
         }
     }
 }

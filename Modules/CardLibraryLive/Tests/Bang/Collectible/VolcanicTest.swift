@@ -9,9 +9,7 @@ import GameCore
 
 struct VolcanicTest {
     @Test func equiped_shouldPlayBangIgnoringLimitPerTurn() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang2])
                     .withWeapon(1)
@@ -25,11 +23,8 @@ struct VolcanicTest {
             ])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.bang2, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.bang2, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.bang2, player: "p1"),
             .choose("p2", player: "p1"),

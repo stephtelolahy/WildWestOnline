@@ -10,19 +10,12 @@ import GameCore
 
 struct RemingtonTest {
     @Test func playRemington_shouldEquipAndSetWeapon() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.remington])
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", hand: [.remington])
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.remington, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.remington, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.remington, player: "p1"),
             .equip(.remington, player: "p1"),

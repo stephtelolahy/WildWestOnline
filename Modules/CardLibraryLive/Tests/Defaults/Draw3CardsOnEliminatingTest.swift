@@ -10,22 +10,16 @@ import GameCore
 
 struct Draw3CardsOnEliminatingTest {
     @Test func eliminating_shouldDraw2Cards() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1")
-            .withPlayer("p2") {
-                $0.withHealth(1)
-            }
+            .withPlayer("p2", health: 1)
             .withPlayer("p3")
             .withDeck(["c1", "c2", "c3"])
             .build()
 
-        // When
-        let action = GameFeature.Action.damage(1, player: "p2", sourcePlayer: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(.damage(1, player: "p2", sourcePlayer: "p1"), state: state, ignoreError: true)
 
-        // Then
         #expect(result == [
             .damage(1, player: "p2"),
             .eliminate(player: "p2"),
@@ -36,21 +30,15 @@ struct Draw3CardsOnEliminatingTest {
     }
 
     @Test func eliminated_withOffenderIsHimself_shouldDoNoting() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1") {
-                $0.withHealth(1)
-            }
+            .withPlayer("p1", health: 1)
             .withPlayer("p2")
             .withPlayer("p3")
             .build()
 
-        // When
-        let action = GameFeature.Action.damage(1, player: "p1", sourcePlayer: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
+        let result = try await dispatchUntilCompleted(.damage(1, player: "p1", sourcePlayer: "p1"), state: state, ignoreError: true)
 
-        // Then
         #expect(result == [
             .damage(1, player: "p1"),
             .eliminate(player: "p1")

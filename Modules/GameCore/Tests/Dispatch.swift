@@ -27,10 +27,8 @@ func dispatch(
         }
         .store(in: &cancellables)
 
-    // When
     await sut.dispatch(action)
 
-    // Then
     if !receivedErrors.isEmpty {
         throw receivedErrors[0]
     }

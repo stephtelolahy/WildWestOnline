@@ -10,7 +10,6 @@ import Testing
 
 struct DiscardEquipedWeaponOnPrePlayedTest {
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
-        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
@@ -20,11 +19,8 @@ struct DiscardEquipedWeaponOnPrePlayedTest {
             }
             .build()
 
-        // When
-        let action = GameFeature.Action.preparePlay(.schofield, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.preparePlay(.schofield, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .preparePlay(.schofield, player: "p1"),
             .discardInPlay(.remington, player: "p1"),

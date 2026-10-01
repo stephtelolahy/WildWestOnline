@@ -10,21 +10,13 @@ import Testing
 
 struct BartCassidyTest {
     @Test func beingDamaged_1LifePoint_shouldDrawACard() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withFigure([.bartCassidy])
-                    .withHealth(3)
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", figure: [.bartCassidy], health: 3)
             .withDeck(["c1"])
             .build()
 
-        // When
-        let action = GameFeature.Action.damage(1, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.damage(1, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .damage(1, player: "p1"),
             .drawDeck(player: "p1")
@@ -32,21 +24,13 @@ struct BartCassidyTest {
     }
 
     @Test func beingDamaged_2LifePoints_shouldDraw2Cards() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withFigure([.bartCassidy])
-                    .withHealth(3)
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", figure: [.bartCassidy], health: 3)
             .withDeck(["c1", "c2"])
             .build()
 
-        // When
-        let action = GameFeature.Action.damage(2, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.damage(2, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .damage(2, player: "p1"),
             .drawDeck(player: "p1"),
@@ -55,21 +39,13 @@ struct BartCassidyTest {
     }
 
     @Test func beingDamaged_Lethal_shouldDoNothing() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilder()
-            .withAllCards()
-            .withPlayer("p1") {
-                $0.withFigure([.bartCassidy])
-                    .withHealth(1)
-            }
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1", figure: [.bartCassidy], health: 1)
             .withDeck(["c1"])
             .build()
 
-        // When
-        let action = GameFeature.Action.damage(1, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let result = try await dispatchUntilCompleted(.damage(1, player: "p1"), state: state)
 
-        // Then
         #expect(result == [
             .damage(1, player: "p1")
         ])
