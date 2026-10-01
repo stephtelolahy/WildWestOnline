@@ -114,15 +114,10 @@ private extension GameFeature.State {
 
         switch action.name {
         case .eliminate:
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            result += auras.map { .init(card: $0, player: player) }
+            result += auras.map { .init(card: $0, player: action.requiredTarget) }
 
         case .discardInPlay, .stealInPlay:
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-
-            result += [.init(card: card, player: player)]
+            result += [.init(card: action.requiredCard, player: action.requiredTarget)]
 
         default:
             break

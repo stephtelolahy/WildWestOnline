@@ -151,6 +151,8 @@ identifier_name:
     - id
     - to
 large_tuple: 3
+cyclomatic_complexity:
+  ignores_case_statements: true
 number_separator:
   minimum_length: 5
 function_body_length: 60

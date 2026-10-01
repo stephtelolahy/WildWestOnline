@@ -25,223 +25,93 @@ extension Card.Selector.ChoiceKind {
 
 extension Card.Selector.ChoiceKind {
     func resolveOptions(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-        try resolver.resolveOptions(self, pendingAction: pendingAction, state: state)
-    }
-
-    func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-        resolver.resolveSelection(selection, pendingAction: pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.ChoiceKind {
-    protocol Resolver {
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action]
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action]
-    }
-
-    var resolver: Resolver {
+        let player = pendingAction.sourcePlayer
         switch self {
-        case .target(let requirements): Target(requirements: requirements)
-        case .card(let requirement): CardResolver(requirement: requirement)
-        case .costCard(let conditions): CostCard(conditions: conditions)
-        case .counterCard(let conditions): CounterCard(conditions: conditions)
-        case .redirectCard(let conditions): RedirectCard(conditions: conditions)
-        case .playedCard(let conditions): PlayedCard(conditions: conditions)
-        }
-    }
-
-    struct Target: Resolver {
-        let requirements: [Card.Selector.PlayerRequirement]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            let player = pendingAction.sourcePlayer
+        case .target(let requirements):
             let targetPlayers = state.playOrder
                 .starting(with: player)
                 .dropFirst()
                 .filter { requirements.match($0, pendingAction: pendingAction, state: state) }
-
             guard targetPlayers.isNotEmpty else {
                 throw .noChoosableTarget(requirements)
             }
 
-            let options: [Card.Selector.ChoicePrompt.Option] = targetPlayers.map { .init(id: $0, label: $0) }
-                + [.init(id: .choicePass, label: .choicePass)]
-            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
+            return [pendingAction.withChoice(self, prompt: .init(chooser: player, choices: Array(targetPlayers)))]
 
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            if selection == .choicePass {
-                []
-            } else {
-                [pendingAction.copy(targetedPlayer: selection)]
-            }
-        }
-    }
-
-    struct CardResolver: Resolver {
-        let requirement: Card.Selector.CardRequirement
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
+        case .card(let requirement):
             let prompt = try requirement.resolve(pendingAction: pendingAction, state: state)
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
+            return [pendingAction.withChoice(self, prompt: prompt)]
 
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            if selection == .choicePass {
-                []
-            } else {
-                [pendingAction.copy(targetedCard: selection, state: state)]
+        case .costCard(let conditions):
+            let target = pendingAction.requiredTarget
+            let costCards = state.players.get(target).hand.filter {
+                conditions.match($0, pendingAction: pendingAction, state: state) && $0 != pendingAction.sourceCard
             }
-        }
-    }
-
-    struct CostCard: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let player = pendingAction.sourcePlayer
-            let targetObj = state.players.get(target)
-
-            let costCards = targetObj.hand.filter {
-                conditions.match($0, pendingAction: pendingAction, state: state)
-                && $0 != pendingAction.sourceCard
-            }
-
             guard costCards.isNotEmpty else {
                 throw .noChoosableCard(conditions, player: target)
             }
 
-            let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
-                + [.init(id: .choicePass, label: .choicePass)]
-            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
+            return [pendingAction.withChoice(self, prompt: .init(chooser: player, choices: costCards))]
 
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            return if selection == .choicePass {
-                []
-            } else {
-                [
-                    .discardHand(selection, player: target),
-                    pendingAction
-                ]
-            }
-        }
-    }
-
-    struct CounterCard: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let counterCards = state.players.get(target).hand.filter {
+        case .counterCard(let conditions), .redirectCard(let conditions):
+            let target = pendingAction.requiredTarget
+            let cards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
             }
-
-            guard counterCards.isNotEmpty else {
+            guard cards.isNotEmpty else {
                 return [pendingAction]
             }
 
-            let options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
-                + [.init(id: .choicePass, label: .choicePass)]
-            let prompt = Card.Selector.ChoicePrompt(chooser: target, options: options)
+            return [pendingAction.withChoice(self, prompt: .init(chooser: target, choices: cards))]
 
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            return if selection == .choicePass {
-                [pendingAction]
-            } else {
-                [.discardHand(selection, player: target)]
-            }
-        }
-    }
-
-    struct RedirectCard: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            let redirectCards = state.players.get(target).hand.filter {
+        case .playedCard(let conditions):
+            let playedCards = state.players.get(player).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
             }
-
-            guard redirectCards.isNotEmpty else {
-                return [pendingAction]
-            }
-
-            let options: [Card.Selector.ChoicePrompt.Option] = redirectCards.map { .init(id: $0, label: $0) }
-                + [.init(id: .choicePass, label: .choicePass)]
-            let prompt = Card.Selector.ChoicePrompt(chooser: target, options: options)
-
-            return [pendingAction.withChoice(choice, prompt: prompt)]
-        }
-
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            if selection == .choicePass {
-                return [pendingAction]
-            } else {
-                let reversedAction = pendingAction.copy(
-                    withPlayer: pendingAction.targetedPlayer,
-                    targetedPlayer: pendingAction.sourcePlayer,
-                    selectors: [.choose(.redirectCard(conditions))] + pendingAction.selectors
-                )
-                return [
-                    .discardHand(selection, player: target),
-                    reversedAction
-                ]
-            }
-        }
-    }
-
-    struct PlayedCard: Resolver {
-        let conditions: [Card.Selector.CardFilter]
-
-        func resolveOptions(_ choice: Card.Selector.ChoiceKind, pendingAction: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> [GameFeature.Action] {
-            let player = pendingAction.sourcePlayer
-            let playerObj = state.players.get(player)
-
-            let costCards = playerObj.hand.filter {
-                conditions.match($0, pendingAction: pendingAction, state: state)
-            }
-
-            guard costCards.isNotEmpty else {
+            guard playedCards.isNotEmpty else {
                 throw .noChoosableCard(conditions, player: player)
             }
 
-            let options: [Card.Selector.ChoicePrompt.Option] = costCards.map { .init(id: $0, label: $0) }
-                + [.init(id: .choicePass, label: .choicePass)]
-            let prompt = Card.Selector.ChoicePrompt(chooser: player, options: options)
-
-            return [pendingAction.withChoice(choice, prompt: prompt)]
+            return [pendingAction.withChoice(self, prompt: .init(chooser: player, choices: playedCards))]
         }
+    }
 
-        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
-            if selection == .choicePass {
-                return []
-            } else {
-                var alias: String?
-                if conditions.contains(.canCounterShot) {
-                    let cardName = Card.name(of: selection)
-                    alias = state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .played)
-                }
+    func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> [GameFeature.Action] {
+        let isPass = selection == .choicePass
+        switch self {
+        case .target:
+            return isPass ? [] : [pendingAction.copy(targetedPlayer: selection)]
 
-                return [pendingAction.copy(playedCard: selection, alias: alias)]
+        case .card:
+            return isPass ? [] : [pendingAction.copy(targetedCard: selection, state: state)]
+
+        case .costCard:
+            return isPass ? [] : [.discardHand(selection, player: pendingAction.requiredTarget), pendingAction]
+
+        case .counterCard:
+            return isPass ? [pendingAction] : [.discardHand(selection, player: pendingAction.requiredTarget)]
+
+        case .redirectCard:
+            guard !isPass else {
+                return [pendingAction]
             }
+
+            let reversedAction = pendingAction.copy(
+                withPlayer: pendingAction.targetedPlayer,
+                targetedPlayer: pendingAction.sourcePlayer,
+                selectors: [.choose(self)] + pendingAction.selectors
+            )
+            return [.discardHand(selection, player: pendingAction.requiredTarget), reversedAction]
+
+        case .playedCard(let conditions):
+            guard !isPass else {
+                return []
+            }
+
+            let alias = conditions.contains(.canCounterShot)
+                ? state.alias(for: Card.name(of: selection), player: pendingAction.sourcePlayer, action: .counterShot, on: .played)
+                : nil
+            return [pendingAction.copy(playedCard: selection, alias: alias)]
         }
     }
 }

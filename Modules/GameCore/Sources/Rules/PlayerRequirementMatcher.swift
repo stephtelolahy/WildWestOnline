@@ -6,60 +6,23 @@
 //
 extension Card.Selector.PlayerRequirement {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-        matcher.match(player, pendingAction: pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.PlayerRequirement {
-    protocol Matcher {
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
-    }
-
-    var matcher: Matcher {
+        let playerObj = state.players.get(player)
+        let source = pendingAction.sourcePlayer
         switch self {
-        case .hasCards: HasCards()
-        case .hasHandCards: HasHandCards()
-        case .atDistance(let distance): AtDistance(distance: distance)
-        case .reachable: Reachable()
-        case .isWounded: IsWounded()
-        }
-    }
+        case .hasCards:
+            return playerObj.inPlay.isNotEmpty || (player != pendingAction.targetedPlayer && playerObj.hand.isNotEmpty)
 
-    struct HasCards: Matcher {
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let playerObj = state.players.get(player)
-            if player == pendingAction.targetedPlayer {
-                return playerObj.inPlay.isNotEmpty
-            } else {
-                return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty
-            }
-        }
-    }
-
-    struct HasHandCards: Matcher {
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let playerObj = state.players.get(player)
+        case .hasHandCards:
             return playerObj.hand.isNotEmpty
-        }
-    }
 
-    struct AtDistance: Matcher {
-        let distance: Int
+        case .atDistance(let distance):
+            return state.distance(from: source, to: player) <= distance
 
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.distance(from: pendingAction.sourcePlayer, to: player) <= distance
-        }
-    }
+        case .reachable:
+            return state.distance(from: source, to: player) <= state.players.get(source).weapon
 
-    struct Reachable: Matcher {
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            state.distance(from: pendingAction.sourcePlayer, to: player) <= state.players.get(pendingAction.sourcePlayer).weapon
-        }
-    }
-
-    struct IsWounded: Matcher {
-        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            player != pendingAction.sourcePlayer && state.players.get(player).isWounded
+        case .isWounded:
+            return player != source && playerObj.isWounded
         }
     }
 }

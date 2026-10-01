@@ -6,51 +6,17 @@
 //
 extension Card.Selector.CardFilter {
     func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-        matcher.match(card, pendingAction: pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.CardFilter {
-    protocol Matcher {
-        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
-    }
-
-    var matcher: Matcher {
+        let cardName = Card.name(of: card)
         switch self {
-        case .inHand: InHand()
-        case .canCounterShot: CanCounterShot()
-        case .named(let name): Named(name: name)
-        }
-    }
+        case .inHand:
+            return state.players.get(pendingAction.requiredTarget).hand.contains(card)
 
-    struct InHand: Matcher {
-        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+        case .canCounterShot:
+            return state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .played) != nil
+            || state.cards.get(cardName).effects.contains { $0.trigger == .played && $0.action == .counterShot }
 
-            let playerObj = state.players.get(player)
-            return playerObj.hand.contains(card)
-        }
-    }
-
-    struct CanCounterShot: Matcher {
-        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            let cardName = Card.name(of: card)
-
-            if state.alias(for: cardName, player: pendingAction.sourcePlayer, action: .counterShot, on: .played) != nil {
-                return true
-            }
-
-            let cardObj = state.cards.get(cardName)
-            let effects = cardObj.effects
-            return effects.contains { $0.trigger == .played && $0.action == .counterShot }
-        }
-    }
-
-    struct Named: Matcher {
-        let name: String
-
-        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
-            Card.name(of: card) == name
+        case .named(let name):
+            return cardName == name
         }
     }
 }

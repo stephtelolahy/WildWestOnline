@@ -7,72 +7,29 @@
 
 extension Card.Selector.CardTarget {
     func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-        resolver.resolve(pendingAction, state: state)
-    }
-}
-
-private extension Card.Selector.CardTarget {
-    protocol Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]?
-    }
-
-    var resolver: Resolver {
         switch self {
-        case .source: Source()
-        case .equippedWeapon: EquippedWeapon()
-        case .lastDrawn: LastDrawn()
-        case .trigger: Trigger()
-        case .every(let group): Every(group: group)
-        }
-    }
+        case .source:
+            return [pendingAction.sourceCard]
 
-    struct Source: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            [pendingAction.sourceCard]
-        }
-    }
+        case .equippedWeapon:
+            return state.players.get(pendingAction.requiredTarget).inPlay.filter { state.isWeapon($0) }
 
-    struct EquippedWeapon: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            return state.players.get(target).inPlay.filter { state.isWeapon($0) }
-        }
-    }
-
-    struct LastDrawn: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let target = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+        case .lastDrawn:
+            let target = pendingAction.requiredTarget
             guard let card = state.players.get(target).hand.last else { fatalError("Missing last card in hand of player \(target)") }
-
             return [card]
-        }
-    }
 
-    struct Trigger: Resolver {
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            guard let parentAction = pendingAction.triggeredBy.first,
-                  let targetedCard = parentAction.targetedCard else {
-                return nil
-            }
+        case .trigger:
+            return pendingAction.triggeredBy.first?.targetedCard.map { [$0] }
 
-            return [targetedCard]
-        }
-    }
-
-    struct Every: Resolver {
-        let group: Card.Selector.CardGroup
-
-        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> [String]? {
-            group.resolve(pendingAction, state: state)
+        case .every(let group):
+            return group.resolve(pendingAction, state: state)
         }
     }
 }
 
 private extension GameFeature.State {
     func isWeapon(_ card: String) -> Bool {
-        let cardName = Card.name(of: card)
-        let cardObj = cards.get(cardName)
-        return cardObj.effects.contains { $0.trigger == .equiped && $0.action == .setWeapon }
+        cards.get(Card.name(of: card)).effects.contains { $0.trigger == .equiped && $0.action == .setWeapon }
     }
 }

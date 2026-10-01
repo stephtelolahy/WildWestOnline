@@ -9,7 +9,7 @@
 import GameCore
 
 struct AnimationMatcher {
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    // swiftlint:disable:next function_body_length
     func animation(on action: GameFeature.Action) -> BoardAnimation? {
         switch action.name {
         case .play:

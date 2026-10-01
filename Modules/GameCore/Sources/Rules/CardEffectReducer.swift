@@ -3,641 +3,276 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
-// swiftlint:disable file_length
 
 import Redux
 
 extension Card.ActionName {
     func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-        try reducer.reduce(action, state: state)
-    }
-}
-
-private extension Card.ActionName {
-    protocol Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State
-    }
-
-    var reducer: Reducer {
-        switch self {
-        case .preparePlay: PreparePlay()
-        case .draw: Draw()
-        case .drawDeck: DrawDeck()
-        case .drawDiscard: DrawDiscard()
-        case .drawDiscovered: DrawDiscovered()
-        case .discover: Discover()
-        case .undiscover: Undiscover()
-        case .discardHand: DiscardHand()
-        case .discardInPlay: DiscardInPlay()
-        case .showHand: ShowHand()
-        case .heal: Heal()
-        case .damage: Damage()
-        case .choose: Choose()
-        case .stealHand: StealHand()
-        case .stealInPlay: StealInPlay()
-        case .passInPlay: PassInPlay()
-        case .shoot: Shoot()
-        case .counterShot: CounterShoot()
-        case .endTurn: EndTurn()
-        case .startTurn: StartTurn()
-        case .eliminate: Eliminate()
-        case .endGame: EndGame()
-        case .activate: Activate()
-        case .play: Play()
-        case .equip: Equip()
-        case .handicap: Handicap()
-        case .setWeapon: SetWeapon()
-        case .increaseMagnifying: IncreaseMagnifying()
-        case .increaseRemoteness: IncreaseRemoteness()
-        case .queue: Queue()
-        case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
-        case .setAlias: fatalError("Unexpected to dispatch setAlias")
-        case .discard: fatalError("Unexpected to dispatch discard")
-        case .steal: fatalError("Unexpected to dispatch steal")
-        case .incrementRequiredMisses: IncrementRequiredMisses()
-        case .ignoreLimitPerTurn: IgnoreLimitPerTurn()
-        case .incrementCardsPerTurn: IncrementCardsPerTurn()
-        }
-    }
-
-    struct Draw: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            var state = state
-            let card = try state.popDeck()
-            state.discard.insert(card, at: 0)
-            return state
-        }
-    }
-
-    struct DrawDeck: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-            let card = try state.popDeck()
-            state[keyPath: \.players[target]!.hand].append(card)
-            return state
-        }
-    }
-
-    struct DrawDiscard: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-
-            var state = state
-            let topDiscard = try state.popDiscard()
-            guard topDiscard == card else { fatalError("Card \(card) is not the top discard") }
-
-            state[keyPath: \.players[target]!.hand].append(card)
-            return state
-        }
-    }
-
-    struct DrawDiscovered: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-
-            guard let discoverIndex = state.discovered.firstIndex(of: card) else {
-                fatalError("Card \(card) not discovered")
-            }
-
-            guard let deckIndex = state.deck.firstIndex(of: card) else {
-                fatalError("Card \(card) not in deck")
-            }
-
-            var state = state
-            state.deck.remove(at: deckIndex)
-            state.discovered.remove(at: discoverIndex)
-            state[keyPath: \.players[target]!.hand].append(card)
-            return state
-        }
-    }
-
-    struct Discover: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            var state = state
-            let discoveredAmount = state.discovered.count
-            if discoveredAmount >= state.deck.count {
-                try state.resetDeck()
-            }
-
-            state.discovered.append(state.deck[discoveredAmount])
-            return state
-        }
-    }
-
-    struct Undiscover: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            var state = state
-            state.discovered = []
-            return state
-        }
-    }
-
-    struct PreparePlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let card = action.sourceCard
-            var cardName = Card.name(of: card)
-            let alias = state.alias(for: cardName, player: action.sourcePlayer, action: .play, on: .prePlayed)
-            if let alias {
-                cardName = alias
-            }
-            let cardObj = state.cards.get(cardName)
-
-            let onPreparePlay = cardObj.effects.filter { $0.trigger == .prePlayed }
-            guard onPreparePlay.isNotEmpty else {
-                throw .cardNotPlayable(cardName)
-            }
-
-            let effects = onPreparePlay
-                .map {
-                    $0.toInstance(
-                        withPlayer: action.sourcePlayer,
-                        playedCard: action.sourceCard,
-                        triggeredBy: [action],
-                        alias: alias
-                    )
-                }
-
-            var state = state
-            state.queue.insert(contentsOf: effects, at: 0)
-            return state
-        }
-    }
-
-    struct Play: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.sourcePlayer
-            let card = action.sourceCard
-            var state = state
-
-            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
-            state.discard.insert(card, at: 0)
-
-            var cardName = Card.name(of: card)
-            if let alias = action.alias {
-                cardName = alias
-            }
-            let cardObj = state.cards.get(cardName)
-            let effects = cardObj.effects
-                .filter { $0.trigger == .played }
-                .map {
-                    $0.toInstance(
-                        withPlayer: action.sourcePlayer,
-                        playedCard: action.sourceCard,
-                        triggeredBy: [action]
-                    )
-                }
-
-            state.queue.insert(contentsOf: effects, at: 0)
-            return state
-        }
-    }
-
-    struct Equip: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            let player = action.sourcePlayer
-            let card = action.sourceCard
-
-            var state = state
-
-            // verify not already inPlay
-            let cardName = Card.name(of: card)
-            let playerObj = state.players.get(player)
-            guard playerObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName, player: player)
-            }
-
-            // put card on self's play
-            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[player]!.inPlay].append(card)
-
-            return state
-        }
-    }
-
-    struct Handicap: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            let player = action.sourcePlayer
-            let card = action.sourceCard
-
-            var state = state
-
-            // verify not already inPlay
-            let cardName = Card.name(of: card)
-            let targetObj = state.players.get(target)
-            guard targetObj.inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
-                throw .cardAlreadyInPlay(cardName, player: target)
-            }
-
-            // put card on target's play
-            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[target]!.inPlay].append(card)
-
-            return state
-        }
-    }
-
-    struct Heal: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var playerObj = state.players.get(player)
-            let maxHealth = playerObj.maxHealth
-            guard playerObj.health < maxHealth else {
-                throw .playerAlreadyMaxHealth(player)
-            }
-
-            playerObj.health = min(playerObj.health + amount, maxHealth)
-            var state = state
-            state.players[player] = playerObj
-            return state
-        }
-    }
-
-    struct DiscardHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-
-            var state = state
-            let playerObj = state.players.get(player)
-
-            guard playerObj.hand.contains(card) else {
-                fatalError("Card \(card) not in hand of \(player)")
-            }
-
-            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
-            state.discard.insert(card, at: 0)
-
-            return state
-        }
-    }
-
-    struct DiscardInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-
-            var state = state
-            let playerObj = state.players.get(player)
-
-            guard playerObj.inPlay.contains(card) else {
-                fatalError("Card \(card) not inPlay of \(player)")
-            }
-
-            state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
-            state.discard.insert(card, at: 0)
-
-            return state
-        }
-    }
-
-    struct ShowHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard action.targetedPlayer != nil else { fatalError("Missing targetedPlayer") }
-            guard action.targetedCard != nil else { fatalError("Missing targetedCard") }
-
-            return state
-        }
-    }
-
-    struct Choose: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let selection = action.selection else { fatalError("Missing selection") }
-
-            guard let nextAction = state.queue.first,
-                  let selector = nextAction.selectors.first,
-                  case .choose(let element, let status) = selector,
-                  case .prompted(let prompt) = status,
-                  prompt.options.map(\.label).contains(selection) else {
-                fatalError("Missing pending choice")
-            }
-
-            var state = state
-            var updatedAction = nextAction
-            updatedAction.selectors[0] = .choose(element, status: .selected(selection, prompt))
-            state.queue[0] = updatedAction
-
-            return state
-        }
-    }
-
-    struct StealHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-            let player = action.sourcePlayer
-
-            var state = state
-            let playerObj = state.players.get(target)
-            guard playerObj.hand.contains(card) else {
-                fatalError("Card \(card) not in hand of \(target)")
-            }
-
-            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[player]!.hand].append(card)
-
-            return state
-        }
-    }
-
-    struct StealInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-            let player = action.sourcePlayer
-
-            let playerObj = state.players.get(target)
-            guard playerObj.inPlay.contains(card) else {
-                fatalError("Card \(card) not inPlay of \(target)")
-            }
-
-            var state = state
-            state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
-            state[keyPath: \.players[player]!.hand].append(card)
-
-            return state
-        }
-    }
-
-    struct PassInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let card = action.targetedCard else { fatalError("Missing targetedCard") }
-            let player = action.sourcePlayer
-
-            let playerObj = state.players.get(player)
-            guard playerObj.inPlay.contains(card) else {
-                fatalError("Card \(card) not inPlay of \(target)")
-            }
-
-            var state = state
-            state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
-            state[keyPath: \.players[target]!.inPlay].append(card)
-
-            return state
-        }
-    }
-
-    struct Shoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-            let damage = GameFeature.Action(
-                name: .damage,
-                sourcePlayer: action.sourcePlayer,
-                sourceCard: action.sourceCard,
-                triggeredBy: [action],
-                targetedPlayer: target,
-                amount: 1,
-                requiredMisses: 1
-            )
-            state.queue.insert(damage, at: 0)
-            return state
-        }
-    }
-
-    struct CounterShoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-
-            guard let damageIndex = state.queue.firstIndex(where: {
-                $0.triggeredBy.first?.name == .shoot
-                && $0.name == .damage
-                && $0.targetedPlayer == target
-            }) else {
-                fatalError("Missing .shoot effect on targetedPlayer")
-            }
-
-            let damageAction = state.queue[damageIndex]
-            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
-
-            if requiredMisses > 1 {
-                state.queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses - 1)
-                return state
-            }
-
-            // remove all effects triggered by shoot on targetedPlayer
-            state.queue.removeAll {
-                $0.triggeredBy.first?.name == .shoot
-                && $0.triggeredBy.first?.targetedPlayer == target
-            }
-
-            return state
-        }
-    }
-
-    struct Damage: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let player = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state[keyPath: \.players[player]!.health] -= amount
-            return state
-        }
-    }
-
-    struct EndTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-            state.turn = nil
-            state.queue.removeAll { $0.sourcePlayer == target && $0.sourceCard != action.sourceCard }
-            return state
-        }
-    }
-
-    struct StartTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-            state.turn = target
-            return state
-        }
-    }
-
-    struct Queue: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let children = action.children else { fatalError("Missing children") }
-
-            var state = state
-            state.queue.insert(contentsOf: children, at: 0)
-            return state
-        }
-    }
-
-    struct Eliminate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            var state = state
-            state.playOrder.removeAll { $0 == target }
-            state.queue.removeAll { $0.sourcePlayer == target }
-            return state
-        }
-    }
-
-    struct EndGame: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            var state = state
-            state.isOver = true
-            return state
-        }
-    }
-
-    struct Activate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let cards = action.playableCards else { fatalError("Missing playableCards") }
-
-            var state = state
-            state.playable = .init(player: target, cards: cards)
-            return state
-        }
-    }
-
-    struct SetWeapon: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state[keyPath: \.players[target]!.weapon] = amount
-            return state
-        }
-    }
-
-    struct IncreaseMagnifying: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state[keyPath: \.players[target]!.magnifying] += amount
-            return state
-        }
-    }
-
-    struct IncreaseRemoteness: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            var state = state
-            state[keyPath: \.players[target]!.remoteness] += amount
-            return state
-        }
-    }
-
-    struct IncrementRequiredMisses: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let amount = action.amount else { fatalError("Missing amount") }
-            guard let target = action.targetedPlayer else { fatalError("Missing targetedPlayer") }
-
-            guard let damageIndex = state.queue.firstIndex(where: {
-                $0.triggeredBy.first?.name == .shoot
-                && $0.name == .damage
-                && $0.targetedPlayer == target
-            }) else {
-                fatalError("Missing .shoot effect on targetedPlayer")
-            }
-
-            let damageAction = state.queue[damageIndex]
-            guard let requiredMisses = damageAction.requiredMisses else { fatalError("Missing requiredMisses") }
-
-            var queue = state.queue
-            queue[damageIndex] = damageAction.copy(requiredMisses: requiredMisses + amount)
-
-            var state = state
-            state.queue = queue
-
-            return state
-        }
-    }
-
-    struct IgnoreLimitPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let playIndex = state.queue.firstIndex(where: {
-                $0.name == .play
-            }) else {
-                fatalError("Missing play action")
-            }
-
-            var playAction = state.queue[playIndex]
-            guard let limitPerTurnIndex = playAction.selectors.firstIndex(where: {
-                if case let .require(requirement) = $0,
-                   case .playLimit = requirement {
-                    return true
-                } else {
-                    return false
-                }
-            }) else {
-                return state
-            }
-
-            playAction.selectors.remove(at: limitPerTurnIndex)
-            var queue = state.queue
-            queue[playIndex] = playAction
-
-            var state = state
-            state.queue = queue
-
-            return state
-        }
-    }
-
-    struct IncrementCardsPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(GameFeature.Error) -> GameFeature.State {
-            guard let amount = action.amount else { fatalError("Missing amount") }
-
-            guard let actionIndex = state.queue.firstIndex(where: {
-                    $0.name == .drawDeck && $0.triggeredBy.first?.name == .startTurn
-                }) else {
-                fatalError("Missing drawDeck action")
-            }
-
-            var updatedAction = state.queue[actionIndex]
-
-            guard let repeatIndex = updatedAction.selectors.firstIndex(where: {
-                if case .repeat = $0 {
-                    return true
-                } else {
-                    return false
-                }
-            }) else {
-                fatalError("Missing repeat selector")
-            }
-
-            guard case .repeat(let repeatCount) = updatedAction.selectors[repeatIndex],
-                case.times(var value) = repeatCount else {
-                fatalError("Missing repeat count")
-            }
-
-            var queue = state.queue
-            value += amount
-            updatedAction.selectors[repeatIndex] = .repeat(.times(value))
-            queue[actionIndex] = updatedAction
-
-            var state = state
-            state.queue = queue
-
-            return state
-        }
+        var state = state
+        try state.reduce(self, action: action)
+        return state
     }
 }
 
 private extension GameFeature.State {
+    // swiftlint:disable:next function_body_length
+    mutating func reduce(_ name: Card.ActionName, action: GameFeature.Action) throws(GameFeature.Error) {
+        let player = action.sourcePlayer
+        switch name {
+        case .preparePlay:
+            try preparePlay(action)
+
+        case .play:
+            play(action)
+
+        case .equip:
+            try putInPlay(action.sourceCard, from: player, to: player)
+
+        case .handicap:
+            try putInPlay(action.sourceCard, from: player, to: action.requiredTarget)
+
+        case .draw:
+            let card = try popDeck()
+            discard.insert(card, at: 0)
+
+        case .drawDeck:
+            let card = try popDeck()
+            self[player: action.requiredTarget].hand.append(card)
+
+        case .drawDiscard:
+            let card = action.requiredCard
+            guard try popDiscard() == card else { fatalError("Card \(card) is not the top discard") }
+            self[player: action.requiredTarget].hand.append(card)
+
+        case .drawDiscovered:
+            drawDiscovered(action.requiredCard, player: action.requiredTarget)
+
+        case .discover:
+            if discovered.count >= deck.count {
+                try resetDeck()
+            }
+            discovered.append(deck[discovered.count])
+
+        case .undiscover:
+            discovered = []
+
+        case .discardHand:
+            take(action.requiredCard, from: \.hand, of: action.requiredTarget)
+            discard.insert(action.requiredCard, at: 0)
+
+        case .discardInPlay:
+            take(action.requiredCard, from: \.inPlay, of: action.requiredTarget)
+            discard.insert(action.requiredCard, at: 0)
+
+        case .stealHand:
+            take(action.requiredCard, from: \.hand, of: action.requiredTarget)
+            self[player: player].hand.append(action.requiredCard)
+
+        case .stealInPlay:
+            take(action.requiredCard, from: \.inPlay, of: action.requiredTarget)
+            self[player: player].hand.append(action.requiredCard)
+
+        case .passInPlay:
+            take(action.requiredCard, from: \.inPlay, of: player)
+            self[player: action.requiredTarget].inPlay.append(action.requiredCard)
+
+        case .showHand:
+            guard action.targetedPlayer != nil, action.targetedCard != nil else { fatalError("Missing targetedPlayer or targetedCard") }
+
+        case .heal:
+            try heal(action.requiredAmount, player: action.requiredTarget)
+
+        case .damage:
+            self[player: action.requiredTarget].health -= action.requiredAmount
+
+        case .choose:
+            choose(action)
+
+        case .shoot:
+            queue.insert(
+                .init(
+                    name: .damage,
+                    sourcePlayer: player,
+                    sourceCard: action.sourceCard,
+                    triggeredBy: [action],
+                    targetedPlayer: action.requiredTarget,
+                    amount: 1,
+                    requiredMisses: 1
+                ),
+                at: 0
+            )
+
+        case .counterShot:
+            counterShot(target: action.requiredTarget)
+
+        case .endTurn:
+            let target = action.requiredTarget
+            turn = nil
+            queue.removeAll { $0.sourcePlayer == target && $0.sourceCard != action.sourceCard }
+
+        case .startTurn:
+            turn = action.requiredTarget
+
+        case .queue:
+            guard let children = action.children else { fatalError("Missing children") }
+            queue.insert(contentsOf: children, at: 0)
+
+        case .eliminate:
+            let target = action.requiredTarget
+            playOrder.removeAll { $0 == target }
+            queue.removeAll { $0.sourcePlayer == target }
+
+        case .endGame:
+            isOver = true
+
+        case .activate:
+            guard let cards = action.playableCards else { fatalError("Missing playableCards") }
+            playable = .init(player: action.requiredTarget, cards: cards)
+
+        case .setWeapon:
+            self[player: action.requiredTarget].weapon = action.requiredAmount
+
+        case .increaseMagnifying:
+            self[player: action.requiredTarget].magnifying += action.requiredAmount
+
+        case .increaseRemoteness:
+            self[player: action.requiredTarget].remoteness += action.requiredAmount
+
+        case .incrementRequiredMisses:
+            let damageIndex = shotDamageIndex(target: action.requiredTarget)
+            guard let requiredMisses = queue[damageIndex].requiredMisses else { fatalError("Missing requiredMisses") }
+            queue[damageIndex].requiredMisses = requiredMisses + action.requiredAmount
+
+        case .ignoreLimitPerTurn:
+            ignoreLimitPerTurn()
+
+        case .incrementCardsPerTurn:
+            incrementCardsPerTurn(by: action.requiredAmount)
+
+        case .setMaxHealth, .setAlias, .discard, .steal:
+            fatalError("Unexpected to dispatch \(name)")
+        }
+    }
+
+    subscript(player id: String) -> Player {
+        get { players.get(id) }
+        set { players[id] = newValue }
+    }
+
+    mutating func take(_ card: String, from zone: WritableKeyPath<Player, [String]>, of player: String) {
+        guard self[player: player][keyPath: zone].contains(card) else {
+            fatalError("Card \(card) not in \(zone) of \(player)")
+        }
+
+        self[player: player][keyPath: zone].removeAll { $0 == card }
+    }
+
+    mutating func putInPlay(_ card: String, from player: String, to target: String) throws(GameFeature.Error) {
+        let cardName = Card.name(of: card)
+        guard self[player: target].inPlay.allSatisfy({ Card.name(of: $0) != cardName }) else {
+            throw .cardAlreadyInPlay(cardName, player: target)
+        }
+
+        self[player: player].hand.removeAll { $0 == card }
+        self[player: target].inPlay.append(card)
+    }
+
+    mutating func preparePlay(_ action: GameFeature.Action) throws(GameFeature.Error) {
+        let alias = self.alias(for: Card.name(of: action.sourceCard), player: action.sourcePlayer, action: .play, on: .prePlayed)
+        let cardName = alias ?? Card.name(of: action.sourceCard)
+        let effects = cards.get(cardName).effects.filter { $0.trigger == .prePlayed }
+        guard effects.isNotEmpty else {
+            throw .cardNotPlayable(cardName)
+        }
+
+        queue.insert(
+            contentsOf: effects.map {
+                $0.toInstance(withPlayer: action.sourcePlayer, playedCard: action.sourceCard, triggeredBy: [action], alias: alias)
+            },
+            at: 0
+        )
+    }
+
+    mutating func play(_ action: GameFeature.Action) {
+        let card = action.sourceCard
+        self[player: action.sourcePlayer].hand.removeAll { $0 == card }
+        discard.insert(card, at: 0)
+
+        let cardName = action.alias ?? Card.name(of: card)
+        queue.insert(
+            contentsOf: cards.get(cardName).effects
+                .filter { $0.trigger == .played }
+                .map { $0.toInstance(withPlayer: action.sourcePlayer, playedCard: card, triggeredBy: [action]) },
+            at: 0
+        )
+    }
+
+    mutating func drawDiscovered(_ card: String, player: String) {
+        guard let discoverIndex = discovered.firstIndex(of: card) else { fatalError("Card \(card) not discovered") }
+        guard let deckIndex = deck.firstIndex(of: card) else { fatalError("Card \(card) not in deck") }
+
+        deck.remove(at: deckIndex)
+        discovered.remove(at: discoverIndex)
+        self[player: player].hand.append(card)
+    }
+
+    mutating func heal(_ amount: Int, player: String) throws(GameFeature.Error) {
+        let maxHealth = self[player: player].maxHealth
+        guard self[player: player].health < maxHealth else {
+            throw .playerAlreadyMaxHealth(player)
+        }
+
+        self[player: player].health = min(self[player: player].health + amount, maxHealth)
+    }
+
+    mutating func choose(_ action: GameFeature.Action) {
+        guard let selection = action.selection else { fatalError("Missing selection") }
+        guard let nextAction = queue.first,
+              let selector = nextAction.selectors.first,
+              case .choose(let element, let status) = selector,
+              case .prompted(let prompt) = status,
+              prompt.options.map(\.label).contains(selection) else {
+            fatalError("Missing pending choice")
+        }
+
+        queue[0].selectors[0] = .choose(element, status: .selected(selection, prompt))
+    }
+
+    mutating func counterShot(target: String) {
+        let damageIndex = shotDamageIndex(target: target)
+        guard let requiredMisses = queue[damageIndex].requiredMisses else { fatalError("Missing requiredMisses") }
+
+        if requiredMisses > 1 {
+            queue[damageIndex].requiredMisses = requiredMisses - 1
+            return
+        }
+
+        // remove all effects triggered by shoot on targetedPlayer
+        queue.removeAll {
+            $0.triggeredBy.first?.name == .shoot && $0.triggeredBy.first?.targetedPlayer == target
+        }
+    }
+
+    mutating func ignoreLimitPerTurn() {
+        guard let playIndex = queue.firstIndex(where: { $0.name == .play }) else { fatalError("Missing play action") }
+
+        queue[playIndex].selectors.removeAll { if case .require(.playLimit) = $0 { true } else { false } }
+    }
+
+    mutating func incrementCardsPerTurn(by amount: Int) {
+        guard let actionIndex = queue.firstIndex(where: { $0.name == .drawDeck && $0.triggeredBy.first?.name == .startTurn }) else {
+            fatalError("Missing drawDeck action")
+        }
+
+        let selectors = queue[actionIndex].selectors
+        guard let repeatIndex = selectors.firstIndex(where: { if case .repeat = $0 { true } else { false } }),
+              case .repeat(.times(let value)) = selectors[repeatIndex] else {
+            fatalError("Missing repeat count")
+        }
+
+        queue[actionIndex].selectors[repeatIndex] = .repeat(.times(value + amount))
+    }
+
     /// Draw the top card from the deck
     /// As soon as the draw pile is empty,
     /// shuffle the discard pile to create a new playing deck.
