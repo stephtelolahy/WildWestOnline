@@ -10,6 +10,7 @@ import SwiftUI
 
 struct StoreProjectionTest {
     @Test func dispatchViewAction_shouldEmitNewState() async throws {
+        // Given
         let store = await Store<SearchFeature.State, SearchFeature.Action>(
             initialState: .init(),
             reducer: SearchFeature.reducer,
@@ -21,8 +22,10 @@ struct StoreProjectionTest {
 
         let sut = await store.projection(state: SearchView.ViewState.init, action: \.self)
 
+        // When
         await sut.dispatch(.fetchRecent)
 
+        // Then
         await #expect(sut.state.items == ["recent"])
     }
 }

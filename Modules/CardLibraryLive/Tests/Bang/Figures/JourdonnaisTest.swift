@@ -10,13 +10,20 @@ import Testing
 
 struct JourdonnaisTest {
     @Test func beingShot_flippedCardIsHearts_shouldCounterShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", figure: [.jourdonnais])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withFigure([.jourdonnais])
+            }
             .withDeck(["c1-2♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -25,14 +32,22 @@ struct JourdonnaisTest {
     }
 
     @Test func beingShot_firstFlippedCardIsHearts_shouldOnlyTriggerBarrel() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", figure: [.jourdonnais], hand: [.missed], inPlay: [.barrel])
+            .withPlayer("p1") {
+                $0.withFigure([.jourdonnais])
+                .withInPlay([.barrel])
+                .withHand([.missed])
+            }
             .withDeck(["c1-2♥️", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -41,14 +56,22 @@ struct JourdonnaisTest {
     }
 
     @Test func beingShot_secondFlippedCardIsHearts_shouldTriggerBarrelAndAbility() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", figure: [.jourdonnais], hand: [.missed], inPlay: [.barrel])
+            .withPlayer("p1") {
+                $0.withFigure([.jourdonnais])
+                .withInPlay([.barrel])
+                .withHand([.missed])
+            }
             .withDeck(["c1-2♠️", "c1-3♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -58,14 +81,22 @@ struct JourdonnaisTest {
     }
 
     @Test func beingShot_flippedCardsAreNotHearts_shouldAskToCounter() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", figure: [.jourdonnais], hand: [.missed], inPlay: [.barrel])
+            .withPlayer("p1") {
+                $0.withFigure([.jourdonnais])
+                .withInPlay([.barrel])
+                .withHand([.missed])
+            }
             .withDeck(["c1-2♠️", "c1-3♣️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),

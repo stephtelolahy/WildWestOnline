@@ -46,8 +46,10 @@ func dispatchUntilCompleted(
         }
         .store(in: &cancellables)
 
+    // When
     await sut.dispatch(action)
 
+    // Then
     if !ignoreError,
        !receivedErrors.isEmpty {
         throw receivedErrors[0]

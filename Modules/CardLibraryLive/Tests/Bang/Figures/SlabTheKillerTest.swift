@@ -10,6 +10,7 @@ import Testing
 
 struct SlabTheKillerTest {
     @Test func playingBang_withTwoMissed() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
@@ -17,11 +18,16 @@ struct SlabTheKillerTest {
                     .withHand([.bang])
                     .withWeapon(1)
             }
-            .withPlayer("p2", hand: [.missed1, .missed2])
+            .withPlayer("p2") {
+                $0.withHand([.missed1, .missed2])
+            }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(
             result == [
                 .preparePlay(.bang, player: "p1"),
@@ -38,6 +44,7 @@ struct SlabTheKillerTest {
     }
 
     @Test func playingBang_withSuccessfulBarrelAndMissed() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
@@ -45,12 +52,18 @@ struct SlabTheKillerTest {
                     .withHand([.bang])
                     .withWeapon(1)
             }
-            .withPlayer("p2", hand: [.missed], inPlay: [.barrel])
+            .withPlayer("p2") {
+                $0.withHand([.missed])
+                    .withInPlay([.barrel])
+            }
             .withDeck(["c1-2♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(
             result == [
                 .preparePlay(.bang, player: "p1"),
@@ -66,6 +79,7 @@ struct SlabTheKillerTest {
     }
 
     @Test func playingBang_withOneMissed_shouldDamage() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1") {
@@ -73,11 +87,17 @@ struct SlabTheKillerTest {
                     .withHand([.bang])
                     .withWeapon(1)
             }
-            .withPlayer("p2", health: 2, hand: [.missed])
+            .withPlayer("p2") {
+                $0.withHand([.missed])
+                    .withHealth(2)
+            }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state, ignoreError: true)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state, ignoreError: true)
 
+        // Then
         #expect(
             result == [
                 .preparePlay(.bang, player: "p1"),

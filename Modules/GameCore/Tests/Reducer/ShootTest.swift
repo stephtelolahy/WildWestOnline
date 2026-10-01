@@ -10,13 +10,17 @@ import Testing
 
 struct ShootTest {
     @Test func shoot() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
 
-        let result = try await dispatch(.shoot("p2"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p2")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         let pending = try #require(result.queue.first)
         #expect(pending.name == .damage)
         #expect(pending.targetedPlayer == "p2")

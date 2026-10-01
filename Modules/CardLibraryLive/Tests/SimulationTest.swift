@@ -18,6 +18,7 @@ struct SimulationTest {
     }
 
     private func simulateGame(playersCount: Int) async throws {
+        // Given
         let state = GameSetup.buildGame(
             playersCount: playersCount,
             cards: Cards.all,
@@ -58,9 +59,11 @@ struct SimulationTest {
             }
             .store(in: &cancellables)
 
+        // When
         let startAction = GameFeature.Action.startTurn(player: state.playOrder[0])
         await store.dispatch(startAction)
 
+        // Then
         #expect(store.state.isOver, "Expected game over")
     }
 }

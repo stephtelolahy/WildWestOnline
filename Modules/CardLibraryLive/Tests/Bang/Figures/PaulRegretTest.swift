@@ -11,6 +11,7 @@ import GameCore
 
 struct PaulRegretTest {
     @Test func shouldIncrementDistanceFromOthers() async throws {
+        // Given
         let state = GameSetup.buildGame(
             figures: [.paulRegret],
             deck: [],
@@ -18,8 +19,10 @@ struct PaulRegretTest {
             auras: []
         )
 
+        // When
         let player = state.players.get(.paulRegret)
 
+        // Then
         #expect(player.remoteness == 1)
     }
 }

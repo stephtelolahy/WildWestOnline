@@ -10,16 +10,21 @@ import Testing
 
 struct EndTurnTest {
     @Test func endTurn_shouldUnsetTurn() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withTurn("p1")
             .build()
 
-        let result = try await dispatch(.endTurn(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.endTurn(player: "p1")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.turn == nil)
     }
 
     @Test func endTurn_shouldRemovePendingAction() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withQueue(
@@ -33,8 +38,11 @@ struct EndTurnTest {
             )
             .build()
 
-        let result = try await dispatch(.endTurn(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.endTurn(player: "p1")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.queue.isEmpty)
     }
 }

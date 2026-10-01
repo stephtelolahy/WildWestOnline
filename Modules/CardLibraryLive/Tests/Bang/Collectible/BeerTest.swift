@@ -10,7 +10,9 @@ import GameCore
 
 struct BeerTest {
     @Test func play_beingDamaged_shouldHealOneLifePoint() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
@@ -20,8 +22,11 @@ struct BeerTest {
             .withPlayer("p3")
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.beer, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.beer, player: "p1"),
             .play(.beer, player: "p1"),
@@ -30,7 +35,9 @@ struct BeerTest {
     }
 
     @Test func play_alreadyMaxHealth_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(3)
@@ -40,13 +47,18 @@ struct BeerTest {
             .withPlayer("p3")
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
         await #expect(throws: GameFeature.Error.playerAlreadyMaxHealth("p1")) {
-            try await dispatchUntilCompleted(.preparePlay(.beer, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 
     @Test func play_twoPlayersLeft_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
@@ -55,8 +67,11 @@ struct BeerTest {
             .withPlayer("p2")
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
         await #expect(throws: GameFeature.Error.noReq(.playersAtLeast(3))) {
-            try await dispatchUntilCompleted(.preparePlay(.beer, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }

@@ -10,6 +10,7 @@ import Testing
 
 struct DistanceTest {
     @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
@@ -18,6 +19,8 @@ struct DistanceTest {
             .withPlayer("p5")
             .build()
 
+        // When
+        // Then
         #expect(state.distance(from: "p1", to: "p2") == 1)
         #expect(state.distance(from: "p1", to: "p5") == 1)
         #expect(state.distance(from: "p1", to: "p3") == 2)
@@ -45,6 +48,7 @@ struct DistanceTest {
     }
 
     @Test func distance_withScope_shouldDecrementDistanceToOthers() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withMagnifying(1)
@@ -55,6 +59,8 @@ struct DistanceTest {
             .withPlayer("p5")
             .build()
 
+        // When
+        // Then
         #expect(state.distance(from: "p1", to: "p2") == 0)
         #expect(state.distance(from: "p1", to: "p5") == 0)
         #expect(state.distance(from: "p1", to: "p3") == 1)
@@ -62,6 +68,7 @@ struct DistanceTest {
     }
 
     @Test func distance_withRemoteness_shouldIncrementDistanceFromOthers() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withRemoteness(1)
@@ -72,6 +79,8 @@ struct DistanceTest {
             .withPlayer("p5")
             .build()
 
+        // When
+        // Then
         #expect(state.distance(from: "p2", to: "p1") == 2)
         #expect(state.distance(from: "p5", to: "p1") == 2)
         #expect(state.distance(from: "p3", to: "p1") == 3)

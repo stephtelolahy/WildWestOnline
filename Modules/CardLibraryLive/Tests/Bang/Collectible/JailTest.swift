@@ -10,13 +10,20 @@ import GameCore
 
 struct JailTest {
     @Test func playAgainstAnyPlayer_shouldHandicap() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.jail])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.jail])
+            }
             .withPlayer("p2")
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.jail, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.jail, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.jail, player: "p1"),
             .choose("p2", player: "p1"),
@@ -25,14 +32,20 @@ struct JailTest {
     }
 
     @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", inPlay: [.jail])
+            .withPlayer("p1") {
+                $0.withInPlay([.jail])
+            }
             .withDeck(["c1-2♥️", "c2", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.startTurn(player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .draw(player: "p1"),
@@ -43,15 +56,21 @@ struct JailTest {
     }
 
     @Test func triggeringJail_flippedCardIsNotHearts_shouldSkipTurn() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", inPlay: [.jail])
+            .withPlayer("p1") {
+                $0.withInPlay([.jail])
+            }
             .withPlayer("p2")
             .withDeck(["c1-A♠️", "c2", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.startTurn(player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .draw(player: "p1"),

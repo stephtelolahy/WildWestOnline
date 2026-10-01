@@ -27,7 +27,7 @@ let modules: [Module] = [
     Module(name: "HomeFeature", dependencies: ["Redux", "Theme", "AudioClient", "PreferencesClient"], test: true),
     Module(name: "SettingsFeature", dependencies: ["Redux", "Theme", "PreferencesClient", "CardLibrary", "CardResources"], test: true),
     Module(name: "GameSessionFeature", dependencies: ["Theme", "GameCore", "AudioClient", "CardLibrary", "PreferencesClient", "CardResources"], resources: true, test: true),
-    Module(name: "AppFeature", dependencies: ["HomeFeature", "GameSessionFeature", "SettingsFeature"]),
+    Module(name: "AppFeature", dependencies: ["HomeFeature", "GameSessionFeature", "SettingsFeature"], test: true),
     Module(name: "AppBuilder", dependencies: ["AppFeature", "PreferencesClientLive", "AudioClientLive", "CardLibraryLive"])
 ]
 

@@ -10,16 +10,23 @@ import GameCore
 
 struct TequilaTest {
     @Test func play_shouldHeal1AnyWoundedPlayer() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: ["c1", .tequila])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", .tequila])
+            }
             .withPlayer("p2") {
                 $0.withHealth(1)
                     .withMaxHealth(4)
             }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.tequila, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.tequila, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.tequila, player: "p1"),
             .choose("c1", player: "p1"),
@@ -31,17 +38,23 @@ struct TequilaTest {
     }
 
     @Test func play_withoutCostCard_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.tequila])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.tequila])
+            }
             .withPlayer("p2") {
                 $0.withHealth(1)
                     .withMaxHealth(4)
             }
             .build()
 
+        // When
         // Assert
+        let action = GameFeature.Action.preparePlay(.tequila, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(.preparePlay(.tequila, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }

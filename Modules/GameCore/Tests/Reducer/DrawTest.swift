@@ -10,34 +10,46 @@ import GameCore
 
 struct DrawTest {
     @Test func draw_shouldMoveCardFromDeckToDiscard() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withDeck(["c2", "c3"])
             .withDiscard(["c1"])
             .build()
 
-        let result = try await dispatch(.draw(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.draw(player: "p1")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.discard == ["c2", "c1"])
         #expect(result.deck == ["c3"])
     }
 
     @Test func draw_withEmptyDeck_shouldResetDeck() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withDiscard(["c1", "c2", "c3"])
             .build()
 
-        let result = try await dispatch(.draw(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.draw(player: "p1")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.discard == ["c2", "c1"])
         #expect(result.deck == ["c3"])
     }
 
     @Test func draw_withEmptyDeck_withoutEnoughDiscard_shouldThrowError() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.draw(player: "p1")
         await #expect(throws: GameFeature.Error.insufficientDeck) {
-            try await dispatch(.draw(player: "p1"), state: state)
+            try await dispatch(action, state: state)
         }
     }
 }

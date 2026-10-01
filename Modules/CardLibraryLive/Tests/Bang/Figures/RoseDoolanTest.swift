@@ -11,6 +11,7 @@ import GameCore
 
 struct RoseDoolanTest {
     @Test func shouldDecrementDistanceToOthers() async throws {
+        // Given
         let state = GameSetup.buildGame(
             figures: [.roseDoolan],
             deck: [],
@@ -18,8 +19,10 @@ struct RoseDoolanTest {
             auras: []
         )
 
+        // When
         let player = state.players.get(.roseDoolan)
 
+        // Then
         #expect(player.magnifying == 1)
     }
 }

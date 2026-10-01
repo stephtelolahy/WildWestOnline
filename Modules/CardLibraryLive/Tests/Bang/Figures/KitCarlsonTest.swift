@@ -10,14 +10,20 @@ import Testing
 
 struct KitCarlsonTest {
     @Test func startingTurn_shouldChooseDeckCards() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", figure: [.kitCarlson])
+            .withPlayer("p1") {
+                $0.withFigure([.kitCarlson])
+            }
             .withDeck(["c1", "c2", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.startTurn(player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.startTurn(player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .startTurn(player: "p1"),
             .discover(),

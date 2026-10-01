@@ -10,13 +10,20 @@ import GameCore
 
 struct StagecoachTest {
     @Test func play_shouldDraw2Cards() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.stagecoach])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.stagecoach])
+            }
             .withDeck(["c1", "c2"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.stagecoach, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.stagecoach, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.stagecoach, player: "p1"),
             .play(.stagecoach, player: "p1"),

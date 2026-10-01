@@ -10,6 +10,7 @@ import GameCore
 
 struct NextTurnOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
             .withPlayer("p1")
@@ -18,8 +19,11 @@ struct NextTurnOnTurnEndedTest {
             .withDeck(["c1", "c2"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.endTurn, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.endTurn, player: "p1"),
             .endTurn(player: "p1"),

@@ -10,13 +10,19 @@ import GameCore
 
 struct HandicapTest {
     @Test func handicap_shouldPutcardInTargetInPlay() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1", hand: ["c1", "c2"])
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+            }
             .withPlayer("p2")
             .build()
 
-        let result = try await dispatch(.handicap("c1", target: "p2", player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.handicap("c1", target: "p2", player: "p1")
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.players.get("p1").hand == ["c2"])
         #expect(result.players.get("p2").inPlay == ["c1"])
         #expect(result.players.get("p1").inPlay.isEmpty)
@@ -24,13 +30,21 @@ struct HandicapTest {
     }
 
     @Test func handicap_withCardAlreadyInPlay_shouldThrowError() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
-            .withPlayer("p1", hand: ["c-1"])
-            .withPlayer("p2", inPlay: ["c-2"])
+            .withPlayer("p1") {
+                $0.withHand(["c-1"])
+            }
+            .withPlayer("p2") {
+                $0.withInPlay(["c-2"])
+            }
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.handicap("c-1", target: "p2", player: "p1")
         await #expect(throws: GameFeature.Error.cardAlreadyInPlay("c", player: "p2")) {
-            try await dispatch(.handicap("c-1", target: "p2", player: "p1"), state: state)
+            try await dispatch(action, state: state)
         }
     }
 }

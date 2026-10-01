@@ -10,11 +10,15 @@ import Testing
 
 struct EndGameTest {
     @Test func endGame() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .build()
 
-        let result = try await dispatch(.endGame(), state: state)
+        // When
+        let action = GameFeature.Action.endGame()
+        let result = try await dispatch(action, state: state)
 
+        // Then
         #expect(result.isOver == true)
     }
 }

@@ -14,6 +14,7 @@ enum SettingsHomeFeatureTest {
     @Suite("Initialization")
     struct Initialization {
         @Test func initializeValues() async throws {
+            // Given
             let sut = await Store(
                 initialState: SettingsHomeFeature.State(),
                 reducer: SettingsHomeFeature.reducer,
@@ -26,8 +27,10 @@ enum SettingsHomeFeatureTest {
                 }
             )
 
+            // When
             await sut.dispatch(.didAppear)
 
+            // Then
             await #expect(sut.state.playersCount == 5)
             await #expect(sut.state.actionDelayMilliSeconds == 500)
             await #expect(sut.state.simulation == true)
@@ -39,35 +42,44 @@ enum SettingsHomeFeatureTest {
     @Suite("Editing preferences")
     struct EditingPreferences {
         @Test func updatePlayersCount() async throws {
+            // Given
             let sut = await Store(
                 initialState: SettingsHomeFeature.State(playersCount: 2),
                 reducer: SettingsHomeFeature.reducer
             )
 
+            // When
             await sut.dispatch(.didUpdatePlayersCount(5))
 
+            // Then
             await #expect(sut.state.playersCount == 5)
         }
 
         @Test func toggleSimulation() async throws {
+            // Given
             let sut = await Store(
                 initialState: SettingsHomeFeature.State(simulation: true),
                 reducer: SettingsHomeFeature.reducer
             )
 
+            // When
             await sut.dispatch(.didToggleSimulation)
 
+            // Then
             await #expect(sut.state.simulation == false)
         }
 
         @Test func updateWaitDelay() async throws {
+            // Given
             let sut = await Store(
                 initialState: SettingsHomeFeature.State(actionDelayMilliSeconds: 0),
                 reducer: SettingsHomeFeature.reducer
             )
 
+            // When
             await sut.dispatch(.didUpdateActionDelayMilliSeconds(500))
 
+            // Then
             await #expect(sut.state.actionDelayMilliSeconds == 500)
         }
     }

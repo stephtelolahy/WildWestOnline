@@ -7,12 +7,6 @@
 import GameCore
 @testable import CardLibraryLive
 
-extension GameFeature.State {
-    static func makeBuilderWithAllCards() -> Builder {
-        makeBuilder().withAllCards()
-    }
-}
-
 extension GameFeature.State.Builder {
     func withAllCards() -> Self {
         withCards(Cards.all.toDictionary)

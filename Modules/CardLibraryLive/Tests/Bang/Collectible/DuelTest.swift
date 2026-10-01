@@ -9,22 +9,31 @@ import Testing
 import GameCore
 
 struct DuelTest {
+    // Given
     private var state: GameFeature.State {
-        GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.duel, .bang1])
-            .withPlayer("p2", hand: [.bang2])
+        GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.duel, .bang1])
+            }
+            .withPlayer("p2") {
+                $0.withHand([.bang2])
+            }
             .withPlayer("p3")
             .withPlayer("p4")
             .build()
     }
 
     @Test func play_withTargetPassing_shouldDamage() async throws {
+        // When
+        let action = GameFeature.Action.preparePlay(.duel, player: "p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: ["p2", "p3", "p4", .choicePass], selection: "p2"),
             .init(options: [.bang2, .choicePass], selection: .choicePass)
         ])
-        let result = try await dispatchUntilCompleted(.preparePlay(.duel, player: "p1"), state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
+        // Then
         #expect(result == [
             .preparePlay(.duel, player: "p1"),
             .choose("p2", player: "p1"),
@@ -35,8 +44,11 @@ struct DuelTest {
     }
 
     @Test func play_withTargetDiscardingBang_shouldDamageOffender() async throws {
-        let result = try await dispatchUntilCompleted(.preparePlay(.duel, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.duel, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.duel, player: "p1"),
             .choose("p2", player: "p1"),

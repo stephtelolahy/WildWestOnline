@@ -10,7 +10,9 @@ import GameCore
 
 struct BangTest {
     @Test func play_shouldDeal1Damage() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -18,8 +20,11 @@ struct BangTest {
             .withPlayer("p2")
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.bang, player: "p1"),
             .choose("p2", player: "p1"),
@@ -30,7 +35,9 @@ struct BangTest {
     }
 
     @Test func play_reachedLimitPerTurn_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang2])
                     .withWeapon(1)
@@ -43,14 +50,18 @@ struct BangTest {
             ])
             .build()
 
+        // When
         // Assert
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         await #expect(throws: GameFeature.Error.noReq(.playLimit(1))) {
-            try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 
     @Test func play_noPlayerReachable_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -60,8 +71,11 @@ struct BangTest {
             }
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableTarget([.reachable])) {
-            try await dispatchUntilCompleted(.preparePlay(.bang, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }

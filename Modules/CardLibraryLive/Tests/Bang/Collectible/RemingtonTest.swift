@@ -1,31 +1,32 @@
 //
-//  LuckyDukeTest.swift
+//  RemingtonTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
+
 import Testing
 import GameCore
 
-struct LuckyDukeTest {
-    @Test func drawing_shouldFlipped2Cards() async throws {
+struct RemingtonTest {
+    @Test func playRemington_shouldEquipAndSetWeapon() async throws {
         // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCards()
             .withPlayer("p1") {
-                $0.withFigure([.luckyDuke])
+                $0.withHand([.remington])
             }
-            .withDeck(["c1", "c2"])
             .build()
 
         // When
-        let action = GameFeature.Action.draw(player: "p1")
+        let action = GameFeature.Action.preparePlay(.remington, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .draw(player: "p1"),
-            .draw(player: "p1")
+            .preparePlay(.remington, player: "p1"),
+            .equip(.remington, player: "p1"),
+            .setWeapon(3, player: "p1")
         ])
     }
 }

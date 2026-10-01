@@ -10,7 +10,9 @@ import GameCore
 
 struct WillyTheKidTest {
     @Test func shouldPlayBangIgnoringLimitPerTurn() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.willyTheKid])
                     .withHand([.bang2])
@@ -24,8 +26,11 @@ struct WillyTheKidTest {
             ])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang2, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang2, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.bang2, player: "p1"),
             .choose("p2", player: "p1"),
@@ -36,7 +41,9 @@ struct WillyTheKidTest {
     }
 
     @Test func equipedWithVolcanic_shouldPlayBangIgnoringLimitPerTurn() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withFigure([.willyTheKid])
                     .withHand([.bang2])
@@ -51,8 +58,11 @@ struct WillyTheKidTest {
             ])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.bang2, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.bang2, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.bang2, player: "p1"),
             .choose("p2", player: "p1"),

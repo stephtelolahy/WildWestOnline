@@ -11,6 +11,7 @@ import GameCore
 
 struct GameSessionFeatureTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {
+        // Given
         let game = GameFeature.State.makeBuilder()
             .withTurn("p1")
             .withPlayMode(["p1": .manual])
@@ -18,10 +19,14 @@ struct GameSessionFeatureTest {
             .build()
         let state = GameSessionFeature.State(game: game)
 
+        // When
+
+        // Then
         #expect(state.message == "P1's turn")
     }
 
     @Test func shouldDisplayStatusForEachPlayers() async throws {
+        // Given
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withFigure([.willyTheKid])
@@ -38,6 +43,8 @@ struct GameSessionFeatureTest {
             .build()
         let state = GameSessionFeature.State(game: game)
 
+        // When
+        // Then
         #expect(state.players.count == 2)
 
         let player1 = state.players[0]
@@ -62,6 +69,7 @@ struct GameSessionFeatureTest {
     }
 
     @Test func shouldDisplayCardActions() async throws {
+        // Given
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withFigure([.willyTheKid])
@@ -79,6 +87,8 @@ struct GameSessionFeatureTest {
             game: game
         )
 
+        // When
+        // Then
         #expect(state.handCards == [
             .init(card: .bang, active: true),
             .init(card: .gatling, active: false),
@@ -87,6 +97,7 @@ struct GameSessionFeatureTest {
     }
 
     @Test func shouldDisplayChooseOneActions() async throws {
+        // Given
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
@@ -106,6 +117,8 @@ struct GameSessionFeatureTest {
             game: game
         )
 
+        // When
+        // Then
         let chooseOne = try #require(state.chooseOne)
         #expect(chooseOne.options == [.missed, .bang])
         #expect(chooseOne.chooser == "p1")

@@ -10,14 +10,25 @@ import GameCore
 
 struct BrawlTest {
     @Test func play_withOthersHavingHandCard_shouldForceThemToDiscardACard() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: ["c1", .brawl])
-            .withPlayer("p2", hand: ["c2"])
-            .withPlayer("p3", hand: ["c3"])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", .brawl])
+            }
+            .withPlayer("p2") {
+                $0.withHand(["c2"])
+            }
+            .withPlayer("p3") {
+                $0.withHand(["c3"])
+            }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.brawl, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.brawl, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.brawl, player: "p1"),
             .choose("c1", player: "p1"),
@@ -31,15 +42,26 @@ struct BrawlTest {
     }
 
     @Test func play_withOthersHavingInPlayCard_shouldForceThemToDiscardACard() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: ["c1", .brawl])
-            .withPlayer("p2", inPlay: ["c2"])
-            .withPlayer("p3", inPlay: ["c3"])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", .brawl])
+            }
+            .withPlayer("p2") {
+                $0.withInPlay(["c2"])
+            }
+            .withPlayer("p3") {
+                $0.withInPlay(["c3"])
+            }
             .withDummyCards(["c2", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.brawl, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.brawl, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.brawl, player: "p1"),
             .choose("c1", player: "p1"),
@@ -53,16 +75,27 @@ struct BrawlTest {
     }
 
     @Test func play_withOthersNotHavingCard_shouldIgnoreThem() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: ["c1", .brawl])
-            .withPlayer("p2", hand: ["c2"])
-            .withPlayer("p3", inPlay: ["c3"])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", .brawl])
+            }
+            .withPlayer("p2") {
+                $0.withHand(["c2"])
+            }
+            .withPlayer("p3") {
+                $0.withInPlay(["c3"])
+            }
             .withPlayer("p4")
             .withDummyCards(["c2", "c3"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.brawl, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.brawl, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.brawl, player: "p1"),
             .choose("c1", player: "p1"),
@@ -76,14 +109,22 @@ struct BrawlTest {
     }
 
     @Test func play_withoutCostCard_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.brawl])
-            .withPlayer("p2", hand: ["c2"])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.brawl])
+            }
+            .withPlayer("p2") {
+                $0.withHand(["c2"])
+            }
             .build()
 
+        // When
         // Assert
+        let action = GameFeature.Action.preparePlay(.brawl, player: "p1")
         await #expect(throws: GameFeature.Error.noChoosableCard([.inHand], player: "p1")) {
-            try await dispatchUntilCompleted(.preparePlay(.brawl, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }

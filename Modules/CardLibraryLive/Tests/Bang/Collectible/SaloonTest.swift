@@ -10,7 +10,9 @@ import GameCore
 
 struct SaloonTest {
     @Test func play_withSelfDamaged_shouldHealOneLifePoint() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(3)
@@ -18,8 +20,11 @@ struct SaloonTest {
             }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.saloon, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.saloon, player: "p1"),
             .play(.saloon, player: "p1"),
@@ -28,7 +33,9 @@ struct SaloonTest {
     }
 
     @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -44,8 +51,11 @@ struct SaloonTest {
             }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.saloon, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.saloon, player: "p1"),
             .play(.saloon, player: "p1"),
@@ -55,7 +65,9 @@ struct SaloonTest {
     }
 
     @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -67,8 +79,11 @@ struct SaloonTest {
             }
             .build()
 
+        // When
+        // Then
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
         await #expect(throws: GameFeature.Error.noPlayer(.every(.wounded))) {
-            try await dispatchUntilCompleted(.preparePlay(.saloon, player: "p1"), state: state)
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
 }

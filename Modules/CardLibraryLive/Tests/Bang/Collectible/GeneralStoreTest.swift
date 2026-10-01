@@ -10,20 +10,27 @@ import GameCore
 
 struct GeneralStoreTest {
     @Test func play_shouldAllowEachPlayerToChooseACard() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.generalStore])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.generalStore])
+            }
             .withPlayer("p2")
             .withPlayer("p3")
             .withDeck(["c1", "c2", "c3"])
             .build()
 
+        // When
+        let action = GameFeature.Action.preparePlay(.generalStore, player: "p1")
         let choiceHandler = choiceHandlerWithResponses([
             .init(options: ["c1", "c2", "c3"], selection: "c1"),
             .init(options: ["c2", "c3"], selection: "c3"),
             .init(options: ["c2"], selection: "c2")
         ])
-        let result = try await dispatchUntilCompleted(.preparePlay(.generalStore, player: "p1"), state: state, choiceHandler: choiceHandler)
+        let result = try await dispatchUntilCompleted(action, state: state, choiceHandler: choiceHandler)
 
+        // Then
         #expect(result == [
             .preparePlay(.generalStore, player: "p1"),
             .play(.generalStore, player: "p1"),

@@ -10,12 +10,19 @@ import GameCore
 
 struct BarrelTest {
     @Test func playingBarrel_shouldEquip() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", hand: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.barrel])
+            }
             .build()
 
-        let result = try await dispatchUntilCompleted(.preparePlay(.barrel, player: "p1"), state: state)
+        // When
+        let action = GameFeature.Action.preparePlay(.barrel, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .preparePlay(.barrel, player: "p1"),
             .equip(.barrel, player: "p1")
@@ -23,13 +30,20 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_oneFlippedCardIsHearts_shouldCancelShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", inPlay: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withInPlay([.barrel])
+            }
             .withDeck(["c1-2♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -38,13 +52,20 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_oneFlippedCardIsSpades_shouldNotCancelShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", inPlay: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withInPlay([.barrel])
+            }
             .withDeck(["c1-A♠️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -53,13 +74,21 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_twoFlippedCardsWithFirstIsHearts_shouldCancelShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", figure: [.luckyDuke], inPlay: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
+            }
             .withDeck(["c1-2♥️", "c1-A♠️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -69,13 +98,21 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_twoFlippedCardsWithSecondIsHearts_shouldCancelShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", figure: [.luckyDuke], inPlay: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
+            }
             .withDeck(["c1-A♠️", "c1-2♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -85,13 +122,21 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_twoFlippedCardsNoneIsHearts_shouldNotCancelShot() async throws {
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1", figure: [.luckyDuke], inPlay: [.barrel])
+        // Given
+        let state = GameFeature.State.makeBuilder()
+            .withAllCards()
+            .withPlayer("p1") {
+                $0.withFigure([.luckyDuke])
+                    .withInPlay([.barrel])
+            }
             .withDeck(["c1-A♠️", "c1-2♠️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
@@ -101,14 +146,21 @@ struct BarrelTest {
     }
 
     @Test func triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() async throws {
+        // Given
         let state = GameFeature.State.makeBuilder()
             .withAllCardsAndAuras()
-            .withPlayer("p1", hand: [.missed], inPlay: [.barrel])
+            .withPlayer("p1") {
+                $0.withHand([.missed])
+                    .withInPlay([.barrel])
+            }
             .withDeck(["c1-2♥️"])
             .build()
 
-        let result = try await dispatchUntilCompleted(.shoot("p1"), state: state)
+        // When
+        let action = GameFeature.Action.shoot("p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
+        // Then
         #expect(result == [
             .shoot("p1"),
             .draw(player: "p1"),
