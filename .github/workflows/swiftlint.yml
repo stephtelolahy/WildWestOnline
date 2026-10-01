@@ -1,0 +1,29 @@
+name: SwiftLint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
+
+concurrency:
+  group: swiftlint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swiftlint:
+    name: SwiftLint
+    runs-on: ubuntu-latest
+    # Same version as the SwiftLintPlugins pin in Modules/Package.swift
+    container: ghcr.io/realm/swiftlint:0.63.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint sources, tests and app
+        run: |
+          swiftlint lint \
+            --strict \
+            --config Modules/.swiftlint.yml \
+            --reporter github-actions-logging \
+            Modules App

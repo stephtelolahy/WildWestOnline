@@ -10,7 +10,7 @@ import Redux
 @testable import SettingsFeature
 import PreferencesClient
 
-struct SettingsHomeFeatureTest {
+enum SettingsHomeFeatureTest {
     @Suite("Initialization")
     struct Initialization {
         @Test func initializeValues() async throws {
@@ -38,7 +38,7 @@ struct SettingsHomeFeatureTest {
             await #expect(sut.state.preferredFigure == "Figure1")
         }
     }
-    
+
     @Suite("Editing preferences")
     struct EditingPreferences {
         @Test func updatePlayersCount() async throws {

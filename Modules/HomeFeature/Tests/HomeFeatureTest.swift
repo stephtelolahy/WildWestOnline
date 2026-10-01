@@ -10,7 +10,7 @@ import Redux
 @testable import HomeFeature
 import Combine
 
-struct HomeFeatureTest {
+enum HomeFeatureTest {
     @MainActor
     @Suite("Initialization")
     struct Initialization {
@@ -66,5 +66,4 @@ struct HomeFeatureTest {
             #expect(received == [.delegate(.settings)])
         }
     }
-
 }

@@ -74,7 +74,6 @@ struct SidKetchumTest {
             }
             .build()
 
-
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
