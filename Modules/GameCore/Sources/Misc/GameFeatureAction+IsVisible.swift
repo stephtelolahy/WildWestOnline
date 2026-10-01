@@ -17,7 +17,8 @@ public extension GameFeature.Action {
                 .steal,
                 .incrementRequiredMisses,
                 .ignoreLimitPerTurn,
-                .incrementCardsPerTurn:
+                .incrementCardsPerTurn,
+                .incrementHealAmount:
             return false
 
         default:

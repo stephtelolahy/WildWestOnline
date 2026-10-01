@@ -20,6 +20,9 @@ private extension Card.Selector.Requirement {
         case .not(let req): Not(req: req)
         case .playersAtLeast(let count): PlayersAtLeast(count: count)
         case .playLimit(let limit): PlayLimit(limit: limit)
+        case .useLimit(let limit): UseLimit(limit: limit)
+        case .healthAtLeast(let value): HealthAtLeast(value: value)
+        case .isWounded: IsWounded()
         case .isHealthZero: IsHealthZero()
         case .drawMatches(let regex): DrawMatches(regex: regex)
         case .lastDrawnMatches(let regex): LastDrawnMatches(regex: regex)
@@ -62,6 +65,42 @@ private extension Card.Selector.Requirement {
             }
 
             return playedCount < limit
+        }
+    }
+
+    /// Limit the number of times a card or ability is used per turn, including the current use
+    struct UseLimit: Matcher {
+        let limit: Int
+
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            let cardName = Card.name(of: pendingAction.sourceCard)
+            var usedCount = 0
+            for event in state.events {
+                if case .preparePlay = event.name {
+                    let usedName = Card.name(of: event.sourceCard)
+                    if usedName == cardName {
+                        usedCount += 1
+                    }
+                } else if case .startTurn = event.name {
+                    break
+                }
+            }
+
+            return usedCount <= limit
+        }
+    }
+
+    struct HealthAtLeast: Matcher {
+        let value: Int
+
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            state.players.get(pendingAction.sourcePlayer).health >= value
+        }
+    }
+
+    struct IsWounded: Matcher {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            state.players.get(pendingAction.sourcePlayer).isWounded
         }
     }
 

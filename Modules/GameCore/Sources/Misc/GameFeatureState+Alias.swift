@@ -11,6 +11,12 @@ extension GameFeature.State {
         action: Card.ActionName,
         on trigger: Card.Trigger
     ) -> String? {
+        // no alias needed if the card already performs the action
+        if let cardObj = cards[card],
+           cardObj.effects.first(where: { $0.trigger == trigger })?.action == action {
+            return nil
+        }
+
         let playerObj = players.get(player)
         let abilities = playerObj.figure + auras
         for ability in abilities {
@@ -19,7 +25,7 @@ extension GameFeature.State {
                 if effect.trigger == .permanent,
                    effect.action == .setAlias,
                    let effectAlias = effect.alias,
-                   effectAlias.played == card {
+                   effectAlias.played == card || effectAlias.played == .anyCard {
                     let aliasCardName = effectAlias.alias
                     let aliasCardObj = cards.get(aliasCardName)
                     if let effectName = aliasCardObj.effects.first(where: { $0.trigger == trigger })?.action,

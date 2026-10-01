@@ -18,6 +18,8 @@ private extension Card.Selector.CardFilter {
     var matcher: Matcher {
         switch self {
         case .inHand: InHand()
+        case .inPlay: InPlay()
+        case .isBlue: IsBlue()
         case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
         }
@@ -29,6 +31,26 @@ private extension Card.Selector.CardFilter {
 
             let playerObj = state.players.get(player)
             return playerObj.hand.contains(card)
+        }
+    }
+
+    struct InPlay: Matcher {
+        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            guard let player = pendingAction.targetedPlayer else { fatalError("Missing targetedPlayer") }
+
+            let playerObj = state.players.get(player)
+            return playerObj.inPlay.contains(card)
+        }
+    }
+
+    /// Blue cards are those played in front of a player
+    struct IsBlue: Matcher {
+        func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
+            let cardName = Card.name(of: card)
+            let cardObj = state.cards.get(cardName)
+            return cardObj.effects.contains {
+                $0.trigger == .prePlayed && ($0.action == .equip || $0.action == .handicap)
+            }
         }
     }
 
